@@ -1,4 +1,4 @@
 [submodule "Anno1800Calculator"]
 	path = Anno1800Calculator
-	url = https://github.com/NiHoel/Anno1800Calculator.git
-	branch = master
+	url = https://github.com/Dejauxvue/Anno1800Calculator.git
+	branch = patch_for_server
