@@ -32,9 +32,6 @@
     <ClInclude Include="server.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="messagetypes.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="text_recognition.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>

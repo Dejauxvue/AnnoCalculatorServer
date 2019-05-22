@@ -14,10 +14,10 @@ struct comparePoints {
 class region_growing
 {
 public:
-	static std::list<cv::Point> find_rgb_region(const cv::InputArray& in, cv::Point seed, float threshold);
 
 	static cv::Rect get_aa_bb(const std::list<cv::Point>&);
 
+	static std::list<cv::Point> find_rgb_region(cv::InputArray in, const cv::Point& seed, float threshold);
 	static cv::Mat take_screenshot();
 	
 };

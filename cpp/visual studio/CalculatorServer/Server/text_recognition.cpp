@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <regex>
 
+#include <opencv2/opencv.hpp>
+
 std::shared_ptr<tesseract::TessBaseAPI> text_recognition::ocr_(nullptr);
 
 std::vector<std::pair<std::string, cv::Rect>> text_recognition::detect_words(const cv::InputArray &in )

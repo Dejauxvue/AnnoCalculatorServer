@@ -2,3 +2,6 @@
 	path = Anno1800Calculator
 	url = https://github.com/Dejauxvue/Anno1800Calculator.git
 	branch = patch_for_server
+[submodule "cpp/vcpkg"]
+	path = cpp/vcpkg
+	url = https://github.com/microsoft/vcpkg.git

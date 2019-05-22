@@ -25,7 +25,6 @@
     <ClCompile Include="text_recognition.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="messagetypes.h" />
     <ClInclude Include="region_growing.hpp" />
     <ClInclude Include="server.hpp" />
     <ClInclude Include="text_recognition.hpp" />

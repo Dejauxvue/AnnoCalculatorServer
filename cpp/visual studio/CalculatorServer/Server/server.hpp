@@ -1,26 +1,10 @@
 #pragma once
 
 #include <string>
-#include <vector>
-#include <algorithm>
-#include <sstream>
-#include <iostream>
-#include <fstream>
-#include <random>
+
 
 #include "cpprest/json.h"
 #include "cpprest/http_listener.h"
-#include "cpprest/uri.h"
-#include "cpprest/asyncrt_utils.h"
-
-#ifdef _WIN32
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include <Windows.h>
-#else
-# include <sys/time.h>
-#endif
 
 #include "server.hpp"
 
@@ -45,4 +29,3 @@ private:
 
 	http_listener m_listener;
 };
-hi
