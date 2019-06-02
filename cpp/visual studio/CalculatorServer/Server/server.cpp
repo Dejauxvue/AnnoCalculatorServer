@@ -23,8 +23,10 @@ server::server(utility::string_t url) : m_listener(url)
 web::json::value server::read_anno_population() const
 {
 	static cv::Mat tmpl = []() {
-		cv::Mat r = cv::imread("../../../../image_recon/population_symbol_with_bar.png", cv::IMREAD_COLOR);
+		std::cout << "Loading template..." << std::endl;
+		cv::Mat r = cv::imread("image_recon/population_symbol_with_bar.png", cv::IMREAD_COLOR);
 		cvtColor(r, r, CV_BGR2BGRA);
+		std::cout << "successfully loaded template" << std::endl;
 		return r; 
 	}();
 
