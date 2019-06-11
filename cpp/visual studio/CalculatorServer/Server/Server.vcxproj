@@ -20,14 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="region_growing.cpp" />
+    <ClCompile Include="image_recognition.cpp" />
     <ClCompile Include="server.cpp" />
-    <ClCompile Include="text_recognition.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="region_growing.hpp" />
+    <ClInclude Include="image_recognition.hpp" />
     <ClInclude Include="server.hpp" />
-    <ClInclude Include="text_recognition.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -96,6 +94,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)..\..\..\image_recon\*.*" "$(OutDir)image_recon\" /Y/D/E</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

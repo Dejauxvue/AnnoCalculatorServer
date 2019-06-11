@@ -21,10 +21,7 @@
     <ClCompile Include="server.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="region_growing.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="text_recognition.cpp">
+    <ClCompile Include="image_recognition.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,10 +29,7 @@
     <ClInclude Include="server.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="text_recognition.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="region_growing.hpp">
+    <ClInclude Include="image_recognition.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
