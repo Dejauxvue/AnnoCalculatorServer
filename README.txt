@@ -37,5 +37,4 @@ How to use:
 Limitations and known issues:
 	- works only for 1920x1080 resolution
 	- only for english language
-	- if you're using multiple monitors, Anno 1800 must run in the top left most position
 	

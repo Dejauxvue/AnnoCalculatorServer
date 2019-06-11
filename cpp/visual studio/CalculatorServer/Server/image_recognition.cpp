@@ -18,7 +18,6 @@ struct comparePoints {
 	}
 };
 
-
 std::list<cv::Point> image_recognition::find_rgb_region(cv::InputArray in, const cv::Point& seed, float threshold)
 {
 	cv::Mat input = in.getMat();
