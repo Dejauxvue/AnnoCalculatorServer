@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <regex>
 #include <list>
-#include <windows.h>
+#include <filesystem>
 #include <stdio.h>
 #include <tchar.h>
 #include <psapi.h>
@@ -49,7 +49,7 @@ std::list<cv::Point> image_recognition::find_rgb_region(cv::InputArray in, const
 			+ (cc.val[2] - int(seed_color.val[2])) * (cc.val[2] - int(seed_color.val[2]))
 			+ (cc.val[3] - int(seed_color.val[3])) * (cc.val[3] - int(seed_color.val[3]));
 		if (color_diff
-			< threshold)
+			<= threshold)
 		{
 			ret.push_back(current_point);
 			cv::Point new_candidates[4] = {
@@ -81,7 +81,7 @@ std::map<std::string, int> image_recognition::get_anno_population()
 	const auto fit_criterion = [](float e) {return e > 0.8f; };
 
 	struct template_images {
-		cv::Mat island_digits[10];
+		std::vector<cv::Mat> island_digits[10];
 		std::map<std::string, cv::Mat> island_pop_types;
 		cv::Mat island_pop_symbol;
 	};
@@ -89,9 +89,13 @@ std::map<std::string, int> image_recognition::get_anno_population()
 	static template_images templates = []() {
 		template_images ret;
 		for (int i = 0; i < 10; i++) {
-			ret.island_digits[i] = load_image("image_recon/island_" + std::to_string(i) + ".bmp");
+			for (const auto& entry : std::filesystem::directory_iterator("image_recon/")) {
+				if (std::regex_match(entry.path().string(), std::regex(".*image_recon/island_" + std::to_string(i) + ".*"))) {
+					ret.island_digits[i].push_back(load_image(entry.path().string()));
+				}
+			}
 		}
-		std::string popluation_names[] = { "farmers", "workers"/*, "artisans", "engineers", "investors", "jornaleros", "obreros" */ };
+		std::string popluation_names[] = { "farmers", "workers", "artisans", "engineers"/*, "investors", "jornaleros", "obreros" */ };
 		for (const auto& n : popluation_names) {
 			ret.island_pop_types.insert({ n, load_image("image_recon/island_" + n + "_icon.bmp") });
 		}
@@ -104,7 +108,7 @@ std::map<std::string, int> image_recognition::get_anno_population()
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 	cv::imwrite("image_recon/last_screenshot.png", im);
 #endif //SHOW_CV_DEBUG_IMAGE_VIEW
-	//im = im(cv::Rect(cv::Point(im.cols / 4, 0), cv::Size(im.cols / 2, im.rows / 2)));
+
 	im = im(cv::Rect(cv::Point(0, 0), cv::Size(im.cols, im.rows / 2)));
 
 	const auto pop_symbol_match_result = match_template(im, templates.island_pop_symbol);
@@ -114,7 +118,7 @@ std::map<std::string, int> image_recognition::get_anno_population()
 		return std::map<std::string, int>();
 	}
 
-	auto region = find_rgb_region(im, pop_symbol_match_result.first.br(), 1);
+	auto region = find_rgb_region(im, pop_symbol_match_result.first.br(), 0);
 	cv::Rect aa_bb = get_aa_bb(region);
 	if (aa_bb.area() <= 0)
 		return std::map<std::string, int>();
@@ -130,11 +134,17 @@ std::map<std::string, int> image_recognition::get_anno_population()
 
 	std::vector<std::vector<cv::Point>> digit_positions;
 	digit_positions.resize(10);
+	cv::Mat digit_search_img = cropped_image.clone();
 	for (int i = 0; i < 10; i++) {
 		std::cout << "searching " << i << "s" << std::endl;
-		const auto match_result = match_all_occurences(cropped_image, templates.island_digits[i], [&](float e) {
-			return !fit_criterion(e); });
-		digit_positions[i].insert(digit_positions[i].end(), match_result.begin(), match_result.end());
+		for (const auto& tmpl : templates.island_digits[i]) {
+			//overwriting found digits with black space prevents double detection by multiple templates
+			cv::Mat out;
+			const auto match_result = match_all_occurences(digit_search_img, tmpl, [&](float e) {
+				return !fit_criterion(e); }, &out);
+			digit_search_img = out;
+			digit_positions[i].insert(digit_positions[i].end(), match_result.begin(), match_result.end());
+		}	
 	}
 
 	std::vector<std::pair<int, cv::Point>> digits_and_positions;
@@ -202,56 +212,39 @@ cv::Mat image_recognition::load_image(const std::string& path)
 	return img;
 }
 
-std::vector<cv::Point> image_recognition::match_all_occurences(cv::InputArray source_img, cv::InputArray template_img, const std::function<bool(float)>& stop_criterion)
+std::vector<cv::Point> image_recognition::match_all_occurences(cv::InputArray source_img, cv::InputArray template_img, const std::function<bool(float)>& stop_criterion, cv::Mat* img_erased_digits)
 {
 	std::vector<cv::Point> ret;
-	cv::Mat current_image = source_img.getMat().clone();
+	cv::Mat* current_image = img_erased_digits ? img_erased_digits :  new cv::Mat();
+	*current_image = source_img.getMat().clone();
 
 	while (true) {
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-		cv::imwrite("image_recon/current_image_match_all.bmp", current_image);
+		cv::imwrite("image_recon/current_image_match_all.bmp", *current_image);
 #endif //SHOW_CV_DEBUG_IMAGE_VIEW
-		std::pair<cv::Rect, float> current_match = match_template(current_image, template_img);
+		std::pair<cv::Rect, float> current_match = match_template(*current_image, template_img);
 
 		if (stop_criterion(current_match.second))
 			break;
 
 		ret.push_back(current_match.first.tl());
-		cv::rectangle(current_image, current_match.first, cv::Scalar(0, 0, 0), -1);
+		cv::rectangle(*current_image, current_match.first, cv::Scalar(0, 0, 0), -1);
 
 	}
+	if (!img_erased_digits)
+		delete current_image;
 	return ret;
 }
 
-std::pair<cv::Rect, float> image_recognition::match_template(cv::InputArray source, cv::InputArray template_img)
+std::pair<cv::Rect, float> image_recognition::match_template(cv::InputArray in, cv::InputArray tmpl)
 {
-	/*cv::Mat input_copy = source.getMat().clone();
-	cv::cvtColor(input_copy, input_copy, CV_BGRA2GRAY);
-	cv::threshold(input_copy, input_copy, 127, 255, cv::THRESH_BINARY);
-	cv::Mat element = cv::getStructuringElement(cv::MORPH_CROSS, cv::Size(3, 3));
-
-	cv::Mat skel(input_copy.size(), CV_8UC1, cv::Scalar(0));
-	cv::Mat temp(input_copy.size(), CV_8UC1);
-
-	bool done;
-	do
-	{
-		cv::morphologyEx(input_copy, temp, cv::MORPH_OPEN, element);
-		cv::bitwise_not(temp, temp);
-		cv::bitwise_and(input_copy, temp, temp);
-		cv::bitwise_or(skel, temp, skel);
-		cv::erode(input_copy, input_copy, element);
-
-		double max;
-		cv::minMaxLoc(input_copy, 0, &max);
-		done = (max == 0);
-	} while (!done);
-
-	cv::imshow("binary", skel);
-	cv::waitKey(0);*/
+	//cv::Mat in_copy = make_binary(in.getMat().clone());
+	//cv::Mat tmpl_copy = make_binary(tmpl.getMat().clone());
+	cv::Mat in_copy = in.getMat();
+	cv::Mat tmpl_copy = tmpl.getMat();
 
 	cv::Mat result;
-	cv::matchTemplate(source, template_img, result, CV_TM_CCOEFF_NORMED);
+	cv::matchTemplate(in_copy, tmpl_copy, result, CV_TM_CCOEFF_NORMED);
 	cv::Point min_loc, max_loc;
 	double min, max;
 	cv::minMaxLoc(result, &min, &max, &min_loc, &max_loc);
@@ -265,7 +258,7 @@ std::pair<cv::Rect, float> image_recognition::match_template(cv::InputArray sour
 	cv::imwrite("image_recon/match_image.bmp", (result) * 256);
 #endif //SHOW_CV_DEBUG_IMAGE_VIEW
 
-	return { cv::Rect(template_position, template_img.size()), max };
+	return { cv::Rect(template_position, tmpl.size()), max };
 }
 
 cv::Rect image_recognition::get_aa_bb(const std::list<cv::Point>& input)
@@ -289,8 +282,8 @@ cv::Mat image_recognition::take_screenshot()
 {
 	cv::Mat src;
 
-	//std::string window_name_regex_string(".*Anno.*");
-	std::string window_name_regex_string(".*IrfanView.*");
+	std::string window_name_regex_string(".*Anno.*");
+	//std::string window_name_regex_string(".*IrfanView.*");
 	std::regex window_name_regex(window_name_regex_string.data());
 
 	HWND hwnd = NULL;
@@ -374,4 +367,33 @@ cv::Mat image_recognition::take_screenshot()
 	ReleaseDC(hwnd, hwindowDC);
 
 	return src;
+}
+
+cv::Mat image_recognition::make_binary(cv::InputArray in)
+{
+	cv::Mat input_copy = in.getMat().clone();
+	cv::cvtColor(input_copy, input_copy, CV_BGRA2GRAY);
+	cv::threshold(input_copy, input_copy, 127, 255, cv::THRESH_BINARY);
+	/*cv::Mat element = cv::getStructuringElement(cv::MORPH_CROSS, cv::Size(3, 3));
+
+	cv::Mat skel(input_copy.size(), CV_8UC1, cv::Scalar(0));
+	cv::Mat temp(input_copy.size(), CV_8UC1);
+
+	bool done;
+	do
+	{
+		cv::morphologyEx(input_copy, temp, cv::MORPH_OPEN, element);
+		cv::bitwise_not(temp, temp);
+		cv::bitwise_and(input_copy, temp, temp);
+		cv::bitwise_or(skel, temp, skel);
+		cv::erode(input_copy, input_copy, element);
+
+		double max;
+		cv::minMaxLoc(input_copy, 0, &max);
+		done = (max == 0);
+	} while (!done);
+	
+	cv::imshow("binary", input_copy);
+	cv::waitKey(0);*/
+	return input_copy;
 }
