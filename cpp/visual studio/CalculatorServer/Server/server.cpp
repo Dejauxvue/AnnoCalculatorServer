@@ -4,7 +4,7 @@
 #include "image_recognition.hpp"
 
 
-#define SHOW_CV_DEBUG_IMAGE_VIEW
+
 
 using namespace std;
 using namespace web;
@@ -24,6 +24,11 @@ void server::handle_get(http_request request)
 	ucout << request.to_string() << endl;
 
 	auto population = image_recognition::get_anno_population();
+	std::cout << "result: " << std::endl;
+	for (auto iter= population.begin(); iter != population.end(); iter++) {
+		std::cout << iter->first << ": " << iter->second << std::endl;
+	}
+
 	web::json::value json_message;
 	for (const auto& p : population) {
 		json_message[std::wstring(p.first.begin(), p.first.end())] = web::json::value::number(p.second);

@@ -13,7 +13,6 @@ Build it yourself:
 	- git submodule update --init
 	- cd cpp/vcpkg/
 	- bootstrap-vcpkg.bat
-	- vcpkg install tesseract:x64-windows (takes circa 17 minutes)
 	- vcpkg install cpprestsdk:x64-windows (takes circa 10 minutes)
 	- vcpkg install opencv:x64-windows (takes circa 7 minutes)
 		
@@ -36,5 +35,5 @@ How to use:
 	
 Limitations and known issues:
 	- works only for 1920x1080 resolution
-	- only for english language
+	- need template icons for other population types than farmers
 	
