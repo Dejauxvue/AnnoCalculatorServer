@@ -32,9 +32,10 @@ How to use:
 	- run the Server.exe which should open a command window and might require administrator rights
 	- open Anno1800Calculator/index.html
 	- run Anno 1800
-	- in order to update population numbers in Anno1800Calculator hover over the population icon from your island
+	- in order to update population numbers in Anno1800Calculator hover over the population icon from your island or your global population
 	
 Limitations and known issues:
-	- works only for 1920x1080 resolution
-	- need template icons for other population types than farmers
-	
+	- works only for 1920x1080 resolution 
+		- only detection of population_symbol_with_bar.bmp is the problem, to solve this 
+			- create screenshot of the same part in your desired resolution (region under lower bar must be part of the screenshot!)
+			- call it population_symbol_with_bar.bmp and store it under assets/image_recon/[your_resolution]/

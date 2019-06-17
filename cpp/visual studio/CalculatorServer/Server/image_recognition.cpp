@@ -68,145 +68,6 @@ std::list<cv::Point> image_recognition::find_rgb_region(cv::InputArray in, const
 		}
 		closed.insert(current_point);
 	}
-
-
-	//input[seed];
-
-	return ret;
-}
-
-std::map<std::string, int> image_recognition::get_anno_population_template_matching()
-{
-
-	const auto fit_criterion = [](float e) {return e > 0.9f; };
-
-	cv::Mat im = take_screenshot();
-
-	struct template_images {
-		std::vector<cv::Mat> island_digits[10];
-		std::map<std::string, cv::Mat> island_pop_types;
-		cv::Mat island_pop_symbol;
-	};
-
-	static template_images templates = [&]() {
-		std::string resolution_string = std::to_string(im.cols) + "x" + std::to_string(im.rows);
-		std::cout << "detected resolution: " << resolution_string
-			<< ". If this does not match your game's resolution or the resolution changes, restart this application!"
-			<< std::endl;
-		template_images ret;
-		for (int i = 0; i < 10; i++) {
-			for (const auto& entry : std::filesystem::directory_iterator("image_recon/" + resolution_string + "/")) {
-				if (std::regex_match(entry.path().string(),
-					std::regex(".*image_recon/" + resolution_string + "/island_" + std::to_string(i) + ".*")))
-				{
-					ret.island_digits[i].push_back(load_image(entry.path().string()));
-				}
-			}
-		}
-		std::string popluation_names[] = { "farmers", "workers", "artisans", "engineers", "investors", "jornaleros", "obreros" };
-		for (const auto& n : popluation_names) {
-			ret.island_pop_types.insert({ n, load_image("image_recon/" + resolution_string + "/island_" + n + "_icon.bmp") });
-		}
-		ret.island_pop_symbol = load_image("image_recon/" + resolution_string + "/population_symbol_with_bar.bmp");
-		return ret;
-	}();
-
-
-
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/last_screenshot.png", im);
-#endif //SHOW_CV_DEBUG_IMAGE_VIEW
-
-	im = im(cv::Rect(cv::Point(0, 0), cv::Size(im.cols, im.rows / 2)));
-
-	const auto pop_symbol_match_result = match_template(im, templates.island_pop_symbol);
-
-	if (!fit_criterion(pop_symbol_match_result.second)) {
-		std::cout << "can't find population" << std::endl;
-		return std::map<std::string, int>();
-	}
-
-	auto region = find_rgb_region(im, pop_symbol_match_result.first.br(), 0);
-	cv::Rect aa_bb = get_aa_bb(region);
-	if (aa_bb.area() <= 0)
-		return std::map<std::string, int>();
-
-	cv::Mat cropped_image = im(aa_bb);
-	std::map<std::string, cv::Point> pop_symbol_positions;
-	for (const auto& t : templates.island_pop_types) {
-		const auto match_result = match_template(cropped_image, t.second);
-		if (fit_criterion(match_result.second)) {
-			pop_symbol_positions.insert({ t.first, match_result.first.tl() });
-		}
-	}
-
-	std::vector<std::vector<cv::Point>> digit_positions;
-	digit_positions.resize(10);
-	cv::Mat digit_search_img = cropped_image.clone();
-	for (int i = 0; i < 10; i++) {
-		std::cout << "searching " << i << "s" << std::endl;
-		for (const auto& tmpl : templates.island_digits[i]) {
-			//overwriting found digits with black space prevents double detection by multiple templates
-			cv::Mat out;
-			const auto match_result = match_all_occurences(digit_search_img, tmpl, [&](float e) {
-				return !fit_criterion(e); }, &out);
-			digit_search_img = out;
-			digit_positions[i].insert(digit_positions[i].end(), match_result.begin(), match_result.end());
-		}
-	}
-
-	std::vector<std::pair<int, cv::Point>> digits_and_positions;
-	for (int i = 0; i < 10; i++) {
-		for (const auto& p : digit_positions[i]) {
-			digits_and_positions.push_back({ i, p });
-		}
-	}
-
-	//begin with logics, no image recognition from here
-	std::map<std::string, int> ret;
-	for (const auto& t : pop_symbol_positions) {
-		int result = 0;
-
-		//filter for digits in same row
-		std::vector<std::pair<int, cv::Point>> relevant_digits_and_positions;
-		relevant_digits_and_positions.resize(digits_and_positions.size());
-		auto it = std::copy_if(digits_and_positions.begin(), digits_and_positions.end(), relevant_digits_and_positions.begin(), [&](const auto& pair) {
-			return std::abs(pair.second.y - t.second.y) < 4;
-			});
-		relevant_digits_and_positions.resize(std::distance(relevant_digits_and_positions.begin(), it));
-
-		//sort ascending
-		std::sort(relevant_digits_and_positions.begin(), relevant_digits_and_positions.end(), [](const auto& a, auto& b) {
-			return a.second.x < b.second.x;
-			});
-
-		//from digits to integer number
-		for (const auto& d : relevant_digits_and_positions) {
-			result = result * 10 + d.first;
-		}
-		ret.insert({ t.first, result });
-	}
-
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW	
-	for (const auto& p : region) {
-		im.at<cv::Vec4b>(p) = cv::Vec4b(0, 0, 255, 255);
-	}
-	cv::rectangle(im, pop_symbol_match_result.first, cv::Scalar(255, 0, 0));
-	for (const auto& p : pop_symbol_positions) {
-		cv::rectangle(im, cv::Rect(p.second + aa_bb.tl(), cv::Size(20, 20)), cv::Scalar(255, 0, 0));
-	}
-
-	for (int i = 0; i < 10; i++) {
-		const auto dp = digit_positions[i];
-		for (const auto& p : dp) {
-			//cv::rectangle(im, cv::Rect(p + aa_bb.tl(), cv::Size(10, 10)), cv::Scalar(255, 0, 0));
-			cv::putText(im, std::to_string(i), p + aa_bb.tl(), CV_FONT_BLACK, 0.5, cv::Scalar(255, 255, 255));
-		}
-	}
-	cv::rectangle(im, aa_bb, cv::Scalar(0, 255, 0));
-	cv::imwrite("image_recon/last_image.bmp", im);
-#endif //SHOW_CV_DEBUG_IMAGE_VIEW
-
 	return ret;
 }
 
@@ -294,55 +155,6 @@ cv::Mat image_recognition::load_image(const std::string& path)
 	return img;
 }
 
-std::vector<cv::Point> image_recognition::match_all_occurences(cv::InputArray source_img, cv::InputArray template_img, const std::function<bool(float)>& stop_criterion, cv::Mat* img_erased_digits)
-{
-	std::vector<cv::Point> ret;
-	cv::Mat* current_image = img_erased_digits ? img_erased_digits : new cv::Mat();
-	*current_image = source_img.getMat().clone();
-
-	while (true) {
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-		cv::imwrite("image_recon/current_image_match_all.bmp", *current_image);
-#endif //SHOW_CV_DEBUG_IMAGE_VIEW
-		std::pair<cv::Rect, float> current_match = match_template(*current_image, template_img);
-
-		if (stop_criterion(current_match.second))
-			break;
-
-		ret.push_back(current_match.first.tl());
-		cv::rectangle(*current_image, current_match.first, cv::Scalar(0, 0, 0), -1);
-
-	}
-	if (!img_erased_digits)
-		delete current_image;
-	return ret;
-}
-
-std::pair<cv::Rect, float> image_recognition::match_template(cv::InputArray in, cv::InputArray tmpl)
-{
-	//cv::Mat in_copy = make_binary(in.getMat().clone());
-	//cv::Mat tmpl_copy = make_binary(tmpl.getMat().clone());
-	cv::Mat in_copy = in.getMat();
-	cv::Mat tmpl_copy = tmpl.getMat();
-
-	cv::Mat result;
-	cv::matchTemplate(in_copy, tmpl_copy, result, CV_TM_CCOEFF_NORMED);
-	cv::Point min_loc, max_loc;
-	double min, max;
-	cv::minMaxLoc(result, &min, &max, &min_loc, &max_loc);
-
-	cv::Point template_position = max_loc;
-
-	std::cout << "min: " << min;
-	std::cout << "max: " << max << std::endl;
-
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/match_image.bmp", (result) * 256);
-#endif //SHOW_CV_DEBUG_IMAGE_VIEW
-
-	return { cv::Rect(template_position, tmpl.size()), max };
-}
-
 cv::Rect image_recognition::get_aa_bb(const std::list<cv::Point>& input)
 {
 	if (input.empty())
@@ -364,8 +176,6 @@ cv::Mat image_recognition::take_screenshot()
 {
 	cv::Mat src;
 
-	//std::string window_name_regex_string(".*Anno 7.*");
-	//std::string window_name_regex_string(".*IrfanView.*");
 	std::string window_name_regex_string(".*Anno 7.*");
 	std::regex window_name_regex(window_name_regex_string.data());
 
@@ -454,22 +264,6 @@ cv::Mat image_recognition::take_screenshot()
 	ReleaseDC(hwnd, hwindowDC);
 
 	return src;
-}
-
-cv::Mat image_recognition::make_binary(cv::InputArray in)
-{
-	cv::Mat input_copy = in.getMat().clone();
-	cv::cvtColor(input_copy, input_copy, CV_BGRA2GRAY);
-
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/grey_image.png", input_copy);
-#endif //SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::threshold(input_copy, input_copy, 0, 255, cv::THRESH_BINARY + cv::THRESH_OTSU);
-
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/binarized_input.png", input_copy);
-#endif //SHOW_CV_DEBUG_IMAGE_VIEW
-	return input_copy;
 }
 
 std::shared_ptr<tesseract::TessBaseAPI> image_recognition::ocr_(nullptr);
