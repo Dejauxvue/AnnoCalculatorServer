@@ -13,6 +13,7 @@ Build it yourself:
 	- git submodule update --init
 	- cd cpp/vcpkg/
 	- bootstrap-vcpkg.bat
+	- vcpkg install tesseract:x64-windows (takes circa 17 minutes)
 	- vcpkg install cpprestsdk:x64-windows (takes circa 10 minutes)
 	- vcpkg install opencv:x64-windows (takes circa 7 minutes)
 		

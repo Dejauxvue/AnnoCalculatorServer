@@ -15,7 +15,6 @@ using namespace web::http::experimental::listener;
 server::server(utility::string_t url) : m_listener(url)
 {
 	m_listener.support(methods::GET, std::bind(&server::handle_get, this, std::placeholders::_1));
-
 }
 
 
@@ -23,7 +22,8 @@ void server::handle_get(http_request request)
 {
 	ucout << request.to_string() << endl;
 
-	auto population = image_recognition::get_anno_population();
+	//auto population = image_recognition::get_anno_population_template_matching();
+	auto population = image_recognition::get_anno_population_tesserarct_ocr();
 	std::cout << "result: " << std::endl;
 	for (auto iter= population.begin(); iter != population.end(); iter++) {
 		std::cout << iter->first << ": " << iter->second << std::endl;

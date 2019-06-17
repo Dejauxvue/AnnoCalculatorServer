@@ -96,7 +96,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)..\..\..\image_recon\*.*" "$(OutDir)image_recon\" /Y/D/E</Command>
+      <Command>xcopy "$(SolutionDir)..\..\..\assets\*.*" "$(OutDir)" /Y/D/E</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -130,7 +130,7 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)..\..\..\image_recon\*.*" "$(OutDir)image_recon\" /Y/D/E</Command>
+      <Command>xcopy "$(SolutionDir)..\..\..\assets\*.*" "$(OutDir)" /Y/D/E</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
