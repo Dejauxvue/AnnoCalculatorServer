@@ -43,6 +43,13 @@ private:
 		const cv::Point& seed, float threshold);
 
 	/**
+	* find the best position of [template_img] within [source]
+	*
+	* returns rectangle of the best template position and the fitting error
+	*/
+	static std::pair<cv::Rect, float> match_template(cv::InputArray source, cv::InputArray template_img);
+
+	/**
 	* make a screenshot from the Anno 7.exe application
 	*/
 	static cv::Mat take_screenshot();

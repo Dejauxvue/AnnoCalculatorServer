@@ -71,6 +71,26 @@ std::list<cv::Point> image_recognition::find_rgb_region(cv::InputArray in, const
 	return ret;
 }
 
+std::pair<cv::Rect, float> image_recognition::match_template(cv::InputArray source, cv::InputArray template_img)
+{
+	cv::Mat result;
+	cv::matchTemplate(source, template_img, result, CV_TM_CCOEFF_NORMED);
+	cv::Point min_loc, max_loc;
+	double min, max;
+	cv::minMaxLoc(result, &min, &max, &min_loc, &max_loc);
+
+	cv::Point template_position = max_loc;
+
+	std::cout << "min: " << min;
+	std::cout << "max: " << max << std::endl;
+
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+	cv::imwrite("image_recon/match_image.bmp", (result) * 256);
+#endif //SHOW_CV_DEBUG_IMAGE_VIEW
+
+	return { cv::Rect(template_position, template_img.size()), max };
+}
+
 std::map<std::string, int> image_recognition::get_anno_population_tesserarct_ocr()
 {
 	const auto fit_criterion = [](float e) {return e > 0.9f; };
