@@ -5,3 +5,7 @@
 [submodule "cpp/vcpkg"]
 	path = cpp/vcpkg
 	url = https://github.com/microsoft/vcpkg.git
+[submodule "assets/Anno1800Calculator"]
+	path = assets/Anno1800Calculator
+	url = https://github.com/Dejauxvue/Anno1800Calculator.git
+	branch = patch_for_server
