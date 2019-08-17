@@ -18,9 +18,7 @@ public:
 	*
 	* returns a map with entries for all detected population types referred by their english name
 	*/
-	static std::map < std::string, int> get_anno_population_tesserarct_ocr();
-
-private:
+	static std::map < std::string, int> get_anno_population_tesserarct_ocr(const cv::Mat& im);
 
 	/**
 	* load an image in the cv-Format used here

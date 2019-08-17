@@ -1,10 +1,5 @@
 #include "server.hpp"
-
-
 #include "image_recognition.hpp"
-
-
-
 
 using namespace std;
 using namespace web;
@@ -23,7 +18,7 @@ void server::handle_get(http_request request)
 	ucout << request.to_string() << endl;
 
 	//auto population = image_recognition::get_anno_population_template_matching();
-	auto population = image_recognition::get_anno_population_tesserarct_ocr();
+	auto population = image_recognition::get_anno_population_tesserarct_ocr(image_recognition::take_screenshot());
 	std::cout << "result: " << std::endl;
 	for (auto iter= population.begin(); iter != population.end(); iter++) {
 		std::cout << iter->first << ": " << iter->second << std::endl;
@@ -37,5 +32,5 @@ void server::handle_get(http_request request)
 	web::http::http_response response(status_codes::OK);
 	response.headers().add(U("Access-Control-Allow-Origin"), U("*"));
 	response.set_body(json_message);
-	request.reply(response);
+	const auto t = request.reply(response);
 };

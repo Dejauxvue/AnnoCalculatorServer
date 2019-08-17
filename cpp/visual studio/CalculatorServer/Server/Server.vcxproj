@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="debug_main.cpp" />
     <ClCompile Include="image_recognition.cpp" />
     <ClCompile Include="server.cpp" />
   </ItemGroup>

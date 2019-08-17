@@ -14,7 +14,7 @@
 #include <opencv2/opencv.hpp>
 
 
-//#define SHOW_CV_DEBUG_IMAGE_VIEW
+#define SHOW_CV_DEBUG_IMAGE_VIEW
 
 struct comparePoints {
 	bool operator()(const cv::Point& a, const cv::Point& b) const {
@@ -91,11 +91,9 @@ std::pair<cv::Rect, float> image_recognition::match_template(cv::InputArray sour
 	return { cv::Rect(template_position, template_img.size()), max };
 }
 
-std::map<std::string, int> image_recognition::get_anno_population_tesserarct_ocr()
+std::map<std::string, int> image_recognition::get_anno_population_tesserarct_ocr( const cv::Mat& im)
 {
 	const auto fit_criterion = [](float e) {return e > 0.9f; };
-
-	cv::Mat im = take_screenshot();
 
 	struct template_images {
 		cv::Mat island_pop_symbol;
@@ -115,21 +113,21 @@ std::map<std::string, int> image_recognition::get_anno_population_tesserarct_ocr
 	cv::imwrite("image_recon/last_screenshot.png", im);
 #endif //SHOW_CV_DEBUG_IMAGE_VIEW
 
-	im = im(cv::Rect(cv::Point(0, 0), cv::Size(im.cols, im.rows / 2)));
+	cv::Mat im_copy = im(cv::Rect(cv::Point(0, 0), cv::Size(im.cols, im.rows / 2)));
 
-	const auto pop_symbol_match_result = match_template(im, templates.island_pop_symbol);
+	const auto pop_symbol_match_result = match_template(im_copy, templates.island_pop_symbol);
 
 	if (!fit_criterion(pop_symbol_match_result.second)) {
 		std::cout << "can't find population" << std::endl;
 		return std::map<std::string, int>();
 	}
 
-	auto region = find_rgb_region(im, pop_symbol_match_result.first.br(), 0);
+	auto region = find_rgb_region(im_copy, pop_symbol_match_result.first.br(), 0);
 	cv::Rect aa_bb = get_aa_bb(region);
 	if (aa_bb.area() <= 0)
 		return std::map<std::string, int>();
 
-	cv::Mat cropped_image = im(aa_bb);
+	cv::Mat cropped_image = im_copy(aa_bb);
 
 	std::vector<cv::Mat> channels(4);
 	cv::split(cropped_image, channels);
@@ -140,7 +138,7 @@ std::map<std::string, int> image_recognition::get_anno_population_tesserarct_ocr
 	cv::merge(channels, cropped_image);
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/last_ocr_input.png", im(aa_bb));
+	cv::imwrite("image_recon/last_ocr_input.png", im_copy(aa_bb));
 #endif //SHOW_CV_DEBUG_IMAGE_VIEW
 
 	std::vector<std::pair<std::string, cv::Rect>> ocr_result;
@@ -157,10 +155,10 @@ std::map<std::string, int> image_recognition::get_anno_population_tesserarct_ocr
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW	
 	for (const auto& p : region) {
-		im.at<cv::Vec4b>(p) = cv::Vec4b(0, 0, 255, 255);
+		im_copy.at<cv::Vec4b>(p) = cv::Vec4b(0, 0, 255, 255);
 	}
-	cv::rectangle(im, aa_bb, cv::Scalar(0, 255, 0));
-	cv::imwrite("image_recon/last_image.bmp", im);
+	cv::rectangle(im_copy, aa_bb, cv::Scalar(0, 255, 0));
+	cv::imwrite("image_recon/last_image.bmp", im_copy);
 #endif //SHOW_CV_DEBUG_IMAGE_VIEW
 	return get_anno_population_from_ocr_result(ocr_result);
 }
