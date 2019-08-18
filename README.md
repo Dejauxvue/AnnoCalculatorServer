@@ -19,9 +19,10 @@ where "width"x"height" is the screen resolution of your game
 important: use 24-bit bitmap format when saving the icon
 - step5: restart Server.exe
 
-
-
-
+If you encounter any bug, feel free to contact me and if possible send me the following information
+- your game's screen resolution
+- the text from the Server.exe console when the bug occured
+- if the bug is reproducable: try ServerD.exe instead of Server.exe and send me the images that are generated in the folder image_recon/
 
 Use prebuild binaries:
 - download the latest release from https://github.com/Dejauxvue/AnnoCalculatorServer/releases
