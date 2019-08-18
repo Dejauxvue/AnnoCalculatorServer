@@ -8,6 +8,12 @@
 #include "image_recognition.hpp"
 
 int main() {
-	image_recognition::get_anno_population_tesserarct_ocr(image_recognition::load_image("image_recon/test_screenshots/screenshot_2019-05-19-12-32-45.jpg"));
+	const auto result = image_recognition::get_anno_population_tesserarct_ocr(
+		image_recognition::load_image("image_recon/test_screenshots/pop_island_sa_dark_1680.png"));
+	std::cout << "result: " << std::endl;
+	for (const auto& l : result) {
+		std::cout << l.first << ": " << l.second << std::endl;
+	}
+	std::cout << std::endl;
 	return 0;
 }
