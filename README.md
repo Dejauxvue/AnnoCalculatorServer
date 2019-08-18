@@ -5,14 +5,14 @@ How to use:
 	- in order to update population numbers in Anno1800Calculator hover over the population icon from your island or your 			global population
 	
 Limitations and known issues:
-	- only 1920x1080 and 1680x1050 are tested and work out of the box
-	- in order to use another resolution, follow the follwing steps: 
-		- step1: make a screenshot (ALT + PRINT) of your game in the desired resolution while island population is 				visible
-		- step2: open paint and paste the screenshot (STRG + V)
-		- step3: cut the popluation icon (see image)
-	![Alt text](instructions_0.png?raw=true "instructions 0")
-	![Alt text](instructions_1?raw=true "instructions 1")
-		- step4: save the population icon as "population_symbol_with_bar.bmp" in the folder image_recon/<width>x<height>/
+- only 1920x1080 and 1680x1050 are tested and work out of the box
+- in order to use another resolution, follow the follwing steps: 
+- step1: make a screenshot (ALT + PRINT) of your game in the desired resolution while island population is 			visible
+- step2: open paint and paste the screenshot (STRG + V)
+- step3: cut the popluation icon (see image)
+![Alt text](instructions_0.png?raw=true "instructions 0")
+![Alt text](instructions_1?raw=true "instructions 1")
+- step4: save the population icon as "population_symbol_with_bar.bmp" in the folder image_recon/<width>x<height>/
 where <width>x<height> is the screen resolution of your game
 important: use 24-bit bitmap format when saving the icon
 - step5: restart Server.exe
@@ -22,8 +22,8 @@ important: use 24-bit bitmap format when saving the icon
 
 
 Use prebuild binaries:
-	- download the latest release from https://github.com/Dejauxvue/AnnoCalculatorServer/releases
-	- extract the archive to any location you desire
+- download the latest release from https://github.com/Dejauxvue/AnnoCalculatorServer/releases
+- extract the archive to any location you desire
 
 Build it yourself: 
 	Requirements:
