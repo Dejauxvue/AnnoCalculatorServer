@@ -4,6 +4,8 @@ How to use:
 - run Anno 1800
 - in order to update population numbers in Anno1800Calculator hover over the population icon from your island or your global population
 
+- if you change the screen resolution of your game, you have to restart Server.exe and maybe perform the steps in the following paragraph
+
 Limitations and known issues:
 - only 1920x1080 and 1680x1050 are tested and work out of the box
 - in order to use another resolution, follow the follwing steps: 
@@ -12,8 +14,8 @@ Limitations and known issues:
 - step3: cut the popluation icon (see image)
 ![Alt text](instructions_0.png?raw=true "instructions 0")
 ![Alt text](instructions_1.png?raw=true "instructions 1")
-- step4: save the population icon as "population_symbol_with_bar.bmp" in the folder image_recon/<width>x<height>/
-where <width>x<height> is the screen resolution of your game
+- step4: save the population icon as "population_symbol_with_bar.bmp" in the folder image_recon/"width"x"height"/
+where "width"x"height" is the screen resolution of your game
 important: use 24-bit bitmap format when saving the icon
 - step5: restart Server.exe
 
