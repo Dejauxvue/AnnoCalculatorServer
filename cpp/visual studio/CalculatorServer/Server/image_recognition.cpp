@@ -330,7 +330,7 @@ std::map<std::string, int> image_recognition::get_anno_population_from_ocr_resul
 		std::make_pair("engineers", std::regex(".*Engineers.*|.*Ingenieure.*")),
 		std::make_pair("investors", std::regex(".*Investors.*|.*Investoren.*")),
 		std::make_pair("jornaleros", std::regex(".*aleros.*")),
-		std::make_pair("obreros", std::regex(".*Obreros.*")) };
+		std::make_pair("obreros", std::regex(".*Obrer(o|a)s.*")) };
 
 	std::map<std::string, int> ret;
 
