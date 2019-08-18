@@ -14,7 +14,7 @@
 #include <opencv2/opencv.hpp>
 
 
-#define SHOW_CV_DEBUG_IMAGE_VIEW
+//#define SHOW_CV_DEBUG_IMAGE_VIEW
 
 struct comparePoints {
 	bool operator()(const cv::Point& a, const cv::Point& b) const {
