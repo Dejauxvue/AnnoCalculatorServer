@@ -11,7 +11,7 @@ Limitations and known issues:
 - step2: open paint and paste the screenshot (STRG + V)
 - step3: cut the popluation icon (see image)
 ![Alt text](instructions_0.png?raw=true "instructions 0")
-![Alt text](instructions_1?raw=true "instructions 1")
+![Alt text](instructions_1.png?raw=true "instructions 1")
 - step4: save the population icon as "population_symbol_with_bar.bmp" in the folder image_recon/<width>x<height>/
 where <width>x<height> is the screen resolution of your game
 important: use 24-bit bitmap format when saving the icon
