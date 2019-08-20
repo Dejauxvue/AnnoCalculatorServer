@@ -9,11 +9,7 @@
 
 int main() {
 	const auto result = image_recognition::get_anno_population_tesserarct_ocr(
-		image_recognition::load_image("image_recon/test_screenshots/pop_island_sa_dark_1680.png"));
-	std::cout << "result: " << std::endl;
-	for (const auto& l : result) {
-		std::cout << l.first << ": " << l.second << std::endl;
-	}
+		image_recognition::load_image("image_recon/test_screenshots/pop_island_investors_dark_1920.png"));
 	std::cout << std::endl;
 	return 0;
 }

@@ -14,7 +14,7 @@
 #include <opencv2/opencv.hpp>
 
 
-//#define SHOW_CV_DEBUG_IMAGE_VIEW
+#define SHOW_CV_DEBUG_IMAGE_VIEW
 
 struct comparePoints {
 	bool operator()(const cv::Point& a, const cv::Point& b) const {
@@ -73,27 +73,31 @@ std::list<cv::Point> image_recognition::find_rgb_region(cv::InputArray in, const
 
 std::pair<cv::Rect, float> image_recognition::match_template(cv::InputArray source, cv::InputArray template_img)
 {
+	cv::Mat src_hs = bgr_2_hs(source);
+	cv::Mat tmpl_hs = bgr_2_hs(template_img);
+
 	cv::Mat result;
-	cv::matchTemplate(source, template_img, result, CV_TM_CCOEFF_NORMED);
+	cv::matchTemplate(src_hs, tmpl_hs, result, cv::TM_SQDIFF);
+	result /= tmpl_hs.size().area();
 	cv::Point min_loc, max_loc;
 	double min, max;
 	cv::minMaxLoc(result, &min, &max, &min_loc, &max_loc);
 
-	cv::Point template_position = max_loc;
+	cv::Point template_position = min_loc;
 
-	std::cout << "min: " << min;
+	std::cout << "min: " << min << "; ";
 	std::cout << "max: " << max << std::endl;
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/match_image.bmp", (result) * 256);
+	cv::imwrite("image_recon/match_image.bmp", (result) * 256 / max);
 #endif //SHOW_CV_DEBUG_IMAGE_VIEW
 
-	return { cv::Rect(template_position, template_img.size()), max };
+	return { cv::Rect(template_position, tmpl_hs.size()), min };
 }
 
-std::map<std::string, int> image_recognition::get_anno_population_tesserarct_ocr( const cv::Mat& im)
+std::map<std::string, int> image_recognition::get_anno_population_tesserarct_ocr(const cv::Mat& im)
 {
-	const auto fit_criterion = [](float e) {return e > 0.9f; };
+	const auto fit_criterion = [](float e) {return e < 100.f; };
 
 	struct template_images {
 		cv::Mat island_pop_symbol;
@@ -161,7 +165,7 @@ std::map<std::string, int> image_recognition::get_anno_population_tesserarct_ocr
 	cv::imwrite("image_recon/last_image.bmp", im_copy);
 #endif //SHOW_CV_DEBUG_IMAGE_VIEW
 	return get_anno_population_from_ocr_result(ocr_result);
-}
+	}
 
 cv::Mat image_recognition::load_image(const std::string& path)
 {
@@ -169,8 +173,20 @@ cv::Mat image_recognition::load_image(const std::string& path)
 	if (img.size().area() < 1) {
 		std::cout << "failed to load " << path << std::endl;
 	}
-	cvtColor(img, img, CV_BGR2BGRA);
+	cv::cvtColor(img, img, cv::COLOR_BGR2BGRA);
 	return img;
+}
+
+cv::Mat image_recognition::bgr_2_hs(cv::InputArray bgr_in)
+{
+	cv::Mat hls;
+	cv::cvtColor(bgr_in, hls, cv::COLOR_BGR2HLS);
+	std::vector<cv::Mat> channels;
+	cv::split(hls, channels);
+	channels.erase(++++channels.begin());	
+	cv::Mat hs;
+	cv::merge(channels, hs);
+	return hs;
 }
 
 cv::Rect image_recognition::get_aa_bb(const std::list<cv::Point>& input)
@@ -281,6 +297,8 @@ cv::Mat image_recognition::take_screenshot()
 	DeleteDC(hwindowCompatibleDC);
 	ReleaseDC(hwnd, hwindowDC);
 
+
+
 	return src;
 }
 
@@ -309,7 +327,7 @@ std::vector<std::pair<std::string, cv::Rect>> image_recognition::detect_words(co
 			float conf = ri->Confidence(level);
 			int x1, y1, x2, y2;
 			ri->BoundingBox(level, &x1, &y1, &x2, &y2);
-			printf("word: '%s';  \tconf: %.2f; BoundingBox: %d,%d,%d,%d;\n",
+			printf("word: '%s';\t\tconf: %.2f; BoundingBox: %d,%d,%d,%d;\n",
 				word, conf, x1, y1, x2, y2);
 			std::string word_s = word ? std::string(word) : std::string();
 			cv::Rect aa_bb(cv::Point(x1, y1), cv::Point(x2, y2));
@@ -339,37 +357,37 @@ std::map<std::string, int> image_recognition::get_anno_population_from_ocr_resul
 		for (const auto& pop_name_word : ocr_result) {
 			if (population > 0)
 				break;
-			if (std::regex_match(pop_name_word.first, kw.second)) {	
+			if (std::regex_match(pop_name_word.first, kw.second)) {
 				for (const auto& pop_value_word : ocr_result) {
-					
+
 					if (pop_name_word == pop_value_word)
 						continue;
 					if (std::abs(pop_value_word.second.tl().y - pop_name_word.second.tl().y) < 4
 						&& pop_value_word.second.tl().x > pop_name_word.second.tl().x) {
 						std::string number_string = std::regex_replace(pop_value_word.first, std::regex("\\,|\\.|\\/"), "");
-						population = 
+						population =
 							[&]() {
-								try { return std::stoi(number_string); }
-								catch (...) { std::cout << "could not match number string: " << number_string << std::endl; return 0; }
-							}();
-						if (population > 0) {	
+							try { return std::stoi(number_string); }
+							catch (...) { std::cout << "could not match number string: " << number_string << std::endl; return 0; }
+						}();
+						if (population > 0) {
 							break;
-						}				
+						}
 					}
-				}	
+				}
 				//if word based ocr fails, try symbols (probably only 1 digit population)
 				if (population == 0) {
 					std::cout << "could not find population number, if the number is only 1 digit, this is a known problem" << std::endl;
 				}
 			}
-			
+
 			if (population > 0) {
 				auto insert_result = ret.insert(std::make_pair(kw.first, population));
 				if (!insert_result.second)
 					std::cout << "collision with population names" << std::endl;
 				std::cout << "new value for " << kw.first << ": " << population << std::endl;
 			}
-		}		
+		}
 	}
 	std::cout << "final map: " << std::endl;
 	std::for_each(ret.begin(), ret.end(), [](const auto& entry) { std::cout << entry.first << ": " << entry.second << std::endl; });

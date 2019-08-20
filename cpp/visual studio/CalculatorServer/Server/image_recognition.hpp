@@ -26,6 +26,12 @@ public:
 	static cv::Mat load_image(const std::string&);
 
 	/**
+	* create the two channel image with H and S channel from HLS space
+	* from a given BGR image
+	*/
+	static cv::Mat bgr_2_hs(cv::InputArray bgr_in);
+
+	/**
 	* the axis-aligned-bounding box from the given set of points
 	*/
 	static cv::Rect get_aa_bb(const std::list<cv::Point>&);

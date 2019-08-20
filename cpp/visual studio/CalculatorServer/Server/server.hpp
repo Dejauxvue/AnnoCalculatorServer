@@ -22,6 +22,7 @@ public:
 	pplx::task<void> open() { return m_listener.open(); }
 	pplx::task<void> close() { return m_listener.close(); }
 
+	static const std::string VERSION_TAG;
 private:
 	web::json::value read_anno_population()const;
 
