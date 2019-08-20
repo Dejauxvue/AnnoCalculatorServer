@@ -8,7 +8,7 @@ using namespace http;
 using namespace web::http::experimental::listener;
 
 /* IMPORTANT!!: this should be updated to the current release tag*/
-const std::string server::VERSION_TAG("v1.0.3");
+const std::string server::VERSION_TAG("v1.1.0");
 
 server::server(utility::string_t url) : m_listener(url)
 {
