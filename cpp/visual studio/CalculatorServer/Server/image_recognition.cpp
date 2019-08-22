@@ -73,8 +73,8 @@ std::list<cv::Point> image_recognition::find_rgb_region(cv::InputArray in, const
 
 std::pair<cv::Rect, float> image_recognition::match_template(cv::InputArray source, cv::InputArray template_img)
 {
-	cv::Mat src_hs = bgr_2_hs(source);
-	cv::Mat tmpl_hs = bgr_2_hs(template_img);
+	cv::Mat src_hs = convert_color_space_for_template_matching(source);
+	cv::Mat tmpl_hs = convert_color_space_for_template_matching(template_img);
 
 	cv::Mat result;
 	cv::matchTemplate(src_hs, tmpl_hs, result, cv::TM_SQDIFF);
@@ -97,7 +97,7 @@ std::pair<cv::Rect, float> image_recognition::match_template(cv::InputArray sour
 
 std::map<std::string, int> image_recognition::get_anno_population_tesserarct_ocr(const cv::Mat& im)
 {
-	const auto fit_criterion = [](float e) {return e < 100.f; };
+	const auto fit_criterion = [](float e) {return e < 20000.f; };
 
 	struct template_images {
 		cv::Mat island_pop_symbol;
@@ -115,6 +115,8 @@ std::map<std::string, int> image_recognition::get_anno_population_tesserarct_ocr
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 	cv::imwrite("image_recon/last_screenshot.png", im);
+	cv::Mat hsl_im = convert_color_space_for_template_matching(im);
+	write_image_per_channel("image_recon/last_screenshot", hsl_im);
 #endif //SHOW_CV_DEBUG_IMAGE_VIEW
 
 	cv::Mat im_copy = im(cv::Rect(cv::Point(0, 0), cv::Size(im.cols, im.rows / 2)));
@@ -165,7 +167,7 @@ std::map<std::string, int> image_recognition::get_anno_population_tesserarct_ocr
 	cv::imwrite("image_recon/last_image.bmp", im_copy);
 #endif //SHOW_CV_DEBUG_IMAGE_VIEW
 	return get_anno_population_from_ocr_result(ocr_result);
-	}
+}
 
 cv::Mat image_recognition::load_image(const std::string& path)
 {
@@ -177,16 +179,91 @@ cv::Mat image_recognition::load_image(const std::string& path)
 	return img;
 }
 
-cv::Mat image_recognition::bgr_2_hs(cv::InputArray bgr_in)
+cv::Mat image_recognition::convert_color_space_for_template_matching(cv::InputArray bgr_in)
 {
-	cv::Mat hls;
-	cv::cvtColor(bgr_in, hls, cv::COLOR_BGR2HLS);
 	std::vector<cv::Mat> channels;
-	cv::split(hls, channels);
-	channels.erase(++++channels.begin());	
-	cv::Mat hs;
-	cv::merge(channels, hs);
-	return hs;
+	cv::split(bgr_in, channels);
+	for (auto& c : channels) 
+	{
+		double min, max;
+		cv::minMaxLoc(c, &min,&max);
+		cv::threshold(c, c, 0.5f * (min + max), 255.f, cv::THRESH_BINARY);
+	}
+	cv::Mat ret;
+	cv::merge(channels.data(),3, ret);
+
+	return ret;
+}
+
+cv::Mat image_recognition::gamma_invariant_hue_finlayson(cv::InputArray bgr_in)
+{
+	std::vector<cv::Mat> channels;
+	cv::split(bgr_in.getMat(), channels);
+	for (auto& c : channels) {
+		c.convertTo(c, CV_32F);
+		c = c / 255.f;
+	}
+	/*{
+		std::ofstream of("pixel_red.csv", std::ios::out);
+		for (int i = 0; i < channels[0].rows; i++)
+			for (int j = 0; j < channels[0].cols; j++)
+				of << channels[0].at<float>(i, j) << std::endl;
+
+	}*/
+	for (auto& c : channels) {
+		cv::log(c, c);
+	}
+	cv::Mat ret[3];
+	cv::divide((channels[2] - channels[1]), (channels[2] + channels[1] - 2.f * channels[0]), ret[0]);
+	cv::divide((channels[0] - channels[2]), (channels[0] + channels[2] - 2.f * channels[1]), ret[1]);
+	cv::divide((channels[1] - channels[0]), (channels[1] + channels[0] - 2.f * channels[2]), ret[2]);
+	for (int i = 0; i < 3; i++) {
+		/*{
+			std::ofstream of("pixel_values_raw.csv", std::ios::out);
+			for (int i = 0; i < ret.rows; i++)
+				for (int j = 0; j < ret.cols; j++)
+					of << ret.at<float>(i, j) << std::endl;
+
+		}*/
+		cv::threshold(ret[i], ret[i], 2.f, 1.f, cv::THRESH_TRUNC);
+		ret[i] = -1.f * ret[i];
+		cv::threshold(ret[i], ret[i], 2.f, 1.f, cv::THRESH_TRUNC);
+		ret[i] = -1.f * ret[i];
+		/*{
+			std::ofstream of("pixel_values_pre_norm.csv", std::ios::out);
+			for (int i = 0; i < ret[i].rows; i++)
+				for (int j = 0; j < ret[i].cols; j++)
+					of << ret[i].at<float>(i, j) << std::endl;
+
+		}*/
+
+		//cv::normalize(ret[i], ret[i], 0, 255, cv::NORM_MINMAX);
+		ret[i] = ret[i] + 2.f;
+		ret[i] = ret[i] / 4.f;
+		ret[i] = ret[i] * 255.f;
+		cv::imwrite("image_recon/ret" + std::to_string(i)+".png", ret[i]);
+		//H = (log(R)-log(G))/(log(R)+log(G)-2log(B))
+
+		/*{
+			std::ofstream of("pixel_values_post_norm.csv", std::ios::out);
+
+			for (int i = 0; i < ret.rows; i++)
+				for (int j = 0; j < ret.cols; j++)
+					of << ret.at<float>(i, j) << std::endl;
+		}*/
+	}
+	std::cout << "done with gamma" << std::endl;
+	return ret[0];
+}
+
+void image_recognition::write_image_per_channel(const std::string& path, cv::InputArray img)
+{
+	cv::Mat mat = img.getMat();
+	std::vector<cv::Mat> channels;
+	cv::split(mat, channels);
+	for (int i = 0; i < channels.size(); i++) {
+		cv::imwrite(path + "_" + std::to_string(i) + ".png", channels[i]);
+	}
 }
 
 cv::Rect image_recognition::get_aa_bb(const std::list<cv::Point>& input)

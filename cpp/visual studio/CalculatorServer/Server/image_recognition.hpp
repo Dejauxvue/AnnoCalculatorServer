@@ -26,10 +26,23 @@ public:
 	static cv::Mat load_image(const std::string&);
 
 	/**
-	* create the two channel image with H and S channel from HLS space
+	* create the two channel image with H from HLS space
 	* from a given BGR image
 	*/
-	static cv::Mat bgr_2_hs(cv::InputArray bgr_in);
+	static cv::Mat convert_color_space_for_template_matching(cv::InputArray bgr_in);
+
+	/**
+	* create an image with one channel of gamma invariant hue from given BGR image
+	* method used is from: https://pdfs.semanticscholar.org/6c16/b450648a531c3ce47db7db3a7794e2f55d96.pdf
+	* "Hue that is invariant to brightness and gamma" by Graham Finlayson and Gerald Schaefer, 2001
+	*/
+	static cv::Mat gamma_invariant_hue_finlayson(cv::InputArray bgr_in);
+
+	/**
+	* stores the single channels of an image
+	* i-th channel is stored as path_i_.png
+	*/
+	static void write_image_per_channel(const std::string& path, cv::InputArray img);
 
 	/**
 	* the axis-aligned-bounding box from the given set of points

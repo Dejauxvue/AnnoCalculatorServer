@@ -8,7 +8,7 @@ using namespace http;
 using namespace web::http::experimental::listener;
 
 /* IMPORTANT!!: this should be updated to the current release tag*/
-const std::string server::VERSION_TAG("v1.1.0");
+const std::string server::VERSION_TAG("v1.1.1");
 
 server::server(utility::string_t url) : m_listener(url)
 {
@@ -28,10 +28,13 @@ void server::handle_get(http_request request)
 	}
 
 	web::json::value json_message;
+	if (!population.empty()) { 
+		json_message[U("version")] = web::json::value(std::wstring(VERSION_TAG.begin(), VERSION_TAG.end())); 
+	}
 	for (const auto& p : population) {
 		json_message[std::wstring(p.first.begin(), p.first.end())] = web::json::value::number(p.second);
 	}
-	json_message[U("version")] = web::json::value(std::wstring(VERSION_TAG.begin(), VERSION_TAG.end()));
+
 
 	web::http::http_response response(status_codes::OK);
 	response.headers().add(U("Access-Control-Allow-Origin"), U("*"));
