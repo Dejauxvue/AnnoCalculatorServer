@@ -28,5 +28,6 @@ private:
 
 	void handle_get(http_request message);
 
+	std::mutex mutex_;
 	http_listener m_listener;
 };

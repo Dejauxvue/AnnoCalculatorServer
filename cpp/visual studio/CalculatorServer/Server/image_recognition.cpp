@@ -14,7 +14,8 @@
 #include <opencv2/opencv.hpp>
 
 
-//#define SHOW_CV_DEBUG_IMAGE_VIEW
+
+#define SHOW_CV_DEBUG_IMAGE_VIEW
 
 struct comparePoints {
 	bool operator()(const cv::Point& a, const cv::Point& b) const {
@@ -183,14 +184,14 @@ cv::Mat image_recognition::convert_color_space_for_template_matching(cv::InputAr
 {
 	std::vector<cv::Mat> channels;
 	cv::split(bgr_in, channels);
-	for (auto& c : channels) 
+	for (auto& c : channels)
 	{
 		double min, max;
-		cv::minMaxLoc(c, &min,&max);
+		cv::minMaxLoc(c, &min, &max);
 		cv::threshold(c, c, 0.5f * (min + max), 255.f, cv::THRESH_BINARY);
 	}
 	cv::Mat ret;
-	cv::merge(channels.data(),3, ret);
+	cv::merge(channels.data(), 3, ret);
 
 	return ret;
 }
@@ -241,7 +242,7 @@ cv::Mat image_recognition::gamma_invariant_hue_finlayson(cv::InputArray bgr_in)
 		ret[i] = ret[i] + 2.f;
 		ret[i] = ret[i] / 4.f;
 		ret[i] = ret[i] * 255.f;
-		cv::imwrite("image_recon/ret" + std::to_string(i)+".png", ret[i]);
+		cv::imwrite("image_recon/ret" + std::to_string(i) + ".png", ret[i]);
 		//H = (log(R)-log(G))/(log(R)+log(G)-2log(B))
 
 		/*{
@@ -418,23 +419,51 @@ std::vector<std::pair<std::string, cv::Rect>> image_recognition::detect_words(co
 
 std::map<std::string, int> image_recognition::get_anno_population_from_ocr_result(const std::vector<std::pair<std::string, cv::Rect>>& ocr_result)
 {
-	std::pair<std::string, std::regex> keywords[] = {
-		std::make_pair("farmers", std::regex(".*Far?mers.*|.*Baue(rn|m).*")),
-		std::make_pair("workers", std::regex(".*Workers.*|.*Arbeiter.*")),
-		std::make_pair("artisans", std::regex(".*Artisans.*|.*Handwerker.*")),
-		std::make_pair("engineers", std::regex(".*Engineers.*|.*Ingenieure.*")),
-		std::make_pair("investors", std::regex(".*Investors.*|.*Investoren.*")),
-		std::make_pair("jornaleros", std::regex(".*aleros.*")),
-		std::make_pair("obreros", std::regex(".*Obrer(o|a)s.*")) };
+	std::map<std::string, std::vector<std::string>> keywords;
+	keywords["farmers"].push_back("Farmers");
+	keywords["farmers"].push_back("Bauern");
+
+	keywords["workers"].push_back("Workers");
+	keywords["workers"].push_back("Arbeiter");
+
+	keywords["artisans"].push_back("Artisans");
+	keywords["artisans"].push_back("Handwerker");
+
+	keywords["engineers"].push_back("Engineers");
+	keywords["engineers"].push_back("Ingenieure");
+
+	keywords["investors"].push_back("Investors");
+	keywords["investors"].push_back("Investoren");
+
+	keywords["jornaleros"].push_back("Jornaleros");
+
+	keywords["obreros"].push_back("Obreros");
 
 	std::map<std::string, int> ret;
-
 	for (const auto& kw : keywords) {
 		int population = 0;
 		for (const auto& pop_name_word : ocr_result) {
 			if (population > 0)
 				break;
-			if (std::regex_match(pop_name_word.first, kw.second)) {
+
+			bool match = false;
+			for (const std::string& variant : kw.second) {
+				std::cout << "jaro_winkler(" << pop_name_word.first << ", " << variant << "): "
+					<< jaro_winkler_similarity(pop_name_word.first, variant) << std::endl;
+
+				std::cout << "jaro(" << pop_name_word.first << ", " << variant << "): "
+					<< jaro_similarity(pop_name_word.first, variant) << std::endl;
+
+				std::cout << "jaro_winkler(" << variant << ", " << pop_name_word.first << "): "
+					<< jaro_winkler_similarity(variant, pop_name_word.first) << std::endl;
+
+				if (jaro_winkler_similarity(pop_name_word.first, variant) > 0.9) {
+					match = true;
+					break;
+				}
+			}
+
+			if (match) {
 				for (const auto& pop_value_word : ocr_result) {
 
 					if (pop_name_word == pop_value_word)
@@ -483,3 +512,73 @@ std::shared_ptr<tesseract::TessBaseAPI> image_recognition::ocr()
 	}
 	return ocr_;
 }
+
+float image_recognition::jaro_similarity(const std::string& source,
+	const std::string& target)
+{
+	if (source == target)
+		return 1;
+	if (source.empty() || target.empty())
+		return 0;
+
+	const auto sl = source.length();
+	const auto tl = target.length();
+
+	const auto match_distance = std::max(sl, tl) < 2
+		? 0
+		: std::max(sl, tl) / 2 - 1;
+
+	auto source_matches = std::make_unique<bool[]>(sl);
+	auto target_matches = std::make_unique<bool[]>(tl);
+	std::size_t matches = 0;
+	for (std::size_t i = 0; i < sl; ++i) {
+		const auto end = std::min(i + match_distance + 1, tl);
+		const auto start = i > match_distance ? (i - match_distance) : 0u;
+		for (auto k = start; k < end; ++k) {
+			if (!target_matches[k] && source[i] == target[k]) {
+				target_matches[k] = source_matches[i] = true;
+				++matches;
+				break;
+			}
+		}
+	}
+	if (matches == 0) {
+		return 0;
+	}
+
+	std::size_t t = 0;
+	for (std::size_t i = 0, k = 0; i < sl; ++i) {
+		if (source_matches[i]) {
+			while (!target_matches[k]) ++k;
+			if (source[i] != target[k]) ++t;
+			++k;
+		}
+	}
+
+	const float m = matches;
+	return (m / sl + m / tl + 1 - t / m / 2) / 3.0;
+}
+
+
+float image_recognition::jaro_winkler_similarity(const std::string& source,
+	const std::string& target,
+	const std::size_t prefix,
+	const float boost_treshold,
+	const float scaling_factor)
+{
+	const auto similarity = jaro_similarity(source, target);
+
+	if (similarity > boost_treshold) {
+		const auto l = std::min({ source.length(), target.length(), prefix });
+		std::size_t common_prefix = 0;
+		for (; common_prefix < l; ++common_prefix) {
+			if (source[common_prefix] != target[common_prefix]) break;
+		}
+		return similarity
+			+ scaling_factor * common_prefix * (1 - similarity);
+	}
+	else {
+		return similarity;
+	}
+}
+

@@ -94,5 +94,24 @@ public:
 	*/
 	static std::map<std::string, int> get_anno_population_from_ocr_result(
 		const std::vector<std::pair<std::string, cv::Rect>>& ocr_result);
+
+	/**
+	* compute the similiarity of two strings using Jaro Similarity
+	* source: https://codereview.stackexchange.com/questions/187969/c-edit-distance-string-similarity-function-based-on-the-jaro-winkler-algorit
+	*
+	* results are 1 for matching strings and 0 for very different strings
+	*/
+	static float jaro_winkler_similarity(const std::string& source,
+		const std::string& target,
+		const std::size_t prefix = 2,
+		const float boost_treshold = 0.7,
+		const float scaling_factor = 0.1);
+
+	/**
+	* compute the similiarity of two strings using Jaro Similarity
+	* source: https://codereview.stackexchange.com/questions/187969/c-edit-distance-string-similarity-function-based-on-the-jaro-winkler-algorit
+	*/
+	static float jaro_similarity(const std::string& source, const std::string& target);
+	
 };
 
