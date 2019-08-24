@@ -1,6 +1,6 @@
 # How to use
 - run the Server.exe which should open a command window and might require administrator rights
-- Anno1800Calculator from local file (if not done already)
+- run Anno1800Calculator from local file (if not done already)
 - run Anno 1800
 - in order to update population numbers in Anno1800Calculator hover over the population icon from your island or your global population
 
@@ -17,7 +17,6 @@
   4. save the population icon as "population_symbol_with_bar.bmp" in the folder image_recon/"width"x"height"/
 where "width"x"height" is the screen resolution of your game
 important: use 24-bit bitmap format when saving the icon
-  5. restart Server.exe
 
 
 ![Alt text](instructions_0.png?raw=true "instructions 0")
