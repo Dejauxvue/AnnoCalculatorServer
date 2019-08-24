@@ -100,18 +100,26 @@ std::map<std::string, int> image_recognition::get_anno_population_tesserarct_ocr
 	const auto fit_criterion = [](float e) {return e < 20000.f; };
 
 	struct template_images {
+		std::string resolution_id = "uninitialized";
 		cv::Mat island_pop_symbol;
 	};
 
-	static template_images templates = [&]() {
-		std::string resolution_string = std::to_string(im.cols) + "x" + std::to_string(im.rows);
-		std::cout << "detected resolution: " << resolution_string
-			<< ". If this does not match your game's resolution or the resolution changes, restart this application!"
-			<< std::endl;
-		template_images ret;
-		ret.island_pop_symbol = load_image("image_recon/" + resolution_string + "/population_symbol_with_bar.bmp");
-		return ret;
-	}();
+	static template_images templates;
+	std::string resolution_id = std::to_string(im.cols) + "x" + std::to_string(im.rows);
+	if (templates.resolution_id != resolution_id)
+	{
+		try {
+			std::cout << "detected resolution: " << resolution_id
+				<< std::endl;
+			templates.island_pop_symbol = load_image("image_recon/" + resolution_id + "/population_symbol_with_bar.bmp");
+			templates.resolution_id = resolution_id;
+		}
+		catch (const std::invalid_argument& e) {
+			std::cout << e.what() << std::endl;
+			return std::map<std::string, int>();
+		}
+	}
+
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 	cv::imwrite("image_recon/last_screenshot.png", im);
@@ -173,7 +181,7 @@ cv::Mat image_recognition::load_image(const std::string& path)
 {
 	cv::Mat img = cv::imread(path, cv::IMREAD_COLOR);
 	if (img.size().area() < 1) {
-		std::cout << "failed to load " << path << std::endl;
+		throw std::invalid_argument("failed to load " + path);
 	}
 	cv::cvtColor(img, img, cv::COLOR_BGR2BGRA);
 	return img;
@@ -183,14 +191,14 @@ cv::Mat image_recognition::convert_color_space_for_template_matching(cv::InputAr
 {
 	std::vector<cv::Mat> channels;
 	cv::split(bgr_in, channels);
-	for (auto& c : channels) 
+	for (auto& c : channels)
 	{
 		double min, max;
-		cv::minMaxLoc(c, &min,&max);
+		cv::minMaxLoc(c, &min, &max);
 		cv::threshold(c, c, 0.5f * (min + max), 255.f, cv::THRESH_BINARY);
 	}
 	cv::Mat ret;
-	cv::merge(channels.data(),3, ret);
+	cv::merge(channels.data(), 3, ret);
 
 	return ret;
 }
@@ -241,7 +249,7 @@ cv::Mat image_recognition::gamma_invariant_hue_finlayson(cv::InputArray bgr_in)
 		ret[i] = ret[i] + 2.f;
 		ret[i] = ret[i] / 4.f;
 		ret[i] = ret[i] * 255.f;
-		cv::imwrite("image_recon/ret" + std::to_string(i)+".png", ret[i]);
+		cv::imwrite("image_recon/ret" + std::to_string(i) + ".png", ret[i]);
 		//H = (log(R)-log(G))/(log(R)+log(G)-2log(B))
 
 		/*{
