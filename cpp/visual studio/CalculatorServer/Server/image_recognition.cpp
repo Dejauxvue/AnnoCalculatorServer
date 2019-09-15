@@ -295,7 +295,7 @@ cv::Mat image_recognition::take_screenshot()
 {
 	cv::Mat src;
 
-	std::string window_name_regex_string(".*Anno 7.*");
+	std::string window_name_regex_string(".*Anno 1800*");
 	std::regex window_name_regex(window_name_regex_string.data());
 
 	HWND hwnd = NULL;
