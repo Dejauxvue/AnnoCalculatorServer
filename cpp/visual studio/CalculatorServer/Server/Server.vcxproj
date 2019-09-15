@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="debug_main.cpp" />
     <ClCompile Include="image_recognition.cpp" />
     <ClCompile Include="server.cpp" />
+    <ClCompile Include="server_main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="image_recognition.hpp" />

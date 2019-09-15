@@ -295,7 +295,7 @@ cv::Mat image_recognition::take_screenshot()
 {
 	cv::Mat src;
 
-	std::string window_name_regex_string(".*Anno 7.*");
+	std::string window_name_regex_string(".*Anno 1800.*");
 	std::regex window_name_regex(window_name_regex_string.data());
 
 	HWND hwnd = NULL;
@@ -429,7 +429,7 @@ std::map<std::string, int> image_recognition::get_anno_population_from_ocr_resul
 	std::pair<std::string, std::regex> keywords[] = {
 		std::make_pair("farmers", std::regex(".*Far?mers.*|.*Baue(rn|m).*")),
 		std::make_pair("workers", std::regex(".*Workers.*|.*Arbeiter.*")),
-		std::make_pair("artisans", std::regex(".*Artisans.*|.*Handwerker.*")),
+		std::make_pair("artisans", std::regex(".*A(rt)?isans.*|.*Handwerker.*")),
 		std::make_pair("engineers", std::regex(".*Engineers.*|.*Ingenieure.*")),
 		std::make_pair("investors", std::regex(".*Investors.*|.*Investoren.*")),
 		std::make_pair("jornaleros", std::regex(".*aleros.*")),

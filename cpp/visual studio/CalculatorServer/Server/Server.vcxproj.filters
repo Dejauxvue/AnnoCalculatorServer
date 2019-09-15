@@ -21,7 +21,7 @@
     <ClCompile Include="image_recognition.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="debug_main.cpp">
+    <ClCompile Include="server_main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
