@@ -5,7 +5,6 @@
 #include <string>
 
 #include <opencv2/opencv.hpp>
-#include <opencv2/opencv.hpp>
 
 #include <tesseract/baseapi.h>
 
