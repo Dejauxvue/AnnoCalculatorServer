@@ -38,7 +38,7 @@ void on_initialize(const string_t& address)
 	// Build our listener's URI from the configured address and the hard-coded path "MyServer/Action"
 
 	uri_builder uri(address);
-	uri.append_path(U("AnnoServer/Population/"));
+	uri.append_path(U("AnnoServer/Population"));
 
 	auto addr = uri.to_uri().to_string();
 	g_http = std::make_unique<server>(addr);

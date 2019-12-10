@@ -6,7 +6,7 @@
 #include "cpprest/json.h"
 #include "cpprest/http_listener.h"
 
-#include "server.hpp"
+#include "image_recognition.hpp"
 
 using namespace web;
 using namespace http;
@@ -24,10 +24,13 @@ public:
 
 	static const std::string VERSION_TAG;
 private:
-	web::json::value read_anno_population()const;
+	void read_anno_population(web::json::value& result);
+	void read_buildings_count(web::json::value& result);
+	void read_productivity_statistics(web::json::value& result, bool optimalProductivity);
 
 	void handle_get(http_request message);
 
+	image_recognition image_recog;
 	http_listener m_listener;
 	std::mutex mutex_;
 };

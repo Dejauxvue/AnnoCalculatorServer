@@ -1,0 +1,133 @@
+{
+    "brazilian": {
+        "100971": "The New World",
+        "180023": "The Old World",
+        "180045": "The Arctic"
+    },
+    "chinese": {
+        "110934": "崔老妮海角",
+        "180045": "北极",
+        "22365": "生产建筑",
+        "22379": "居民",
+        "22434": "明细",
+        "22381": "所有岛屿",
+        "22438": "统计数据",
+        "100971": "新世界",
+        "180023": "旧世界"
+    },
+    "english": {
+        "110934": "Cape Trelawney",
+        "180045": "The Arctic",
+        "22365": "Production Buildings",
+        "22379": "Residents",
+        "22434": "Breakdown",
+        "22381": "All Islands",
+        "22438": "Statistics",
+        "100971": "The New World",
+        "180023": "The Old World"
+    },
+    "french": {
+        "110934": "Cap Trelawney",
+        "180045": "L'Arctique",
+        "22365": "Bâtiments de production",
+        "22379": "Résidents",
+        "22434": "Répartition",
+        "22381": "Toutes les îles",
+        "22438": "Statistiques",
+        "100971": "Le Nouveau Monde",
+        "180023": "L'Ancien Monde"
+    },
+    "german": {
+        "110934": "Kap Trelawney",
+        "180045": "Die Arktis",
+        "22365": "Produktionsgebäude",
+        "22379": "Einwohner",
+        "22434": "Übersicht",
+        "22381": "Alle Inseln",
+        "22438": "Statistiken",
+        "100971": "Die Neue Welt",
+        "180023": "Die Alte Welt"
+    },
+    "italian": {
+        "110934": "Capo Trelawney",
+        "180045": "L'Artico",
+        "22365": "Edifici produttivi",
+        "22379": "Residenti",
+        "22434": "Analisi dettagliata",
+        "22381": "Tutte le isole",
+        "22438": "Statistiche",
+        "100971": "Il Nuovo Mondo",
+        "180023": "Il Vecchio Mondo"
+    },
+    "japanese": {
+        "110934": "トレローニー岬",
+        "180045": "北極圏",
+        "22365": "生産施設",
+        "22379": "住民",
+        "22434": "内訳",
+        "22381": "すべての島",
+        "22438": "統計",
+        "100971": "新世界",
+        "180023": "旧世界"
+    },
+    "korean": {
+        "110934": "트릴로니 곶",
+        "180045": "북극",
+        "22365": "생산 건물",
+        "22379": "주민",
+        "22434": "내역",
+        "22381": "모든 섬",
+        "22438": "통계",
+        "100971": "신대륙",
+        "180023": "구대륙"
+    },
+    "polish": {
+        "110934": "Przylądek Trelawney",
+        "180045": "Arktyka",
+        "22365": "Budynki produkcyjne",
+        "22379": "Mieszkańcy",
+        "22434": "Szczegóły",
+        "22381": "Wszystkie wyspy",
+        "22438": "Statystyka",
+        "100971": "Nowy Świat",
+        "180023": "Stary Świat"
+    },
+    "portuguese": {
+        "100971": "The New World",
+        "180023": "The Old World",
+        "180045": "The Arctic"
+    },
+    "russian": {
+        "110934": "Мыс Трелони",
+        "180045": "Арктика",
+        "22365": "Производственные здания",
+        "22379": "Жители",
+        "22434": "Детализация",
+        "22381": "Все острова",
+        "22438": "Статистика",
+        "100971": "Новый Свет",
+        "180023": "Старый Свет"
+    },
+    "spanish": {
+        "110934": "Cabo de Trelawney",
+        "180045": "El Ártico",
+        "22365": "Edificios de producción",
+        "22379": "Residentes",
+        "22434": "Desglose",
+        "22381": "Todas las islas",
+        "22438": "Estadísticas",
+        "100971": "El Nuevo Mundo",
+        "180023": "El Viejo Mundo"
+    },
+    "taiwanese": {
+        "110934": "崔老妮海角",
+        "180045": "北極",
+        "22365": "生產建築",
+        "22379": "居民",
+        "22434": "明細",
+        "22381": "所有島嶼",
+        "22438": "統計數據",
+        "100971": "新世界",
+        "180023": "舊世界"
+    }
+}

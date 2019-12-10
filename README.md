@@ -2,15 +2,19 @@
 - run the Server.exe which should open a command window and might require administrator rights
 - run Anno1800Calculator from local file (if not done already)
 - run Anno 1800
-- in order to update population numbers in Anno1800Calculator hover over the population icon from your island or your global population
+- open the statistic menu (population to update number of houses, finance to update number of factories, production to update productivity)
+- alternatively, one can update the population from the overlay of the HUD (not recommended)
 
-- if you change the screen resolution of your game, you have to restart Server.exe and maybe perform the steps in the following paragraph
+# Troubleshooting
+In case no values are updated, make sure:
+- the ingame text language and the language of the calculator are identical
+- the values to be read are not covered by something else (overlay, external program, etc.)
+- the correct island is selected in the statistics screen
+- in the center of the statistics menu the selected entry is fully visible
 
-# Limitations and known issues
-- the ingame text language must be German or English
-- sometimes the term for the population tier is not correctly detected and zero entered into the calculator - open an issue in that case (see below which information you should include)
-- only 1920x1080 and 1680x1050 are tested and work out of the box
-- in order to use another resolution, follow the follwing steps: 
+
+# More resultions
+- in order to use another resolution (only for the population pop-ups in the HUD), follow the follwing steps: 
   1. make a screenshot (ALT + PRINT) of your game in the desired resolution while island population is 			visible
   2. open paint and paste the screenshot (STRG + V)
   3. cut the popluation icon (see image)
@@ -42,6 +46,7 @@ important: use 24-bit bitmap format when saving the icon
 - git submodule update --init
 - cd cpp/vcpkg/
 - bootstrap-vcpkg.bat
+- vcpkg install boost-property-tree:x64-windows (takes circa 2 minutes)
 - vcpkg install tesseract:x64-windows (takes circa 17 minutes)
 - vcpkg install cpprestsdk:x64-windows (takes circa 10 minutes)
 - vcpkg install opencv:x64-windows (takes circa 7 minutes)
@@ -56,5 +61,5 @@ important: use 24-bit bitmap format when saving the icon
 possible fix: https://github.com/Microsoft/vcpkg/issues/4377 (untested)	
 or reinstall windows kit on C:/Program Files x86 (can be more tricky than you think)
 
-			
+- To update the ui_texts.json place the contents from `Anno 1800/maindata/data2.rda//data/config/gui/` in `cpp/visual studio/CalculatorServer/x64/Release/texts` and delete ui_texts.json. Running the server in release will recreate ui_texts.json from the source files.		
 	
