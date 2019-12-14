@@ -55,6 +55,7 @@ public:
 	cv::Mat get_center_pane() const;
 	cv::Mat get_left_pane() const;
 	cv::Mat get_right_pane() const;
+	cv::Mat get_center_header() const;
 
 
 
@@ -65,7 +66,7 @@ public:
 
 	/* extract region from image, coordinates from [0,1]² */
 	static cv::Mat get_square_region(const cv::Mat& img, const cv::Rect2f& rect);
-	static cv::Mat get_cell(const cv::Mat& img, float crop_left, float width);
+	static cv::Mat get_cell(const cv::Mat& img, float crop_left, float width, float crop_vertical = 0.1f);
 
 	static const std::string all_islands;
 	static const cv::Scalar background_brown_light;
@@ -74,6 +75,7 @@ public:
 	static const cv::Rect2f position_factory_icon;
 	static const cv::Rect2f position_small_factory_icon;
 	static const cv::Rect2f position_population_icon;
+	
 
 private:
 	image_recognition& recog;
@@ -92,6 +94,7 @@ private:
 	static const cv::Rect2f pane_production_center;
 	static const cv::Rect2f pane_production_right;
 	static const cv::Rect2f pane_population_center;
+	static const cv::Rect2f pane_header_center;
 
 };
 
@@ -161,6 +164,11 @@ public:
 	*/
 	static cv::Mat load_image(const std::string&);
 
+	/**
+	* create the two channel image with H from HLS space
+	* from a given BGR image
+	*/
+	static cv::Mat binarize(cv::InputArray input, bool invert = false);
 
 	/**
 	* create the two channel image with H from HLS space
