@@ -26,8 +26,8 @@
 
 #include <tesseract/genericvector.h>
 
- #define SHOW_CV_DEBUG_IMAGE_VIEW
- #define CONSOLE_DEBUG_OUTPUT
+// #define SHOW_CV_DEBUG_IMAGE_VIEW
+// #define CONSOLE_DEBUG_OUTPUT
 
 
 ////////////////////////////////////////
