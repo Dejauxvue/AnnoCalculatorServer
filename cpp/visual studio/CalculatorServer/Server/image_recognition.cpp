@@ -52,7 +52,7 @@ void statistics_screen::update(const cv::Mat& screenshot)
 
 	cv::Mat statistics_text_img = recog.binarize(get_pane(pane_title), true);
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/statistics_text.png", statistics_text_img);
+	cv::imwrite("debug_images/statistics_text.png", statistics_text_img);
 #endif
 	std::vector<std::pair<std::string, cv::Rect>> words = recog.detect_words(statistics_text_img, tesseract::PageSegMode::PSM_SINGLE_LINE);
 	std::string statistics_string;
@@ -88,7 +88,7 @@ statistics_screen::tab statistics_screen::get_open_tab() const
 		if (is_tab_selected(pixel))
 		{
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("image_recon/tab.png", tabs(cv::Rect(i * tab_width - 0.2f * tab_width, v_center, 10,10)));
+			cv::imwrite("debug_images/tab.png", tabs(cv::Rect(i * tab_width - 0.2f * tab_width, v_center, 10,10)));
 #endif
 #ifdef CONSOLE_DEBUG_OUTPUT
 			std::cout << "Open tab:\t" << i << std::endl;
@@ -279,7 +279,7 @@ image_recognition::image_recognition()
 					factory_icons.emplace(guid, icon);
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-					cv::imwrite("image_recon/icon_template.png", icon);
+					cv::imwrite("debug_images/icon_template.png", icon);
 #endif
 					//				hu_moments.emplace(guid, get_hu_moments(icon));
 				}
@@ -476,7 +476,7 @@ std::pair<cv::Rect, float> image_recognition::find_icon(cv::InputArray source, c
 
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/icon_template.png", template_resized);
+	cv::imwrite("debug_images/icon_template.png", template_resized);
 #endif
 	return match_template(source, template_resized);
 }
@@ -538,7 +538,7 @@ unsigned int image_recognition::get_guid_from_icon(cv::Mat icon,
 		if (match < best_match)
 		{
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("image_recon/icon_template.png", template_resized);
+			cv::imwrite("debug_images/icon_template.png", template_resized);
 #endif
 			guid = entry.first;
 			best_match = match;
@@ -591,7 +591,7 @@ unsigned int image_recognition::get_guid_from_name(const cv::Mat& text_img,
 	const std::map<unsigned int, std::string>& dictionary) const
 {
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/text_img.png", text_img);
+	cv::imwrite("debug_images/text_img.png", text_img);
 #endif
 	std::vector<std::pair<std::string, cv::Rect>> words = detect_words(text_img, tesseract::PageSegMode::PSM_SINGLE_LINE);
 	std::string building_string;
@@ -698,7 +698,7 @@ std::pair<cv::Rect, float> image_recognition::match_template(cv::InputArray sour
 	cv::Point template_position = min_loc;
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/match_image.bmp", (result) * 256 / max);
+	cv::imwrite("debug_images/match_image.bmp", (result) * 256 / max);
 #endif //SHOW_CV_DEBUG_IMAGE_VIEW
 
 	return { cv::Rect(template_position, tmpl_hs.size()), min };
@@ -748,7 +748,7 @@ cv::Rect image_recognition::find_population_icon()
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 	cv::Mat hsl_im = convert_color_space_for_template_matching(screenshot);
-	write_image_per_channel("image_recon/last_screenshot", hsl_im);
+	write_image_per_channel("debug_images/last_screenshot", hsl_im);
 #endif //SHOW_CV_DEBUG_IMAGE_VIEW
 
 	cv::Mat im_copy = screenshot(cv::Rect(cv::Point(0, 0), cv::Size(screenshot.cols, screenshot.rows / 2)));
@@ -791,7 +791,7 @@ std::map<unsigned int, int> image_recognition::get_population_amount_from_hud()
 	cv::merge(channels, cropped_image);
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/last_ocr_input.png", cropped_image);
+	cv::imwrite("debug_images/last_ocr_input.png", cropped_image);
 #endif //SHOW_CV_DEBUG_IMAGE_VIEW
 
 	std::vector<std::pair<std::string, cv::Rect>> ocr_result;
@@ -824,14 +824,14 @@ std::map<unsigned int, int> image_recognition::get_population_amount_from_statis
 		return result;
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/statistics_window_scroll_area.png", roi);
+	cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
 #endif
 
 	iterate_rows(roi, [&](const cv::Mat& row)
 		{
 			cv::Mat population_name = binarize(statistics_screen::get_cell(row, 0.076f, 0.2f));
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("image_recon/population_name.png", population_name);
+			cv::imwrite("debug_images/population_name.png", population_name);
 #endif
 			unsigned int guid = get_guid_from_name(population_name, get_dictionary().population_levels);
 			if (!guid)
@@ -839,7 +839,7 @@ std::map<unsigned int, int> image_recognition::get_population_amount_from_statis
 
 			cv::Mat text_img = binarize(statistics_screen::get_cell(row, 0.5f, 0.27f, 0.4f));
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("image_recon/pop_amount_text.png", text_img);
+			cv::imwrite("debug_images/pop_amount_text.png", text_img);
 #endif
 			std::vector<std::pair<std::string, cv::Rect>> texts = detect_words(text_img, tesseract::PSM_SINGLE_LINE);
 			std::string joined_string = boost::algorithm::transform_reduce(
@@ -899,14 +899,14 @@ std::map<unsigned int, int> image_recognition::get_population_existing_buildings
 		return result;
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/statistics_window_scroll_area.png", roi);
+	cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
 #endif
 
 	iterate_rows(roi, [&](const cv::Mat& row)
 		{
 			cv::Mat population_name = binarize(statistics_screen::get_cell(row, 0.076f, 0.2f));
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("image_recon/population_name.png", population_name);
+			cv::imwrite("debug_images/population_name.png", population_name);
 #endif
 			unsigned int guid = get_guid_from_name(population_name, get_dictionary().population_levels);
 			if (!guid)
@@ -914,7 +914,7 @@ std::map<unsigned int, int> image_recognition::get_population_existing_buildings
 
 			cv::Mat text_img = binarize(statistics_screen::get_cell(row, 0.3f, 0.15f, 0.4f));
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("image_recon/pop_houses_text.png", text_img);
+			cv::imwrite("debug_images/pop_houses_text.png", text_img);
 #endif
 			int houses = number_from_region(text_img);
 
@@ -948,14 +948,14 @@ std::map<unsigned int, int> image_recognition::get_population_workforce_from_sta
 		return result;
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/statistics_window_scroll_area.png", roi);
+	cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
 #endif
 
 	iterate_rows(roi, [&](const cv::Mat& row)
 		{
 			cv::Mat population_name = binarize(statistics_screen::get_cell(row, 0.076f, 0.2f));
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("image_recon/population_name.png", population_name);
+			cv::imwrite("debug_images/population_name.png", population_name);
 #endif
 			unsigned int guid = get_guid_from_name(population_name, get_dictionary().population_levels);
 			if (!guid)
@@ -963,7 +963,7 @@ std::map<unsigned int, int> image_recognition::get_population_workforce_from_sta
 
 			cv::Mat text_img = binarize(statistics_screen::get_cell(row, 0.8f, 0.1f));
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("image_recon/pop_houses_text.png", text_img);
+			cv::imwrite("debug_images/pop_houses_text.png", text_img);
 #endif
 			int workforce = number_from_region(text_img);
 
@@ -1005,7 +1005,7 @@ std::string image_recognition::get_selected_island()
 			return result;
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-		cv::imwrite("image_recon/header.png", roi);
+		cv::imwrite("debug_images/header.png", roi);
 #endif
 
 		auto words_and_boxes = detect_words(roi, tesseract::PSM_SINGLE_LINE);
@@ -1042,7 +1042,7 @@ std::string image_recognition::get_selected_island()
 			island_name_img = binarize(island_name_img, true);
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("image_recon/island_name_minimap.png", island_name_img);
+			cv::imwrite("debug_images/island_name_minimap.png", island_name_img);
 #endif
 			auto words_and_boxes = detect_words(island_name_img, tesseract::PSM_SINGLE_LINE);
 			for (const auto& pair : words_and_boxes)
@@ -1148,7 +1148,7 @@ cv::Mat image_recognition::gamma_invariant_hue_finlayson(cv::InputArray bgr_in)
 		ret[i] = ret[i] + 2.f;
 		ret[i] = ret[i] / 4.f;
 		ret[i] = ret[i] * 255.f;
-		cv::imwrite("image_recon/ret" + std::to_string(i) + ".png", ret[i]);
+		cv::imwrite("debug_images/ret" + std::to_string(i) + ".png", ret[i]);
 		//H = (log(R)-log(G))/(log(R)+log(G)-2log(B))
 
 		/*{
@@ -1212,7 +1212,7 @@ cv::Mat image_recognition::update(const std::string& language,
 		screenshot = img;
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/screenshot.png", screenshot);
+	cv::imwrite("debug_images/screenshot.png", screenshot);
 #endif
 
 	stats_screen.update(screenshot);
@@ -1536,13 +1536,13 @@ cv::Mat image_recognition::detect_edges(const cv::Mat& im)
 std::vector<int> image_recognition::find_horizontal_lines(const cv::Mat& im)
 {
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/scroll_area.png", im);
+	cv::imwrite("debug_images/scroll_area.png", im);
 #endif
 
 	cv::Mat edges = detect_edges(im);
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/scroll_area_edges.png", edges);
+	cv::imwrite("debug_images/scroll_area_edges.png", edges);
 #endif
 
 	std::vector<cv::Vec4i> lines;
@@ -1621,7 +1621,7 @@ std::map<unsigned int, int> image_recognition::get_optimal_productivities()
 
 	cv::Mat buildings_text = binarize(im(cv::Rect(0.6522f * im.cols, 0.373f * im.rows, 0.093f * im.cols, 0.0245f * im.rows)));
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/buildings_text.png", buildings_text);
+	cv::imwrite("debug_images/buildings_text.png", buildings_text);
 #endif
 	int buildings_count = number_from_region(buildings_text);
 #ifdef CONSOLE_DEBUG_OUTPUT
@@ -1637,13 +1637,13 @@ std::map<unsigned int, int> image_recognition::get_optimal_productivities()
 		return result;
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/statistics_window_scroll_area.png", roi);
+	cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
 #endif
 
 
 	cv::Mat factory_text = im(cv::Rect(0.6522f * im.cols, 0.373f * im.rows, 0.093f * im.cols, 0.0245f * im.rows));
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/factory_text.png", factory_text);
+	cv::imwrite("debug_images/factory_text.png", factory_text);
 #endif
 	unsigned int guid = get_guid_from_name(factory_text, get_dictionary().factories);
 #ifdef CONSOLE_DEBUG_OUTPUT
@@ -1667,7 +1667,7 @@ std::map<unsigned int, int> image_recognition::get_optimal_productivities()
 			{
 				cv::Mat productivity_text = binarize(statistics_screen::get_cell(row, cell.first, cell.second));
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-				cv::imwrite("image_recon/productivity_text.png", productivity_text);
+				cv::imwrite("debug_images/productivity_text.png", productivity_text);
 #endif
 				int prod = number_from_region(productivity_text);
 				if (prod > 500) // sometimes '%' is detected as '0/0' or '00'
@@ -1721,7 +1721,7 @@ std::map<unsigned int, int> image_recognition::get_average_productivities()
 		return result;
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/statistics_window_scroll_area.png", roi);
+	cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
 #endif
 
 #ifdef CONSOLE_DEBUG_OUTPUT
@@ -1731,12 +1731,12 @@ std::map<unsigned int, int> image_recognition::get_average_productivities()
 	iterate_rows(roi, [&](const cv::Mat& row)
 		{
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("image_recon/row.png", row);
+			cv::imwrite("debug_images/row.png", row);
 #endif
 
 			cv::Mat factory_icon = statistics_screen::get_square_region(row, statistics_screen::position_factory_icon);
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("image_recon/factory_icon.png", factory_icon);
+			cv::imwrite("debug_images/factory_icon.png", factory_icon);
 #endif
 			unsigned int guid = get_guid_from_icon(factory_icon, factory_icons);
 			if (!guid)
@@ -1752,7 +1752,7 @@ std::map<unsigned int, int> image_recognition::get_average_productivities()
 			bool selected = stats_screen.is_selected(row.at<cv::Vec4b>(0.1f * row.rows, 0.5f * row.cols));
 			cv::Mat productivity_text = binarize(statistics_screen::get_cell(row, 0.7f, 0.1f, 0.4f), selected);
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("image_recon/productivity_text.png", productivity_text);
+			cv::imwrite("debug_images/productivity_text.png", productivity_text);
 #endif
 
 
@@ -1802,7 +1802,7 @@ std::map<unsigned int, int> image_recognition::get_assets_existing_buildings_fro
 		return result;
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/statistics_window_scroll_area.png", roi);
+	cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
 #endif
 	
 	std::map<unsigned int, std::string> category_dict = make_dictionary({ phrase::RESIDENTS, phrase::PRODUCTION });
@@ -1817,7 +1817,7 @@ std::map<unsigned int, int> image_recognition::get_assets_existing_buildings_fro
 		iterate_rows(roi, [&](const cv::Mat& row)
 			{
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-				cv::imwrite("image_recon/row.png", row);
+				cv::imwrite("debug_images/row.png", row);
 #endif
 				if (center_pane_selection)
 					return;
@@ -1855,7 +1855,7 @@ std::map<unsigned int, int> image_recognition::get_assets_existing_buildings_fro
 
 	roi = stats_screen.get_right_pane();
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("image_recon/statistics_window_table_area.png", roi);
+	cv::imwrite("debug_images/statistics_window_table_area.png", roi);
 #endif
 
 	iterate_rows(roi, [&](const cv::Mat& row)
@@ -1876,7 +1876,7 @@ std::map<unsigned int, int> image_recognition::get_assets_existing_buildings_fro
 				cv::Mat count_text = binarize(statistics_screen::get_cell(row, 0.15f, 0.5f));
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-				cv::imwrite("image_recon/count_text.png", count_text);
+				cv::imwrite("debug_images/count_text.png", count_text);
 #endif
 
 				std::vector<std::pair<std::string, cv::Rect>> words = detect_words(count_text, tesseract::PSM_SINGLE_LINE);
