@@ -56,7 +56,7 @@ public:
 	cv::Mat get_left_pane() const;
 	cv::Mat get_right_pane() const;
 	cv::Mat get_center_header() const;
-
+	cv::Mat get_right_header() const;
 
 
 	/* Utility methods to detect pressed buttons */
@@ -95,7 +95,7 @@ private:
 	static const cv::Rect2f pane_production_right;
 	static const cv::Rect2f pane_population_center;
 	static const cv::Rect2f pane_header_center;
-
+	static const cv::Rect2f pane_header_right;
 };
 
 enum class phrase

@@ -162,6 +162,17 @@ cv::Mat statistics_screen::get_center_header() const
 	}
 }
 
+cv::Mat statistics_screen::get_right_header() const
+{
+	switch (get_open_tab())
+	{
+	case tab::NONE:
+		return cv::Mat();
+	default:
+		return get_pane(pane_header_right);
+	}
+}
+
 bool statistics_screen::is_selected(const cv::Vec4b& point)
 {
 	return closer_to(point, background_blue_dark, background_brown_light);
@@ -223,6 +234,7 @@ const cv::Rect2f statistics_screen::pane_production_center = cv::Rect2f(cv::Poin
 const cv::Rect2f statistics_screen::pane_production_right = cv::Rect2f(cv::Point2f(0.629f, 0.3613f), cv::Point2f(0.9619f, 0.936f));
 const cv::Rect2f statistics_screen::pane_population_center = cv::Rect2f(cv::Point2f(0.247f, 0.3571f), cv::Point2f(0.5802f, 0.7006f));
 const cv::Rect2f statistics_screen::pane_header_center = cv::Rect2f(cv::Point2f(0.2453f, 0.2238f), cv::Point2f(0.4786f, 0.2581f));
+const cv::Rect2f statistics_screen::pane_header_right = cv::Rect2f(cv::Point2f(0.6276f, 0.2238f), cv::Point2f(0.7946f, 0.2581f));
 
 const cv::Rect2f statistics_screen::position_factory_icon = cv::Rect2f(0.0219f, 0.135f, 0.0838f, 0.7448f);
 const cv::Rect2f statistics_screen::position_small_factory_icon = cv::Rect2f(0.013f, 0.05f, 0.09f, 0.7f);
@@ -408,6 +420,10 @@ std::wstring image_recognition::to_wstring(const std::string& str)
 std::list<cv::Point> image_recognition::find_rgb_region(cv::InputArray in, const cv::Point& seed, float threshold)
 {
 	cv::Mat input = in.getMat();
+	std::list<cv::Point> ret;
+
+	if (seed.x >= input.cols || seed.y >= input.rows)
+		return ret;
 
 	const cv::Rect img_rect = cv::Rect({ 0,0 }, in.size());
 
@@ -417,7 +433,7 @@ std::list<cv::Point> image_recognition::find_rgb_region(cv::InputArray in, const
 
 	std::set<cv::Point, comparePoints> closed;
 
-	std::list<cv::Point> ret;
+
 
 	while (!open.empty()) {
 		const cv::Point current_point = *open.begin();
@@ -1070,12 +1086,17 @@ cv::Mat image_recognition::load_image(const std::string& path)
 	if (img.size().area() < 1) {
 		throw std::invalid_argument("failed to load " + path);
 	}
-	cv::cvtColor(img, img, cv::COLOR_BGR2BGRA);
+	if(!img.empty())
+		cv::cvtColor(img, img, cv::COLOR_BGR2BGRA);
+
 	return img;
 }
 
 cv::Mat image_recognition::binarize(cv::InputArray input, bool invert)
 {
+	if (input.empty())
+		return input.getMat();
+
 	cv::Mat thresholded;
 	cv::cvtColor(input, thresholded, cv::COLOR_BGRA2GRAY);
 	cv::threshold(thresholded, thresholded, 128, 255, (invert ? cv::THRESH_BINARY_INV : cv::THRESH_BINARY)  | cv::THRESH_OTSU);
@@ -1527,8 +1548,11 @@ std::vector<double> image_recognition::get_hu_moments(cv::Mat img)
 cv::Mat image_recognition::detect_edges(const cv::Mat& im)
 {
 	cv::Mat canny, grey, edges;
-	cv::cvtColor(im, grey, cv::COLOR_BGRA2GRAY);
-	cv::Canny(grey, edges, 30, 50);
+	if (!im.empty())
+	{
+		cv::cvtColor(im, grey, cv::COLOR_BGRA2GRAY);
+		cv::Canny(grey, edges, 30, 50);
+	}
 
 	return edges;
 }
@@ -1670,7 +1694,7 @@ std::map<unsigned int, int> image_recognition::get_optimal_productivities()
 				cv::imwrite("debug_images/productivity_text.png", productivity_text);
 #endif
 				int prod = number_from_region(productivity_text);
-				if (prod > 500) // sometimes '%' is detected as '0/0' or '00'
+				if (prod > 1000) // sometimes '%' is detected as '0/0' or '00'
 					prod /= 100;
 
 				if (prod >= 0)
@@ -1754,8 +1778,6 @@ std::map<unsigned int, int> image_recognition::get_average_productivities()
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 			cv::imwrite("debug_images/productivity_text.png", productivity_text);
 #endif
-
-
 			int prod = number_from_region(productivity_text);
 
 			if (prod > 500)
@@ -1807,30 +1829,11 @@ std::map<unsigned int, int> image_recognition::get_assets_existing_buildings_fro
 	
 	std::map<unsigned int, std::string> category_dict = make_dictionary({ phrase::RESIDENTS, phrase::PRODUCTION });
 
-#ifdef CONSOLE_DEBUG_OUTPUT
-	std::cout << "Center pane selection:\t";
-#endif
+	cv::Mat text = binarize(stats_screen.get_right_header());
 
-	if (!center_pane_selection)
-	{
+	center_pane_selection = get_guid_from_name(text, category_dict);
 
-		iterate_rows(roi, [&](const cv::Mat& row)
-			{
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-				cv::imwrite("debug_images/row.png", row);
-#endif
-				if (center_pane_selection)
-					return;
 
-				if (statistics_screen::is_selected(row.at<cv::Vec4b>(0.5f * row.rows, 0.5f * row.cols)))
-				{
-					cv::Mat text = binarize(statistics_screen::get_cell(row, 0.01f, 0.35f), true);
-					
-					center_pane_selection = get_guid_from_name(text, category_dict);
-				}
-
-			});
-	}
 
 #ifdef CONSOLE_DEBUG_OUTPUT
 	try{
