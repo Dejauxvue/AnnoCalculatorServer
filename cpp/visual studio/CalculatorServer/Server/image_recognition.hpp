@@ -70,7 +70,7 @@ public:
 
 	static const std::string all_islands;
 	static const cv::Scalar background_brown_light;
-	static const cv::Scalar background_brown_dark;
+	static const cv::Scalar background_blue_dark;
 
 	static const cv::Rect2f position_factory_icon;
 	static const cv::Rect2f position_small_factory_icon;

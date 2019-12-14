@@ -164,7 +164,7 @@ cv::Mat statistics_screen::get_center_header() const
 
 bool statistics_screen::is_selected(const cv::Vec4b& point)
 {
-	return closer_to(point, background_brown_dark, background_brown_light);
+	return closer_to(point, background_blue_dark, background_brown_light);
 }
 
 bool statistics_screen::is_tab_selected(const cv::Vec4b& point)
@@ -182,7 +182,7 @@ cv::Mat statistics_screen::get_square_region(const cv::Mat& img, const cv::Rect2
 	if (!img.size)
 		return cv::Mat();
 
-	int dim = (int) std::max(rect.width * img.cols, rect.height * img.rows);
+	int dim = std::lround(std::max(rect.width * img.cols, rect.height * img.rows));
 	cv::Rect scaled(rect.x * img.cols, 
 		rect.y * img.rows, 
 		std::min(dim, (int) (img.cols - rect.x * img.cols)), 
@@ -210,8 +210,8 @@ cv::Mat statistics_screen::get_pane(const cv::Rect2f& rect) const
 	return screenshot(scaled);
 }
 
-const cv::Scalar statistics_screen::background_brown_dark = cv::Scalar(35, 67, 98, 255);
-const cv::Scalar statistics_screen::background_brown_light = cv::Scalar(153, 210, 238, 255);
+const cv::Scalar statistics_screen::background_blue_dark = cv::Scalar(103, 87, 79, 255);
+const cv::Scalar statistics_screen::background_brown_light = cv::Scalar(124, 181, 213, 255);
 
 const cv::Rect2f statistics_screen::pane_tabs = cv::Rect2f(cv::Point2f(0.2883f, 0.147f), cv::Point2f(0.7118f, 0.1839f));
 const cv::Rect2f statistics_screen::pane_title = cv::Rect2f(cv::Point2f(0.3839f, 0), cv::Point2f(0.6176f, 0.0722f));
@@ -219,12 +219,12 @@ const cv::Rect2f statistics_screen::pane_all_islands = cv::Rect2f(cv::Point2f(0.
 const cv::Rect2f statistics_screen::pane_islands = cv::Rect2f(cv::Point2f(0.0215f, 0.33f), cv::Point2f(0.19f, 1.f));
 const cv::Rect2f statistics_screen::pane_finance_center = cv::Rect2f(cv::Point2f(0.2471f, 0.3084f), cv::Point2f(0.5805f, 0.9576f));
 const cv::Rect2f statistics_screen::pane_finance_right = cv::Rect2f(cv::Point2f(0.6261f, 0.3603f), cv::Point2f(0.9635f, 0.9587f));
-const cv::Rect2f statistics_screen::pane_production_center = cv::Rect2f(cv::Point2f(0.2473f, 0.366f), cv::Point2f(0.5811f, 0.9567f));
+const cv::Rect2f statistics_screen::pane_production_center = cv::Rect2f(cv::Point2f(0.246f, 0.3638f), cv::Point2f(0.5811f, 0.9567f));
 const cv::Rect2f statistics_screen::pane_production_right = cv::Rect2f(cv::Point2f(0.629f, 0.3613f), cv::Point2f(0.9619f, 0.936f));
 const cv::Rect2f statistics_screen::pane_population_center = cv::Rect2f(cv::Point2f(0.247f, 0.3571f), cv::Point2f(0.5802f, 0.7006f));
 const cv::Rect2f statistics_screen::pane_header_center = cv::Rect2f(cv::Point2f(0.2453f, 0.2238f), cv::Point2f(0.4786f, 0.2581f));
 
-const cv::Rect2f statistics_screen::position_factory_icon = cv::Rect2f(0.021f, 0.135f, 0.085f, 0.6f);
+const cv::Rect2f statistics_screen::position_factory_icon = cv::Rect2f(0.0219f, 0.135f, 0.0838f, 0.7448f);
 const cv::Rect2f statistics_screen::position_small_factory_icon = cv::Rect2f(0.013f, 0.05f, 0.09f, 0.7f);
 const cv::Rect2f statistics_screen::position_population_icon = cv::Rect2f(0.f, 0.05f, 0.f, 0.9f);
 
@@ -455,12 +455,13 @@ std::list<cv::Point> image_recognition::find_rgb_region(cv::InputArray in, const
 cv::Mat image_recognition::blend_icon(cv::InputArray icon, cv::Scalar background_color)
 {
 	cv::Mat background_img = cv::Mat(icon.rows(), icon.cols(), CV_8UC4);
+	cv::Mat zeros = cv::Mat(icon.rows(), icon.cols(), CV_8UC1,cv::Scalar(0));
 	background_img = background_color;
 
 	std::vector<cv::Mat> icon_channels;
 	cv::split(icon, icon_channels);
 	cv::Mat alpha;
-	cv::merge(std::vector<cv::Mat>({ icon_channels[3],icon_channels[3],icon_channels[3],icon_channels[3] }), alpha);
+	cv::merge(std::vector<cv::Mat>({ icon_channels[3],icon_channels[3],icon_channels[3],zeros }), alpha);
 
 	return background_img.mul(cv::Scalar(255, 255, 255, 255) - alpha, 1./255) + icon.getMat().mul(alpha, 1./255);
 }
@@ -526,7 +527,7 @@ unsigned int image_recognition::get_guid_from_icon(cv::Mat icon,
 
 	for (auto& entry : dictionary)
 	{
-		cv::Scalar background = statistics_screen::is_selected(icon.at<cv::Vec4b>(0, 0)) ? statistics_screen::background_brown_dark : statistics_screen::background_brown_light;
+		cv::Scalar background = statistics_screen::is_selected(icon.at<cv::Vec4b>(0, 0)) ? statistics_screen::background_blue_dark : statistics_screen::background_brown_light;
 
 		cv::Mat template_resized;
 		cv::resize(blend_icon(entry.second, background), template_resized, cv::Size(icon.cols, icon.rows));
@@ -536,6 +537,9 @@ unsigned int image_recognition::get_guid_from_icon(cv::Mat icon,
 		float match = cv::sum(diff).ddot(cv::Scalar::ones()) / icon.rows / icon.cols;
 		if (match < best_match)
 		{
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+			cv::imwrite("image_recon/icon_template.png", template_resized);
+#endif
 			guid = entry.first;
 			best_match = match;
 		}
@@ -1745,8 +1749,8 @@ std::map<unsigned int, int> image_recognition::get_average_productivities()
 			catch (...) {}
 #endif
 
-			bool selected = !stats_screen.is_selected(row.at<cv::Vec4b>(0.1f * row.rows, 0.5f * row.cols));
-			cv::Mat productivity_text = binarize(statistics_screen::get_cell(row, 0.7f, 0.1f), selected);
+			bool selected = stats_screen.is_selected(row.at<cv::Vec4b>(0.1f * row.rows, 0.5f * row.cols));
+			cv::Mat productivity_text = binarize(statistics_screen::get_cell(row, 0.7f, 0.1f, 0.4f), selected);
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 			cv::imwrite("image_recon/productivity_text.png", productivity_text);
 #endif
