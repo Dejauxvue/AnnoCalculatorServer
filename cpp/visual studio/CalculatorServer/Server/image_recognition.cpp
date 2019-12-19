@@ -497,39 +497,7 @@ std::pair<cv::Rect, float> image_recognition::find_icon(cv::InputArray source, c
 	return match_template(source, template_resized);
 }
 
-/*
-unsigned int image_recognition::get_guid_from_icon(cv::Mat icon,
-	const std::map<unsigned int, cv::Mat>& dictionary) const
-{
-	if (icon.empty())
-		return 0;
 
-	float best_match = std::numeric_limits<float>::infinity();
-	unsigned int guid = 0;
-
-
-	for (auto& entry : dictionary)
-	{
-		cv::Scalar background = statistics_screen::is_selected(icon.at<cv::Vec4b>(0, 0)) ? statistics_screen::background_brown_dark : statistics_screen::background_brown_light;
-		
-		cv::Mat template_resized;
-		int size = std::min(icon.rows, icon.cols);
-		cv::resize(blend_icon(entry.second, background), template_resized, cv::Size(size, size));
-
-		float match = match_template(icon, template_resized).second;
-		if (match < best_match)
-		{
-			guid = entry.first;
-			best_match = match;
-		}
-	}
-
-	if (best_match > 30000)
-		return 0;
-
-	return guid;
-}
-*/
 
 unsigned int image_recognition::get_guid_from_icon(cv::Mat icon,
 	const std::map<unsigned int, cv::Mat>& dictionary) const
@@ -570,37 +538,6 @@ unsigned int image_recognition::get_guid_from_icon(cv::Mat icon,
 	return guid;
 }
 
-/*
-unsigned int image_recognition::get_guid_from_icon(cv::Mat icon,
-	const std::map<unsigned int, cv::Mat>& dictionary) const
-{
-	if (icon.empty())
-		return 0;
-
-	float best_match = std::numeric_limits<float>::infinity();
-	unsigned int guid = 0;
-	std::vector<double> icon_moments = get_hu_moments(icon);
-
-	for (auto& entry : dictionary)
-	{
-
-		float match = compare_hu_moments(icon_moments, hu_moments.at(entry.first));
-		float match_1 = cv::matchShapes(detect_edges(icon), detect_edges(entry.second), cv::CONTOURS_MATCH_I1, 0.);
-		float match_2 = cv::matchShapes(detect_edges(icon), detect_edges(entry.second), cv::CONTOURS_MATCH_I2, 0.);
-		float match_3 = cv::matchShapes(detect_edges(icon), detect_edges(entry.second), cv::CONTOURS_MATCH_I3, 0.);
-		if (match < best_match)
-		{
-			guid = entry.first;
-			best_match = match;
-		}
-	}
-
-	if (best_match > 30000)
-		return 0;
-
-	return guid;
-}
-*/
 
 
 unsigned int image_recognition::get_guid_from_name(const cv::Mat& text_img, 
@@ -648,55 +585,6 @@ unsigned int image_recognition::get_guid_from_name(const cv::Mat& text_img,
 	}
 	return guid;
 }
-
-double image_recognition::compare_hu_moments(const std::vector<double>& ma, const std::vector<double>& mb)
-{
-	// execute return cv::matchShapes(ma, mb, cv::CONTOURS_MATCH_I2, 0.);
-	// with pre-computed hu moments
-
-	int i, sma, smb;
-	double eps = 1.e-5;
-	double result = 0;
-	bool anyA = false, anyB = false;
-
-
-	for (i = 0; i < 7; i++)
-	{
-		double ama = fabs(ma[i]);
-		double amb = fabs(mb[i]);
-
-		if (ama > 0)
-			anyA = true;
-		if (amb > 0)
-			anyB = true;
-
-		if (ma[i] > 0)
-			sma = 1;
-		else if (ma[i] < 0)
-			sma = -1;
-		else
-			sma = 0;
-		if (mb[i] > 0)
-			smb = 1;
-		else if (mb[i] < 0)
-			smb = -1;
-		else
-			smb = 0;
-
-		if (ama > eps && amb > eps)
-		{
-			ama = sma * log10(ama);
-			amb = smb * log10(amb);
-			result += fabs(-ama + amb);
-		}
-	}
-
-	if (anyA != anyB)
-		result = DBL_MAX;
-
-	return result;
-}
-
 
 
 std::pair<cv::Rect, float> image_recognition::match_template(cv::InputArray source, cv::InputArray template_img)
@@ -1123,78 +1011,6 @@ cv::Mat image_recognition::convert_color_space_for_template_matching(cv::InputAr
 	return ret;
 }
 
-cv::Mat image_recognition::gamma_invariant_hue_finlayson(cv::InputArray bgr_in)
-{
-	std::vector<cv::Mat> channels;
-	cv::split(bgr_in.getMat(), channels);
-	for (auto& c : channels) {
-		c.convertTo(c, CV_32F);
-		c = c / 255.f;
-	}
-	/*{
-		std::ofstream of("pixel_red.csv", std::ios::out);
-		for (int i = 0; i < channels[0].rows; i++)
-			for (int j = 0; j < channels[0].cols; j++)
-				of << channels[0].at<float>(i, j) << std::endl;
-
-	}*/
-	for (auto& c : channels) {
-		cv::log(c, c);
-	}
-	cv::Mat ret[3];
-	cv::divide((channels[2] - channels[1]), (channels[2] + channels[1] - 2.f * channels[0]), ret[0]);
-	cv::divide((channels[0] - channels[2]), (channels[0] + channels[2] - 2.f * channels[1]), ret[1]);
-	cv::divide((channels[1] - channels[0]), (channels[1] + channels[0] - 2.f * channels[2]), ret[2]);
-	for (int i = 0; i < 3; i++) {
-		/*{
-			std::ofstream of("pixel_values_raw.csv", std::ios::out);
-			for (int i = 0; i < ret.rows; i++)
-				for (int j = 0; j < ret.cols; j++)
-					of << ret.at<float>(i, j) << std::endl;
-
-		}*/
-		cv::threshold(ret[i], ret[i], 2.f, 1.f, cv::THRESH_TRUNC);
-		ret[i] = -1.f * ret[i];
-		cv::threshold(ret[i], ret[i], 2.f, 1.f, cv::THRESH_TRUNC);
-		ret[i] = -1.f * ret[i];
-		/*{
-			std::ofstream of("pixel_values_pre_norm.csv", std::ios::out);
-			for (int i = 0; i < ret[i].rows; i++)
-				for (int j = 0; j < ret[i].cols; j++)
-					of << ret[i].at<float>(i, j) << std::endl;
-
-		}*/
-
-		//cv::normalize(ret[i], ret[i], 0, 255, cv::NORM_MINMAX);
-		ret[i] = ret[i] + 2.f;
-		ret[i] = ret[i] / 4.f;
-		ret[i] = ret[i] * 255.f;
-		cv::imwrite("debug_images/ret" + std::to_string(i) + ".png", ret[i]);
-		//H = (log(R)-log(G))/(log(R)+log(G)-2log(B))
-
-		/*{
-			std::ofstream of("pixel_values_post_norm.csv", std::ios::out);
-
-			for (int i = 0; i < ret.rows; i++)
-				for (int j = 0; j < ret.cols; j++)
-					of << ret.at<float>(i, j) << std::endl;
-		}*/
-	}
-#ifdef CONSOLE_DEBUG_OUTPUT
-	std::cout << "done with gamma" << std::endl;
-#endif
-	return ret[0];
-}
-
-void image_recognition::write_image_per_channel(const std::string& path, cv::InputArray img)
-{
-	cv::Mat mat = img.getMat();
-	std::vector<cv::Mat> channels;
-	cv::split(mat, channels);
-	for (int i = 0; i < channels.size(); i++) {
-		cv::imwrite(path + "_" + std::to_string(i) + ".png", channels[i]);
-	}
-}
 
 cv::Rect image_recognition::get_aa_bb(const std::list<cv::Point>& input)
 {
@@ -1536,14 +1352,6 @@ std::map<unsigned int, std::string>  image_recognition::make_dictionary(const st
 	return result;
 }
 
-std::vector<double> image_recognition::get_hu_moments(cv::Mat img)
-{
-	cv::Moments moments = cv::moments(detect_edges(img));
-	std::vector<double> hu_moments;
-	cv::HuMoments(moments, hu_moments);
-
-	return hu_moments;
-}
 
 cv::Mat image_recognition::detect_edges(const cv::Mat& im)
 {

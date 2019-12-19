@@ -177,19 +177,6 @@ public:
 	static cv::Mat convert_color_space_for_template_matching(cv::InputArray bgr_in);
 
 	/**
-	* create an image with one channel of gamma invariant hue from given BGR image
-	* method used is from: https://pdfs.semanticscholar.org/6c16/b450648a531c3ce47db7db3a7794e2f55d96.pdf
-	* "Hue that is invariant to brightness and gamma" by Graham Finlayson and Gerald Schaefer, 2001
-	*/
-	static cv::Mat gamma_invariant_hue_finlayson(cv::InputArray bgr_in);
-
-	/**
-	* stores the single channels of an image
-	* i-th channel is stored as path_i_.png
-	*/
-	static void write_image_per_channel(const std::string& path, cv::InputArray img);
-
-	/**
 	* the axis-aligned-bounding box from the given set of points
 	*/
 	static cv::Rect get_aa_bb(const std::list<cv::Point>&);
@@ -234,10 +221,6 @@ public:
 	unsigned int get_guid_from_name(const cv::Mat& text,
 		const std::map<unsigned int, std::string>& dictionary) const;
 
-	/*
-	* Compares hu moments.
-	*/
-	static double compare_hu_moments(const std::vector<double>& ma, const std::vector<double>& mb) ;
 
 	/**
 	* find the best position of [template_img] within [source]
@@ -300,10 +283,6 @@ public:
 	*/
 	std::map<unsigned int, std::string> make_dictionary(const std::vector<phrase>& list) const;
 
-	/*
-	* Computes hu moments of the image.
-	*/
-	static std::vector<double> get_hu_moments(cv::Mat img);
 
 	static cv::Mat detect_edges(const cv::Mat& im);
 
