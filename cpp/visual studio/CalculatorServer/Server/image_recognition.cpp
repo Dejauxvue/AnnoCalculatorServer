@@ -26,8 +26,8 @@
 
 #include <tesseract/genericvector.h>
 
-// #define SHOW_CV_DEBUG_IMAGE_VIEW
-// #define CONSOLE_DEBUG_OUTPUT
+ #define SHOW_CV_DEBUG_IMAGE_VIEW
+ #define CONSOLE_DEBUG_OUTPUT
 
 
 ////////////////////////////////////////
@@ -649,11 +649,6 @@ cv::Rect image_recognition::find_population_icon()
 		}
 	}
 
-
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::Mat hsl_im = convert_color_space_for_template_matching(screenshot);
-	write_image_per_channel("debug_images/last_screenshot", hsl_im);
-#endif //SHOW_CV_DEBUG_IMAGE_VIEW
 
 	cv::Mat im_copy = screenshot(cv::Rect(cv::Point(0, 0), cv::Size(screenshot.cols, screenshot.rows / 2)));
 
@@ -1412,6 +1407,9 @@ void image_recognition::iterate_rows(const cv::Mat& im,
 		}
 		prev_hline = hline;
 	}
+
+	if (heights.empty())
+		return;
 
 	prev_hline = 0;
 	int mean_row_height = heights[heights.size() / 2];
