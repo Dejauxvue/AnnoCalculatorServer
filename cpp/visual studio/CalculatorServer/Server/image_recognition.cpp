@@ -765,7 +765,7 @@ std::map<unsigned int, int> image_recognition::get_population_amount_from_statis
 
 			int population =
 				[&]() {
-				try { return std::stoi(std::regex_replace(split_string.front(), std::regex("[.:]"), "") ); }
+				try { return std::stoi(std::regex_replace(split_string.front(), std::regex("[.:,;]"), "") ); }
 				catch (...) 
 				{ 
 #ifdef CONSOLE_DEBUG_OUTPUT
@@ -1821,6 +1821,9 @@ void image_recognition::update_ocr(const std::string& language)
 		GenericVector<STRING> keys;
 		GenericVector<STRING> values;
 
+		keys.push_back("user_defined_dpi");
+		values.push_back("70");
+
 	/*	keys.push_back("textord_min_xheight"); values.push_back("8");
 		keys.push_back("stopper_smallword_size"); values.push_back("1");
 		keys.push_back("quality_min_initial_alphas_reqd"); values.push_back("1");
@@ -1837,6 +1840,7 @@ void image_recognition::update_ocr(const std::string& language)
 		{
 			std::cout << "error initialising tesseract" << std::endl;
 		}
+		
 //		ocr_->SetVariable("CONFIGFILE", "bazaar");
 
 	}
