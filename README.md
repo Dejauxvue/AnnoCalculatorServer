@@ -1,13 +1,16 @@
 [![Tutorial](https://img.youtube.com/vi/fxzYSh-92Ng/0.jpg)](https://www.youtube.com/watch?v=fxzYSh-92Ng)
 
 # How to use
-- run the Server.exe which should open a command window and might require administrator rights
-- run Anno1800Calculator from local file (if not done already)
+- [one-time setup] download, install (and reboot your computer afterwards): [vc_redist](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
+- run the Server.exe from the [zip archive](https://github.com/Dejauxvue/AnnoCalculatorServer/releases/latest/) which should open a command window and might require administrator rights
+- run [Anno1800Calculator](https://github.com/NiHoel/Anno1800Calculator/releases/latest/) from local file (if not done already)
 - run Anno 1800
 - open the statistic menu (population to update number of houses, finance to update number of factories, production to update productivity)
 - alternatively, one can update the population from the overlay of the HUD (not recommended)
 
 # Troubleshooting
+In case *vcruntime140_1.dll* is missing, download the vc_redist from [https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
+
 In case no values are updated, make sure:
 - the ingame text language and the language of the calculator are identical
 - the values to be read are not covered by something else (overlay, external program, etc.)
