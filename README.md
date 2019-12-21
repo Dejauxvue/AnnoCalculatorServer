@@ -7,9 +7,10 @@
 - run Anno 1800
 - open the statistic menu (population to update number of houses, finance to update number of factories, production to update productivity)
 - alternatively, one can update the population from the overlay of the HUD (not recommended)
+- [Tutorial](https://www.youtube.com/watch?v=fxzYSh-92Ng)
 
 # Troubleshooting
-In case *vcruntime140_1.dll* is missing, download the vc_redist from [https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
+In case **vcruntime140_1.dll** is missing, download the vc_redist from [https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 
 In case no values are updated, make sure:
 - the ingame text language and the language of the calculator are identical
