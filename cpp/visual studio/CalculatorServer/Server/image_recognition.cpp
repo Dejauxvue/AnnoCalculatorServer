@@ -1161,7 +1161,14 @@ cv::Mat image_recognition::take_screenshot()
 	DeleteDC(hwindowCompatibleDC);
 	ReleaseDC(hwnd, hwindowDC);
 
-
+	// handle 21:9 widescreen where anno is shown 16:9
+	if (src.rows && (src.cols / src.rows) >= 2.33) 
+	{
+		int width = src.rows * 16 / 9;
+		int crop = (src.cols - width) / 2;
+		cv::Rect roi(crop, 0, width, src.rows);
+		return src(roi);
+	}
 
 	return src;
 	}
