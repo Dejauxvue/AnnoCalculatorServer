@@ -48,6 +48,16 @@ void statistics_screen::update(const cv::Mat& screenshot)
 {
 	screenshot.copyTo(this->screenshot);
 
+	cv::Mat& src = this->screenshot;
+	// handle 21:9 widescreen where statistics screen is shown 16:9 with black bars
+	if (src.rows && (src.cols / (float) src.rows) >= 2.33)
+	{
+		int width = src.rows * 16 / 9;
+		int crop = (src.cols - width) / 2;
+		cv::Rect roi(crop, 0, width, src.rows);
+		src = src(roi);
+	}
+
 	// test if open
 
 	cv::Mat statistics_text_img = recog.binarize(get_pane(pane_title), true);
@@ -1160,15 +1170,6 @@ cv::Mat image_recognition::take_screenshot()
 	DeleteObject(hbwindow);
 	DeleteDC(hwindowCompatibleDC);
 	ReleaseDC(hwnd, hwindowDC);
-
-	// handle 21:9 widescreen where anno is shown 16:9
-	if (src.rows && (src.cols / src.rows) >= 2.33) 
-	{
-		int width = src.rows * 16 / 9;
-		int crop = (src.cols - width) / 2;
-		cv::Rect roi(crop, 0, width, src.rows);
-		return src(roi);
-	}
 
 	return src;
 	}
