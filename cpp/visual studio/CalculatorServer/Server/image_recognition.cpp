@@ -1048,7 +1048,7 @@ std::map<unsigned int, int> image_recognition::get_population_amount_from_statis
 
 			int population =
 				[&]() {
-				try { return std::stoi(std::regex_replace(split_string.front(), std::regex("[.:,;]"), "") ); }
+				try { return std::stoi(std::regex_replace(split_string.front(), std::regex("[^0-9]"), "") ); }
 				catch (...) 
 				{ 
 #ifdef CONSOLE_DEBUG_OUTPUT
