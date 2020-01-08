@@ -1028,7 +1028,7 @@ std::map<unsigned int, int> image_recognition::get_population_amount_from_statis
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 			cv::imwrite("debug_images/pop_amount_text.png", text_img);
 #endif
-			std::vector<std::pair<std::string, cv::Rect>> texts = detect_words(text_img, tesseract::PSM_SINGLE_LINE);
+			std::vector<std::pair<std::string, cv::Rect>> texts = detect_words(text_img, tesseract::PSM_RAW_LINE);
 			std::string joined_string = boost::algorithm::transform_reduce(
 				texts.cbegin(),
 				texts.cend(),
