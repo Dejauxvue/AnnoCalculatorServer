@@ -38,6 +38,8 @@ public:
 		STORAGE = 2
 	};
 
+	std::map<std::string, unsigned int> island_to_session;
+
 	statistics_screen(image_recognition& recog);
 
 	void update(const cv::Mat& screenshot);
@@ -49,7 +51,13 @@ public:
 	bool is_all_islands_selected() const;
 
 	/*
-	* Returns the panes dpendent on the opened tab
+	* Returns the island (name, session) from the stored @ref{island_to_session} that matches @param{name} (some differences allowed)
+	* In case no match is found, (@param{name}, 0) is returned.
+	*/
+	std::pair<std::string, unsigned int> get_island_from_list(std::string name) const;
+
+	/*
+	* Returns the panes dependent on the opened tab
 	* Empty image, if !is_open or no position info for pane
 	*/
 	cv::Mat get_center_pane() const;
@@ -71,6 +79,9 @@ public:
 	static const std::string all_islands;
 	static const cv::Scalar background_brown_light;
 	static const cv::Scalar background_blue_dark;
+	static const cv::Scalar foreground_brown_light;
+	static const cv::Scalar foreground_brown_dark;
+	static const cv::Scalar expansion_arrow;
 
 	static const cv::Rect2f position_factory_icon;
 	static const cv::Rect2f position_small_factory_icon;
@@ -80,9 +91,12 @@ public:
 private:
 	image_recognition& recog;
 	cv::Mat screenshot;
-	bool open;
+	cv::Mat prev_islands;
+	tab open_tab;
 
 	cv::Mat get_pane(const cv::Rect2f& rect) const;
+	tab compute_open_tab() const;
+	void update_islands();
 
 	/* pane rectangles relative to [0,1]² image */
 	static const cv::Rect2f pane_tabs;
@@ -104,7 +118,7 @@ enum class phrase
 	PRODUCTIVITY = 22438,
 	PRODUCTION = 22365,
 	STATISTICS = 22438,
-	THE_NEW_WORLD = 100971,
+	THE_NEW_WORLD = 180025,
 	THE_OLD_WORLD = 180023,
 	CAPE_TRELAWNEY = 110934,
 	THE_ARCTIC = 180045,
@@ -132,7 +146,7 @@ public:
 
 
 	/*
-* Returns percental producitivty for factories.
+* Returns percentile productivity for factories.
 * Returns an empty map in case no information is found.
 */
 	std::map < unsigned int, int> get_average_productivities();
@@ -157,7 +171,16 @@ public:
 	* Returns ALL_ISLANDS
 	*/
 	std::string get_selected_island();
+	unsigned int get_selected_session();
 	static const std::string ALL_ISLANDS;
+
+	/*
+	* Returns all islands seen in the statistics screen so far
+	* Returns island name and associated session
+	*/
+	std::map<std::string, unsigned int> get_islands() const;
+
+	
 
 	/**
 	* load an image in the cv-Format used here
@@ -165,16 +188,38 @@ public:
 	static cv::Mat load_image(const std::string&);
 
 	/**
-	* create the two channel image with H from HLS space
-	* from a given BGR image
+	* creates BGRA image with only black and white pixels
+	* thresholding is between two peeks of input image
 	*/
 	static cv::Mat binarize(cv::InputArray input, bool invert = false);
+
+	/**
+	* creates BGRA image with only black and white pixels
+	* uses edge detection to get the largest closed monochrome spot
+	* fills the spot with white and crops margins
+	*
+	* @attend returned image might have smaller resolution
+	*/
+	static cv::Mat binarize_icon(cv::InputArray input, cv::Size target_size = cv::Size());
 
 	/**
 	* create the two channel image with H from HLS space
 	* from a given BGR image
 	*/
 	static cv::Mat convert_color_space_for_template_matching(cv::InputArray bgr_in);
+
+	/**
+	* create an image with one channel of gamma invariant hue from given BGR image
+	* method used is from: https://pdfs.semanticscholar.org/6c16/b450648a531c3ce47db7db3a7794e2f55d96.pdf
+	* "Hue that is invariant to brightness and gamma" by Graham Finlayson and Gerald Schaefer, 2001
+	*/
+	static cv::Mat gamma_invariant_hue_finlayson(cv::InputArray bgr_in);
+
+	/**
+	* stores the single channels of an image
+	* i-th channel is stored as path_i_.png
+	*/
+	static void write_image_per_channel(const std::string& path, cv::InputArray img);
 
 	/**
 	* the axis-aligned-bounding box from the given set of points
@@ -201,6 +246,11 @@ public:
 	*/
 	static cv::Mat blend_icon(cv::InputArray icon, cv::Scalar background_color);
 
+	/*
+	* Sets the rgb channels of icon to color, the alpha channel remains untouched.
+	*/
+	static cv::Mat dye_icon(cv::InputArray icon, cv::Scalar color);
+
 	/**
 	* Finds all occurences of the passed icon on top of some region with background_color.
 	* Note: icon must precisely have the same size as the pattern to be found in source.
@@ -208,19 +258,37 @@ public:
 	static std::pair<cv::Rect, float> find_icon(cv::InputArray source, cv::InputArray icon, cv::Scalar background_color);
 
 	/*
-	* Translates an image of the icon to the GUID of the factory.
-	* Returns 0 in case of failure.
+	* Compares icon to the set of icons from the dictionary and returns the best matches or an empty vector in case of failure
+	* The input icon must be cropped to the precisely boundaries of the icon. Even small will result in undefined results.
+	* The input icon must be a square.
 	*/
-	unsigned int get_guid_from_icon(cv::Mat icon,
+	std::vector<unsigned int> get_guid_from_icon(cv::Mat icon,
 		const std::map<unsigned int, cv::Mat>& dictionary) const;
 
 	/*
-	* Translates an image of the name of the factory to the GUID of the factory.
-	* Returns 0 in case of failure.
+	* Returns the session id or 0 in case of failure.
+	* Expects a (basically) two colored image, the icon can be somewhere within the image
 	*/
-	unsigned int get_guid_from_name(const cv::Mat& text,
+	unsigned int get_session_guid(cv::Mat icon) const;
+
+	/*
+	* Performs text recognition on the input image.
+	* Returns the GUIDs of the best matching text or an empty vector in case of failure
+	* The contained text must be on a single line, black with white background and should contain
+	* as less noise as possible
+	*/
+	std::vector<unsigned int> get_guid_from_name(const cv::Mat& text,
 		const std::map<unsigned int, std::string>& dictionary) const;
 
+	/** 
+	* Removes all GUIDs from factories if that factorie cannot be build in the specified session
+	*/
+	void filter_factories(std::vector<unsigned int>& factories, unsigned int session) const;
+
+	/*
+	* Compares hu moments.
+	*/
+	static double compare_hu_moments(const std::vector<double>& ma, const std::vector<double>& mb) ;
 
 	/**
 	* find the best position of [template_img] within [source]
@@ -283,6 +351,10 @@ public:
 	*/
 	std::map<unsigned int, std::string> make_dictionary(const std::vector<phrase>& list) const;
 
+	/*
+	* Computes hu moments of the image.
+	*/
+	static std::vector<double> get_hu_moments(cv::Mat img);
 
 	static cv::Mat detect_edges(const cv::Mat& im);
 
@@ -305,22 +377,30 @@ public:
 	*/
 	int number_from_region(const cv::Mat& im) const;
 
-
 private:
 	statistics_screen stats_screen;
 
 
 	cv::Mat screenshot;
 	std::string language;
+	// empty if not yet evaluated, use get_selected_island()
 	std::string selected_island;
+	// use get_selected_session()
+	unsigned int selected_session;
 	unsigned int center_pane_selection;
 	// -1 if not searched for, 0 if not found
 	cv::Rect population_icon_position;
 
 	std::map<std::string, keyword_dictionary> dictionaries;
+	std::map<unsigned int, cv::Mat> product_icons;
 	std::map<unsigned int, cv::Mat> factory_icons;
 	std::map<unsigned int, cv::Mat> population_icons;
-	std::map<unsigned int, std::vector<double>> hu_moments;
+	std::map<unsigned int, cv::Mat> session_icons;
+	std::map<unsigned int, unsigned int> factory_to_region;
+	std::map<unsigned int, unsigned int> session_to_region;
+	static const unsigned int REGION_META = 5000005;
+	static const unsigned int SESSION_META = 180039;
+	std::map<unsigned int, std::vector<unsigned int>> product_to_factories;
 
 	static const std::map<std::string, std::string> tesseract_languages;
 };

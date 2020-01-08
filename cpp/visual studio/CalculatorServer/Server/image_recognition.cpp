@@ -40,7 +40,7 @@
 statistics_screen::statistics_screen(image_recognition& recog)
 	:
 	recog(recog),
-	open(false)
+	open_tab(tab::NONE)
 {
 }
 
@@ -64,37 +64,57 @@ void statistics_screen::update(const cv::Mat& screenshot)
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 	cv::imwrite("debug_images/statistics_text.png", statistics_text_img);
 #endif
-	std::vector<std::pair<std::string, cv::Rect>> words = recog.detect_words(statistics_text_img, tesseract::PageSegMode::PSM_SINGLE_LINE);
-	std::string statistics_string;
-	for (const auto& word : words)
-		statistics_string += word.first;
-
-	std::string statistics_text = recog.get_dictionary().ui_texts.at((unsigned int)phrase::STATISTICS);
+	if (recog.get_guid_from_name(statistics_text_img, recog.make_dictionary({ phrase::STATISTICS })).empty())
+	{
+		open_tab = tab::NONE;
+#ifdef CONSOLE_DEBUG_OUTPUT
+		std::cout << std::endl;
+#endif
+		return;
+	}
 
 #ifdef CONSOLE_DEBUG_OUTPUT
-	std::cout << "Statistics title:\t" << statistics_text << std::endl;
+	std::cout << std::endl;
 #endif
 
-	open = recog.lcs_length(statistics_text, statistics_string) > 0.66f * std::max(statistics_text.size(), statistics_string.size());
+	open_tab = compute_open_tab();
+	if (open_tab == tab::NONE)
+		return;
+	bool update = true;
+	if (prev_islands.size().area())
+	{
+		cv::Mat diff;
+		cv::absdiff(get_pane(pane_islands), prev_islands, diff);
+		std::cout << ((float)cv::sum(diff).ddot(cv::Scalar::ones())) << std::endl;
+		float match = ((float) cv::sum(diff).ddot(cv::Scalar::ones())) / prev_islands.rows / prev_islands.cols;
+		update = match > 30;
+	}
+	if (update)
+	{ // island list changed
+		get_pane(pane_islands).copyTo(prev_islands);
+		update_islands();
+	}
 }
 
 bool statistics_screen::is_open() const
 {
-	return open;
+	return get_open_tab() != tab::NONE;
 }
 
 statistics_screen::tab statistics_screen::get_open_tab() const
 {
-	if (!screenshot.size || !is_open())
-		return tab::NONE;
+	return open_tab;
+}
 
+statistics_screen::tab statistics_screen::compute_open_tab() const
+{
 	cv::Mat tabs = get_pane(pane_tabs);
 	int tabs_count = (int)tab::POPULATION;
 	int tab_width = tabs.cols / tabs_count;
 	int v_center = tabs.rows / 2;
 	for (int i = 1; i <= (int) tabs_count; i++)
 	{
-		cv::Vec4b pixel = tabs.at<cv::Vec4b>(v_center, i * tab_width - 0.2f * tab_width);
+		cv::Vec4b pixel = tabs.at<cv::Vec4b>(v_center, (int)(i * tab_width - 0.2f * tab_width));
 		if (is_tab_selected(pixel))
 		{
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
@@ -110,6 +130,79 @@ statistics_screen::tab statistics_screen::get_open_tab() const
 	return tab::NONE;
 }
 
+void statistics_screen::update_islands()
+{
+	unsigned int session_guid = 0;
+
+	const auto phrases = recog.make_dictionary({
+		phrase::THE_OLD_WORLD,
+		phrase::THE_NEW_WORLD,
+		phrase::THE_ARCTIC,
+		phrase::CAPE_TRELAWNEY });
+
+	recog.iterate_rows(prev_islands, [&](const cv::Mat& row) {
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+		cv::imwrite("debug_images/row.png", row);
+#endif
+
+		cv::Mat subheading = recog.binarize(get_cell(row, 0.01f, 0.6f, 0.f), true);
+
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+		cv::imwrite("debug_images/subheading.png", subheading);
+#endif
+
+		std::vector<unsigned int> ids = recog.get_guid_from_name(subheading, phrases);
+		if (ids.size() == 1)
+		{
+			session_guid = ids.front();
+			return;
+		}
+
+		std::string island_name;
+
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+		cv::imwrite("debug_images/selection_test.png", row(cv::Rect((int) (0.8f * row.cols), (int) (0.5f * row.rows),  10, 10)));
+#endif
+
+		bool selected = is_selected(row.at<cv::Vec4b>((int) (0.5f * row.rows), (int) (0.8f * row.cols)));
+		cv::Mat island_name_image = recog.binarize(get_cell(row, 0.15f, 0.65f), selected);
+
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+		cv::imwrite("debug_images/island_name.png", island_name_image);
+#endif
+
+		const auto words = recog.detect_words(island_name_image);
+		if (words.empty())
+			return;
+
+		for (const auto& word : words)
+			island_name += word.first + " ";
+		island_name.pop_back();
+
+		if (get_island_from_list(island_name).second)
+			return;
+
+		cv::Mat session_icon = get_cell(row, 0.025f, 0.14f);
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+		cv::imwrite("debug_images/session_icon.png", session_icon);
+#endif
+		session_guid = recog.get_session_guid(session_icon);
+
+		if (session_guid) 
+			island_to_session.emplace(island_name, session_guid);
+
+#ifdef CONSOLE_DEBUG_OUTPUT
+		std::cout << "Island added:\t" << island_name;
+		try {
+			std::cout << " (" << recog.get_dictionary().ui_texts.at(session_guid) << ")";
+		}
+		catch (const std::exception& e) {}
+		std::cout << std::endl;
+#endif
+
+	});
+}
+
 bool statistics_screen::is_all_islands_selected() const
 {
 	if (!screenshot.size || !is_open())
@@ -120,6 +213,15 @@ bool statistics_screen::is_all_islands_selected() const
 		return false;
 
 	return is_selected(button.at<cv::Vec4b>(0.1f * button.rows, 0.5f * button.cols));
+}
+
+std::pair<std::string, unsigned int> statistics_screen::get_island_from_list(std::string name) const
+{
+	for (const auto& entry : island_to_session)
+		if (recog.lcs_length(entry.first, name) > 0.66f * std::max(entry.first.size(), name.size()))
+			return entry;
+
+	return std::make_pair(name, 0);
 }
 
 cv::Mat statistics_screen::get_center_pane() const
@@ -233,11 +335,14 @@ cv::Mat statistics_screen::get_pane(const cv::Rect2f& rect) const
 
 const cv::Scalar statistics_screen::background_blue_dark = cv::Scalar(103, 87, 79, 255);
 const cv::Scalar statistics_screen::background_brown_light = cv::Scalar(124, 181, 213, 255);
+const cv::Scalar statistics_screen::foreground_brown_light = cv::Scalar(96, 195, 255, 255);
+const cv::Scalar statistics_screen::foreground_brown_dark = cv::Scalar(19, 53, 81, 255);
+const cv::Scalar statistics_screen::expansion_arrow = cv::Scalar(78, 98, 115, 255);
 
 const cv::Rect2f statistics_screen::pane_tabs = cv::Rect2f(cv::Point2f(0.2883f, 0.147f), cv::Point2f(0.7118f, 0.1839f));
 const cv::Rect2f statistics_screen::pane_title = cv::Rect2f(cv::Point2f(0.3839f, 0), cv::Point2f(0.6176f, 0.0722f));
 const cv::Rect2f statistics_screen::pane_all_islands = cv::Rect2f(cv::Point2f(0.0234f, 0.2658f), cv::Point2f(0.19f, 0.315f));
-const cv::Rect2f statistics_screen::pane_islands = cv::Rect2f(cv::Point2f(0.0215f, 0.33f), cv::Point2f(0.19f, 1.f));
+const cv::Rect2f statistics_screen::pane_islands = cv::Rect2f(cv::Point2f(0.0215f, 0.3326f), cv::Point2f(0.1917f, 0.9586f));
 const cv::Rect2f statistics_screen::pane_finance_center = cv::Rect2f(cv::Point2f(0.2471f, 0.3084f), cv::Point2f(0.5805f, 0.9576f));
 const cv::Rect2f statistics_screen::pane_finance_right = cv::Rect2f(cv::Point2f(0.6261f, 0.3603f), cv::Point2f(0.9635f, 0.9587f));
 const cv::Rect2f statistics_screen::pane_production_center = cv::Rect2f(cv::Point2f(0.246f, 0.3638f), cv::Point2f(0.5811f, 0.9567f));
@@ -279,7 +384,7 @@ image_recognition::image_recognition()
 	population_icon_position(cv::Rect(-1,-1, 0, 0))
 {
 	boost::property_tree::ptree pt;
-	boost::property_tree::read_json("texts/params_2019-12-10_iconnames.json", pt);
+	boost::property_tree::read_json("texts/params_2020-01-06_iconnames.json", pt);
 
 	for(const auto& language : pt.get_child("languages"))
 	{
@@ -288,28 +393,53 @@ image_recognition::image_recognition()
 		dictionaries.emplace(key, value);
 	}
 
-	
+	auto load_and_save_icon = [](unsigned int guid, 
+		const boost::property_tree::ptree& asset, 
+		std::map<unsigned int, cv::Mat>& container)
+	{
+		if (asset.get_child_optional("icon").has_value())
+		{
+			try
+			{
+				cv::Mat icon = load_image("icons/" + asset.get_child("icon").get_value<std::string>());
+				container.emplace(guid, icon);
+
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+				cv::imwrite("debug_images/icon_template.png", icon);
+#endif
+			}
+			catch (const std::invalid_argument& e)
+			{
+				std::cout << e.what() << std::endl;
+			}
+		}
+	};
+
+	// load sessions and regions
+#ifdef CONSOLE_DEBUG_OUTPUT
+	std::cout << "Load sessions and regions." << std::endl;
+#endif
+	session_icons.emplace(180023, binarize_icon(load_image("icons/icon_session_moderate_white.png")));
+	session_to_region.emplace(180023, 5000000);
+	session_icons.emplace(180045, binarize_icon(load_image("icons/icon_session_passage_white.png")));
+	session_to_region.emplace(180045, 160001);
+	session_icons.emplace(180025, binarize_icon(load_image("icons/icon_session_southamerica_white.png")));
+	session_to_region.emplace(180025, 5000001);
+	session_icons.emplace(110934, binarize_icon(load_image("icons/icon_session_sunken_treasure_white.png")));
+	session_to_region.emplace(110934, 5000000);
+
+	// load factories
 	auto process_factories = [&](const boost::property_tree::ptree& root) {
 		for (const auto& factory : root)
 		{
 			unsigned int guid = factory.second.get_child("guid").get_value<unsigned int>();
-			if (factory.second.get_child_optional("icon").has_value())
+			if (factory.second.get_child_optional("region").has_value())
 			{
-				try
-				{
-					cv::Mat icon = load_image("icons/" + factory.second.get_child("icon").get_value<std::string>());
-					factory_icons.emplace(guid, icon);
-
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-					cv::imwrite("debug_images/icon_template.png", icon);
-#endif
-					//				hu_moments.emplace(guid, get_hu_moments(icon));
-				}
-				catch (const std::invalid_argument& e)
-				{
-					std::cout << e.what() << std::endl;
-				}
+				factory_to_region.emplace(guid, factory.second.get_child("region").get_value<unsigned int>());
 			}
+
+			load_and_save_icon(guid, factory.second, factory_icons);
+
 			for (const auto& language : factory.second.get_child("locaText"))
 			{
 
@@ -318,38 +448,44 @@ image_recognition::image_recognition()
 		}
 	};
 
+#ifdef CONSOLE_DEBUG_OUTPUT
+	std::cout << "Load factories." << std::endl;
+#endif
 	process_factories(pt.get_child("factories"));
 	process_factories(pt.get_child("powerPlants"));
 
+	// load products
 	for (const auto& product : pt.get_child("products"))
 	{
 		unsigned int guid = product.second.get_child("guid").get_value<unsigned int>();
 		if (!product.second.get_child_optional("producers").has_value())
 			continue;
-		unsigned int factory_guid = product.second.get_child("producers").front().second.get_value<unsigned int>();
+
+		// store factories and regions
+		std::vector<unsigned int> factories;
+		for (const auto& factory_entry : product.second.get_child("producers"))
+		{
+			unsigned int factory_id = factory_entry.second.get_value<unsigned int>();
+			factories.push_back(factory_id);
+		}
+		product_to_factories.emplace(guid, std::move(factories));
+
 		for (const auto& language : product.second.get_child("locaText"))
 		{
-
-			dictionaries.at(language.first).products.emplace(factory_guid, language.second.get_value<std::string>());
+			dictionaries.at(language.first).products.emplace(guid, language.second.get_value<std::string>());
 		}
+
+		load_and_save_icon(guid, product.second, product_icons);
 	}
 
+#ifdef CONSOLE_DEBUG_OUTPUT
+	std::cout << "Load population levels." << std::endl;
+#endif
+	// load population levels
 	for (const auto& level : pt.get_child("populationLevels"))
 	{
 		unsigned int guid = level.second.get_child("guid").get_value<unsigned int>();
-		if (level.second.get_child_optional("icon").has_value())
-		{
-			try
-			{
-				cv::Mat icon = load_image("icons/" + level.second.get_child("icon").get_value<std::string>());
-				population_icons.emplace(guid, icon);
-//				hu_moments.emplace(guid, get_hu_moments(icon));
-			}
-			catch (const std::invalid_argument& e)
-			{
-				std::cout << e.what() << std::endl;
-			}
-		}
+		load_and_save_icon(guid, level.second, population_icons);
 		for (const auto& language : level.second.get_child("locaText"))
 		{
 
@@ -357,7 +493,9 @@ image_recognition::image_recognition()
 		}
 	}
 
-
+#ifdef CONSOLE_DEBUG_OUTPUT
+	std::cout << "Load texts." << std::endl;
+#endif
 	pt.clear();
 	if (boost::filesystem::exists("texts/ui_texts.json"))
 	{
@@ -492,6 +630,20 @@ cv::Mat image_recognition::blend_icon(cv::InputArray icon, cv::Scalar background
 	return background_img.mul(cv::Scalar(255, 255, 255, 255) - alpha, 1./255) + icon.getMat().mul(alpha, 1./255);
 }
 
+cv::Mat image_recognition::dye_icon(cv::InputArray icon, cv::Scalar color)
+{
+	cv::Mat blue = cv::Mat(icon.rows(), icon.cols(), CV_8UC1, cv::Scalar(color[0]));
+	cv::Mat green = cv::Mat(icon.rows(), icon.cols(), CV_8UC1, cv::Scalar(color[1]));
+	cv::Mat red = cv::Mat(icon.rows(), icon.cols(), CV_8UC1, cv::Scalar(color[2]));
+
+	std::vector<cv::Mat> icon_channels;
+	cv::split(icon, icon_channels);
+	cv::Mat result;
+	cv::merge(std::vector<cv::Mat>({ blue, green, red, icon_channels[3] }), result);
+
+	return result;
+}
+
 std::pair<cv::Rect, float> image_recognition::find_icon(cv::InputArray source, cv::InputArray icon, cv::Scalar background_color)
 {
 	float scaling = (source.cols() * 0.027885)/icon.cols();
@@ -508,49 +660,103 @@ std::pair<cv::Rect, float> image_recognition::find_icon(cv::InputArray source, c
 }
 
 
-
-unsigned int image_recognition::get_guid_from_icon(cv::Mat icon,
+std::vector<unsigned int> image_recognition::get_guid_from_icon(cv::Mat icon,
 	const std::map<unsigned int, cv::Mat>& dictionary) const
 {
 	if (icon.empty())
-		return 0;
+		return std::vector<unsigned int>();
 
-	float best_match = std::numeric_limits<float>::infinity();
-	unsigned int guid = 0;
+	cv::Scalar background_color = statistics_screen::is_selected(icon.at<cv::Vec4b>(0, 0)) ? statistics_screen::background_blue_dark : statistics_screen::background_brown_light;
+	cv::Mat background(icon.rows, icon.cols, CV_8UC4, background_color);
+	
+	cv::Mat diff;
+	cv::absdiff(icon, background, diff);
+	float best_match = cv::sum(diff).ddot(cv::Scalar::ones()) / icon.rows / icon.cols;
+	std::vector<unsigned int> guids;
 
 
 	for (auto& entry : dictionary)
 	{
-		cv::Scalar background = statistics_screen::is_selected(icon.at<cv::Vec4b>(0, 0)) ? statistics_screen::background_blue_dark : statistics_screen::background_brown_light;
+		
 
 		cv::Mat template_resized;
-		cv::resize(blend_icon(entry.second, background), template_resized, cv::Size(icon.cols, icon.rows));
+		cv::resize(blend_icon(entry.second, background_color), template_resized, cv::Size(icon.cols, icon.rows));
 
 		cv::Mat diff;
 		cv::absdiff(icon, template_resized, diff);
 		float match = cv::sum(diff).ddot(cv::Scalar::ones()) / icon.rows / icon.cols;
-		if (match < best_match)
+		if (match == best_match)
 		{
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 			cv::imwrite("debug_images/icon_template.png", template_resized);
 #endif
-			guid = entry.first;
+			guids.push_back(entry.first);
+		}
+		else if (match < best_match)
+		{
+			guids.clear();
+			guids.push_back(entry.first);
 			best_match = match;
 		}
 	}
 
 	if (best_match > 150)
-		return 0;
+		return std::vector<unsigned int>();
 
 #ifdef CONSOLE_DEBUG_OUTPUT
-	std::cout << guid << "(" << best_match << ")\t";
+	for (unsigned int guid : guids)
+		std::cout << guid << ", ";
+	std::cout << "(" << best_match << ")\t";
 #endif
+	return guids;
+}
+
+
+unsigned int image_recognition::get_session_guid(cv::Mat icon) const
+{
+	if (icon.empty())
+		return 0;
+
+	float best_match = 0;
+	unsigned int guid = 0;
+
+	for (auto& entry : session_icons)
+	{
+
+		cv::Mat icon_processed = binarize_icon(icon, entry.second.size());
+		int icon_white_count = cv::countNonZero(icon_processed);
+		cv::bitwise_and(entry.second, icon_processed, icon_processed);
+
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+		cv::imwrite("debug_images/icon_intersect.png", icon_processed);
+#endif
+		
+		float max_intersection = std::max(icon_white_count, cv::countNonZero(entry.second));
+		float match = cv::countNonZero(icon_processed) / max_intersection;
+
+#ifdef CONSOLE_DEBUG_OUTPUT
+		std::cout << "\t(" << entry.first << ", " << match << ")";
+#endif
+		if (match > best_match)
+		{
+			guid = entry.first;
+			best_match = match;
+		}
+	}
+
+#ifdef CONSOLE_DEBUG_OUTPUT
+	std::cout << std::endl;
+#endif
+
+	if (best_match < 0.7f)
+		return 0;
+
 	return guid;
 }
 
 
 
-unsigned int image_recognition::get_guid_from_name(const cv::Mat& text_img, 
+std::vector<unsigned int> image_recognition::get_guid_from_name(const cv::Mat& text_img,
 	const std::map<unsigned int, std::string>& dictionary) const
 {
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
@@ -578,7 +784,7 @@ unsigned int image_recognition::get_guid_from_name(const cv::Mat& text_img,
 	std::cout << building_string << "\t";
 #endif
 
-	unsigned int guid = 0;
+	std::vector<unsigned int> guids;
 	float best_match = 0.f;
 	for (const auto& entry : dictionary)
 	{
@@ -587,14 +793,86 @@ unsigned int image_recognition::get_guid_from_name(const cv::Mat& text_img,
 		std::string kw = boost::join(split_string, "");
 
 		float match = lcs_length(kw, building_string) / (float) std::max(kw.size(), building_string.size());
-		if (match > 0.66f && match > best_match)
+		if (match > 0.66f)
 		{
-			guid = entry.first;
-			best_match = match;
+			if (match == best_match)
+			{
+				guids.push_back(entry.first);
+			}
+			else if (match > best_match)
+			{
+				guids.clear();
+				guids.push_back(entry.first);
+				best_match = match;
+			}
 		}
 	}
-	return guid;
+	return guids;
 }
+
+void image_recognition::filter_factories(std::vector<unsigned int>& factories, unsigned int session) const
+{
+	if (session_to_region.find(session) == session_to_region.end())
+		return;
+
+	unsigned int region = session_to_region.at(session);
+	for (auto iter = factories.begin(); iter != factories.end(); )
+	{
+		if (factory_to_region.at(*iter) == region)
+			++iter;
+		else
+			iter = factories.erase(iter);
+	}
+}
+
+double image_recognition::compare_hu_moments(const std::vector<double>& ma, const std::vector<double>& mb)
+{
+	// execute return cv::matchShapes(ma, mb, cv::CONTOURS_MATCH_I2, 0.);
+	// with pre-computed hu moments
+
+	int i, sma, smb;
+	double eps = 1.e-5;
+	double result = 0;
+	bool anyA = false, anyB = false;
+
+
+	for (i = 0; i < 7; i++)
+	{
+		double ama = fabs(ma[i]);
+		double amb = fabs(mb[i]);
+
+		if (ama > 0)
+			anyA = true;
+		if (amb > 0)
+			anyB = true;
+
+		if (ma[i] > 0)
+			sma = 1;
+		else if (ma[i] < 0)
+			sma = -1;
+		else
+			sma = 0;
+		if (mb[i] > 0)
+			smb = 1;
+		else if (mb[i] < 0)
+			smb = -1;
+		else
+			smb = 0;
+
+		if (ama > eps && amb > eps)
+		{
+			ama = sma * log10(ama);
+			amb = smb * log10(amb);
+			result += fabs(-ama + amb);
+		}
+	}
+
+	if (anyA != anyB)
+		result = DBL_MAX;
+
+	return result;
+}
+
 
 
 std::pair<cv::Rect, float> image_recognition::match_template(cv::InputArray source, cv::InputArray template_img)
@@ -742,8 +1020,8 @@ std::map<unsigned int, int> image_recognition::get_population_amount_from_statis
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 			cv::imwrite("debug_images/population_name.png", population_name);
 #endif
-			unsigned int guid = get_guid_from_name(population_name, get_dictionary().population_levels);
-			if (!guid)
+			std::vector<unsigned int> guids = get_guid_from_name(population_name, get_dictionary().population_levels);
+			if (guids.size() != 1)
 				return;
 
 			cv::Mat text_img = binarize(statistics_screen::get_cell(row, 0.5f, 0.27f, 0.4f));
@@ -760,7 +1038,7 @@ std::map<unsigned int, int> image_recognition::get_population_amount_from_statis
 
 #ifdef CONSOLE_DEBUG_OUTPUT
 			try {
-				std::cout << get_dictionary().population_levels.at(guid) << "\t" << joined_string << std::endl;
+				std::cout << get_dictionary().population_levels.at(guids.front()) << "\t" << joined_string << std::endl;
 			}
 			catch (...) {}
 #endif
@@ -781,7 +1059,7 @@ std::map<unsigned int, int> image_recognition::get_population_amount_from_statis
 			}();
 
 			if (population >= 0)
-				result.emplace(guid, population);
+				result.emplace(guids.front(), population);
 
 		});
 
@@ -817,8 +1095,8 @@ std::map<unsigned int, int> image_recognition::get_population_existing_buildings
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 			cv::imwrite("debug_images/population_name.png", population_name);
 #endif
-			unsigned int guid = get_guid_from_name(population_name, get_dictionary().population_levels);
-			if (!guid)
+			std::vector<unsigned int> guids = get_guid_from_name(population_name, get_dictionary().population_levels);
+			if (guids.size() != 1)
 				return;
 
 			cv::Mat text_img = binarize(statistics_screen::get_cell(row, 0.3f, 0.15f, 0.4f));
@@ -828,7 +1106,7 @@ std::map<unsigned int, int> image_recognition::get_population_existing_buildings
 			int houses = number_from_region(text_img);
 
 			if (houses >= 0)
-				result.emplace(guid, houses);
+				result.emplace(guids.front(), houses);
 
 		});
 
@@ -866,8 +1144,8 @@ std::map<unsigned int, int> image_recognition::get_population_workforce_from_sta
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 			cv::imwrite("debug_images/population_name.png", population_name);
 #endif
-			unsigned int guid = get_guid_from_name(population_name, get_dictionary().population_levels);
-			if (!guid)
+			std::vector<unsigned int> guids = get_guid_from_name(population_name, get_dictionary().population_levels);
+			if (guids.size() != 1)
 				return;
 
 			cv::Mat text_img = binarize(statistics_screen::get_cell(row, 0.8f, 0.1f));
@@ -877,7 +1155,7 @@ std::map<unsigned int, int> image_recognition::get_population_workforce_from_sta
 			int workforce = number_from_region(text_img);
 
 			if (workforce >= 0)
-				result.emplace(guid, workforce);
+				result.emplace(guids.front(), workforce);
 
 		});
 
@@ -891,6 +1169,9 @@ std::map<unsigned int, int> image_recognition::get_population_workforce_from_sta
 
 std::string image_recognition::get_selected_island()
 {
+	if (!selected_island.empty())
+		return selected_island;
+
 #ifdef CONSOLE_DEBUG_OUTPUT
 	std::cout << "Island:\t";
 #endif
@@ -903,6 +1184,8 @@ std::string image_recognition::get_selected_island()
 #ifdef CONSOLE_DEBUG_OUTPUT
 			std::cout << ALL_ISLANDS << std::endl;
 #endif
+			selected_session = SESSION_META;
+			selected_island = ALL_ISLANDS;
 			return ALL_ISLANDS;
 		}
 
@@ -925,11 +1208,16 @@ std::string image_recognition::get_selected_island()
 			result += pair.first;
 		}
 
+		
+		auto island = stats_screen.get_island_from_list(result);
+		selected_island = island.first;
+		selected_session = island.second;
+
 
 #ifdef CONSOLE_DEBUG_OUTPUT
 		std::cout << result << std::endl;
 #endif
-		return result;
+		return selected_island;
 	}
 	else // statistics screen not open
 	{
@@ -942,6 +1230,8 @@ std::string image_recognition::get_selected_island()
 #ifdef CONSOLE_DEBUG_OUTPUT
 			std::cout << ALL_ISLANDS << std::endl;
 #endif
+			selected_session = SESSION_META;
+			selected_island = ALL_ISLANDS;
 			return ALL_ISLANDS;
 		}
 		else
@@ -963,7 +1253,11 @@ std::string image_recognition::get_selected_island()
 #ifdef CONSOLE_DEBUG_OUTPUT
 			std::cout << result << std::endl;
 #endif
-			return result;
+			auto island = stats_screen.get_island_from_list(result);
+			selected_island = island.first;
+			selected_session = island.second;
+
+			return selected_island;
 		}
 
 	}
@@ -971,7 +1265,18 @@ std::string image_recognition::get_selected_island()
 	return std::string();
 }
 
+unsigned int image_recognition::get_selected_session()
+{
+	get_selected_island(); // update island information
+	return selected_session;
+}
+
 const std::string image_recognition::ALL_ISLANDS = std::string("All Islands");
+
+std::map<std::string, unsigned int> image_recognition::get_islands() const
+{
+	return stats_screen.island_to_session;
+}
 
 cv::Mat image_recognition::load_image(const std::string& path)
 {
@@ -1000,6 +1305,56 @@ cv::Mat image_recognition::binarize(cv::InputArray input, bool invert)
 
 
 
+cv::Mat image_recognition::binarize_icon(cv::InputArray input, cv::Size target_size)
+{
+	if (input.empty())
+		return input.getMat();
+
+	cv::Mat thresholded;
+	cv::Mat input_alpha_applied = blend_icon(input, cv::Scalar(0, 0, 0));
+	cv::cvtColor(input_alpha_applied, thresholded, cv::COLOR_BGRA2GRAY);
+	cv::threshold(thresholded, thresholded, 128, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
+	if (thresholded.at<unsigned char>(thresholded.rows - 1, thresholded.cols-1) > 128)
+		thresholded = 255 - thresholded;
+
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+	cv::imwrite("debug_images/icon_gray.png", thresholded);
+#endif
+
+	cv::Mat edge_image;
+	cv::Canny(thresholded, edge_image, 20, 60, 3);
+	std::vector < std::vector<cv::Point>> contours;
+	std::vector<cv::Vec4i> hierarchy;
+	cv::findContours(edge_image, contours, hierarchy, cv::RETR_CCOMP, cv::CHAIN_APPROX_NONE);
+	contours.erase(std::remove_if(
+			contours.begin(), 
+			contours.end(), 
+			[](const std::vector<cv::Point>& e) {return e.size() < 10; }),
+		contours.end());
+
+	if (contours.empty())
+		return cv::Mat(target_size, CV_8UC4);
+
+	std::vector<cv::Point > contour_points;
+	for (auto& contour : contours)
+	{
+		contour.push_back(contour.front());
+		contour_points.insert(contour_points.end(), contour.begin(), contour.end());
+	}
+	cv::Rect roi = boundingRect(contour_points);
+
+	cv::Mat output = thresholded(roi);
+
+	if (target_size.width && target_size.height)
+		cv::resize(output, output, target_size, 0, 0, cv::INTER_NEAREST);
+
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+	cv::imwrite("debug_images/icon_shilouette.png", output);
+#endif
+
+	return output;
+}
+
 cv::Mat image_recognition::convert_color_space_for_template_matching(cv::InputArray bgr_in)
 {
 	std::vector<cv::Mat> channels;
@@ -1016,6 +1371,78 @@ cv::Mat image_recognition::convert_color_space_for_template_matching(cv::InputAr
 	return ret;
 }
 
+cv::Mat image_recognition::gamma_invariant_hue_finlayson(cv::InputArray bgr_in)
+{
+	std::vector<cv::Mat> channels;
+	cv::split(bgr_in.getMat(), channels);
+	for (auto& c : channels) {
+		c.convertTo(c, CV_32F);
+		c = c / 255.f;
+	}
+	/*{
+		std::ofstream of("pixel_red.csv", std::ios::out);
+		for (int i = 0; i < channels[0].rows; i++)
+			for (int j = 0; j < channels[0].cols; j++)
+				of << channels[0].at<float>(i, j) << std::endl;
+
+	}*/
+	for (auto& c : channels) {
+		cv::log(c, c);
+	}
+	cv::Mat ret[3];
+	cv::divide((channels[2] - channels[1]), (channels[2] + channels[1] - 2.f * channels[0]), ret[0]);
+	cv::divide((channels[0] - channels[2]), (channels[0] + channels[2] - 2.f * channels[1]), ret[1]);
+	cv::divide((channels[1] - channels[0]), (channels[1] + channels[0] - 2.f * channels[2]), ret[2]);
+	for (int i = 0; i < 3; i++) {
+		/*{
+			std::ofstream of("pixel_values_raw.csv", std::ios::out);
+			for (int i = 0; i < ret.rows; i++)
+				for (int j = 0; j < ret.cols; j++)
+					of << ret.at<float>(i, j) << std::endl;
+
+		}*/
+		cv::threshold(ret[i], ret[i], 2.f, 1.f, cv::THRESH_TRUNC);
+		ret[i] = -1.f * ret[i];
+		cv::threshold(ret[i], ret[i], 2.f, 1.f, cv::THRESH_TRUNC);
+		ret[i] = -1.f * ret[i];
+		/*{
+			std::ofstream of("pixel_values_pre_norm.csv", std::ios::out);
+			for (int i = 0; i < ret[i].rows; i++)
+				for (int j = 0; j < ret[i].cols; j++)
+					of << ret[i].at<float>(i, j) << std::endl;
+
+		}*/
+
+		//cv::normalize(ret[i], ret[i], 0, 255, cv::NORM_MINMAX);
+		ret[i] = ret[i] + 2.f;
+		ret[i] = ret[i] / 4.f;
+		ret[i] = ret[i] * 255.f;
+		cv::imwrite("debug_images/ret" + std::to_string(i) + ".png", ret[i]);
+		//H = (log(R)-log(G))/(log(R)+log(G)-2log(B))
+
+		/*{
+			std::ofstream of("pixel_values_post_norm.csv", std::ios::out);
+
+			for (int i = 0; i < ret.rows; i++)
+				for (int j = 0; j < ret.cols; j++)
+					of << ret.at<float>(i, j) << std::endl;
+		}*/
+	}
+#ifdef CONSOLE_DEBUG_OUTPUT
+	std::cout << "done with gamma" << std::endl;
+#endif
+	return ret[0];
+}
+
+void image_recognition::write_image_per_channel(const std::string& path, cv::InputArray img)
+{
+	cv::Mat mat = img.getMat();
+	std::vector<cv::Mat> channels;
+	cv::split(mat, channels);
+	for (int i = 0; i < channels.size(); i++) {
+		cv::imwrite(path + "_" + std::to_string(i) + ".png", channels[i]);
+	}
+}
 
 cv::Rect image_recognition::get_aa_bb(const std::list<cv::Point>& input)
 {
@@ -1038,6 +1465,7 @@ cv::Mat image_recognition::update(const std::string& language,
 	const cv::Mat& img)
 {
 	selected_island = std::string();
+	selected_session = 0;
 	center_pane_selection = 0;
 	population_icon_position = cv::Rect(-1,-1, 0, 0);
 
@@ -1355,6 +1783,14 @@ std::map<unsigned int, std::string>  image_recognition::make_dictionary(const st
 	return result;
 }
 
+std::vector<double> image_recognition::get_hu_moments(cv::Mat img)
+{
+	cv::Moments moments = cv::moments(detect_edges(img));
+	std::vector<double> hu_moments;
+	cv::HuMoments(moments, hu_moments);
+
+	return hu_moments;
+}
 
 cv::Mat image_recognition::detect_edges(const cv::Mat& im)
 {
@@ -1381,7 +1817,7 @@ std::vector<int> image_recognition::find_horizontal_lines(const cv::Mat& im)
 #endif
 
 	std::vector<cv::Vec4i> lines;
-	cv::HoughLinesP(edges, lines, 2, CV_PI / 2, im.cols/2.f, im.cols*0.8f, im.cols * 0.1f);
+	cv::HoughLinesP(edges, lines, 2, CV_PI / 2, im.cols/2.f, im.cols*0.75f, im.cols * 0.15f);
 	
 	std::vector<int> hlines;
 	for (auto& line : lines)
@@ -1420,19 +1856,34 @@ void image_recognition::iterate_rows(const cv::Mat& im,
 		return;
 
 	prev_hline = 0;
-	int mean_row_height = heights[heights.size() / 2];
+ 	int mean_row_height = heights[heights.size() / 2];
 	int row_height = 0;
 
-	for (int hline : lines)
+	for (auto hline = lines.begin(); hline != lines.end(); ++hline)
 	{
-		int height = hline - prev_hline;
-		if (height > 10 && height > 0.9 * mean_row_height && height < 1.1 * mean_row_height)
+		int height = *hline - prev_hline;
+		if (height < 10)
+		{
+			prev_hline = *hline;
+			continue;
+		}
+
+		auto next_hline = hline;
+		while (height <= 0.9 * mean_row_height && next_hline != lines.end())
+		{
+			++next_hline;
+			height = *next_hline - prev_hline;
+		}
+
+		if (height > 0.9 * mean_row_height && height < 1.1 * mean_row_height)
 		{
 			row_height = height;
 			f(im(cv::Rect(0, prev_hline, im.cols, height)));
 		}
+		else
+			next_hline = hline;
 
-		prev_hline = hline;
+		prev_hline = *next_hline;
 	}
 
 	if (row_height)
@@ -1483,19 +1934,17 @@ std::map<unsigned int, int> image_recognition::get_optimal_productivities()
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 	cv::imwrite("debug_images/factory_text.png", factory_text);
 #endif
-	unsigned int guid = get_guid_from_name(factory_text, get_dictionary().factories);
+	std::vector<unsigned int> guids = get_guid_from_name(factory_text, get_dictionary().factories);
+	if (guids.size() != 1)
+		return result;
+
 #ifdef CONSOLE_DEBUG_OUTPUT
-	if (guid)
-		try {
-		std::cout << get_dictionary().factories.at(guid) << ":\t";
+	try {
+		std::cout << get_dictionary().factories.at(guids.front()) << ":\t";
 	}
 	catch (...) {}
 	std::cout << std::endl;
 #endif
-
-	if (!guid)
-		return result;
-	
 
 	std::vector<float> productivities;
 	iterate_rows(roi, [&](const cv::Mat& row)
@@ -1525,7 +1974,7 @@ std::map<unsigned int, int> image_recognition::get_optimal_productivities()
 
 		});
 
-	if (!guid || productivities.empty())
+	if (productivities.empty())
 		return result;
 
 	int sum = std::accumulate(productivities.begin(), productivities.end(), 0);
@@ -1540,7 +1989,7 @@ std::map<unsigned int, int> image_recognition::get_optimal_productivities()
 		sum += (buildings_count - productivities.size()) * productivities[productivities.size() / 2];
 	}
 
-	result.emplace(guid, sum / buildings_count);
+	result.emplace(guids.front(), sum / buildings_count);
 
 	return result;
 }
@@ -1572,17 +2021,17 @@ std::map<unsigned int, int> image_recognition::get_average_productivities()
 			cv::imwrite("debug_images/row.png", row);
 #endif
 
-			cv::Mat factory_icon = statistics_screen::get_square_region(row, statistics_screen::position_factory_icon);
+			cv::Mat product_icon = statistics_screen::get_square_region(row, statistics_screen::position_factory_icon);
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("debug_images/factory_icon.png", factory_icon);
+			cv::imwrite("debug_images/factory_icon.png", product_icon);
 #endif
-			unsigned int guid = get_guid_from_icon(factory_icon, factory_icons);
-			if (!guid)
+			std::vector<unsigned int> p_guids = get_guid_from_icon(product_icon, product_icons);
+			if (p_guids.empty())
 				return;
 
 #ifdef CONSOLE_DEBUG_OUTPUT
 			try{
-				std::cout << get_dictionary().factories.at(guid) << ":\t";
+				std::cout << get_dictionary().products.at(p_guids.front()) << ":\t";
 			}
 			catch (...) {}
 #endif
@@ -1598,7 +2047,11 @@ std::map<unsigned int, int> image_recognition::get_average_productivities()
 				prod /= 100;
 
 			if (prod >= 0)
-				result.emplace(guid, prod);
+			{
+				for(unsigned int p_guid : p_guids)
+					for(unsigned int f_guid: product_to_factories[p_guid])
+						result.emplace(f_guid, prod);
+			}
 
 
 #ifdef CONSOLE_DEBUG_OUTPUT
@@ -1645,7 +2098,7 @@ std::map<unsigned int, int> image_recognition::get_assets_existing_buildings_fro
 
 	cv::Mat text = binarize(stats_screen.get_right_header());
 
-	center_pane_selection = get_guid_from_name(text, category_dict);
+	std::vector<unsigned int> selection = get_guid_from_name(text, category_dict);
 
 
 
@@ -1656,8 +2109,10 @@ std::map<unsigned int, int> image_recognition::get_assets_existing_buildings_fro
 	catch (...) {}
 #endif
 
-	if (!center_pane_selection)
+	if (selection.size() != 1)
 		return result; // nothing selected that we want to evaluate
+
+	center_pane_selection = selection.front();
 
 	const std::map<unsigned int, std::string>* dictionary = nullptr;
 	switch ((phrase) center_pane_selection)
@@ -1674,18 +2129,31 @@ std::map<unsigned int, int> image_recognition::get_assets_existing_buildings_fro
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 	cv::imwrite("debug_images/statistics_window_table_area.png", roi);
 #endif
+	std::vector<unsigned int> prev_guids;
+	int prev_count = 0;
 
 	iterate_rows(roi, [&](const cv::Mat& row)
 		{
-			cv::Mat text = binarize(statistics_screen::get_cell(row, 0.15f , 0.5f ));
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+		cv::imwrite("debug_images/row.png", row);
+		cv::imwrite("debug_images/selection_test.png", row(cv::Rect((int)(0.037f * row.cols), (int)(0.5f * row.rows), 10, 10)));
+#endif
+			bool is_summary_entry = stats_screen.closer_to(row.at<cv::Vec4b>( 0.5f * row.rows, 0.037f * row.cols), statistics_screen::expansion_arrow, statistics_screen::background_brown_light);
 
-			unsigned int guid = get_guid_from_name(text, *dictionary);
-
-			if (guid)
+			if (is_summary_entry)
 			{
+				prev_guids.clear();
+
+				cv::Mat text = binarize(statistics_screen::get_cell(row, 0.15f , 0.5f ));
+
+				std::vector<unsigned int> guids = get_guid_from_name(text, *dictionary);
+
+			
 #ifdef CONSOLE_DEBUG_OUTPUT
 				try{
-					std::cout << dictionary->at(guid) << "\t";
+					for (unsigned int guid : guids)
+						std::cout << dictionary->at(guid) << ", ";
+					std::cout << "\t";
 				}
 				catch (...) {}
 #endif
@@ -1728,9 +2196,41 @@ std::map<unsigned int, int> image_recognition::get_assets_existing_buildings_fro
 				}
 
 				if (count >= 0)
-					result.emplace(guid, count);
+				{
+					if (guids.size() != 1 && get_selected_session() && !stats_screen.is_all_islands_selected())
+						filter_factories(guids, get_selected_session());
 
+					if (guids.size() == 1)
+						result.emplace(guids.front(), count);
+					else
+					{
+						prev_guids = guids;
+						prev_count = count;
+					}
+				}
 
+			}
+			else if (!prev_guids.empty()) // no summary entry, test whether upper row is expanded
+			{
+				cv::Mat session_icon = stats_screen.get_cell(row, 0.08f, 0.08f);
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+				cv::imwrite("debug_images/session_icon.png", session_icon);
+#endif
+
+				unsigned int session_guid = get_session_guid(session_icon);
+				if (!session_guid)
+				{
+					// prev_guids.clear();
+					return;
+				}
+
+				filter_factories(prev_guids, session_guid);
+
+				if (prev_guids.size() == 1)
+					result.emplace(prev_guids.front(), prev_count);
+				
+					prev_guids.clear();
+				
 			}
 #ifdef CONSOLE_DEBUG_OUTPUT
 			std::cout << std::endl;
@@ -1818,6 +2318,10 @@ int image_recognition::lcs_length(std::string X, std::string Y)
 
 void image_recognition::update_ocr(const std::string& language)
 {
+#ifdef CONSOLE_DEBUG_OUTPUT
+	std::cout << "Update tesseract." << std::endl;
+#endif
+
 	const char* lang = tesseract_languages.find(language)->second.c_str();
 //	if(ocr_)
 //		std::cout << lang << " -> " << ocr_->GetInitLanguagesAsString() << " (equal: " << strcmp(ocr_->GetInitLanguagesAsString(), lang) << ")" << std::endl;

@@ -56,12 +56,13 @@ important: use 24-bit bitmap format when saving the icon
 - bootstrap-vcpkg.bat
 - vcpkg install boost-property-tree:x64-windows (takes circa 2 minutes)
 - vcpkg install tesseract:x64-windows (takes circa 17 minutes)
-- vcpkg install cpprestsdk:x64-windows (takes circa 10 minutes)
-- vcpkg install opencv:x64-windows (takes circa 7 minutes)
+- vcpkg install cpprestsdk[core]:x64-windows (takes circa 10 minutes)
+- vcpkg install opencv4[png]:x64-windows opencv4[jpeg]:x64-windows (takes circa 7 minutes)
 - vcpkg integrate project
 - <build cpp/visual studio/CalculatorServer/CalculatorServer.sln>
 			
 ## Troubleshooting 
+- copy, move, rename errors during installation: make sure that vcpkg resides on a short path (e.g. accass the folder via a drive letter)
 - vcpkg error "Please install the English language pack. Could not locate a complete toolset."
 -> go to visual studio installer -> visual studio communitiy -> change -> language package
 -> select english -> click change (bottom right)

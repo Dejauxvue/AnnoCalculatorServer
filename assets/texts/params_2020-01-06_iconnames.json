@@ -4230,7 +4230,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_wood_log.png",
 "locaText": {
 "chinese": "伐木工人棚屋",
@@ -4269,7 +4269,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_reindeer_meat.png",
 "locaText": {
 "chinese": "驯鹿猎人",
@@ -4308,7 +4308,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_goose_feathers.png",
 "locaText": {
 "chinese": "鹅农场",
@@ -4347,7 +4347,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_bear_fur.png",
 "locaText": {
 "chinese": "熊猎人",
@@ -4386,7 +4386,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_husky.png",
 "locaText": {
 "chinese": "哈士奇农场",
@@ -4425,7 +4425,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_fur.png",
 "locaText": {
 "chinese": "一级狩猎小屋",
@@ -4464,7 +4464,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_coal_burn.png",
 "locaText": {
 "chinese": "炭窑",
@@ -4503,7 +4503,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_whale_oil_2.png",
 "locaText": {
 "chinese": "鲸鱼猎人",
@@ -4542,7 +4542,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_seal_skin.png",
 "locaText": {
 "chinese": "海豹猎人",
@@ -4588,7 +4588,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_wooden_planks.png",
 "locaText": {
 "chinese": "锯木厂",
@@ -4639,7 +4639,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_sleeping_bags.png",
 "locaText": {
 "chinese": "睡袋工厂",
@@ -4690,7 +4690,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_oil_lamps.png",
 "locaText": {
 "chinese": "油灯工厂",
@@ -4741,7 +4741,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_fur_parka.png",
 "locaText": {
 "chinese": "连帽大衣工厂",
@@ -4792,7 +4792,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_sled_frame.png",
 "locaText": {
 "chinese": "雪橇骨架工厂",
@@ -4843,7 +4843,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_sled.png",
 "locaText": {
 "chinese": "犬雪橇工厂",
@@ -4894,7 +4894,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_pemmican.png",
 "locaText": {
 "chinese": "干肉饼工厂",
@@ -4933,7 +4933,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_gas_red.png",
 "locaText": {
 "chinese": "天然气矿场",
@@ -4972,7 +4972,7 @@
 "ShutdownThreshold": 0.2
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_gold_ore.png",
 "locaText": {
 "chinese": "深层金矿",
@@ -5007,7 +5007,7 @@
 "Amount": 50
 }
 ],
-"region": 180045,
+"region": 160001,
 "icon": "icon_heating_center.png",
 "locaText": {
 "chinese": "暖炉",
@@ -9589,7 +9589,7 @@
 },
 {
 "name": "Arctic",
-"guid": 180045,
+"guid": 160001,
 "icon": "icon_session_passage.png",
 "locaText": {
 "brazilian": "The Arctic",

@@ -1,6 +1,6 @@
 {
     "brazilian": {
-        "100971": "The New World",
+        "180025": "The New World",
         "180023": "The Old World",
         "180045": "The Arctic"
     },
@@ -12,7 +12,7 @@
         "22434": "明细",
         "22381": "所有岛屿",
         "22438": "统计数据",
-        "100971": "新世界",
+        "180025": "新世界",
         "180023": "旧世界"
     },
     "english": {
@@ -23,7 +23,7 @@
         "22434": "Breakdown",
         "22381": "All Islands",
         "22438": "Statistics",
-        "100971": "The New World",
+        "180025": "The New World",
         "180023": "The Old World"
     },
     "french": {
@@ -34,7 +34,7 @@
         "22434": "Répartition",
         "22381": "Toutes les îles",
         "22438": "Statistiques",
-        "100971": "Le Nouveau Monde",
+        "180025": "Le Nouveau Monde",
         "180023": "L'Ancien Monde"
     },
     "german": {
@@ -45,7 +45,7 @@
         "22434": "Übersicht",
         "22381": "Alle Inseln",
         "22438": "Statistiken",
-        "100971": "Die Neue Welt",
+        "180025": "Die Neue Welt",
         "180023": "Die Alte Welt"
     },
     "italian": {
@@ -56,7 +56,7 @@
         "22434": "Analisi dettagliata",
         "22381": "Tutte le isole",
         "22438": "Statistiche",
-        "100971": "Il Nuovo Mondo",
+        "180025": "Il Nuovo Mondo",
         "180023": "Il Vecchio Mondo"
     },
     "japanese": {
@@ -67,7 +67,7 @@
         "22434": "内訳",
         "22381": "すべての島",
         "22438": "統計",
-        "100971": "新世界",
+        "180025": "新世界",
         "180023": "旧世界"
     },
     "korean": {
@@ -78,7 +78,7 @@
         "22434": "내역",
         "22381": "모든 섬",
         "22438": "통계",
-        "100971": "신대륙",
+        "180025": "신대륙",
         "180023": "구대륙"
     },
     "polish": {
@@ -89,11 +89,11 @@
         "22434": "Szczegóły",
         "22381": "Wszystkie wyspy",
         "22438": "Statystyka",
-        "100971": "Nowy Świat",
+        "180025": "Nowy Świat",
         "180023": "Stary Świat"
     },
     "portuguese": {
-        "100971": "The New World",
+        "180025": "The New World",
         "180023": "The Old World",
         "180045": "The Arctic"
     },
@@ -105,7 +105,7 @@
         "22434": "Детализация",
         "22381": "Все острова",
         "22438": "Статистика",
-        "100971": "Новый Свет",
+        "180025": "Новый Свет",
         "180023": "Старый Свет"
     },
     "spanish": {
@@ -116,7 +116,7 @@
         "22434": "Desglose",
         "22381": "Todas las islas",
         "22438": "Estadísticas",
-        "100971": "El Nuevo Mundo",
+        "180025": "El Nuevo Mundo",
         "180023": "El Viejo Mundo"
     },
     "taiwanese": {
@@ -127,7 +127,7 @@
         "22434": "明細",
         "22381": "所有島嶼",
         "22438": "統計數據",
-        "100971": "新世界",
+        "180025": "新世界",
         "180023": "舊世界"
     }
 }

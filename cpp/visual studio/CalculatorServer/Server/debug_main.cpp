@@ -114,10 +114,24 @@ int main() {
 	image_recognition image_recog;
 //	unit_tests(image_recog);
 
-	image_recog.update("german", image_recognition::load_image("D:/Dokumente/Dokumente/Nico/Computer/Softwareentwicklung/AnnoCalculatorServer/calculator-recognition-issues/pic_anno1800/unpackaged/3840x2160/coal/list/coal blue/screenshot.png"));
+	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Documents/Dokumente/Computer/Softwareentwicklung/AnnoCalculatorServer/calculator-recognition-issues/widescreen/Anno_18002019-12-27-17-27-14.png");
+
+	image_recog.update("english", src);
+
+	//image_recog.update("german", image_recognition::load_image("C:/Users/Nico/Documents/Dokumente/Computer/Softwareentwicklung/AnnoCalculatorServer/calculator-recognition-issues/island_name_mua/screenshot.png"));
 
 	std::string island = image_recog.get_selected_island();
 	std::cout << "Island: " << island << std::endl;
+	std::cout << std::endl;
+
+	const auto& islands = image_recog.get_islands();
+	std::cout << "Island list: " << std::endl;
+	for (const auto& entry : islands)
+		try {
+			std::cout << entry.first << "\t" << image_recog.get_dictionary().ui_texts.at(entry.second) << std::endl;
+		}
+		catch (const std::exception& e) {}
+	std::cout << std::endl;
 
 	std::cout << "Population amount" << std::endl;
 	print(image_recog.get_population_amount(), image_recog.get_dictionary().population_levels);

@@ -63,12 +63,18 @@ int wmain(int argc, wchar_t *argv[])
 	utility::string_t address = U("http://localhost:");
 	address.append(port);
 
-	on_initialize(address);
-	std::cout << "Press ENTER to exit." << std::endl;
+	try {
+		on_initialize(address);
+		std::cout << "Press ENTER to exit." << std::endl;
 
-	std::string line;
-	std::getline(std::cin, line);
+		std::string line;
+		std::getline(std::cin, line);
 
-	on_shutdown();
+		on_shutdown();
+	}
+	catch (std::exception e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 	return 0;
 }
