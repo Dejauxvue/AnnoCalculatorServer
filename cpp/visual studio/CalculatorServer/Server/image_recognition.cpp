@@ -81,7 +81,7 @@ void statistics_screen::update(const cv::Mat& screenshot)
 	if (open_tab == tab::NONE)
 		return;
 	bool update = true;
-	if (prev_islands.size().area())
+	if (prev_islands.size().area() == get_pane(pane_islands).size().area())
 	{
 		cv::Mat diff;
 		cv::absdiff(get_pane(pane_islands), prev_islands, diff);
@@ -158,7 +158,7 @@ void statistics_screen::update_islands()
 			return;
 		}
 
-		std::string island_name;
+		
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 		cv::imwrite("debug_images/selection_test.png", row(cv::Rect((int) (0.8f * row.cols), (int) (0.5f * row.rows),  10, 10)));
@@ -171,13 +171,9 @@ void statistics_screen::update_islands()
 		cv::imwrite("debug_images/island_name.png", island_name_image);
 #endif
 
-		const auto words = recog.detect_words(island_name_image);
-		if (words.empty())
+		std::string island_name = recog.join(recog.detect_words(island_name_image), true);
+		if (island_name.empty())
 			return;
-
-		for (const auto& word : words)
-			island_name += word.first + " ";
-		island_name.pop_back();
 
 		if (get_island_from_list(island_name).second)
 			return;
@@ -978,7 +974,7 @@ std::map<unsigned int, int> image_recognition::get_population_amount_from_hud()
 	cv::merge(channels, cropped_image);
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/last_ocr_input.png", cropped_image);
+	cv::imwrite("debug_images/pop_popup.png", cropped_image);
 #endif //SHOW_CV_DEBUG_IMAGE_VIEW
 
 	std::vector<std::pair<std::string, cv::Rect>> ocr_result;
@@ -993,7 +989,7 @@ std::map<unsigned int, int> image_recognition::get_population_amount_from_hud()
 		std::cout << "unknown exception" << std::endl;
 	}
 
-	return get_anno_population_from_ocr_result(ocr_result);
+	return get_anno_population_from_ocr_result(ocr_result, cropped_image);
 }
 
 std::map<unsigned int, int> image_recognition::get_population_amount_from_statistic_screen() const
@@ -1028,35 +1024,37 @@ std::map<unsigned int, int> image_recognition::get_population_amount_from_statis
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 			cv::imwrite("debug_images/pop_amount_text.png", text_img);
 #endif
-			std::vector<std::pair<std::string, cv::Rect>> texts = detect_words(text_img, tesseract::PSM_RAW_LINE);
-			std::string joined_string = boost::algorithm::transform_reduce(
-				texts.cbegin(),
-				texts.cend(),
-				std::string(),
-				[](const std::string& lhs, const std::string& rhs) { return lhs + rhs; },
-				[](const std::pair<std::string, cv::Rect>& p) {return p.first; });
+
+			std::string number_string;
+
+			for (const auto& mode : { tesseract::PSM_SINGLE_LINE, tesseract::PSM_SINGLE_WORD, tesseract::PSM_RAW_LINE })
+			{
+				std::vector<std::pair<std::string, cv::Rect>> texts = detect_words(text_img, mode);
+				std::string joined_string = join(texts);
+
 
 #ifdef CONSOLE_DEBUG_OUTPUT
-			try {
-				std::cout << get_dictionary().population_levels.at(guids.front()) << "\t" << joined_string << std::endl;
-			}
-			catch (...) {}
-#endif
-
-			std::vector<std::string> split_string;
-			boost::split(split_string, joined_string, [](char c) {return c == '/' || c == '[' || c == '('; });
-
-			int population =
-				[&]() {
-				try { return std::stoi(std::regex_replace(split_string.front(), std::regex("[^0-9]"), "") ); }
-				catch (...) 
-				{ 
-#ifdef CONSOLE_DEBUG_OUTPUT
-					std::cout << "could not match number string: " << split_string.front() << std::endl; 
-#endif
-					return 0; 
+				try {
+					std::cout << get_dictionary().population_levels.at(guids.front()) << "\t" << joined_string << std::endl;
 				}
-			}();
+				catch (...) {}
+#endif
+
+				std::vector<std::string> split_string;
+				boost::split(split_string, joined_string, [](char c) {return c == '/' || c == '[' || c == '(' || c == '{'; });
+
+
+				if (split_string.size() == 2)
+					number_string = split_string.front();
+				else if (texts.size() == 2)
+					number_string = texts.front().first;
+				
+				if (!number_string.empty())
+					break;
+			}
+
+
+			int population = number_from_string(number_string);
 
 			if (population >= 0)
 				result.emplace(guids.front(), population);
@@ -1201,12 +1199,7 @@ std::string image_recognition::get_selected_island()
 #endif
 
 		auto words_and_boxes = detect_words(roi, tesseract::PSM_SINGLE_LINE);
-		for (const auto& pair : words_and_boxes)
-		{
-			if (result.size())
-				result += " ";
-			result += pair.first;
-		}
+		result = join(words_and_boxes, true);
 
 		
 		auto island = stats_screen.get_island_from_list(result);
@@ -1236,20 +1229,14 @@ std::string image_recognition::get_selected_island()
 		}
 		else
 		{
-			std::string result;
 			cv::Mat island_name_img = screenshot(cv::Rect(0.0036f * screenshot.cols, 0.6641f * screenshot.rows, 0.115f * screenshot.cols, 0.0245f * screenshot.rows));
 			island_name_img = binarize(island_name_img, true);
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 			cv::imwrite("debug_images/island_name_minimap.png", island_name_img);
 #endif
-			auto words_and_boxes = detect_words(island_name_img, tesseract::PSM_SINGLE_LINE);
-			for (const auto& pair : words_and_boxes)
-			{
-				if (result.size())
-					result += " ";
-				result += pair.first;
-			}
+			std::string result = join(detect_words(island_name_img, tesseract::PSM_SINGLE_LINE), true);
+
 #ifdef CONSOLE_DEBUG_OUTPUT
 			std::cout << result << std::endl;
 #endif
@@ -1650,7 +1637,7 @@ std::vector<std::pair<std::string, cv::Rect>> image_recognition::detect_words(co
 	return ret;
 }
 
-std::map<unsigned int, int> image_recognition::get_anno_population_from_ocr_result(const std::vector<std::pair<std::string, cv::Rect>>& ocr_result) const
+std::map<unsigned int, int> image_recognition::get_anno_population_from_ocr_result(const std::vector<std::pair<std::string, cv::Rect>>& ocr_result, const cv::Mat& img) const
 {
 	const std::map<unsigned int, std::string>& dictionary = get_dictionary().population_levels;
 
@@ -1701,6 +1688,7 @@ std::map<unsigned int, int> image_recognition::get_anno_population_from_ocr_resu
 			matched_occurences.emplace(m.occurrence);
 
 			std::string number_string;
+			cv::Rect number_region;
 			for (const auto& pop_value_word : ocr_result) 
 			{
 				if (*m.occurrence == pop_value_word)
@@ -1709,22 +1697,42 @@ std::map<unsigned int, int> image_recognition::get_anno_population_from_ocr_resu
 					&& pop_value_word.second.tl().x > m.occurrence->second.tl().x
 					&& pop_value_word.first.find("0/") == std::string::npos) {
 					number_string += std::regex_replace(pop_value_word.first, std::regex("\\D"), "");
+					
+					if (number_region.area()) // compute 
+					{
+						int max_x = number_region.x + number_region.width;
+						int max_y = number_region.y + number_region.height;
+						number_region.x = std::min(number_region.x, pop_value_word.second.x);
+						number_region.y = std::min(number_region.y, pop_value_word.second.y);
+						number_region.width = std::max(max_x, pop_value_word.second.x + pop_value_word.second.width) - number_region.x;
+						number_region.height = std::max(max_y, pop_value_word.second.y + pop_value_word.second.height) - number_region.y;
+					}
+					else
+					{
+						number_region = pop_value_word.second;
+					}
 
 				}
 
 			}
 
-			int population =
-				[&]() {
-				try { return std::stoi(number_string); }
-				catch (...) 
-				{ 
-#ifdef CONSOLE_DEBUG_OUTPUT
-					std::cout << "could not match number string: " << number_string << std::endl; 
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+			cv::imwrite("debug_images/pop_number_region.png", img(number_region));
 #endif
-					return 0; 
-				}
-			}();
+			number_region.x--;
+			number_region.y--;
+			number_region.height += 2;
+			number_region.width += 2;
+
+			int pop_from_string = number_from_string(number_string);
+			int pop_from_region = number_from_region(img(number_region));
+
+			int population = 0;
+			if(std::floor(std::log10(pop_from_region)) <= std::floor(std::log10(pop_from_string)))
+				population = pop_from_string;
+			else
+				population = std::max(number_from_string(number_string), number_from_region(img(number_region)));
+
 
 			//if word based ocr fails, try symbols (probably only 1 digit population)
 			if (population == 0) {
@@ -2248,25 +2256,34 @@ std::map<unsigned int, int> image_recognition::get_factories_existing_buildings_
 
 int image_recognition::number_from_region(const cv::Mat& im) const
 {
-	std::vector<std::pair<std::string, cv::Rect>> words = detect_words(im, tesseract::PageSegMode::PSM_SINGLE_LINE);
-	std::string number_string;
-	for (const auto& word : words)
-		number_string += word.first;
+	std::string number_string = join(detect_words(im, tesseract::PageSegMode::PSM_SINGLE_LINE));
 
 #ifdef CONSOLE_DEBUG_OUTPUT
 	std::cout << number_string << "\t";
 #endif
 
+	return number_from_string(number_string);
+}
+
+int image_recognition::number_from_string(const std::string& word) const
+{
+	std::string number_string = word;
+	for (char& c : number_string)
+	{
+		auto iter = letter_to_digit.find(c);
+		if (iter != letter_to_digit.end())
+			c = iter->second;
+	}
+
 	number_string = std::regex_replace(number_string, std::regex("\\D"), "");
 
-		try { return std::stoi(number_string); }
-		catch (...) { 
+	try { return std::stoi(number_string); }
+	catch (...) {
 #ifdef CONSOLE_DEBUG_OUTPUT
-			std::cout << "could not match number string: " << number_string << std::endl; 
+		std::cout << "could not match number string: " << number_string << std::endl;
 #endif
-		}
-		return std::numeric_limits<int>::lowest();
-
+	}
+	return std::numeric_limits<int>::lowest();
 }
 
 
@@ -2314,6 +2331,23 @@ int image_recognition::lcs_length(std::string X, std::string Y)
 
 	// LCS will be last entry in the lookup table
 	return lookup[m][n];
+}
+
+std::string image_recognition::join(const std::vector<std::pair<std::string, cv::Rect>>& words, bool insert_spaces) const
+{
+	std::string result;
+
+	for (const auto& pair : words)
+	{
+		result += pair.first;
+		if(insert_spaces)
+			result += " ";
+	}
+
+	if (insert_spaces)
+		result.pop_back();
+
+	return result;
 }
 
 void image_recognition::update_ocr(const std::string& language)

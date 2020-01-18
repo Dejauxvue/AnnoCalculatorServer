@@ -319,6 +319,8 @@ public:
 	*/
 	static int lcs_length(std::string X, std::string Y);
 
+	std::string join(const std::vector<std::pair<std::string, cv::Rect>>& words, bool insert_sapces = false) const;
+
 	/**
 	* access to the singleton TessBaseAPI instance
 	*/
@@ -333,7 +335,7 @@ public:
 	* returna map with entries for all detected population types referred by their english name
 	*/
 	std::map<unsigned int, int> get_anno_population_from_ocr_result(
-		const std::vector<std::pair<std::string, cv::Rect>>& ocr_result) const;
+		const std::vector<std::pair<std::string, cv::Rect>>& ocr_result, const cv::Mat& img) const;
 
 	/*
 	* Checks whether there is a dictionary for @param{language}
@@ -376,6 +378,22 @@ public:
 	* Returns MIN_INTEGER on failure
 	*/
 	int number_from_region(const cv::Mat& im) const;
+
+	/*
+	* Parses the integer contained in @param{word}
+	* Replaces letters commonly from wrongly detected digits (e.g. O instead of 0)
+	* Discards all other symbols.
+	* Returns MIN_INTEGER on failure
+	*/
+	int number_from_string(const std::string& word) const;
+
+	const std::map<char, char> letter_to_digit = {
+		{'O', '0'},
+		{'Q', '0'},
+		{'I', '1'},
+		{'Z', '2'},
+		{'B', '8'}
+	};
 
 private:
 	statistics_screen stats_screen;
