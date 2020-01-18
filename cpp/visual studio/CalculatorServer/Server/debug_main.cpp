@@ -25,7 +25,7 @@ void print(const std::map<unsigned int, T>& map,
 void unit_tests(image_recognition& image_recog)
 {
 	{
-		image_recog.update("german", image_recognition::load_image("image_recon/test_screenshots/Anno 1800 Res 2560x1080.png"));
+		image_recog.update("german", image_recognition::load_image("test_screenshots/Anno 1800 Res 2560x1080.png"));
 		const auto result = image_recog.get_population_amount();
 		BOOST_ASSERT(result.at(15000000) == 4510);
 		BOOST_ASSERT(result.at(15000001) == 6140);
@@ -36,7 +36,7 @@ void unit_tests(image_recognition& image_recog)
 		BOOST_ASSERT(result.at(15000006) == 0);
 	}
 	{
-		image_recog.update("english", image_recognition::load_image("image_recon/test_screenshots/pop_global_bright_1920.png"));
+		image_recog.update("english", image_recognition::load_image("test_screenshots/pop_global_bright_1920.png"));
 		const auto result = image_recog.get_population_amount();
 		BOOST_ASSERT(result.at(15000000) == 1345);
 		BOOST_ASSERT(result.at(15000001) == 4236);
@@ -47,7 +47,7 @@ void unit_tests(image_recognition& image_recog)
 		BOOST_ASSERT(result.at(15000006) == 8615);
 	}
 	{
-		image_recog.update("english", image_recognition::load_image("image_recon/test_screenshots/pop_global_dark_1680.png"));
+		image_recog.update("english", image_recognition::load_image("test_screenshots/pop_global_dark_1680.png"));
 		const auto result = image_recog.get_population_amount();
 		BOOST_ASSERT(result.at(15000000) == 1345);
 		BOOST_ASSERT(result.at(15000001) == 4236);
@@ -58,7 +58,7 @@ void unit_tests(image_recognition& image_recog)
 		BOOST_ASSERT(result.at(15000006) == 8615);
 	}
 	{
-		image_recog.update("english", image_recognition::load_image("image_recon/test_screenshots/pop_global_dark_1920.png"));
+		image_recog.update("english", image_recognition::load_image("test_screenshots/pop_global_dark_1920.png"));
 		const auto result = image_recog.get_population_amount();
 		BOOST_ASSERT(result.at(15000000) == 1307);
 		BOOST_ASSERT(result.at(15000001) == 4166);
@@ -70,7 +70,19 @@ void unit_tests(image_recognition& image_recog)
 	}
 
 	{
-		image_recog.update("german", image_recognition::load_image("image_recon/test_screenshots/stat_pop_global_1.png"));
+		image_recog.update("english", image_recognition::load_image("test_screenshots/pop_island_artisans_1920.png"));
+		const auto result = image_recog.get_population_amount();
+		BOOST_ASSERT(result.at(15000000) == 1460);
+		BOOST_ASSERT(result.at(15000001) == 2476);
+		BOOST_ASSERT(result.at(15000002) == 24);
+		BOOST_ASSERT(result.at(15000003) == 0);
+		BOOST_ASSERT(result.at(15000004) == 0);
+		BOOST_ASSERT(result.at(15000005) == 0);
+		BOOST_ASSERT(result.at(15000006) == 0);
+	}
+
+	{
+		image_recog.update("german", image_recognition::load_image("test_screenshots/stat_pop_global_1.png"));
 		auto result = image_recog.get_population_amount();
 		BOOST_ASSERT(result.at(15000002) == 3360);
 		BOOST_ASSERT(result.at(15000003) == 6108);
@@ -89,7 +101,7 @@ void unit_tests(image_recognition& image_recog)
 	}
 
 	{
-		image_recog.update("german", image_recognition::load_image("image_recon/test_screenshots/stat_pop_global_2.png"));
+		image_recog.update("german", image_recognition::load_image("test_screenshots/stat_pop_global_2.png"));
 		auto result = image_recog.get_population_amount();
 		BOOST_ASSERT(result.at(15000000) == 5372);
 		BOOST_ASSERT(result.at(15000001) == 7664);
@@ -106,6 +118,109 @@ void unit_tests(image_recognition& image_recog)
 		BOOST_ASSERT(result.at(15000004) == 136);
 		BOOST_ASSERT(result.at(15000005) == 376);
 	}
+
+	{
+		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_island_1.png"));
+		auto result = image_recog.get_population_amount();
+		BOOST_ASSERT(result.at(15000005) == 790);
+		BOOST_ASSERT(result.at(15000006) == 518);
+
+		result = image_recog.get_assets_existing_buildings();
+		BOOST_ASSERT(result.at(15000005) == 79);
+		BOOST_ASSERT(result.at(15000006) == 37);
+	}
+
+	{
+		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_island_2.png"));
+		auto result = image_recog.get_population_amount();
+		BOOST_ASSERT(result.at(15000000) == 2097);
+		BOOST_ASSERT(result.at(15000001) == 2480);
+		BOOST_ASSERT(result.at(15000002) == 2100);
+		BOOST_ASSERT(result.at(15000003) == 3040);
+		BOOST_ASSERT(result.at(15000004) == 42);
+
+		result = image_recog.get_assets_existing_buildings();
+		BOOST_ASSERT(result.at(15000000) == 210);
+		BOOST_ASSERT(result.at(15000001) == 124);
+		BOOST_ASSERT(result.at(15000002) == 70);
+		BOOST_ASSERT(result.at(15000003) == 76);
+		BOOST_ASSERT(result.at(15000004) == 1);
+	}
+
+	{
+		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_island_3.png"));
+		auto result = image_recog.get_population_amount();
+		BOOST_ASSERT(result.at(15000000) == 1460);
+		BOOST_ASSERT(result.at(15000001) == 2480);
+		BOOST_ASSERT(result.at(15000002) == 24);
+		BOOST_ASSERT(result.at(15000003) == 3040);
+		BOOST_ASSERT(result.at(15000004) == 42);
+
+		result = image_recog.get_assets_existing_buildings();
+		BOOST_ASSERT(result.at(15000000) == 146);
+		BOOST_ASSERT(result.at(15000001) == 124);
+		BOOST_ASSERT(result.at(15000002) == 1);
+		BOOST_ASSERT(result.at(15000003) == 76);
+		BOOST_ASSERT(result.at(15000004) == 1);
+	}
+
+	{
+		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_island_4.png"));
+		auto result = image_recog.get_population_amount();
+		BOOST_ASSERT(result.at(15000000) == 1450);
+		BOOST_ASSERT(result.at(15000001) == 2474);
+		BOOST_ASSERT(result.at(15000002) == 47);
+
+
+		result = image_recog.get_assets_existing_buildings();
+		BOOST_ASSERT(result.at(15000000) == 145);
+		BOOST_ASSERT(result.at(15000001) == 124);
+		BOOST_ASSERT(result.at(15000002) == 2);
+	}
+
+	{
+		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_island_5.png"));
+		auto result = image_recog.get_population_amount();
+		BOOST_ASSERT(result.at(15000000) == 1430);
+		BOOST_ASSERT(result.at(15000001) == 2443);
+		BOOST_ASSERT(result.at(15000002) == 114);
+		BOOST_ASSERT(result.at(15000003) == 3040);
+		BOOST_ASSERT(result.at(15000004) == 42);
+
+		result = image_recog.get_assets_existing_buildings();
+		BOOST_ASSERT(result.at(15000000) == 143);
+		BOOST_ASSERT(result.at(15000001) == 123);
+		BOOST_ASSERT(result.at(15000002) == 5);
+		BOOST_ASSERT(result.at(15000003) == 76);
+		BOOST_ASSERT(result.at(15000004) == 1);
+	}
+
+	/*
+	{
+		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_island_3.png"));
+		auto result = image_recog.get_population_amount();
+		BOOST_ASSERT(result.at(15000000) == 1460);
+		BOOST_ASSERT(result.at(15000001) == 2480);
+		BOOST_ASSERT(result.at(15000002) == 24);
+		BOOST_ASSERT(result.at(15000003) == 3040);
+		BOOST_ASSERT(result.at(15000004) == 42);
+		BOOST_ASSERT(result.at(15000005) == 3752);
+		BOOST_ASSERT(result.at(15000006) == 3752);
+		BOOST_ASSERT(result.at(112642) == 48);
+		BOOST_ASSERT(result.at(112643) == 48);
+
+		result = image_recog.get_assets_existing_buildings();
+		BOOST_ASSERT(result.at(15000000) == 146);
+		BOOST_ASSERT(result.at(15000001) == 124);
+		BOOST_ASSERT(result.at(15000002) == 1);
+		BOOST_ASSERT(result.at(15000003) == 76);
+		BOOST_ASSERT(result.at(15000004) == 1);
+		BOOST_ASSERT(result.at(15000005) == 376);
+		BOOST_ASSERT(result.at(15000006) == 3752);
+		BOOST_ASSERT(result.at(112642) == 48);
+		BOOST_ASSERT(result.at(112643) == 48);
+	}
+	*/
 
 	std::cout << "all tests passed!" << std::endl;
 }
