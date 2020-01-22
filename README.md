@@ -19,6 +19,7 @@ In case no values are updated, make sure:
 - the island has a long (> 8 letters) name composed from standard letters (A-Za-z) and with other islands as few characters in common as possible
   - NEGATIVE example: "Múa-1" and "Múa-2": Too short, non standard letter ú and both names only differ in one letter
 - in the center of the statistics menu the selected entry is fully visible
+- the scaling in windows is set to 100%
 
 
 # More resultions
