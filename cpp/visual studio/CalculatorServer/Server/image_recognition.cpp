@@ -1044,9 +1044,10 @@ std::map<unsigned int, int> image_recognition::get_population_amount_from_statis
 				boost::split(split_string, joined_string, [](char c) {return c == '/' || c == '[' || c == '(' || c == '{'; });
 
 
-				if (split_string.size() == 2)
+				if (split_string.size() == 2 && std::regex_match(split_string.front(), std::regex("(\\d|\\s|[,.;:'])+")))
 					number_string = split_string.front();
-				else if (texts.size() == 2)
+				else if ((texts.size() == 2 || texts.size() == 3 && texts[1].first.size() == 1) &&
+					std::regex_match(texts.front().first, std::regex("(\\d|\\s|[,.;:'])+")))
 					number_string = texts.front().first;
 				
 				if (!number_string.empty())
