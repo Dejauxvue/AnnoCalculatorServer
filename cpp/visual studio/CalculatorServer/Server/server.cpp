@@ -1,5 +1,5 @@
 #include "server.hpp"
-#include "image_recognition.hpp"
+
 
 using namespace std;
 using namespace web;
@@ -19,7 +19,7 @@ server::server(utility::string_t url) : m_listener(url)
 void server::read_anno_population(web::json::value& result)
 {
 
-	auto population = image_recog.get_population_amount();
+	auto population = reader.get_population_amount();
 
 	for (const auto& p : population) {
 		web::json::value entry;
@@ -35,7 +35,7 @@ void server::read_buildings_count(web::json::value& result)
 {
 
 
-	auto values = image_recog.get_assets_existing_buildings();
+	auto values = reader.get_assets_existing_buildings();
 
 	for (const auto& p : values) {
 		web::json::value entry;
@@ -50,7 +50,7 @@ void server::read_buildings_count(web::json::value& result)
 
 void server::read_productivity_statistics(web::json::value& result, bool optimal_productivity)
 {
-	auto values = optimal_productivity ? image_recog.get_optimal_productivities() : image_recog.get_average_productivities();
+	auto values = optimal_productivity ? reader.get_optimal_productivities() : reader.get_average_productivities();
 
 	for (const auto& p : values) {
 		web::json::value entry;
@@ -83,8 +83,8 @@ void server::handle_get(http_request request)
 		{
 			if (query_params.find(L"lang") != query_params.end())
 			{
-				std::string lang = image_recog.to_string(query_params.find(L"lang")->second);
-				if (image_recog.has_language(lang))
+				std::string lang = image_recognition::to_string(query_params.find(L"lang")->second);
+				if (reader.has_language(lang))
 					language = lang;
 			}
 			
@@ -96,7 +96,8 @@ void server::handle_get(http_request request)
 
 		}
 
-		cv::Mat screenshot(image_recog.update(language));
+		cv::Mat screenshot(image_recognition::take_screenshot());
+		reader.update(language, screenshot);
 		if (screenshot.empty())
 		{
 			std::cout << "Couldn't take screenshot" << std::endl;
@@ -113,7 +114,7 @@ void server::handle_get(http_request request)
 		read_productivity_statistics(json_message, optimal_productivity);
 
 		json_message[U("version")] = web::json::value(std::wstring(VERSION_TAG.begin(), VERSION_TAG.end()));
-		json_message[U("islandName")] = web::json::value(image_recognition::to_wstring(image_recog.get_selected_island()));
+		json_message[U("islandName")] = web::json::value(image_recognition::to_wstring(reader.get_selected_island()));
 
 		web::http::http_response response(status_codes::OK);
 		response.headers().add(U("Access-Control-Allow-Origin"), U("*"));

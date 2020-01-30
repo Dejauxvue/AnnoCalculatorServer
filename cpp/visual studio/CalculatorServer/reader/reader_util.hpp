@@ -10,6 +10,8 @@
 
 #include <tesseract/baseapi.h>
 
+ #define SHOW_CV_DEBUG_IMAGE_VIEW
+// #define CONSOLE_DEBUG_OUTPUT
 
 struct keyword_dictionary
 {
@@ -21,101 +23,10 @@ struct keyword_dictionary
 
 class image_recognition;
 
-/*
-* Stores resolution independent properties of the statistics menu
-* Allows to perform elementary boolean tests
-* use update() to pass a new screenshot
-*/
-class statistics_screen
-{
-public:
-	enum class tab
-	{
-		NONE = 0,
-		FINANCE = 3,
-		PRODUCTION = 1,
-		POPULATION = 4,
-		STORAGE = 2
-	};
-
-	std::map<std::string, unsigned int> island_to_session;
-
-	statistics_screen(image_recognition& recog);
-
-	void update(const cv::Mat& screenshot);
-
-	bool is_open() const;
-
-	tab get_open_tab() const;
-
-	bool is_all_islands_selected() const;
-
-	/*
-	* Returns the island (name, session) from the stored @ref{island_to_session} that matches @param{name} (some differences allowed)
-	* In case no match is found, (@param{name}, 0) is returned.
-	*/
-	std::pair<std::string, unsigned int> get_island_from_list(std::string name) const;
-
-	/*
-	* Returns the panes dependent on the opened tab
-	* Empty image, if !is_open or no position info for pane
-	*/
-	cv::Mat get_center_pane() const;
-	cv::Mat get_left_pane() const;
-	cv::Mat get_right_pane() const;
-	cv::Mat get_center_header() const;
-	cv::Mat get_right_header() const;
-
-
-	/* Utility methods to detect pressed buttons */
-	static bool is_selected(const cv::Vec4b& point);
-	static bool is_tab_selected(const cv::Vec4b& point);
-	static bool closer_to(const cv::Scalar& color, const cv::Scalar& ref, const cv::Scalar& other);
-
-	/* extract region from image, coordinates from [0,1]² */
-	static cv::Mat get_square_region(const cv::Mat& img, const cv::Rect2f& rect);
-	static cv::Mat get_cell(const cv::Mat& img, float crop_left, float width, float crop_vertical = 0.1f);
-
-	static const std::string all_islands;
-	static const cv::Scalar background_brown_light;
-	static const cv::Scalar background_blue_dark;
-	static const cv::Scalar foreground_brown_light;
-	static const cv::Scalar foreground_brown_dark;
-	static const cv::Scalar expansion_arrow;
-
-	static const cv::Rect2f position_factory_icon;
-	static const cv::Rect2f position_small_factory_icon;
-	static const cv::Rect2f position_population_icon;
-	
-
-private:
-	image_recognition& recog;
-	cv::Mat screenshot;
-	cv::Mat prev_islands;
-	tab open_tab;
-
-	cv::Mat get_pane(const cv::Rect2f& rect) const;
-	tab compute_open_tab() const;
-	void update_islands();
-
-	/* pane rectangles relative to [0,1]² image */
-	static const cv::Rect2f pane_tabs;
-	static const cv::Rect2f pane_title;
-	static const cv::Rect2f pane_all_islands;
-	static const cv::Rect2f pane_islands;
-	static const cv::Rect2f pane_finance_center;
-	static const cv::Rect2f pane_finance_right;
-	static const cv::Rect2f pane_production_center;
-	static const cv::Rect2f pane_production_right;
-	static const cv::Rect2f pane_population_center;
-	static const cv::Rect2f pane_header_center;
-	static const cv::Rect2f pane_header_right;
-};
 
 enum class phrase
 {
 	ALL_ISLANDS = 22381,
-	PRODUCTIVITY = 22438,
 	PRODUCTION = 22365,
 	STATISTICS = 22438,
 	THE_NEW_WORLD = 180025,
@@ -123,7 +34,22 @@ enum class phrase
 	CAPE_TRELAWNEY = 110934,
 	THE_ARCTIC = 180045,
 	RESIDENTS = 22379,
-	BREAKDOWN = 22434
+	BREAKDOWN = 22434,
+	ARCHIBALD_HARBOUR = 100680,
+	ANNE_HARBOUR = 100681,
+	FORTUNE_HARBOUR = 100682,
+	ISABELL_HARBOUR = 100683,
+	ELI_HARBOUR = 100685,
+	KAHINA_HARBOUR = 100686,
+	NATE_HARBOUR = 101117,
+	INUIT = 237,
+	ARCHIBALD = 240,
+	ANNE = 73,
+	FORTUNE = 76,
+	ISABELL = 29,
+	ELI = 46,
+	KAHINA = 78,
+	NATE = 77,
 };
 
 class image_recognition
@@ -135,52 +61,8 @@ public:
 	static std::string to_string(const std::wstring&);
 	static std::wstring to_wstring(const std::string&);
 
-	/**
-	*
-	* returns a map with entries for all detected population types referred by their GUID
-	*/
-	std::map < unsigned int, int> get_population_amount();
-	std::map < unsigned int, int> get_population_amount_from_hud();
-	std::map < unsigned int, int> get_population_amount_from_statistic_screen() const;
 
 
-
-	/*
-* Returns percentile productivity for factories.
-* Returns an empty map in case no information is found.
-*/
-	std::map < unsigned int, int> get_average_productivities();
-
-	
-	std::map < unsigned int, int> get_optimal_productivities();
-
-	/*
-	* Returns count of existing buildings (houses/factories).
-	* Returns an empty map in case no information is found.
-	*/
-	std::map < unsigned int, int> get_assets_existing_buildings();
-	std::map < unsigned int, int> get_assets_existing_buildings_from_finance_screen();
-	std::map < unsigned int, int> get_factories_existing_buildings_from_production_screen();
-	std::map<unsigned int, int> get_population_existing_buildings_from_statistic_screen() const;
-
-	std::map<unsigned int, int> get_population_workforce_from_statistic_screen() const;
-
-	/*
-	* Returns the name of the selected island in the left pane of
-	* the statistics screen
-	* Returns ALL_ISLANDS
-	*/
-	std::string get_selected_island();
-	unsigned int get_selected_session();
-	static const std::string ALL_ISLANDS;
-
-	/*
-	* Returns all islands seen in the statistics screen so far
-	* Returns island name and associated session
-	*/
-	std::map<std::string, unsigned int> get_islands() const;
-
-	
 
 	/**
 	* load an image in the cv-Format used here
@@ -236,10 +118,7 @@ public:
 	static std::list<cv::Point> find_rgb_region(cv::InputArray in, 
 		const cv::Point& seed, float threshold);
 
-	/*
-	* Searches for population icon of of tooltip of HUD
-	*/
-	cv::Rect find_population_icon();
+
 
 	/*
 	* Prints the image icon with alpha channel on top of an equal sized image filled with background_color
@@ -257,13 +136,7 @@ public:
 	*/
 	static std::pair<cv::Rect, float> find_icon(cv::InputArray source, cv::InputArray icon, cv::Scalar background_color);
 
-	/*
-	* Compares icon to the set of icons from the dictionary and returns the best matches or an empty vector in case of failure
-	* The input icon must be cropped to the precisely boundaries of the icon. Even small will result in undefined results.
-	* The input icon must be a square.
-	*/
-	std::vector<unsigned int> get_guid_from_icon(cv::Mat icon,
-		const std::map<unsigned int, cv::Mat>& dictionary) const;
+
 
 	/*
 	* Returns the session id or 0 in case of failure.
@@ -277,11 +150,11 @@ public:
 	* The contained text must be on a single line, black with white background and should contain
 	* as less noise as possible
 	*/
-	std::vector<unsigned int> get_guid_from_name(const cv::Mat& text,
-		const std::map<unsigned int, std::string>& dictionary) const;
+	static std::vector<unsigned int> get_guid_from_name(const cv::Mat& text,
+		const std::map<unsigned int, std::string>& dictionary);
 
 	/** 
-	* Removes all GUIDs from factories if that factorie cannot be build in the specified session
+	* Removes all GUIDs from factories if that factory cannot be build in the specified session
 	*/
 	void filter_factories(std::vector<unsigned int>& factories, unsigned int session) const;
 
@@ -301,7 +174,7 @@ public:
 	* makes a screenshot from the Anno 7.exe application if no image is provided
 	* successive calls to getters will evaluate this screenshot
 	*/
-	cv::Mat update(const std::string& language = std::string("english"), 
+	void update(const std::string& language = std::string("english"), 
 		const cv::Mat& img = cv::Mat());
 	static cv::Mat take_screenshot();
 
@@ -329,13 +202,7 @@ public:
 	static std::shared_ptr<tesseract::TessBaseAPI> ocr;
 	//@}
 
-	/**
-	* from the detected words [ocr_result] with thei bounding boxes (unused)
-	* 
-	* returna map with entries for all detected population types referred by their english name
-	*/
-	std::map<unsigned int, int> get_anno_population_from_ocr_result(
-		const std::vector<std::pair<std::string, cv::Rect>>& ocr_result, const cv::Mat& img) const;
+
 
 	/*
 	* Checks whether there is a dictionary for @param{language}
@@ -347,6 +214,7 @@ public:
 	*/
 	const keyword_dictionary& get_dictionary() const;
 
+	cv::Mat get_screenshot() const;
 
 	/*
 	* Compose custom dictionary from phrases
@@ -385,29 +253,17 @@ public:
 	* Discards all other symbols.
 	* Returns MIN_INTEGER on failure
 	*/
-	int number_from_string(const std::string& word) const;
+	static int number_from_string(const std::string& word);
 
-	const std::map<char, char> letter_to_digit = {
-		{'O', '0'},
-		{'Q', '0'},
-		{'I', '1'},
-		{'Z', '2'},
-		{'B', '8'}
-	};
+	static const std::map<char, char> letter_to_digit;
+	static const std::string ALL_ISLANDS;
 
-private:
-	statistics_screen stats_screen;
 
 
 	cv::Mat screenshot;
 	std::string language;
-	// empty if not yet evaluated, use get_selected_island()
-	std::string selected_island;
-	// use get_selected_session()
-	unsigned int selected_session;
-	unsigned int center_pane_selection;
-	// -1 if not searched for, 0 if not found
-	cv::Rect population_icon_position;
+
+
 
 	std::map<std::string, keyword_dictionary> dictionaries;
 	std::map<unsigned int, cv::Mat> product_icons;

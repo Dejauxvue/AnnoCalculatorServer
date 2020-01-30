@@ -1,5 +1,8 @@
 // dllmain.cpp : Definiert den Einstiegspunkt für die DLL-Anwendung.
-#include "pch.h"
+
+#define WIN32_LEAN_AND_MEAN             // Selten verwendete Komponenten aus Windows-Headern ausschließen
+// Windows-Headerdateien
+#include <windows.h>
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,

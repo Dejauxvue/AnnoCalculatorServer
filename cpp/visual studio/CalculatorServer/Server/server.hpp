@@ -6,7 +6,7 @@
 #include "cpprest/json.h"
 #include "cpprest/http_listener.h"
 
-#include "image_recognition.hpp"
+#include "../reader/reader_statistics.hpp"
 
 using namespace web;
 using namespace http;
@@ -30,7 +30,7 @@ private:
 
 	void handle_get(http_request message);
 
-	image_recognition image_recog;
+	reader::reader reader;
 	http_listener m_listener;
 	std::mutex mutex_;
 };

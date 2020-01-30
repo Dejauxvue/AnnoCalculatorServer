@@ -7,7 +7,8 @@
 #pragma comment(lib, "WS2_32.lib")
 
 
-#include "image_recognition.hpp"
+#include "reader_statistics.hpp"
+
 
 template<typename T>
 void print(const std::map<unsigned int, T>& map,
@@ -22,7 +23,7 @@ void print(const std::map<unsigned int, T>& map,
 	}
 }
 
-void unit_tests(image_recognition& image_recog)
+void unit_tests(reader::reader& image_recog)
 {
 	{
 		image_recog.update("german", image_recognition::load_image("test_screenshots/Anno 1800 Res 2560x1080.png"));
@@ -226,10 +227,13 @@ void unit_tests(image_recognition& image_recog)
 }
 
 int main() {
-	image_recognition image_recog;
-//	unit_tests(image_recog);
+	reader::reader image_recog;
+	unit_tests(image_recog);
 
-	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Documents/Dokumente/Computer/Softwareentwicklung/AnnoCalculatorServer/calculator-recognition-issues/widescreen/Anno_18002019-12-27-17-27-14.png");
+//	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Documents/Anno 1800/screenshot/screenshot_2019-12-31-13-03-20.jpg");
+//	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Pictures/Uplay/Anno 1800/Anno 18002020-1-6-0-32-3.png");
+	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Documents/Dokumente/Computer/Softwareentwicklung/AnnoCalculatorServer/calculator-recognition-issues/population_number_slash_issue/screenshot6.png");
+//	 	cv::Mat src = image_recognition::load_image("J:/Pictures/Uplay/Anno 1800/Anno 18002020-1-6-0-32-3.png");
 
 	image_recog.update("english", src);
 
@@ -257,9 +261,9 @@ int main() {
 	print(image_recog.get_average_productivities(), image_recog.get_dictionary().factories);
 	std::cout << std::endl;
 
-	std::cout << "Optimal Productivity" << std::endl;
-	print(image_recog.get_optimal_productivities(), image_recog.get_dictionary().factories);
-	std::cout << std::endl;
+	//std::cout << "Optimal Productivity" << std::endl;
+	//print(image_recog.get_optimal_productivities(), image_recog.get_dictionary().factories);
+	//std::cout << std::endl;
 
 	std::cout << "Existing factories" << std::endl;
 	print(image_recog.get_assets_existing_buildings(), image_recog.get_dictionary().factories);

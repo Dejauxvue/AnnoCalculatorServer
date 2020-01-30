@@ -20,3 +20,4 @@ calculator-recognition-issues
 *.zip
 *.ggb
 Thumbs.db
+/cpp/visual studio/CalculatorServer/reader/x64

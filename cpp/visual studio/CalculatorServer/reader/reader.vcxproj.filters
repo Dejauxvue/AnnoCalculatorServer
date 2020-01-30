@@ -15,10 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
+    <ClInclude Include="reader_util.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
+    <ClInclude Include="reader_hud_statistics.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="reader_statistics_screen.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="reader_statistics.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -26,7 +32,16 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="reader_util.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="reader_statistics_screen.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="reader_hud_statistics.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="reader_statistics.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
