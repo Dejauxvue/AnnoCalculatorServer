@@ -53,6 +53,7 @@ enum class phrase
 	ELI = 46,
 	KAHINA = 78,
 	NATE = 77,
+	TRADE = 2388
 };
 
 class image_recognition
@@ -65,7 +66,18 @@ public:
 	static std::wstring to_wstring(const std::string&);
 
 
+	/* extract region from image, coordinates from [0,1]² */
+	static cv::Mat get_square_region(const cv::Mat& img, const cv::Rect2f& rect);
+	static cv::Mat get_cell(const cv::Mat& img, float crop_left, float width, float crop_vertical = 0.1f);
 
+	/*
+	* Returns the region of the screenshot specified by a subregion of [0,1]²
+	*/
+	cv::Mat get_pane(const cv::Rect2f& rect) const;
+
+	static bool closer_to(const cv::Scalar& color, const cv::Scalar& ref, const cv::Scalar& other);
+
+	static bool is_button(const cv::Mat& image, const cv::Scalar& button_color, const cv::Scalar& background_color);
 
 	/**
 	* load an image in the cv-Format used here
@@ -76,7 +88,7 @@ public:
 	* creates BGRA image with only black and white pixels
 	* thresholding is between two peeks of input image
 	*/
-	static cv::Mat binarize(cv::InputArray input, bool invert = false);
+	static cv::Mat binarize(const cv::Mat& input, bool invert = false);
 
 	/**
 	* creates BGRA image with only black and white pixels
@@ -85,26 +97,26 @@ public:
 	*
 	* @attend returned image might have smaller resolution
 	*/
-	static cv::Mat binarize_icon(cv::InputArray input, cv::Size target_size = cv::Size());
+	static cv::Mat binarize_icon(const cv::Mat& input, cv::Size target_size = cv::Size());
 
 	/**
 	* create the two channel image with H from HLS space
 	* from a given BGR image
 	*/
-	static cv::Mat convert_color_space_for_template_matching(cv::InputArray bgr_in);
+	static cv::Mat convert_color_space_for_template_matching(const cv::Mat& bgr_in);
 
 	/**
 	* create an image with one channel of gamma invariant hue from given BGR image
 	* method used is from: https://pdfs.semanticscholar.org/6c16/b450648a531c3ce47db7db3a7794e2f55d96.pdf
 	* "Hue that is invariant to brightness and gamma" by Graham Finlayson and Gerald Schaefer, 2001
 	*/
-	static cv::Mat gamma_invariant_hue_finlayson(cv::InputArray bgr_in);
+	static cv::Mat gamma_invariant_hue_finlayson(const cv::Mat& bgr_in);
 
 	/**
 	* stores the single channels of an image
 	* i-th channel is stored as path_i_.png
 	*/
-	static void write_image_per_channel(const std::string& path, cv::InputArray img);
+	static void write_image_per_channel(const std::string& path, const cv::Mat& img);
 
 	/**
 	* the axis-aligned-bounding box from the given set of points
@@ -118,7 +130,7 @@ public:
 	*
 	* return pixel positions of the final region
 	*/
-	static std::list<cv::Point> find_rgb_region(cv::InputArray in,
+	static std::list<cv::Point> find_rgb_region(const cv::Mat& in,
 		const cv::Point& seed, float threshold);
 
 
@@ -126,20 +138,31 @@ public:
 	/*
 	* Prints the image icon with alpha channel on top of an equal sized image filled with background_color
 	*/
-	static cv::Mat blend_icon(cv::InputArray icon, cv::Scalar background_color);
+	static cv::Mat blend_icon(const cv::Mat& icon, const cv::Scalar& background_color);
+	static cv::Mat blend_icon(const cv::Mat& icon, const cv::Mat& background);
 
 	/*
 	* Sets the rgb channels of icon to color, the alpha channel remains untouched.
 	*/
-	static cv::Mat dye_icon(cv::InputArray icon, cv::Scalar color);
+	static cv::Mat dye_icon(const cv::Mat& icon, cv::Scalar color);
 
 	/**
 	* Finds all occurences of the passed icon on top of some region with background_color.
 	* Note: icon must precisely have the same size as the pattern to be found in source.
 	*/
-	static std::pair<cv::Rect, float> find_icon(cv::InputArray source, cv::InputArray icon, cv::Scalar background_color);
+	static std::pair<cv::Rect, float> find_icon(const cv::Mat& source, const cv::Mat& icon, cv::Scalar background_color);
 
+	/*
+	* Returns the GUID that best matches @param{icon}, resizes the icon if necessary.
+	* Returns 0 if there is no match.
+	*/
+	std::vector<unsigned int> get_guid_from_icon(const cv::Mat& icon, 
+		const std::map<unsigned int, cv::Mat>& dictionary,
+		const cv::Mat& background) const;
 
+	std::vector<unsigned int> get_guid_from_icon(const cv::Mat& icon,
+		const std::map<unsigned int, cv::Mat>& dictionary,
+		const cv::Scalar& background_color) const;
 
 	/*
 	* Returns the session id or 0 in case of failure.
@@ -171,7 +194,7 @@ public:
 	*
 	* returns rectangle of the best template position and the fitting error
 	*/
-	static std::pair<cv::Rect, float> match_template(cv::InputArray source, cv::InputArray template_img);
+	static std::pair<cv::Rect, float> match_template(const cv::Mat& source, const cv::Mat& template_img);
 
 	/**
 	* makes a screenshot from the Anno 7.exe application if no image is provided
@@ -187,7 +210,7 @@ public:
 	* return a vector of pairs of detected words and their respective bounding box
 	*/
 	static std::vector<std::pair<std::string, cv::Rect>>  detect_words(
-		const cv::InputArray& in,
+		const cv::Mat& in,
 		tesseract::PageSegMode mode = tesseract::PSM_SPARSE_TEXT);
 
 	/**

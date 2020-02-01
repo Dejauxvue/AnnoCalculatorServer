@@ -204,7 +204,8 @@ image_recognition::image_recognition()
 			phrase::ISABELL,
 			phrase::ELI,
 			phrase::KAHINA,
-			phrase::NATE
+			phrase::NATE,
+			phrase::TRADE
 			});
 
 		boost::property_tree::ptree output_json;
@@ -247,9 +248,63 @@ std::wstring image_recognition::to_wstring(const std::string& str)
 	return std::wstring(str.begin(), str.end());
 }
 
-std::list<cv::Point> image_recognition::find_rgb_region(cv::InputArray in, const cv::Point& seed, float threshold)
+cv::Mat image_recognition::get_square_region(const cv::Mat& img, const cv::Rect2f& rect)
 {
-	cv::Mat input = in.getMat();
+	if (!img.size)
+		return cv::Mat();
+
+	int dim = std::lround(std::max(rect.width * img.cols, rect.height * img.rows));
+	cv::Rect scaled(rect.x * img.cols,
+		rect.y * img.rows,
+		std::min(dim, (int)(img.cols - rect.x * img.cols)),
+		std::min(dim, (int)(img.rows - rect.y * img.rows)));
+	return img(scaled);
+}
+
+cv::Mat image_recognition::get_cell(const cv::Mat& img, float crop_left, float width, float crop_vertical)
+{
+	if (!img.size)
+		return cv::Mat();
+
+	cv::Rect scaled(crop_left * img.cols, 0.5f * crop_vertical * img.rows, width * img.cols, (1 - crop_vertical) * img.rows);
+	return img(scaled);
+}
+
+cv::Mat image_recognition::get_pane(const cv::Rect2f& rect) const
+{
+	if (!screenshot.size)
+		return cv::Mat();
+
+	cv::Point2f factor(screenshot.cols - 1, screenshot.rows - 1);
+	cv::Rect scaled(cv::Point(rect.tl().x * factor.x, rect.tl().y * factor.y),
+		cv::Point(rect.br().x * factor.x, rect.br().y * factor.y));
+	return screenshot(scaled);
+}
+
+bool image_recognition::closer_to(const cv::Scalar& color, const cv::Scalar& ref, const cv::Scalar& other)
+{
+	return (color - ref).dot(color - ref) < (color - other).dot(color - other);
+}
+
+bool image_recognition::is_button(const cv::Mat& image, const cv::Scalar& button_color, const cv::Scalar& background_color)
+{
+	const float margin = 0.125f;
+	
+	int matches = 0;
+	for (const cv::Point2f& p : { cv::Point2f{0.5f, margin}, cv::Point2f{1 - margin, 0.5f}, cv::Point2f{0.5f, 1 - margin}, cv::Point2f{margin, 0.5f} })
+	{
+		cv::Point2i pos(p.x * image.cols, p.y * image.rows);
+		matches += closer_to(image.at<cv::Vec4b>(pos), button_color, background_color);
+	}
+
+	return matches >= 3;
+}
+
+
+
+std::list<cv::Point> image_recognition::find_rgb_region(const cv::Mat& in, const cv::Point& seed, float threshold)
+{
+	cv::Mat input = in;
 	std::list<cv::Point> ret;
 
 	if (seed.x >= input.cols || seed.y >= input.rows)
@@ -298,25 +353,35 @@ std::list<cv::Point> image_recognition::find_rgb_region(cv::InputArray in, const
 	return ret;
 }
 
-cv::Mat image_recognition::blend_icon(cv::InputArray icon, cv::Scalar background_color)
+cv::Mat image_recognition::blend_icon(const cv::Mat& icon, const cv::Scalar& background_color)
 {
-	cv::Mat background_img = cv::Mat(icon.rows(), icon.cols(), CV_8UC4);
-	cv::Mat zeros = cv::Mat(icon.rows(), icon.cols(), CV_8UC1,cv::Scalar(0));
+	cv::Mat background_img = cv::Mat(icon.rows, icon.cols, CV_8UC4);
+	cv::Mat zeros = cv::Mat(icon.rows, icon.cols, CV_8UC1, cv::Scalar(0));
 	background_img = background_color;
+
+	return blend_icon(icon, background_img);
+}
+
+cv::Mat image_recognition::blend_icon(const cv::Mat& icon, const cv::Mat& background)
+{
+	cv::Mat zeros = cv::Mat(icon.rows, icon.cols, CV_8UC1,cv::Scalar(0));
+	cv::Mat background_resized;
+
+	cv::resize(background, background_resized, cv::Size(icon.cols, icon.rows));
 
 	std::vector<cv::Mat> icon_channels;
 	cv::split(icon, icon_channels);
 	cv::Mat alpha;
 	cv::merge(std::vector<cv::Mat>({ icon_channels[3],icon_channels[3],icon_channels[3],zeros }), alpha);
 
-	return background_img.mul(cv::Scalar(255, 255, 255, 255) - alpha, 1./255) + icon.getMat().mul(alpha, 1./255);
+	return background_resized.mul(cv::Scalar(255, 255, 255, 255) - alpha, 1./255) + icon.mul(alpha, 1./255);
 }
 
-cv::Mat image_recognition::dye_icon(cv::InputArray icon, cv::Scalar color)
+cv::Mat image_recognition::dye_icon(const cv::Mat& icon, cv::Scalar color)
 {
-	cv::Mat blue = cv::Mat(icon.rows(), icon.cols(), CV_8UC1, cv::Scalar(color[0]));
-	cv::Mat green = cv::Mat(icon.rows(), icon.cols(), CV_8UC1, cv::Scalar(color[1]));
-	cv::Mat red = cv::Mat(icon.rows(), icon.cols(), CV_8UC1, cv::Scalar(color[2]));
+	cv::Mat blue = cv::Mat(icon.rows, icon.cols, CV_8UC1, cv::Scalar(color[0]));
+	cv::Mat green = cv::Mat(icon.rows, icon.cols, CV_8UC1, cv::Scalar(color[1]));
+	cv::Mat red = cv::Mat(icon.rows, icon.cols, CV_8UC1, cv::Scalar(color[2]));
 
 	std::vector<cv::Mat> icon_channels;
 	cv::split(icon, icon_channels);
@@ -326,12 +391,12 @@ cv::Mat image_recognition::dye_icon(cv::InputArray icon, cv::Scalar color)
 	return result;
 }
 
-std::pair<cv::Rect, float> image_recognition::find_icon(cv::InputArray source, cv::InputArray icon, cv::Scalar background_color)
+std::pair<cv::Rect, float> image_recognition::find_icon(const cv::Mat& source, const cv::Mat& icon, cv::Scalar background_color)
 {
-	float scaling = (source.cols() * 0.027885)/icon.cols();
+	float scaling = (source.cols * 0.027885)/icon.cols;
 	
 	cv::Mat template_resized;
-	cv::resize(blend_icon(icon, background_color), template_resized, cv::Size(scaling * icon.rows(), scaling * icon.cols()));
+	cv::resize(blend_icon(icon, background_color), template_resized, cv::Size(scaling * icon.cols, scaling * icon.rows));
 
 
 
@@ -342,8 +407,68 @@ std::pair<cv::Rect, float> image_recognition::find_icon(cv::InputArray source, c
 }
 
 
+std::vector<unsigned int> image_recognition::get_guid_from_icon(const cv::Mat& icon,
+	const std::map<unsigned int, cv::Mat>& dictionary,
+	const cv::Mat& background) const
+{
+	if (icon.empty())
+		return std::vector<unsigned int>();
+
+	cv::Mat background_resized;
+	cv::resize(background, background_resized, cv::Size(icon.cols, icon.rows));
+
+	cv::Mat diff;
+	cv::absdiff(icon, background_resized, diff);
+	float best_match = cv::sum(diff).ddot(cv::Scalar::ones()) / icon.rows / icon.cols;
+	std::vector<unsigned int> guids;
 
 
+	for (auto& entry : dictionary)
+	{
+		cv::Mat template_resized;
+		cv::resize(blend_icon(entry.second, background_resized), template_resized, cv::Size(icon.cols, icon.rows));
+
+		cv::Mat diff;
+		cv::absdiff(icon, template_resized, diff);
+		float match = cv::sum(diff).ddot(cv::Scalar::ones()) / icon.rows / icon.cols;
+		if (match == best_match)
+		{
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+			cv::imwrite("debug_images/icon_template.png", template_resized);
+#endif
+			guids.push_back(entry.first);
+		}
+		else if (match < best_match)
+		{
+			guids.clear();
+			guids.push_back(entry.first);
+			best_match = match;
+		}
+	}
+
+	if (best_match > 150)
+		return std::vector<unsigned int>();
+
+#ifdef CONSOLE_DEBUG_OUTPUT
+	for (unsigned int guid : guids)
+		std::cout << guid << ", ";
+	std::cout << "(" << best_match << ")\t";
+#endif
+	return guids;
+}
+
+
+
+
+
+std::vector<unsigned int> image_recognition::get_guid_from_icon(const cv::Mat& icon, const std::map<unsigned int, cv::Mat>& dictionary, const cv::Scalar& background_color) const
+{
+	if (icon.empty())
+		return std::vector<unsigned int>();
+
+	get_guid_from_icon(icon, dictionary,
+		cv::Mat(icon.rows, icon.cols, CV_8UC4, background_color));
+}
 
 unsigned int image_recognition::get_session_guid(cv::Mat icon) const
 {
@@ -508,7 +633,7 @@ double image_recognition::compare_hu_moments(const std::vector<double>& ma, cons
 
 
 
-std::pair<cv::Rect, float> image_recognition::match_template(cv::InputArray source, cv::InputArray template_img)
+std::pair<cv::Rect, float> image_recognition::match_template(const cv::Mat& source, const cv::Mat& template_img)
 {
 	cv::Mat src_hs = convert_color_space_for_template_matching(source);
 	cv::Mat tmpl_hs = convert_color_space_for_template_matching(template_img);
@@ -554,10 +679,10 @@ cv::Mat image_recognition::load_image(const std::string& path)
 	return img;
 }
 
-cv::Mat image_recognition::binarize(cv::InputArray input, bool invert)
+cv::Mat image_recognition::binarize(const cv::Mat& input, bool invert)
 {
 	if (input.empty())
-		return input.getMat();
+		return input;
 
 	cv::Mat thresholded;
 	cv::cvtColor(input, thresholded, cv::COLOR_BGRA2GRAY);
@@ -569,10 +694,10 @@ cv::Mat image_recognition::binarize(cv::InputArray input, bool invert)
 
 
 
-cv::Mat image_recognition::binarize_icon(cv::InputArray input, cv::Size target_size)
+cv::Mat image_recognition::binarize_icon(const cv::Mat& input, cv::Size target_size)
 {
 	if (input.empty())
-		return input.getMat();
+		return input;
 
 	cv::Mat thresholded;
 	cv::Mat input_alpha_applied = blend_icon(input, cv::Scalar(0, 0, 0));
@@ -619,7 +744,7 @@ cv::Mat image_recognition::binarize_icon(cv::InputArray input, cv::Size target_s
 	return output;
 }
 
-cv::Mat image_recognition::convert_color_space_for_template_matching(cv::InputArray bgr_in)
+cv::Mat image_recognition::convert_color_space_for_template_matching(const cv::Mat& bgr_in)
 {
 	std::vector<cv::Mat> channels;
 	cv::split(bgr_in, channels);
@@ -635,10 +760,10 @@ cv::Mat image_recognition::convert_color_space_for_template_matching(cv::InputAr
 	return ret;
 }
 
-cv::Mat image_recognition::gamma_invariant_hue_finlayson(cv::InputArray bgr_in)
+cv::Mat image_recognition::gamma_invariant_hue_finlayson(const cv::Mat& bgr_in)
 {
 	std::vector<cv::Mat> channels;
-	cv::split(bgr_in.getMat(), channels);
+	cv::split(bgr_in, channels);
 	for (auto& c : channels) {
 		c.convertTo(c, CV_32F);
 		c = c / 255.f;
@@ -698,9 +823,9 @@ cv::Mat image_recognition::gamma_invariant_hue_finlayson(cv::InputArray bgr_in)
 	return ret[0];
 }
 
-void image_recognition::write_image_per_channel(const std::string& path, cv::InputArray img)
+void image_recognition::write_image_per_channel(const std::string& path, const cv::Mat& img)
 {
-	cv::Mat mat = img.getMat();
+	cv::Mat mat = img;
 	std::vector<cv::Mat> channels;
 	cv::split(mat, channels);
 	for (int i = 0; i < channels.size(); i++) {
@@ -866,9 +991,9 @@ cv::Mat image_recognition::take_screenshot()
 
 std::shared_ptr<tesseract::TessBaseAPI> image_recognition::ocr(nullptr);
 
-std::vector<std::pair<std::string, cv::Rect>> image_recognition::detect_words(const cv::InputArray& in, const tesseract::PageSegMode mode)
+std::vector<std::pair<std::string, cv::Rect>> image_recognition::detect_words(const cv::Mat& in, const tesseract::PageSegMode mode)
 {
-	cv::Mat input = in.getMat();
+	cv::Mat input = in;
 	std::vector<std::pair<std::string, cv::Rect>> ret;
 
 	try {

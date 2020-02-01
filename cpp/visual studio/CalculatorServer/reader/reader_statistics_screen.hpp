@@ -56,7 +56,7 @@ public:
 
 	void update(const std::string& language, const cv::Mat& img);
 
-	std::vector<unsigned int> get_guid_from_icon(cv::Mat icon, const std::map<unsigned int, cv::Mat>& dictionary) const;
+	
 
 	/*
 	* Accessor functions to read data
@@ -121,13 +121,6 @@ public:
 	/* Utility methods to detect pressed buttons */
 	static bool is_selected(const cv::Vec4b& point);
 	static bool is_tab_selected(const cv::Vec4b& point);
-	static bool closer_to(const cv::Scalar& color, const cv::Scalar& ref, const cv::Scalar& other);
-
-	/* extract region from image, coordinates from [0,1]² */
-	static cv::Mat get_square_region(const cv::Mat& img, const cv::Rect2f& rect);
-	static cv::Mat get_cell(const cv::Mat& img, float crop_left, float width, float crop_vertical = 0.1f);
-
-
 
 private:
 	image_recognition& recog;
@@ -144,7 +137,7 @@ private:
 	unsigned int selected_session;
 	unsigned int center_pane_selection;
 
-	cv::Mat get_pane(const cv::Rect2f& rect) const;
+	
 	tab compute_open_tab() const;
 	void update_islands();
 
