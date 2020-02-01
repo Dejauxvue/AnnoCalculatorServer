@@ -154,6 +154,7 @@
     <ClInclude Include="reader_hud_statistics.hpp" />
     <ClInclude Include="reader_statistics.hpp" />
     <ClInclude Include="reader_statistics_screen.hpp" />
+    <ClInclude Include="reader_trading.hpp" />
     <ClInclude Include="reader_util.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +162,7 @@
     <ClCompile Include="reader_hud_statistics.cpp" />
     <ClCompile Include="reader_statistics.cpp" />
     <ClCompile Include="reader_statistics_screen.cpp" />
+    <ClCompile Include="reader_trading.cpp" />
     <ClCompile Include="reader_util.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

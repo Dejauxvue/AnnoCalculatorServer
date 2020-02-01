@@ -27,6 +27,9 @@
     <ClInclude Include="reader_statistics.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="reader_trading.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -42,6 +45,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="reader_statistics.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="reader_trading.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
