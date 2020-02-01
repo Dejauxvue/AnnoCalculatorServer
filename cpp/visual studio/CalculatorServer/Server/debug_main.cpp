@@ -9,6 +9,7 @@
 
 #include "reader_statistics.hpp"
 
+using namespace reader;
 
 template<typename T>
 void print(const std::map<unsigned int, T>& map,
@@ -23,7 +24,7 @@ void print(const std::map<unsigned int, T>& map,
 	}
 }
 
-void unit_tests(reader::reader& image_recog)
+void unit_tests(class reader& image_recog)
 {
 	{
 		image_recog.update("german", image_recognition::load_image("test_screenshots/Anno 1800 Res 2560x1080.png"));
@@ -227,7 +228,7 @@ void unit_tests(reader::reader& image_recog)
 }
 
 int main() {
-	reader::reader image_recog;
+	class reader image_recog;
 	unit_tests(image_recog);
 
 //	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Documents/Anno 1800/screenshot/screenshot_2019-12-31-13-03-20.jpg");

@@ -27,7 +27,8 @@
 #include <tesseract/genericvector.h>
 #include "reader_statistics_screen.hpp"
 
-
+namespace reader
+{
 
 struct comparePoints {
 	bool operator()(const cv::Point& a, const cv::Point& b) const {
@@ -1212,3 +1213,5 @@ const std::map<char, char> image_recognition::letter_to_digit = {
 };
 
 const std::string image_recognition::ALL_ISLANDS = std::string("All Islands");
+
+}

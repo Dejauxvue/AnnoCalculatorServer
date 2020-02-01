@@ -13,6 +13,9 @@
  #define SHOW_CV_DEBUG_IMAGE_VIEW
 // #define CONSOLE_DEBUG_OUTPUT
 
+namespace reader
+{
+
 struct keyword_dictionary
 {
 	std::map<unsigned int, std::string> population_levels;
@@ -109,13 +112,13 @@ public:
 	static cv::Rect get_aa_bb(const std::list<cv::Point>&);
 
 	/**
-	* perform region growing on image [in] 
+	* perform region growing on image [in]
 	* starting at position [seed]
 	* expand to all neighbouring pixels with squared color distance to seed < [threshold]
 	*
 	* return pixel positions of the final region
 	*/
-	static std::list<cv::Point> find_rgb_region(cv::InputArray in, 
+	static std::list<cv::Point> find_rgb_region(cv::InputArray in,
 		const cv::Point& seed, float threshold);
 
 
@@ -153,7 +156,7 @@ public:
 	static std::vector<unsigned int> get_guid_from_name(const cv::Mat& text,
 		const std::map<unsigned int, std::string>& dictionary);
 
-	/** 
+	/**
 	* Removes all GUIDs from factories if that factory cannot be build in the specified session
 	*/
 	void filter_factories(std::vector<unsigned int>& factories, unsigned int session) const;
@@ -161,7 +164,7 @@ public:
 	/*
 	* Compares hu moments.
 	*/
-	static double compare_hu_moments(const std::vector<double>& ma, const std::vector<double>& mb) ;
+	static double compare_hu_moments(const std::vector<double>& ma, const std::vector<double>& mb);
 
 	/**
 	* find the best position of [template_img] within [source]
@@ -174,7 +177,7 @@ public:
 	* makes a screenshot from the Anno 7.exe application if no image is provided
 	* successive calls to getters will evaluate this screenshot
 	*/
-	void update(const std::string& language = std::string("english"), 
+	void update(const std::string& language = std::string("english"),
 		const cv::Mat& img = cv::Mat());
 	static cv::Mat take_screenshot();
 
@@ -237,7 +240,7 @@ public:
 	* Iterates the rows of a table specified by horizontal lines
 	*/
 	static void iterate_rows(const cv::Mat& im,
-										const std::function<void(const cv::Mat& row)> f);
+		const std::function<void(const cv::Mat & row)> f);
 
 
 
@@ -279,3 +282,4 @@ public:
 	static const std::map<std::string, std::string> tesseract_languages;
 };
 
+}

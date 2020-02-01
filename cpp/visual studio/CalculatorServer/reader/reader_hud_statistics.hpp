@@ -40,4 +40,5 @@ private:
 	// -1 if not searched for, 0 if not found
 	cv::Rect population_icon_position;
 };
+
 }

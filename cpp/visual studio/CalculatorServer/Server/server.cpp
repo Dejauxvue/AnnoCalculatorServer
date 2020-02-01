@@ -7,6 +7,8 @@ using namespace utility;
 using namespace http;
 using namespace web::http::experimental::listener;
 
+using namespace reader;
+
 /* IMPORTANT!!: this should be updated to the current release tag*/
 const std::string server::VERSION_TAG("v2.2.2");
 
