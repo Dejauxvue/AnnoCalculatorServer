@@ -11,9 +11,14 @@ public:
 	static const cv::Scalar background_marine_blue;
 	static const cv::Scalar background_sand_dark;
 	static const cv::Scalar background_sand_bright;
+	static const cv::Scalar background_grey_dark;
 
+	static const cv::Rect2f size_offering;
 	static const cv::Rect2f size_price;
-	static const cv::Rect2f size_icon;
+//	static const cv::Rect2f size_icon;
+
+	static const unsigned int count_cols;
+	static const unsigned int count_rows;
 
 	static const cv::Rect2f pane_prev_name;
 	static const cv::Rect2f pane_prev_tab_items;
@@ -24,6 +29,7 @@ public:
 	static const cv::Rect2f pane_menu_offering;
 	static const cv::Rect2f pane_menu_name;
 	static const cv::Rect2f pane_menu_reroll;
+	static const cv::Rect2f pane_menu_execute;
 	static const cv::Rect2f pane_menu_title;
 
 };
@@ -61,7 +67,7 @@ public:
 	* the position of the corresponding item on the screenshot.
 	* Distinguishes whether preview or trade menu is open.
 	*/
-	cv::Rect2i get_location(unsigned int index);
+	cv::Rect2i get_location(unsigned int index) const;
 
 private:
 	image_recognition& recog;

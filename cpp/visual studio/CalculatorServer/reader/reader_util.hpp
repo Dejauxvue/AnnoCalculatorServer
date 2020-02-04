@@ -70,6 +70,8 @@ public:
 	static cv::Mat get_square_region(const cv::Mat& img, const cv::Rect2f& rect);
 	static cv::Mat get_cell(const cv::Mat& img, float crop_left, float width, float crop_vertical = 0.1f);
 
+	static cv::Mat get_pane(const cv::Rect2f& rect, const cv::Mat& img);
+
 	/*
 	* Returns the region of the screenshot specified by a subregion of [0,1]²
 	*/

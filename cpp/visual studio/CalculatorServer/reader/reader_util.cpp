@@ -270,15 +270,20 @@ cv::Mat image_recognition::get_cell(const cv::Mat& img, float crop_left, float w
 	return img(scaled);
 }
 
+cv::Mat image_recognition::get_pane(const cv::Rect2f& rect, const cv::Mat& img)
+{
+	cv::Point2f factor(img.cols - 1, img.rows - 1);
+	cv::Rect scaled(cv::Point(rect.tl().x * factor.x, rect.tl().y * factor.y),
+		cv::Point(rect.br().x * factor.x, rect.br().y * factor.y));
+	return img(scaled);
+}
+
 cv::Mat image_recognition::get_pane(const cv::Rect2f& rect) const
 {
 	if (!screenshot.size)
 		return cv::Mat();
 
-	cv::Point2f factor(screenshot.cols - 1, screenshot.rows - 1);
-	cv::Rect scaled(cv::Point(rect.tl().x * factor.x, rect.tl().y * factor.y),
-		cv::Point(rect.br().x * factor.x, rect.br().y * factor.y));
-	return screenshot(scaled);
+	return get_pane(rect, screenshot);
 }
 
 bool image_recognition::closer_to(const cv::Scalar& color, const cv::Scalar& ref, const cv::Scalar& other)
@@ -466,7 +471,7 @@ std::vector<unsigned int> image_recognition::get_guid_from_icon(const cv::Mat& i
 	if (icon.empty())
 		return std::vector<unsigned int>();
 
-	get_guid_from_icon(icon, dictionary,
+	return get_guid_from_icon(icon, dictionary,
 		cv::Mat(icon.rows, icon.cols, CV_8UC4, background_color));
 }
 
