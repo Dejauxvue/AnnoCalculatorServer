@@ -71,13 +71,6 @@ void server::handle_get(http_request request)
 
 		ucout << "request received: " << request.absolute_uri().query() << endl;
 
-//		auto res = image_recog.find_icon(image_recognition::take_screenshot(), image_recognition::load_image("image_recon/icons/icon_resident.png"), cv::Scalar(57, 57, 57, 255));
-		//cv::Mat roi = image_recognition::take_screenshot()({ 670,670 + 160 } , { 1016,1016 + 50 });
-		//cv::imwrite("image_recon/roi.png", roi);
-		//auto words = image_recog.detect_words(roi, "english");
-//		image_recog.get_productivity(image_recognition::take_screenshot(), "english");
-		
-
 
 		std::string language("english");
 		bool optimal_productivity = false;
@@ -98,9 +91,10 @@ void server::handle_get(http_request request)
 
 		}
 
-		cv::Mat screenshot(image_recognition::take_screenshot());
-		reader.update(language, screenshot);
-		if (screenshot.empty())
+
+
+		cv::Rect2i window(image_recognition::find_anno());
+		if (!window.area())
 		{
 			std::cout << "Couldn't take screenshot" << std::endl;
 			web::http::http_response response(status_codes::NoContent);
@@ -109,6 +103,9 @@ void server::handle_get(http_request request)
 			mutex_.unlock();
 			return;
 		}
+
+		cv::Mat screenshot(image_recognition::take_screenshot(window));
+		reader.update(language, screenshot);
 
 		web::json::value json_message;
 		read_anno_population(json_message);

@@ -181,6 +181,12 @@ public:
 	static std::vector<unsigned int> get_guid_from_name(const cv::Mat& text,
 		const std::map<unsigned int, std::string>& dictionary);
 
+	template <typename T>
+	static cv::Point_<T> get_center(const cv::Rect_<T> box)
+	{
+		return cv::Point_<T>(box.x + box.width / 2, box.y + box.height / 2);
+	}
+
 	/**
 	* Removes all GUIDs from factories if that factory cannot be build in the specified session
 	*/
@@ -198,13 +204,16 @@ public:
 	*/
 	static std::pair<cv::Rect, float> match_template(const cv::Mat& source, const cv::Mat& template_img);
 
-	/**
-	* makes a screenshot from the Anno 7.exe application if no image is provided
-	* successive calls to getters will evaluate this screenshot
-	*/
+
 	void update(const std::string& language = std::string("english"),
 		const cv::Mat& img = cv::Mat());
-	static cv::Mat take_screenshot();
+	
+	/**
+	* makes a screenshot from the Anno 7.exe application 
+	*/
+	static cv::Rect2i find_anno();
+	static cv::Rect2i get_desktop();
+	static cv::Mat take_screenshot(cv::Rect2i rect = cv::Rect2i());
 
 	/**
 	* detect arbitrary words in the given image [in]

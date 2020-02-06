@@ -573,6 +573,8 @@ std::vector<unsigned int> image_recognition::get_guid_from_name(const cv::Mat& t
 	return guids;
 }
 
+
+
 void image_recognition::filter_factories(std::vector<unsigned int>& factories, unsigned int session) const
 {
 	if (session_to_region.find(session) == session_to_region.end())
@@ -866,7 +868,7 @@ void image_recognition::update(const std::string& language,
 	update_ocr(this->language);
 
 	if (img.empty())
-		screenshot = take_screenshot();
+		screenshot = take_screenshot(find_anno());
 	else
 		screenshot = img;
 
@@ -876,96 +878,114 @@ void image_recognition::update(const std::string& language,
 
 }
 
-cv::Mat image_recognition::take_screenshot()
+cv::Rect2i image_recognition::find_anno()
 {
-	try{
-	cv::Mat src;
+	try {
+		std::string window_name_regex_string("(Anno 1800)|(Anno 7)");
+		std::regex window_name_regex(window_name_regex_string.data());
 
-	std::string window_name_regex_string("(Anno 1800)|(Anno 7)");
-	std::regex window_name_regex(window_name_regex_string.data());
+		HWND hwnd = NULL;
+		int area = 0;
+		struct lambda_parameter {
+			HWND* hwnd_p;
+			std::regex window_name_regex;
+			int* area;
+		} params{ &hwnd, window_name_regex, &area };
 
-	HWND hwnd = NULL;
-	int area = 0;
-	struct lambda_parameter {
-		HWND* hwnd_p;
-		std::regex window_name_regex;
-		int* area;
-	} params{ &hwnd, window_name_regex, &area };
+		EnumWindows(
+			[](HWND local_hwnd, LPARAM lparam) {
+				int length = GetWindowTextLength(local_hwnd);
+				std::vector<char>  buffer(length * 2 + 1);
+				GetWindowText(local_hwnd, (wchar_t*)buffer.data(), length + 1);
+				std::string windowTitle(buffer.data());
+				if (length == 0) {
+					return TRUE;
+				}
+				if (std::regex_match(windowTitle, ((lambda_parameter*)lparam)->window_name_regex)) {
+					RECT windowsize;    // get the height and width of the screen
+					GetWindowRect(local_hwnd, &windowsize);
 
-	EnumWindows(
-		[](HWND local_hwnd, LPARAM lparam) {
-			int length = GetWindowTextLength(local_hwnd);
-			char*  buffer = new char[length + 1];
-			GetWindowText(local_hwnd, (wchar_t*)buffer, length + 1);
-			std::string windowTitle(buffer);
-			if (length == 0) {
+					int area = (windowsize.bottom - windowsize.top) * (windowsize.right - windowsize.left);
+					if (*(((lambda_parameter*)lparam)->area))
+					{
+						std::cout << "WARNING: Multiple windows with title 'Anno 1800' detected. The server may not work because it captures the wrong one." << std::endl;
+					}
+
+					if (*(((lambda_parameter*)lparam)->area) < area)
+					{
+						*(((lambda_parameter*)lparam)->area) = area;
+						*(((lambda_parameter*)lparam)->hwnd_p) = local_hwnd;
+					}
+				}
 				return TRUE;
-			}
-			if (std::regex_match(windowTitle, ((lambda_parameter*)lparam)->window_name_regex)) {
-				RECT windowsize;    // get the height and width of the screen
-				GetWindowRect(local_hwnd, &windowsize);
+			}, (LPARAM)&params);
 
-				int area = (windowsize.bottom - windowsize.top) * (windowsize.right - windowsize.left);
-				if (*(((lambda_parameter*)lparam)->area))
-				{
-					std::cout << "WARNING: Multiple windows with title 'Anno 1800' detected. The server may not work because it captures the wrong one." << std::endl;
-				}
-
-				if (*(((lambda_parameter*)lparam)->area) < area)
-				{
-					*(((lambda_parameter*)lparam)->area) = area;
-					*(((lambda_parameter*)lparam)->hwnd_p) = local_hwnd;
-				}
-			}
-			return TRUE;
-		}, (LPARAM)& params);
-
-	if (hwnd == NULL)
-	{
+		if (hwnd == NULL)
+		{
 #ifdef CONSOLE_DEBUG_OUTPUT
-		std::cout << "Can't find window with regex " << window_name_regex_string << std::endl
-			<< "open windows are:" << std::endl;
+			std::cout << "Can't find window with regex " << window_name_regex_string << std::endl
+				<< "open windows are:" << std::endl;
 
-		//print all open window titles
-		EnumWindows([](HWND hWnd, LPARAM lparam) {
-			int length = GetWindowTextLength(hWnd);
-			char* buffer = new char[length + 1];
-			GetWindowText(hWnd, buffer, length + 1);
-			std::string windowTitle(buffer);
-			std::cout << hWnd << ":  " << windowTitle << std::endl;
-			if (length > 0)
-			{
-				std::cout << "match result "
-					<< std::regex_match(windowTitle, ((lambda_parameter*)lparam)->window_name_regex) << std::endl;
-			}
-			return TRUE;
-			}, (LPARAM)& params);
+			//print all open window titles
+			EnumWindows([](HWND hWnd, LPARAM lparam) {
+				int length = GetWindowTextLength(hWnd);
+				char* buffer = new char[length + 1];
+				GetWindowText(hWnd, buffer, length + 1);
+				std::string windowTitle(buffer);
+				std::cout << hWnd << ":  " << windowTitle << std::endl;
+				if (length > 0)
+				{
+					std::cout << "match result "
+						<< std::regex_match(windowTitle, ((lambda_parameter*)lparam)->window_name_regex) << std::endl;
+				}
+				return TRUE;
+				}, (LPARAM)&params);
 #else
-		std::cout << "Anno 1800 window not found" << std::endl;
+			std::cout << "Anno 1800 window not found" << std::endl;
 #endif
 
-		return cv::Mat();
+			return cv::Rect2i();
+		}
+
+		RECT windowsize;    // get the height and width of the screen
+		GetWindowRect(hwnd, &windowsize);
+
+		return cv::Rect2i(windowsize.left, windowsize.top, windowsize.right - windowsize.left, windowsize.bottom - windowsize.top);
 	}
+	catch (const std::exception & e)
+	{
+		return cv::Rect2i();
+	}
+}
+
+cv::Rect2i image_recognition::get_desktop()
+{
+	RECT windowsize;
+
+	const HWND hDesktop = GetDesktopWindow();
+	GetWindowRect(hDesktop, &windowsize);
+
+	return cv::Rect2i(windowsize.left, windowsize.top, windowsize.right - windowsize.left, windowsize.bottom - windowsize.top);
+}
+
+cv::Mat image_recognition::take_screenshot(cv::Rect2i rect)
+{
+	cv::Rect window = rect;
+
+	if (!rect.area())
+		window = get_desktop();
 
 	HDC hwindowDC = GetDC(NULL);
 	HDC hwindowCompatibleDC = CreateCompatibleDC(hwindowDC);
 	SetStretchBltMode(hwindowCompatibleDC, COLORONCOLOR);
 
-	RECT windowsize;    // get the height and width of the screen
-	GetWindowRect(hwnd, &windowsize);
-
-	const int height = windowsize.bottom - windowsize.top;  //change this to whatever size you want to resize to
-	const int width = windowsize.right - windowsize.left;
-
-	src.create(height, width, CV_8UC4);
-
 	// create a bitmap
-	HBITMAP hbwindow = CreateCompatibleBitmap(hwindowDC, windowsize.right - windowsize.left, windowsize.bottom - windowsize.top);
+	HBITMAP hbwindow = CreateCompatibleBitmap(hwindowDC, window.width, window.height);
 
 	BITMAPINFOHEADER  bi;
 	bi.biSize = sizeof(BITMAPINFOHEADER);    //http://msdn.microsoft.com/en-us/library/windows/window/dd183402%28v=vs.85%29.aspx
-	bi.biWidth = width;
-	bi.biHeight = -height;  //this is the line that makes it draw upside down or not
+	bi.biWidth = window.width;
+	bi.biHeight = -window.height;  //this is the line that makes it draw upside down or not
 	bi.biPlanes = 1;
 	bi.biBitCount = 32;
 	bi.biCompression = BI_RGB;
@@ -975,23 +995,21 @@ cv::Mat image_recognition::take_screenshot()
 	bi.biClrUsed = 0;
 	bi.biClrImportant = 0;
 
+	cv::Mat src(window.height, window.width, CV_8UC4);
+
 	// use the previously created device context with the bitmap
 	SelectObject(hwindowCompatibleDC, hbwindow);
 	// copy from the window device context to the bitmap device context
-	StretchBlt(hwindowCompatibleDC, 0, 0, width, height, hwindowDC, windowsize.left, windowsize.top, width, height, SRCCOPY); //change SRCCOPY to NOTSRCCOPY for wacky colors !
-	GetDIBits(hwindowCompatibleDC, hbwindow, 0, height, src.data, reinterpret_cast<BITMAPINFO*>(&bi), DIB_RGB_COLORS);  //copy from hwindowCompatibleDC to hbwindow
+	StretchBlt(hwindowCompatibleDC, 0, 0, window.width, window.height, hwindowDC, window.x, window.y, window.width, window.height, SRCCOPY); //change SRCCOPY to NOTSRCCOPY for wacky colors !
+	GetDIBits(hwindowCompatibleDC, hbwindow, 0, window.height, src.data, reinterpret_cast<BITMAPINFO*>(&bi), DIB_RGB_COLORS);  //copy from hwindowCompatibleDC to hbwindow
 
 	// avoid memory leak
 	DeleteObject(hbwindow);
 	DeleteDC(hwindowCompatibleDC);
-	ReleaseDC(hwnd, hwindowDC);
+	ReleaseDC(nullptr, hwindowDC);
 
 	return src;
-	}
-	catch (...)
-	{
-		return cv::Mat();
-	}
+
 }
 
 std::shared_ptr<tesseract::TessBaseAPI> image_recognition::ocr(nullptr);
