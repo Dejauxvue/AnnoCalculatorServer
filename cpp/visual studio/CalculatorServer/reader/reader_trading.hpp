@@ -11,11 +11,14 @@ public:
 	static const cv::Scalar background_marine_blue;
 	static const cv::Scalar background_sand_dark;
 	static const cv::Scalar background_sand_bright;
+	static const cv::Scalar background_grey_bright;
 	static const cv::Scalar background_grey_dark;
+	static const cv::Scalar background_green_bright;
+	static const cv::Scalar frame_brown;
 
 	static const cv::Rect2f size_offering;
 	static const cv::Rect2f size_price;
-//	static const cv::Rect2f size_icon;
+	static const cv::Rect2f size_icon;
 
 	static const unsigned int count_cols;
 	static const unsigned int count_rows;
@@ -38,6 +41,8 @@ struct offering
 {
 	unsigned int index;
 	unsigned int price;
+
+	bool operator==(const offering& other) const = default;
 };
 
 class trading_menu
@@ -56,6 +61,11 @@ public:
 	* Preview: Tests whether the open trade menu button is available
 	*/
 	bool can_buy() const;
+	/*
+	 * Trading menue: Tests wheter the item at the specified index can be added to the cart
+	 * Returns false in all other cases
+	 */
+	bool can_buy(unsigned int index) const;
 
 	/*
 	* Returns all currently offered items
@@ -67,7 +77,10 @@ public:
 	* the position of the corresponding item on the screenshot.
 	* Distinguishes whether preview or trade menu is open.
 	*/
-	cv::Rect2i get_location(unsigned int index) const;
+	cv::Rect2i get_abs_location(unsigned int index) const;
+	cv::Rect2f get_rel_location(unsigned int index) const;
+
+	unsigned int get_open_trader() const;
 
 private:
 	image_recognition& recog;

@@ -10,6 +10,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server\Server.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "reader", "reader\reader.vcxproj", "{861B42BB-34E5-4C79-A960-428136A7DB93}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RerollBotConsole", "RerollBotConsole\RerollBotConsole.vcxproj", "{AF284A97-0222-4D48-82D1-07B5DE250748}"
+	ProjectSection(ProjectDependencies) = postProject
+		{861B42BB-34E5-4C79-A960-428136A7DB93} = {861B42BB-34E5-4C79-A960-428136A7DB93}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unit_tests", "unit_tests\unit_tests.vcxproj", "{1D87A228-C84D-409D-8A8F-45E61F0613A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -32,6 +39,22 @@ Global
 		{861B42BB-34E5-4C79-A960-428136A7DB93}.Release|x64.Build.0 = Release|x64
 		{861B42BB-34E5-4C79-A960-428136A7DB93}.Release|x86.ActiveCfg = Release|Win32
 		{861B42BB-34E5-4C79-A960-428136A7DB93}.Release|x86.Build.0 = Release|Win32
+		{AF284A97-0222-4D48-82D1-07B5DE250748}.Debug|x64.ActiveCfg = Debug|x64
+		{AF284A97-0222-4D48-82D1-07B5DE250748}.Debug|x64.Build.0 = Debug|x64
+		{AF284A97-0222-4D48-82D1-07B5DE250748}.Debug|x86.ActiveCfg = Debug|Win32
+		{AF284A97-0222-4D48-82D1-07B5DE250748}.Debug|x86.Build.0 = Debug|Win32
+		{AF284A97-0222-4D48-82D1-07B5DE250748}.Release|x64.ActiveCfg = Release|x64
+		{AF284A97-0222-4D48-82D1-07B5DE250748}.Release|x64.Build.0 = Release|x64
+		{AF284A97-0222-4D48-82D1-07B5DE250748}.Release|x86.ActiveCfg = Release|Win32
+		{AF284A97-0222-4D48-82D1-07B5DE250748}.Release|x86.Build.0 = Release|Win32
+		{1D87A228-C84D-409D-8A8F-45E61F0613A9}.Debug|x64.ActiveCfg = Debug|x64
+		{1D87A228-C84D-409D-8A8F-45E61F0613A9}.Debug|x64.Build.0 = Debug|x64
+		{1D87A228-C84D-409D-8A8F-45E61F0613A9}.Debug|x86.ActiveCfg = Debug|Win32
+		{1D87A228-C84D-409D-8A8F-45E61F0613A9}.Debug|x86.Build.0 = Debug|Win32
+		{1D87A228-C84D-409D-8A8F-45E61F0613A9}.Release|x64.ActiveCfg = Release|x64
+		{1D87A228-C84D-409D-8A8F-45E61F0613A9}.Release|x64.Build.0 = Release|x64
+		{1D87A228-C84D-409D-8A8F-45E61F0613A9}.Release|x86.ActiveCfg = Release|Win32
+		{1D87A228-C84D-409D-8A8F-45E61F0613A9}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
