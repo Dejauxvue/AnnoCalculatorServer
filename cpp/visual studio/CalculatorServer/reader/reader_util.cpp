@@ -691,8 +691,16 @@ cv::Mat image_recognition::binarize(const cv::Mat& input, bool invert)
 	if (input.empty())
 		return input;
 
-	cv::Mat thresholded;
-	cv::cvtColor(input, thresholded, cv::COLOR_BGRA2GRAY);
+	cv::Mat resized, thresholded;
+	if (input.rows < 40)
+	{
+		float scale = 40 / input.rows;
+		cv::resize(input, resized, cv::Size(), scale, scale, cv::INTER_CUBIC);
+	}
+	else
+		resized = input;
+
+	cv::cvtColor(resized, thresholded, cv::COLOR_BGRA2GRAY);
 	cv::threshold(thresholded, thresholded, 128, 255, (invert ? cv::THRESH_BINARY_INV : cv::THRESH_BINARY)  | cv::THRESH_OTSU);
 	cv::cvtColor(thresholded, thresholded, cv::COLOR_GRAY2RGBA);
 

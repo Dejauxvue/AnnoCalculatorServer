@@ -15,18 +15,19 @@ const cv::Scalar trading_params::background_sand_dark = cv::Scalar(135, 183, 211
 const cv::Scalar trading_params::background_grey_bright = cv::Scalar(82, 100, 114, 255);
 const cv::Scalar trading_params::background_grey_dark = cv::Scalar(50, 50, 50, 255);
 const cv::Scalar trading_params::background_green_bright = cv::Scalar(59, 144, 95, 255);
+const cv::Scalar trading_params::background_green_dark = cv::Scalar(66, 92, 62, 255);
 const cv::Scalar trading_params::frame_brown = cv::Scalar(89, 152, 195, 255);
 
-const cv::Rect2f trading_params::size_icon = cv::Rect2f(cv::Point2f(0.0185, 0.225), cv::Point2f(0.963,1.));
+const cv::Rect2f trading_params::size_icon = cv::Rect2f(cv::Point2f(0.0185, 0.23), cv::Point2f(0.963,1.));
 const cv::Rect2f trading_params::size_price = cv::Rect2f(cv::Point2f(0.218, 0.), cv::Point2f(1., 0.225));
-const cv::Rect2f trading_params::size_offering = cv::Rect2f(cv::Point2f(0.9493, 0.66), cv::Point2f(0.9848, 0.7396));
+const cv::Rect2f trading_params::size_offering = cv::Rect2f(0,0,0.03545,0.07967);
 
 const unsigned int trading_params::count_cols = 4;
 const unsigned int trading_params::count_rows = 2;
 
 const cv::Rect2f trading_params::pane_prev_name = cv::Rect2f(cv::Point2f(0.8386, 0.5676), cv::Point2f(0.974, 0.5942));
 const cv::Rect2f trading_params::pane_prev_tab_items = cv::Rect2f(cv::Point2f(0.9148, 0.62), cv::Point2f(0.9827, 0.6462));
-const cv::Rect2f trading_params::pane_prev_offering = cv::Rect2f(cv::Point2f(0.8309, 0.6605), cv::Point2f(0.9849, 0.8241));
+const cv::Rect2f trading_params::pane_prev_offering = cv::Rect2f(cv::Point2f(0.8314, 0.661), cv::Point2f(0.9859, 0.8241));
 const cv::Rect2f trading_params::pane_prev_reroll = cv::Rect2f(cv::Point2f(0.8954, 0.8354), cv::Point2f(0.924, 0.8864));
 const cv::Rect2f trading_params::pane_prev_exchange = cv::Rect2f(cv::Point2f(0.8955, 0.9352), cv::Point2f(0.9241, 0.9862));
 
@@ -127,7 +128,7 @@ bool trading_menu::is_trade_preview_open() const
 
 bool trading_menu::is_trading_menu_open() const
 {
-	return menu_open && open_trader;
+	return menu_open;
 }
 
 bool trading_menu::has_reroll() const
@@ -241,6 +242,14 @@ cv::Rect2f trading_menu::get_rel_location(unsigned int index) const
 unsigned int trading_menu::get_open_trader() const
 {
 	return open_trader;
+}
+
+bool trading_menu::is_book(unsigned int index) const
+{
+	cv::Mat offering(recog.get_pane(get_rel_location(index)));
+	cv::Vec4b pixel = offering.at<cv::Vec4b>(42, 37);
+	char g = pixel(1);
+	return g > pixel(0) + 10 && g > pixel(2) + 10;
 }
 
 

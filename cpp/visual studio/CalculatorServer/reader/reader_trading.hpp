@@ -14,6 +14,7 @@ public:
 	static const cv::Scalar background_grey_bright;
 	static const cv::Scalar background_grey_dark;
 	static const cv::Scalar background_green_bright;
+	static const cv::Scalar background_green_dark;
 	static const cv::Scalar frame_brown;
 
 	static const cv::Rect2f size_offering;
@@ -81,6 +82,8 @@ public:
 	cv::Rect2f get_rel_location(unsigned int index) const;
 
 	unsigned int get_open_trader() const;
+
+	bool is_book(unsigned int index) const;
 
 private:
 	image_recognition& recog;
