@@ -10,22 +10,25 @@ std::map<unsigned int, std::set<unsigned int>> relevant_offerings({
 	{ (unsigned int) phrase::ARCHIBALD_HARBOUR, { // Archibald Harbour
 		240000, // propeller
 		4 * 65000, // millicent's manifesto
-		4 * 45575, // Bente Vacation Act
-		4 * 52750, // O'Mara's Regulations
+		//4 * 45575, // Bente Vacation Act
+		//4 * 52750, // O'Mara's Regulations
 		4 * 21750, // Vindication Women's Rights
 	}},
 	{(unsigned int) phrase::ELI_HARBOUR, { // Eli Harbour
 		4 * 7300, // Magnetist
-		4 * 18750, // Elictrical Engineer
+		//4 * 6250, // Dredger
+		//4 * 18750, // Elictrical Engineer
 		4 * 68200, // Pyrphorian Whizz
 		4 * 83250, // Dario
 		4 * 72350, // Feras
-		4 * 47500, //Malching's Back-to-Back
+		//4 * 47500, // Malching's Back-to-Back
 		4 * 56000, // Prenatal Perservation
-		4 * 69575, // Mr. Garrick
-		4 * 73750, // Lisowski
-		4 * 62500, // Salima
-		4 * 75350 // Kadijah
+		//4 * 69575, // Mr. Garrick
+		4 * 73750 // Lisowski
+		//4 * 75350, // Kadijah
+		//4 * 62500, // Salima
+		//4 * 50000, // Smokestack Act
+		//4 * 22175 // First-Rate Sapper
 	}},
 	{ (unsigned int) phrase::KAHINA_HARBOUR, { // Kahina Harbour
 		4 * 62500, // Salima
@@ -34,6 +37,17 @@ std::map<unsigned int, std::set<unsigned int>> relevant_offerings({
 		4 * 5600, // Marshland - Water Lily
 		4 * 24750, // Marshland - Marsh-Mallow
 		4 * 1075 // Marshland - Common Reed
+	}},
+		{ (unsigned int)phrase::ANNE_HARBOUR, { // Kahina Harbour
+		4 * 62500, // Salima
+		4 * 75350, // Kadijah
+	//	4 * 18750, // Elictrical Engineer
+		4 * 6250 // Dredger
+	}},
+	{ (unsigned int)phrase::INUIT_HARBOUR, { // Kahina Harbour
+//		4 * 16225, // Arctic Fox
+		4 * 15625, // Musc Ox
+		4 * 17175 // Arctic Caribou
 	}}
 	});
 
@@ -97,14 +111,15 @@ int main() {
 					}
 
 					
-
+					bool paused = false;
 					for (unsigned int index : indices)
 					{
 						reader.update(language, recog.take_screenshot(window));
-						if (!reader.can_buy(index))
+						if (!reader.can_buy(index) && !paused)
 						{
 							std::cout << "Cannot add item " << index << " to cart. Please check ship and hit enter to continue." << std::endl;
 							system("PAUSE");
+							paused = true;
 							break;
 						}
 
@@ -117,8 +132,11 @@ int main() {
 
 					if (!reader.is_trading_menu_open() || !reader.can_buy())
 					{
-						std::cout << "Cannot execute trade. Please check ship and hit enter to continue." << std::endl;
-						system("PAUSE");
+						if (!paused)
+						{
+							std::cout << "Cannot execute trade. Please check ship and hit enter to continue." << std::endl;
+							system("PAUSE");
+						}
 						continue;
 					}
 

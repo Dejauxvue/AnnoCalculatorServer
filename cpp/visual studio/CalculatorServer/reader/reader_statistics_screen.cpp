@@ -357,7 +357,7 @@ std::map<unsigned int, int> statistics_screen::get_optimal_productivities()
 
 #ifdef CONSOLE_DEBUG_OUTPUT
 	try {
-		std::cout << get_dictionary().factories.at(guids.front()) << ":\t";
+		std::cout << recog.get_dictionary().factories.at(guids.front()) << ":\t";
 	}
 	catch (...) {}
 	std::cout << std::endl;
@@ -452,7 +452,7 @@ std::map<unsigned int, int> statistics_screen::get_average_productivities()
 
 #ifdef CONSOLE_DEBUG_OUTPUT
 			try {
-				std::cout << get_dictionary().products.at(p_guids.front()) << ":\t";
+				std::cout << recog.get_dictionary().products.at(p_guids.front()) << ":\t";
 			}
 			catch (...) {}
 #endif
@@ -523,7 +523,7 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 
 #ifdef CONSOLE_DEBUG_OUTPUT
 	try {
-		std::cout << get_dictionary().ui_texts.at(center_pane_selection) << std::endl;
+		std::cout << recog.get_dictionary().ui_texts.at(center_pane_selection) << std::endl;
 	}
 	catch (...) {}
 #endif
@@ -702,7 +702,7 @@ std::map<unsigned int, int> statistics_screen::get_population_amount() const
 
 #ifdef CONSOLE_DEBUG_OUTPUT
 				try {
-					std::cout << get_dictionary().population_levels.at(guids.front()) << "\t" << joined_string << std::endl;
+					std::cout << recog.get_dictionary().population_levels.at(guids.front()) << "\t" << joined_string << std::endl;
 				}
 				catch (...) {}
 #endif
@@ -798,7 +798,7 @@ std::string statistics_screen::get_selected_island()
 	if (is_all_islands_selected())
 	{
 #ifdef CONSOLE_DEBUG_OUTPUT
-		std::cout << ALL_ISLANDS << std::endl;
+		std::cout << recog.ALL_ISLANDS << std::endl;
 #endif
 		selected_session = recog.SESSION_META;
 		selected_island = recog.ALL_ISLANDS;

@@ -76,7 +76,7 @@ void trading_menu::update(const std::string& language, const cv::Mat& img)
 		phrase::ELI_HARBOUR,
 		phrase::KAHINA_HARBOUR,
 		phrase::NATE_HARBOUR,
-		phrase::INUIT
+		phrase::INUIT_HARBOUR
 	}));
 
 #ifdef CONSOLE_DEBUG_OUTPUT

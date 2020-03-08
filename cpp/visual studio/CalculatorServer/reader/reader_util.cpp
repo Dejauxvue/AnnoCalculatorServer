@@ -197,6 +197,7 @@ image_recognition::image_recognition()
 			phrase::ELI_HARBOUR,
 			phrase::KAHINA_HARBOUR,
 			phrase::NATE_HARBOUR,
+			phrase::INUIT_HARBOUR,
 			phrase::INUIT,
 			phrase::ARCHIBALD,
 			phrase::ANNE,
@@ -236,6 +237,8 @@ image_recognition::image_recognition()
 		boost::property_tree::write_json("texts/ui_texts.json", output_json);
 
 	}
+
+	initialize_items();
 }
 
 std::string image_recognition::to_string(const std::wstring& str)
@@ -663,17 +666,6 @@ std::pair<cv::Rect, float> image_recognition::match_template(const cv::Mat& sour
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 cv::Mat image_recognition::load_image(const std::string& path)
 {
 	cv::Mat img = cv::imread(path, cv::IMREAD_UNCHANGED);
@@ -684,6 +676,72 @@ cv::Mat image_recognition::load_image(const std::string& path)
 		cv::cvtColor(img, img, cv::COLOR_BGR2BGRA);
 
 	return img;
+}
+
+void image_recognition::initialize_items()
+{
+	boost::property_tree::ptree pt;
+	boost::property_tree::read_json("texts/items_2020-03-08.json", pt);
+
+	std::map<unsigned int, cv::Mat> item_backgrounds;
+
+	auto create_background = [&](rarity rarity_guid, 
+		const std::string& rarity_name,
+		const cv::Scalar& color)
+	{
+		cv::Mat background_ornament = load_image("icons/btn_itemsocket_" + rarity_name + ".png");
+		background_ornament -= cv::Scalar(0, 0, 0, 192);
+		cv::Mat background1 = blend_icon(background_ornament, color);
+		cv::Mat background2 = blend_icon(load_image("icons/btn_itemsocket_base.png"), background1);
+		//cv::imshow("icon", background2);
+		//cv::waitKey(200);
+		item_backgrounds.emplace((unsigned int) rarity_guid, background2);
+	};
+
+	create_background(rarity::COMMON, "common", cv::Scalar(212, 232, 242, 255));
+	create_background(rarity::QUEST, "common", cv::Scalar(212, 232, 242, 255));
+	create_background(rarity::NARRATIVE, "common", cv::Scalar(212, 232, 242, 255));
+	create_background(rarity::UNCOMMON, "uncommon", cv::Scalar(165, 214, 188, 255));
+	create_background(rarity::RARE, "rare", cv::Scalar(228, 201, 175, 255));
+	create_background(rarity::EPIC, "epic", cv::Scalar(213, 167, 196, 255));
+	create_background(rarity::LEGENDARY, "legendary", cv::Scalar(97, 204, 244, 255));
+
+	for (const auto& item : pt.get_child("items"))
+	{
+		unsigned int guid = item.second.get_child("guid").get_value<unsigned int>();
+		std::string path = item.second.get_child("icon").get_value<std::string>();
+		unsigned int rarity = item.second.get_child("rarity").get_value<unsigned int>();
+
+		cv::Mat overlay;
+		try {
+			overlay = load_image("icons/" + path);
+		}
+		catch (std::exception & e)
+		{
+			std::cout << e.what() << std::endl;
+			continue;
+		}
+
+		cv::Mat overlay_with_margin;
+		cv::copyMakeBorder(overlay, overlay_with_margin, overlay.rows * 0.05, overlay.rows * 0.05, overlay.cols * 0.05, overlay.cols * 0.05, cv::BORDER_CONSTANT, cv::Scalar()); 
+		cv::Mat icon = blend_icon(overlay_with_margin, item_backgrounds[rarity]);
+		//cv::imshow("icon", icon);
+		//cv::waitKey(1);
+
+	
+		//if (factory.second.get_child_optional("region").has_value())
+		//{
+		//	factory_to_region.emplace(guid, factory.second.get_child("region").get_value<unsigned int>());
+		//}
+
+		//load_and_save_icon(guid, factory.second, factory_icons);
+
+		//for (const auto& language : factory.second.get_child("locaText"))
+		//{
+
+		//	dictionaries.at(language.first).factories.emplace(guid, language.second.get_value<std::string>());
+		//}
+	}
 }
 
 cv::Mat image_recognition::binarize(const cv::Mat& input, bool invert)
@@ -902,14 +960,17 @@ cv::Rect2i image_recognition::find_anno()
 
 		EnumWindows(
 			[](HWND local_hwnd, LPARAM lparam) {
-				int length = GetWindowTextLength(local_hwnd);
-				std::vector<char>  buffer(length * 2 + 1);
-				GetWindowText(local_hwnd, (wchar_t*)buffer.data(), length + 1);
-				std::string windowTitle(buffer.data());
+				size_t length = GetWindowTextLength(local_hwnd);
+
 				if (length == 0) {
 					return TRUE;
 				}
-				if (std::regex_match(windowTitle, ((lambda_parameter*)lparam)->window_name_regex)) {
+
+				wchar_t* buffer = new wchar_t[length + 1];
+				GetWindowText(local_hwnd, buffer, length + 1);
+				std::wstring  windowTitle(buffer);
+
+				if (std::regex_match(to_string(windowTitle), ((lambda_parameter*)lparam)->window_name_regex)) {
 					RECT windowsize;    // get the height and width of the screen
 					GetWindowRect(local_hwnd, &windowsize);
 
@@ -935,16 +996,22 @@ cv::Rect2i image_recognition::find_anno()
 				<< "open windows are:" << std::endl;
 
 			//print all open window titles
-			EnumWindows([](HWND hWnd, LPARAM lparam) {
-				int length = GetWindowTextLength(hWnd);
-				char* buffer = new char[length + 1];
-				GetWindowText(hWnd, buffer, length + 1);
-				std::string windowTitle(buffer);
-				std::cout << hWnd << ":  " << windowTitle << std::endl;
+			EnumWindows([](HWND local_hwnd, LPARAM lparam) {
+				size_t length = GetWindowTextLength(local_hwnd);
+
+				if (length == 0) {
+					return TRUE;
+				}
+
+				wchar_t* buffer = new wchar_t[length + 1];
+				GetWindowText(local_hwnd, buffer, length + 1);
+				std::wstring  windowTitle(buffer);
+
+				std::cout << local_hwnd << ":  " << to_string(windowTitle) << std::endl;
 				if (length > 0)
 				{
 					std::cout << "match result "
-						<< std::regex_match(windowTitle, ((lambda_parameter*)lparam)->window_name_regex) << std::endl;
+						<< std::regex_match(to_string(windowTitle), ((lambda_parameter*)lparam)->window_name_regex) << std::endl;
 				}
 				return TRUE;
 				}, (LPARAM)&params);

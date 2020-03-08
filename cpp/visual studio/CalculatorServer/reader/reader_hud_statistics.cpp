@@ -248,7 +248,7 @@ std::string hud_statistics::get_selected_island()
 	if (pop_icon_position.tl().x < 0.3 * recog.get_screenshot().cols)
 	{
 #ifdef CONSOLE_DEBUG_OUTPUT
-		std::cout << ALL_ISLANDS << std::endl;
+		std::cout << recog.ALL_ISLANDS << std::endl;
 #endif
 		selected_island = recog.ALL_ISLANDS;
 		return recog.ALL_ISLANDS;

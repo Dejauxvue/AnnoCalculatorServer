@@ -10,8 +10,8 @@
 
 #include <tesseract/baseapi.h>
 
- #define SHOW_CV_DEBUG_IMAGE_VIEW
-// #define CONSOLE_DEBUG_OUTPUT
+ //#define SHOW_CV_DEBUG_IMAGE_VIEW
+ //#define CONSOLE_DEBUG_OUTPUT
 
 namespace reader
 {
@@ -45,6 +45,7 @@ enum class phrase
 	ELI_HARBOUR = 100685,
 	KAHINA_HARBOUR = 100686,
 	NATE_HARBOUR = 101117,
+	INUIT_HARBOUR = 116035,
 	INUIT = 237,
 	ARCHIBALD = 240,
 	ANNE = 73,
@@ -54,6 +55,17 @@ enum class phrase
 	KAHINA = 78,
 	NATE = 77,
 	TRADE = 2388
+};
+
+enum class rarity
+{
+	NARRATIVE = 19850,
+	COMMON = 118002,
+	UNCOMMON = 118003,
+	RARE = 118004,
+	EPIC = 118005,
+	LEGENDARY = 118006,
+	QUEST = 118007	
 };
 
 class image_recognition
@@ -85,6 +97,8 @@ public:
 	* load an image in the cv-Format used here
 	*/
 	static cv::Mat load_image(const std::string&);
+
+	static void initialize_items();
 
 	/**
 	* creates BGRA image with only black and white pixels
