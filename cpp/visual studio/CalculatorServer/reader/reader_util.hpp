@@ -20,12 +20,24 @@ struct keyword_dictionary
 {
 	std::map<unsigned int, std::string> population_levels;
 	std::map<unsigned int, std::string> factories;
+	std::map<unsigned int, std::string> items;
 	std::map<unsigned int, std::string> products;
 	std::map<unsigned int, std::string> ui_texts;
+	std::map<unsigned int, std::string> traders;
 };
 
 class image_recognition;
 
+struct item
+{
+	typedef std::shared_ptr<item> ptr;
+
+	unsigned int guid;
+	unsigned int rarity;
+	unsigned int price;
+	std::set<unsigned int> traders;
+	cv::Mat icon;
+};
 
 enum class phrase
 {
@@ -98,7 +110,7 @@ public:
 	*/
 	static cv::Mat load_image(const std::string&);
 
-	static void initialize_items();
+	void initialize_items();
 
 	/**
 	* creates BGRA image with only black and white pixels
@@ -175,6 +187,9 @@ public:
 	std::vector<unsigned int> get_guid_from_icon(const cv::Mat& icon, 
 		const std::map<unsigned int, cv::Mat>& dictionary,
 		const cv::Mat& background) const;
+
+	std::vector<unsigned int> get_guid_from_hu_moments(const cv::Mat& icon, 
+		const std::map<unsigned int, std::vector<double>>& dictionary) const;
 
 	std::vector<unsigned int> get_guid_from_icon(const cv::Mat& icon,
 		const std::map<unsigned int, cv::Mat>& dictionary,
@@ -279,6 +294,9 @@ public:
 
 	static cv::Mat detect_edges(const cv::Mat& im);
 
+	static std::vector<cv::Rect2i> detect_boxes(const cv::Mat& im, const cv::Rect2i& box, float tolerance = 0.05f);
+	static std::vector<cv::Rect2i> detect_boxes(const cv::Mat& im, unsigned int width, unsigned int height, float tolerance = 0.05f);
+
 	/*
 	* Detects contours in the image and filters width wide horizontal lines
 	*/
@@ -314,7 +332,7 @@ public:
 	cv::Mat screenshot;
 	std::string language;
 
-
+	typedef std::vector<double> hu_moments;
 
 	std::map<std::string, keyword_dictionary> dictionaries;
 	std::map<unsigned int, cv::Mat> product_icons;
@@ -326,6 +344,8 @@ public:
 	static const unsigned int REGION_META = 5000005;
 	static const unsigned int SESSION_META = 180039;
 	std::map<unsigned int, std::vector<unsigned int>> product_to_factories;
+	std::map<unsigned int, std::set<unsigned int>> trader_to_offerings;
+	std::map<unsigned int, item::ptr> items;
 
 	static const std::map<std::string, std::string> tesseract_languages;
 };

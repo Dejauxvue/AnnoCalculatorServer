@@ -20,6 +20,7 @@
     "chinese": {
         "101117": "老奈特的港口",
         "110934": "崔老妮海角",
+        "116035": "因纽特贸易站",
         "237": "库马克",
         "180045": "北极",
         "22365": "生产建筑",
@@ -47,6 +48,7 @@
     "english": {
         "101117": "Old Nate's Harbour",
         "110934": "Cape Trelawney",
+        "116035": "Inuit Trading Post",
         "237": "Qumaq",
         "180045": "The Arctic",
         "22365": "Production Buildings",
@@ -74,6 +76,7 @@
     "french": {
         "101117": "Port du Vieux Nate",
         "110934": "Cap Trelawney",
+        "116035": "Comptoir inuit",
         "237": "Qumaq",
         "180045": "L'Arctique",
         "22365": "Bâtiments de production",
@@ -101,6 +104,7 @@
     "german": {
         "101117": "Hafen des Alten Nate",
         "110934": "Kap Trelawney",
+        "116035": "Inuit-Kontor",
         "237": "Qumaq",
         "180045": "Die Arktis",
         "22365": "Produktionsgebäude",
@@ -128,6 +132,7 @@
     "italian": {
         "101117": "Porto del vecchio Nate",
         "110934": "Capo Trelawney",
+        "116035": "Avamposto commerciale Inuit",
         "237": "Qumaq",
         "180045": "L'Artico",
         "22365": "Edifici produttivi",
@@ -155,6 +160,7 @@
     "japanese": {
         "101117": "オールド・ネイトの港",
         "110934": "トレローニー岬",
+        "116035": "イヌイットの交易所",
         "237": "クマック",
         "180045": "北極圏",
         "22365": "生産施設",
@@ -182,6 +188,7 @@
     "korean": {
         "101117": "올드 네이트의 항구",
         "110934": "트릴로니 곶",
+        "116035": "이누이트 교역소",
         "237": "쿠마크",
         "180045": "북극",
         "22365": "생산 건물",
@@ -209,6 +216,7 @@
     "polish": {
         "101117": "Port Starego Nate'a",
         "110934": "Przylądek Trelawney",
+        "116035": "Faktora handlowa Inuitów",
         "237": "Qumaq",
         "180045": "Arktyka",
         "22365": "Budynki produkcyjne",
@@ -254,6 +262,7 @@
     "russian": {
         "101117": "Гавань старины Нейта",
         "110934": "Мыс Трелони",
+        "116035": "Торговый пост инуитов",
         "237": "Кумак",
         "180045": "Арктика",
         "22365": "Производственные здания",
@@ -281,6 +290,7 @@
     "spanish": {
         "101117": "Puerto del viejo Nate",
         "110934": "Cabo de Trelawney",
+        "116035": "Puesto comercial",
         "237": "Qumaq",
         "180045": "El Ártico",
         "22365": "Edificios de producción",
@@ -308,6 +318,7 @@
     "taiwanese": {
         "101117": "老奈特的港口",
         "110934": "崔老妮海角",
+        "116035": "因紐特貿易站",
         "237": "庫馬克",
         "180045": "北極",
         "22365": "生產建築",

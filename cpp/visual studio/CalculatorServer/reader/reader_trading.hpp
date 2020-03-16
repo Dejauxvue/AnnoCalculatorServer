@@ -41,7 +41,9 @@ public:
 struct offering
 {
 	unsigned int index;
+	cv::Rect2i box;
 	unsigned int price;
+	std::vector<item::ptr> item_candidates;
 
 	bool operator==(const offering& other) const = default;
 };
@@ -67,6 +69,13 @@ public:
 	 * Returns false in all other cases
 	 */
 	bool can_buy(unsigned int index) const;
+	bool can_buy(const offering& off) const;
+
+	/**
+	* Checks for active, price reducing items and returns whether @param{selling_price}
+	* and the reduced item price of @param{guid} match
+	*/
+	bool check_price(unsigned int guid, unsigned int selling_price) const;
 
 	/*
 	* Returns all currently offered items

@@ -16,9 +16,14 @@ mouse::mouse(const cv::Rect2i& desktop, const cv::Rect2i& window)
 	//	throw std::invalid_argument("Window not in desktop area");
 }
 
+void mouse::click(const cv::Point2i& point)
+{
+	click(cv::Point2f(point.x / (float) window.width, point.y / (float) window.height));
+}
 
 void mouse::click(const cv::Point2f& point)
 {
+	//std::cout << "(" << point.x << ", " << point.y << ")" << std::endl;
 	INPUT Inputs[3] = { 0 };
 		
 	cv::Point2i ndc = get_ndc_position(point);

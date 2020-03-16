@@ -466,7 +466,41 @@ std::vector<unsigned int> image_recognition::get_guid_from_icon(const cv::Mat& i
 }
 
 
+std::vector<unsigned int> image_recognition::get_guid_from_hu_moments(const cv::Mat& icon,
+	const std::map<unsigned int, std::vector<double>>& dictionary) const
+{
+	std::vector<double> icon_moments = get_hu_moments(icon);
 
+	float best_match = 0;
+	std::vector<unsigned int> guids;
+
+
+	for (auto& entry : dictionary)
+	{
+		
+		float match = compare_hu_moments(icon_moments, entry.second);
+		if (match == best_match)
+		{
+			guids.push_back(entry.first);
+		}
+		else if (match > best_match)
+		{
+			guids.clear();
+			guids.push_back(entry.first);
+			best_match = match;
+		}
+	}
+
+	//if (best_match > 150)
+	//	return std::vector<unsigned int>();
+
+#ifdef CONSOLE_DEBUG_OUTPUT
+	for (unsigned int guid : guids)
+		std::cout << guid << ", ";
+	std::cout << "(" << best_match << ")\t";
+#endif
+	return guids;
+}
 
 
 std::vector<unsigned int> image_recognition::get_guid_from_icon(const cv::Mat& icon, const std::map<unsigned int, cv::Mat>& dictionary, const cv::Scalar& background_color) const
@@ -706,11 +740,15 @@ void image_recognition::initialize_items()
 	create_background(rarity::EPIC, "epic", cv::Scalar(213, 167, 196, 255));
 	create_background(rarity::LEGENDARY, "legendary", cv::Scalar(97, 204, 244, 255));
 
-	for (const auto& item : pt.get_child("items"))
+	std::map<std::string, cv::Mat> image_cache;
+	auto create_icon = [&](const std::string& path, unsigned int rarity)
 	{
-		unsigned int guid = item.second.get_child("guid").get_value<unsigned int>();
-		std::string path = item.second.get_child("icon").get_value<std::string>();
-		unsigned int rarity = item.second.get_child("rarity").get_value<unsigned int>();
+		std::string id(path);
+		id.append(std::to_string(rarity));
+
+		auto iter = image_cache.find(id);
+		if (iter != image_cache.end())
+			return iter->second;
 
 		cv::Mat overlay;
 		try {
@@ -719,12 +757,39 @@ void image_recognition::initialize_items()
 		catch (std::exception & e)
 		{
 			std::cout << e.what() << std::endl;
-			continue;
+			return cv::Mat();
 		}
 
 		cv::Mat overlay_with_margin;
-		cv::copyMakeBorder(overlay, overlay_with_margin, overlay.rows * 0.05, overlay.rows * 0.05, overlay.cols * 0.05, overlay.cols * 0.05, cv::BORDER_CONSTANT, cv::Scalar()); 
+		cv::copyMakeBorder(overlay, overlay_with_margin, overlay.rows * 0.05, overlay.rows * 0.05, overlay.cols * 0.05, overlay.cols * 0.05, cv::BORDER_CONSTANT, cv::Scalar());
 		cv::Mat icon = blend_icon(overlay_with_margin, item_backgrounds[rarity]);
+
+		image_cache.emplace(id, icon);
+		return icon;
+	};
+
+	for (const auto& item : pt.get_child("items"))
+	{
+		unsigned int guid = item.second.get_child("guid").get_value<unsigned int>();
+		std::string path = item.second.get_child("icon").get_value<std::string>();
+		unsigned int rarity = item.second.get_child("rarity").get_value<unsigned int>();
+
+		cv::Mat icon(create_icon(path, rarity));
+
+		std::set<unsigned int> traders;
+		for (const auto& trader : item.second.get_child("traders"))
+		{
+			traders.emplace(trader.second.get_value<unsigned int>());
+		}
+
+		items.emplace(guid, std::make_shared<reader::item>(reader::item{
+			guid,
+			rarity,
+			item.second.get_child("price").get_value<unsigned int>(),
+			std::move(traders),
+			icon
+			}));
+
 		//cv::imshow("icon", icon);
 		//cv::waitKey(1);
 
@@ -736,11 +801,35 @@ void image_recognition::initialize_items()
 
 		//load_and_save_icon(guid, factory.second, factory_icons);
 
-		//for (const auto& language : factory.second.get_child("locaText"))
-		//{
+		for (const auto& language : item.second.get_child("locaText"))
+		{
+			dictionaries.at(language.first).items.emplace(guid, language.second.get_value<std::string>());
+		}
+	}
 
-		//	dictionaries.at(language.first).factories.emplace(guid, language.second.get_value<std::string>());
-		//}
+	for (const auto& trader : pt.get_child("traders"))
+	{
+		unsigned int trader_guid = trader.second.get_child("guid").get_value<unsigned int>();
+		std::set<unsigned int> offerings;
+
+		for (const auto& item : trader.second.get_child("items"))
+		{
+			try {
+				unsigned int item_guid = item.second.get_value<unsigned int>();
+				offerings.emplace(item_guid);
+			}
+			catch (const std::exception & e)
+			{
+			}
+		}
+
+		trader_to_offerings.emplace(trader_guid, std::move(offerings));
+
+		for (const auto& language : trader.second.get_child("locaText"))
+		{
+
+			dictionaries.at(language.first).traders.emplace(trader_guid, language.second.get_value<std::string>());
+		}
 	}
 }
 
@@ -1039,8 +1128,9 @@ cv::Rect2i image_recognition::get_desktop()
 
 	const HWND hDesktop = GetDesktopWindow();
 	GetWindowRect(hDesktop, &windowsize);
+	std::cout << windowsize.right << std::endl;
 
-	return cv::Rect2i(windowsize.left, windowsize.top, windowsize.right - windowsize.left, windowsize.bottom - windowsize.top);
+	return cv::Rect2i(0,0, windowsize.right, windowsize.bottom);
 }
 
 cv::Mat image_recognition::take_screenshot(cv::Rect2i rect)
@@ -1182,6 +1272,98 @@ cv::Mat image_recognition::detect_edges(const cv::Mat& im)
 	}
 
 	return edges;
+}
+
+std::vector<cv::Rect2i> image_recognition::detect_boxes(const cv::Mat& im, const cv::Rect2i& box, float tolerance)
+{
+	return detect_boxes(im, box.width, box.height, tolerance);
+}
+
+std::vector<cv::Rect2i> image_recognition::detect_boxes(const cv::Mat& im, unsigned int width, unsigned int height, float tolerance)
+{
+	cv::Mat edge_image;
+	cv::Canny(im, edge_image, 100, 190, 3);
+
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+	cv::Mat colored_edge_image;
+	cv::cvtColor(edge_image, colored_edge_image, cv::COLOR_GRAY2BGRA);
+#endif
+
+	std::vector < std::vector<cv::Point>> contours;
+	std::vector<cv::Vec4i> hierarchy;
+	cv::findContours(edge_image, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
+
+	std::vector<cv::Point> approx;
+	std::set<size_t> box_indices;
+	std::vector<cv::Rect2i> boxes;
+
+	cv::Rect2i min_bb(0, 0, width * (1.f - tolerance), height * (1.f - tolerance));
+	cv::Rect2i max_bb(0, 0, width * (1.f + tolerance), height * (1.f + tolerance));
+	
+	auto angle = [](cv::Point& pt1, cv::Point& pt2, cv::Point& pt0)
+	{
+		double dx1 = pt1.x - pt0.x;
+		double dy1 = pt1.y - pt0.y;
+		double dx2 = pt2.x - pt0.x;
+		double dy2 = pt2.y - pt0.y;
+		return (dx1 * dx2 + dy1 * dy2) / sqrt((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2) + 1e-10);
+	};
+
+	for (size_t i = 0; i < contours.size(); i++)
+	{
+		if (box_indices.find(hierarchy[i][3]) != box_indices.end())
+		{
+			box_indices.emplace(i);
+			continue;
+		}
+
+		// approximate contour with accuracy proportional
+		// to the contour perimeter
+		approxPolyDP(contours[i], approx, arcLength(contours[i], true) * 0.02, true);
+
+		cv::Rect2i bb(cv::boundingRect(approx));
+
+		// square contours should have 4 vertices after approximation
+		// relatively large area (to filter out noisy contours)
+		// and be convex.
+		// Note: absolute value of an area is used because
+		// area may be positive or negative - in accordance with the
+		// contour orientation
+		if (//approx.size() == 4 &&
+			min_bb.width <= bb.width && max_bb.width &&
+			min_bb.height <= bb.height && max_bb.height /*&&
+			isContourConvex(approx)*/)
+		{
+			//double maxCosine = 0;
+
+			//for (int j = 2; j < 5; j++)
+			//{
+			//	// find the maximum cosine of the angle between joint edges
+			//	double cosine = fabs(angle(approx[j % 4], approx[j - 2], approx[j - 1]));
+			//	maxCosine = std::max(maxCosine, cosine);
+			//}
+
+			//// if cosines of all angles are small
+			//// (all angles are ~90 degree) then write quandrange
+			//// vertices to resultant sequence
+			//if (maxCosine < 0.3)
+			//{
+				box_indices.emplace(i);
+				boxes.push_back(bb);
+
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+				cv::rectangle(colored_edge_image, bb, cv::Scalar(0, 0, 255,255));
+#endif
+			//}
+		}
+	}
+
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+	cv::imwrite("debug_images/boxes.png", colored_edge_image);
+#endif
+
+
+	return boxes;
 }
 
 std::vector<int> image_recognition::find_horizontal_lines(const cv::Mat& im)
