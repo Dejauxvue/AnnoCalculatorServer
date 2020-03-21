@@ -38,8 +38,8 @@ std::set<unsigned int> relevant_items({
 
 void test_screenshot(image_recognition& recog, trading_menu& reader)
 {
-	reader.update("english", recog.load_image("test_screenshots/trading_eli_4.png"));
-	const auto offerings = reader.get_offerings();
+	reader.update("german", recog.load_image("test_screenshots/trading_eli_6.png"));
+	auto offerings = reader.get_offerings();
 
 	std::cout << std::endl;
 
