@@ -20,8 +20,8 @@ const cv::Scalar trading_params::frame_brown = cv::Scalar(89, 152, 195, 255);
 
 const cv::Rect2f trading_params::size_offering_icon = cv::Rect2f(cv::Point2f(0.0185, 0.23), cv::Point2f(1.,1.));
 const cv::Rect2f trading_params::size_offering_price = cv::Rect2f(cv::Point2f(0.218, 0.), cv::Point2f(1., 0.225));
-const cv::Rect2f trading_params::size_offering = cv::Rect2f(0,0,0.03545,0.07967);
-const cv::Rect2f trading_params::size_icon = cv::Rect2f(0, 0, 0.03417969, 0.06076389);
+const cv::Rect2f trading_params::size_offering = cv::Rect2f(0,0,0.0390625,0.08796);
+const cv::Rect2f trading_params::size_icon = cv::Rect2f(0, 0, 0.040625, 0.072222);
 
 const unsigned int trading_params::count_cols = 4;
 const unsigned int trading_params::count_rows = 2;
@@ -32,7 +32,7 @@ const cv::Rect2f trading_params::pane_prev_offering = cv::Rect2f(cv::Point2f(0.8
 const cv::Rect2f trading_params::pane_prev_reroll = cv::Rect2f(cv::Point2f(0.8954, 0.8354), cv::Point2f(0.924, 0.8864));
 const cv::Rect2f trading_params::pane_prev_exchange = cv::Rect2f(cv::Point2f(0.8955, 0.9352), cv::Point2f(0.9241, 0.9862));
 
-const cv::Rect2f trading_params::pane_menu_offering = cv::Rect2f(cv::Point2f(0.6238, 0.4293), cv::Point2f(0.7781, 0.5941));
+const cv::Rect2f trading_params::pane_menu_offering = cv::Rect2f(cv::Point2f(0.6238, 0.4217), cv::Point2f(0.7791, 0.7061));
 const cv::Rect2f trading_params::pane_menu_name = cv::Rect2f(cv::Point2f(0.6354, 0.3477), cv::Point2f(0.766, 0.3717));
 const cv::Rect2f trading_params::pane_menu_reroll = cv::Rect2f(cv::Point2f(0.6897, 0.7149), cv::Point2f(0.7183, 0.7658));
 const cv::Rect2f trading_params::pane_menu_execute = cv::Rect2f(cv::Point2f(0.4397, 0.7793), cv::Point2f(0.5616, 0.8081));
