@@ -41,10 +41,29 @@ void test_screenshot(image_recognition& recog, trading_menu& reader)
 	reader.update("english", recog.load_image("test_screenshots/trading_eli_4.png"));
 	const auto offerings = reader.get_offerings();
 
+	std::cout << std::endl;
+
 	for (const offering& off : offerings)
 	{
 		std::cout << off.index << ": " << off.price;
 		for(const auto& item : off.item_candidates)
+			try {
+			std::cout << " " << recog.get_dictionary().items.at(item->guid) << " (" << item->guid << ")";
+		}
+		catch (const std::exception & e)
+		{
+		}
+		std::cout << std::endl;
+	}
+
+	std::cout << std::endl << "Capped items:" << std::endl;
+
+	offerings = reader.get_capped_items();
+
+	for (const offering& off : offerings)
+	{
+		std::cout << off.index << ": " << off.price;
+		for (const auto& item : off.item_candidates)
 			try {
 			std::cout << " " << recog.get_dictionary().items.at(item->guid) << " (" << item->guid << ")";
 		}
@@ -59,7 +78,7 @@ int main() {
 	image_recognition recog;
 	trading_menu reader(recog);
 
-//	test_screenshot(recog, reader);
+	test_screenshot(recog, reader);
 
 	cv::Rect2i window = recog.find_anno();
 	if (!window.area())

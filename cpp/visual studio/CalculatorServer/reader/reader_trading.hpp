@@ -18,7 +18,8 @@ public:
 	static const cv::Scalar frame_brown;
 
 	static const cv::Rect2f size_offering;
-	static const cv::Rect2f size_price;
+	static const cv::Rect2f size_offering_price;
+	static const cv::Rect2f size_offering_icon;
 	static const cv::Rect2f size_icon;
 
 	static const unsigned int count_cols;
@@ -35,7 +36,8 @@ public:
 	static const cv::Rect2f pane_menu_reroll;
 	static const cv::Rect2f pane_menu_execute;
 	static const cv::Rect2f pane_menu_title;
-
+	static const cv::Rect2f pane_menu_ship_cargo;
+	static const cv::Rect2f pane_menu_ship_sockets;
 };
 
 struct offering
@@ -75,12 +77,24 @@ public:
 	* Checks for active, price reducing items and returns whether @param{selling_price}
 	* and the reduced item price of @param{guid} match
 	*/
-	bool check_price(unsigned int guid, unsigned int selling_price) const;
+	bool check_price(unsigned int guid, unsigned int selling_price, int price_modification_percent = 0) const;
 
 	/*
 	* Returns all currently offered items
 	*/
 	std::vector<offering> get_offerings() const;
+	std::vector<offering> get_capped_items() const;
+
+	/**
+	* Returns the number of (total slots, empty slots)
+	*/
+	std::pair<unsigned int, unsigned int> get_cargo_slot_count() const;
+
+	/*
+	* Returns the modification of trading prices introduced
+	* by capped itemes
+	*/
+	int get_price_modification() const;
 
 	/**
 	* Given an index from an @ref{offering} it returns 
@@ -96,6 +110,7 @@ public:
 
 private:
 	image_recognition& recog;
+	std::map<unsigned int, cv::Mat> ship_items;
 
 	unsigned int open_trader;
 	bool menu_open;

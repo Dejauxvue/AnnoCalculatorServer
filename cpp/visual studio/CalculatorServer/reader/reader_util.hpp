@@ -10,8 +10,8 @@
 
 #include <tesseract/baseapi.h>
 
- //#define SHOW_CV_DEBUG_IMAGE_VIEW
- //#define CONSOLE_DEBUG_OUTPUT
+ #define SHOW_CV_DEBUG_IMAGE_VIEW
+ #define CONSOLE_DEBUG_OUTPUT
 
 namespace reader
 {
@@ -35,8 +35,12 @@ struct item
 	unsigned int guid;
 	unsigned int rarity;
 	unsigned int price;
+	unsigned int allocation;
+	int trade_price_modifier;
 	std::set<unsigned int> traders;
 	cv::Mat icon;
+
+	bool isShipAllocation() const;
 };
 
 enum class phrase

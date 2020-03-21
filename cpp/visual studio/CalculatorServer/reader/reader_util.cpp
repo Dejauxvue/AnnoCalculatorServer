@@ -786,6 +786,8 @@ void image_recognition::initialize_items()
 			guid,
 			rarity,
 			item.second.get_child("price").get_value<unsigned int>(),
+			item.second.get_child("allocation").get_value<unsigned int>(),
+			item.second.get_child("tradePriceModifier").get_value<int>(),
 			std::move(traders),
 			icon
 			}));
@@ -1128,7 +1130,6 @@ cv::Rect2i image_recognition::get_desktop()
 
 	const HWND hDesktop = GetDesktopWindow();
 	GetWindowRect(hDesktop, &windowsize);
-	std::cout << windowsize.right << std::endl;
 
 	return cv::Rect2i(0,0, windowsize.right, windowsize.bottom);
 }
@@ -1618,5 +1619,16 @@ const std::map<char, char> image_recognition::letter_to_digit = {
 };
 
 const std::string image_recognition::ALL_ISLANDS = std::string("All Islands");
+
+bool item::isShipAllocation() const
+{
+	return allocation && (
+		allocation == 2342 ||
+		allocation == 112084 ||
+		allocation == 12812 ||
+		allocation == 115184 ||
+		allocation == 2343
+		);
+}
 
 }
