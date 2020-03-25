@@ -26,6 +26,7 @@ public:
 	static const cv::Scalar background_cargo_slot;
 	static const cv::Scalar background_trading_menu;
 	static const cv::Scalar frame_brown;
+	static const cv::Scalar red_icon;
 
 	static const cv::Rect2f size_offering;
 	static const cv::Rect2f size_offering_price;
@@ -48,6 +49,8 @@ public:
 	static const cv::Rect2f pane_menu_title;
 	static const cv::Rect2f pane_menu_ship_cargo;
 	static const cv::Rect2f pane_menu_ship_sockets;
+
+	static const cv::Point2f pixel_ship_full;
 };
 
 struct offering
@@ -83,21 +86,13 @@ public:
 	bool can_buy(unsigned int index) const;
 	bool can_buy(const offering& off) const;
 
-	/*
-	* Checks wether the passed image shows an empty cargo slot
-	*/
-	bool is_empty_cargo_slot(const cv::Mat& img) const;
+	bool is_ship_full() const;
 
 	/*
 	* Returns all currently offered items
 	*/
 	std::vector<offering> get_offerings() const;
 	std::vector<offering> get_capped_items() const;
-
-	/**
-	* Returns the number of (total slots, empty slots)
-	*/
-	std::pair<unsigned int, unsigned int> get_cargo_slot_count() const;
 
 	/*
 	* Returns the modification of trading prices introduced

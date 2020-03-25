@@ -18,9 +18,10 @@ const cv::Scalar trading_params::background_grey_bright = cv::Scalar(82, 100, 11
 const cv::Scalar trading_params::background_grey_dark = cv::Scalar(50, 50, 50, 255);
 const cv::Scalar trading_params::background_green_bright = cv::Scalar(59, 144, 95, 255);
 const cv::Scalar trading_params::background_green_dark = cv::Scalar(66, 92, 62, 255);
-const cv::Scalar trading_params::background_cargo_slot = cv::Scalar(108,147,175, 255);
+const cv::Scalar trading_params::background_cargo_slot = cv::Scalar(107,148,172, 255);
 const cv::Scalar trading_params::background_trading_menu = cv::Scalar(122, 163, 188, 255);
 const cv::Scalar trading_params::frame_brown = cv::Scalar(89, 152, 195, 255);
+const cv::Scalar trading_params::red_icon = cv::Scalar(22, 42, 189, 255);
 
 const cv::Rect2f trading_params::size_offering_icon = cv::Rect2f(cv::Point2f(0.0185, 0.23), cv::Point2f(1.,1.));
 const cv::Rect2f trading_params::size_offering_price = cv::Rect2f(cv::Point2f(0.218, 0.), cv::Point2f(1., 0.225));
@@ -44,6 +45,7 @@ const cv::Rect2f trading_params::pane_menu_title = cv::Rect2f(cv::Point2f(0.4356
 const cv::Rect2f trading_params::pane_menu_ship_cargo = cv::Rect2f(cv::Point2f(0.2272, 0.4264), cv::Point2f(0.3715, 0.5977));
 const cv::Rect2f trading_params::pane_menu_ship_sockets = cv::Rect2f(cv::Point2f(0.2272, 0.6207), cv::Point2f(0.3715, 0.701));
 
+const cv::Point2f trading_params::pixel_ship_full = cv::Point2f(0.2375, 0.4382);
 
 ////////////////////////////////////////
 //
@@ -173,30 +175,20 @@ bool trading_menu::can_buy(const offering& off) const
 	return !result.empty() && result.front() == item.guid;
 }
 
-bool trading_menu::is_empty_cargo_slot(const cv::Mat& img) const
+bool trading_menu::is_ship_full() const
 {
-	cv::Rect2i roi(0.1f * img.cols, 0.1f * img.rows,
-		0.8f * img.cols, 0.8f * img.rows);
-
-	cv::Mat icon_processed = recog.binarize_icon(img(roi), storage_icon.size());
-	int icon_white_count = cv::countNonZero(icon_processed);
-	cv::bitwise_and(storage_icon, icon_processed, icon_processed);
-
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/icon_intersect.png", icon_processed);
-#endif
-
-	float max_intersection = std::max(icon_white_count, cv::countNonZero(storage_icon));
-	float match = cv::countNonZero(icon_processed) / max_intersection;
-
-	return match > 0.8;
+	cv::Vec4b pixel = recog.screenshot.at<cv::Vec4b>(trading_params::pixel_ship_full.y * recog.screenshot.rows,
+		trading_params::pixel_ship_full.x * recog.screenshot.cols);
+	return image_recognition::closer_to(pixel, trading_params::red_icon, trading_params::background_trading_menu);
 }
+
 
 bool trading_menu::check_price(unsigned int guid, unsigned int selling_price, int price_modification_percent) const
 {
 	float multiplier = 1.f + price_modification_percent / 100.f;
 	float price = multiplier * recog.items[guid]->price;
-	return std::floor(price) <= selling_price && selling_price <= std::ceil(price);
+	std::cout << price << " ";
+	return std::floor(price - 0.5f) <= selling_price && selling_price <= std::ceil(price + 0.5f);
 }
 
 std::vector<offering> trading_menu::get_offerings() const
@@ -227,6 +219,7 @@ std::vector<offering> trading_menu::get_offerings() const
 
 	unsigned int index = 0;
 	int trade_price_modifier = get_price_modification();
+	std::cout << "trade price modifier: " << trade_price_modifier << std::endl;
 
 	for (const cv::Rect2i& offering_loc : boxes)
 	{
@@ -317,7 +310,7 @@ std::vector<offering> trading_menu::get_capped_items() const
 		std::vector<unsigned int> item_candidates = recog.get_guid_from_icon(
 			pane(item_loc),
 			ship_items,
-			trading_params::background_sand_bright
+			trading_params::background_cargo_slot
 		);
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
@@ -352,38 +345,6 @@ std::vector<offering> trading_menu::get_capped_items() const
 
 
 	return result;
-}
-
-std::pair<unsigned int, unsigned int> trading_menu::get_cargo_slot_count() const
-{
-	if (!is_trading_menu_open())
-		return std::make_pair(0,0);
-
-	std::vector<offering> result;
-
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/cargo_slots.png", recog.get_pane(trading_params::pane_menu_ship_sockets));
-#endif
-
-	cv::Rect2i icon_size(0, 0, trading_params::size_icon.width * recog.screenshot.cols, trading_params::size_icon.height * recog.screenshot.rows);
-	cv::Mat pane(recog.get_pane(trading_params::pane_menu_ship_cargo));
-	std::vector<cv::Rect2i> boxes(recog.detect_boxes(pane, icon_size,0.05f, 50,100));
-
-	unsigned int full_count = 0;
-
-	for (const cv::Rect2i& item_loc : boxes)
-	{
-		
-		if (!is_empty_cargo_slot(pane(item_loc)))
-		{
-			full_count++;
-		}
-
-	}
-
-
-
-	return std::make_pair(full_count, boxes.size());
 }
 
 int trading_menu::get_price_modification() const

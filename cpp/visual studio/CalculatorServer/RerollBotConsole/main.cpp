@@ -15,6 +15,8 @@ std::set<unsigned int> relevant_items({
 		//191799, // O'Mara's Regulations
 		192483, // Vindication Women's Rights
 
+		190682, // Travel agent
+
 		191375, // Magnetist
 		//191587, // Dredger
 		//191376, // Elictrical Engineer
@@ -74,16 +76,13 @@ void test_screenshot(image_recognition& recog, trading_menu& reader)
 		}
 		std::cout << std::endl;
 	}
-
-	auto slots = reader.get_cargo_slot_count();
-	std::cout << std::endl << slots.first << " full of " << slots.second << std::endl;
 }
 
 int main() {
 	image_recognition recog;
 	trading_menu reader(recog);
 
-	test_screenshot(recog, reader);
+//	test_screenshot(recog, reader);
 
 	cv::Rect2i window = recog.find_anno();
 	if (!window.area())
@@ -107,7 +106,8 @@ int main() {
 		unsigned int trader = reader.get_open_trader();
 
  		if (trader && reader.has_reroll() &&
-			relevant_traders.find(trader) != relevant_traders.end())
+			relevant_traders.find(trader) != relevant_traders.end() &&
+			!reader.is_ship_full())
 		{
         	const auto offerings = reader.get_offerings();
 
@@ -144,7 +144,7 @@ int main() {
 					for (const offering* off : purchase_candidates)
 					{
 						reader.update(language, recog.take_screenshot(window));
-						if (!reader.can_buy(*off) && !paused)
+						if (reader.is_ship_full() && !paused)
 						{
 							std::cout << "Cannot add item " << recog.get_dictionary().items.at(off->item_candidates.front()->guid) 
 								<< " (Item " << off->index << ") to cart. Please check ship and hit enter to continue." << std::endl;
@@ -192,9 +192,6 @@ int main() {
 								break;
 							}
 						}
-
-						auto slots = reader.get_cargo_slot_count();
-						std::cout << std::endl << slots.first << " full of " << slots.second << std::endl;
 					}
 
 					continue;
