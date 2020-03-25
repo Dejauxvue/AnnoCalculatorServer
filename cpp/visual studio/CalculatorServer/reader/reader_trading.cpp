@@ -1,5 +1,7 @@
 #include "reader_trading.hpp"
 
+#include "reader_util.hpp"
+
 namespace reader
 {
 
@@ -16,6 +18,8 @@ const cv::Scalar trading_params::background_grey_bright = cv::Scalar(82, 100, 11
 const cv::Scalar trading_params::background_grey_dark = cv::Scalar(50, 50, 50, 255);
 const cv::Scalar trading_params::background_green_bright = cv::Scalar(59, 144, 95, 255);
 const cv::Scalar trading_params::background_green_dark = cv::Scalar(66, 92, 62, 255);
+const cv::Scalar trading_params::background_cargo_slot = cv::Scalar(108,147,175, 255);
+const cv::Scalar trading_params::background_trading_menu = cv::Scalar(122, 163, 188, 255);
 const cv::Scalar trading_params::frame_brown = cv::Scalar(89, 152, 195, 255);
 
 const cv::Rect2f trading_params::size_offering_icon = cv::Rect2f(cv::Point2f(0.0185, 0.23), cv::Point2f(1.,1.));
@@ -53,6 +57,14 @@ trading_menu::trading_menu(image_recognition& recog)
 	open_trader(0),
 	menu_open(false)
 {
+	cv::Mat bgr_slot_empty(image_recognition::load_image("icons/bgr_slot_empty.png"));
+	cv::Mat overlay(image_recognition::load_image("icons/icon_goods_storage.png"));
+	cv::Mat overlay_with_margin;
+	cv::copyMakeBorder(overlay, overlay_with_margin, overlay.rows * 0.2, overlay.rows * 0.2, overlay.cols * 0.2, overlay.cols * 0.2, cv::BORDER_CONSTANT, cv::Scalar());
+	cv::Mat slot = image_recognition::blend_icon(overlay_with_margin, bgr_slot_empty);
+	slot -= cv::Scalar(0, 0, 0, 124);
+	empty_cargo_slot = image_recognition::blend_icon(slot, trading_params::background_trading_menu);
+
 	for (const auto& item : recog.items)
 		if (item.second->isShipAllocation())
 			ship_items.emplace(item.first, item.second->icon);
@@ -202,6 +214,7 @@ std::vector<offering> trading_menu::get_offerings() const
 		});
 
 	unsigned int index = 0;
+	int trade_price_modifier = get_price_modification();
 
 	for (const cv::Rect2i& offering_loc : boxes)
 	{
@@ -209,7 +222,7 @@ std::vector<offering> trading_menu::get_offerings() const
 
 		int price = recog.number_from_region(price_img);
 		std::map<unsigned int, cv::Mat> icon_dictionary;
-		int trade_price_modifier = get_price_modification();
+		
 
 		for (unsigned int guid : recog.trader_to_offerings.at(open_trader))
 		{
@@ -329,6 +342,50 @@ std::vector<offering> trading_menu::get_capped_items() const
 	return result;
 }
 
+std::pair<unsigned int, unsigned int> trading_menu::get_cargo_slot_count() const
+{
+	if (!is_trading_menu_open())
+		return std::make_pair(0,0);
+
+	std::vector<offering> result;
+
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+	cv::imwrite("debug_images/cargo_slots.png", recog.get_pane(trading_params::pane_menu_ship_sockets));
+#endif
+
+	cv::Rect2i icon_size(0, 0, trading_params::size_icon.width * recog.screenshot.cols, trading_params::size_icon.height * recog.screenshot.rows);
+	cv::Mat pane(recog.get_pane(trading_params::pane_menu_ship_cargo));
+	std::vector<cv::Rect2i> boxes(recog.detect_boxes(pane, icon_size,0.05f, 50,100));
+
+	unsigned int full_count = 0;
+
+	for (const cv::Rect2i& item_loc : boxes)
+	{
+
+		std::vector<unsigned int> item_candidates = recog.get_guid_from_icon(
+			pane(item_loc),
+			{ { 0, empty_cargo_slot } },
+			trading_params::background_trading_menu
+		);
+
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+		cv::imwrite("debug_images/item.png", recog.screenshot(item_loc));
+#endif
+
+
+
+		if (!item_candidates.empty())
+		{
+			full_count++;
+		}
+
+	}
+
+
+
+	return std::make_pair(full_count, boxes.size());
+}
+
 int trading_menu::get_price_modification() const
 {
 	int result = 0;
@@ -375,15 +432,6 @@ unsigned int trading_menu::get_open_trader() const
 {
 	return open_trader;
 }
-
-bool trading_menu::is_book(unsigned int index) const
-{
-	cv::Mat offering(recog.get_pane(get_rel_location(index)));
-	cv::Vec4b pixel = offering.at<cv::Vec4b>(42, 37);
-	char g = pixel(1);
-	return g > pixel(0) + 10 && g > pixel(2) + 10;
-}
-
 
 
 }

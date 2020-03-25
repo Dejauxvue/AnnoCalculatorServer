@@ -1,9 +1,17 @@
 #pragma once
 
-#include "reader_util.hpp"
+#include <map>
+#include <memory>
+#include <string>
+#include <vector>
+
+#include "../../../vcpkg/installed/x64-windows/include/opencv2/core/types.hpp"
+#include "../../../vcpkg/installed/x64-windows/include/opencv2/core/mat.hpp"
 
 namespace reader
 {
+	class image_recognition;
+	struct item;
 
 class trading_params
 {
@@ -15,6 +23,8 @@ public:
 	static const cv::Scalar background_grey_dark;
 	static const cv::Scalar background_green_bright;
 	static const cv::Scalar background_green_dark;
+	static const cv::Scalar background_cargo_slot;
+	static const cv::Scalar background_trading_menu;
 	static const cv::Scalar frame_brown;
 
 	static const cv::Rect2f size_offering;
@@ -45,7 +55,7 @@ struct offering
 	unsigned int index;
 	cv::Rect2i box;
 	unsigned int price;
-	std::vector<item::ptr> item_candidates;
+	std::vector<std::shared_ptr<item>> item_candidates;
 
 	bool operator==(const offering& other) const = default;
 };
@@ -73,11 +83,6 @@ public:
 	bool can_buy(unsigned int index) const;
 	bool can_buy(const offering& off) const;
 
-	/**
-	* Checks for active, price reducing items and returns whether @param{selling_price}
-	* and the reduced item price of @param{guid} match
-	*/
-	bool check_price(unsigned int guid, unsigned int selling_price, int price_modification_percent = 0) const;
 
 	/*
 	* Returns all currently offered items
@@ -106,14 +111,20 @@ public:
 
 	unsigned int get_open_trader() const;
 
-	bool is_book(unsigned int index) const;
-
 private:
 	image_recognition& recog;
 	std::map<unsigned int, cv::Mat> ship_items;
+	cv::Mat empty_cargo_slot;
 
 	unsigned int open_trader;
 	bool menu_open;
+
+	/**
+* Checks for active, price reducing items and returns whether @param{selling_price}
+* and the reduced item price of @param{guid} match
+*/
+	bool check_price(unsigned int guid, unsigned int selling_price, int price_modification_percent = 0) const;
+
 
 };
 

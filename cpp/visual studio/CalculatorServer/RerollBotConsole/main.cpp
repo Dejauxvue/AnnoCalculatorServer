@@ -1,6 +1,8 @@
 #pragma once
 
+#include <set>
 
+#include "reader_util.hpp"
 #include "reader_trading.hpp"
 #include "mouse.hpp"
 
@@ -72,6 +74,9 @@ void test_screenshot(image_recognition& recog, trading_menu& reader)
 		}
 		std::cout << std::endl;
 	}
+
+	auto slots = reader.get_cargo_slot_count();
+	std::cout << std::endl << slots.first << " full of " << slots.second << std::endl;
 }
 
 int main() {
