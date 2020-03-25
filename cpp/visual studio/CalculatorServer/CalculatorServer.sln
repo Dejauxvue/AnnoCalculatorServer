@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RerollBotConsole", "RerollB
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unit_tests", "unit_tests\unit_tests.vcxproj", "{1D87A228-C84D-409D-8A8F-45E61F0613A9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "readerWrapper", "readerWrapper\readerWrapper.vcxproj", "{D1F34FA6-68CE-4BE9-A92D-08097F2902D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -55,6 +57,14 @@ Global
 		{1D87A228-C84D-409D-8A8F-45E61F0613A9}.Release|x64.Build.0 = Release|x64
 		{1D87A228-C84D-409D-8A8F-45E61F0613A9}.Release|x86.ActiveCfg = Release|Win32
 		{1D87A228-C84D-409D-8A8F-45E61F0613A9}.Release|x86.Build.0 = Release|Win32
+		{D1F34FA6-68CE-4BE9-A92D-08097F2902D3}.Debug|x64.ActiveCfg = Debug|x64
+		{D1F34FA6-68CE-4BE9-A92D-08097F2902D3}.Debug|x64.Build.0 = Debug|x64
+		{D1F34FA6-68CE-4BE9-A92D-08097F2902D3}.Debug|x86.ActiveCfg = Debug|Win32
+		{D1F34FA6-68CE-4BE9-A92D-08097F2902D3}.Debug|x86.Build.0 = Debug|Win32
+		{D1F34FA6-68CE-4BE9-A92D-08097F2902D3}.Release|x64.ActiveCfg = Release|x64
+		{D1F34FA6-68CE-4BE9-A92D-08097F2902D3}.Release|x64.Build.0 = Release|x64
+		{D1F34FA6-68CE-4BE9-A92D-08097F2902D3}.Release|x86.ActiveCfg = Release|Win32
+		{D1F34FA6-68CE-4BE9-A92D-08097F2902D3}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
