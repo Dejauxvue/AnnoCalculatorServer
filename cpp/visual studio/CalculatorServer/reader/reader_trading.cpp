@@ -187,7 +187,6 @@ bool trading_menu::check_price(unsigned int guid, unsigned int selling_price, in
 {
 	float multiplier = 1.f + price_modification_percent / 100.f;
 	float price = multiplier * recog.items[guid]->price;
-	std::cout << price << " ";
 	return std::floor(price - 0.5f) <= selling_price && selling_price <= std::ceil(price + 0.5f);
 }
 
@@ -219,7 +218,6 @@ std::vector<offering> trading_menu::get_offerings() const
 
 	unsigned int index = 0;
 	int trade_price_modifier = get_price_modification();
-	std::cout << "trade price modifier: " << trade_price_modifier << std::endl;
 
 	for (const cv::Rect2i& offering_loc : boxes)
 	{

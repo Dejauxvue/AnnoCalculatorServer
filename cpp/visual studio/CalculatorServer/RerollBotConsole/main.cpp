@@ -15,7 +15,7 @@ std::set<unsigned int> relevant_items({
 		//191799, // O'Mara's Regulations
 		192483, // Vindication Women's Rights
 
-		190682, // Travel agent
+		//190682, // Travel agent
 
 		191375, // Magnetist
 		//191587, // Dredger
@@ -78,6 +78,22 @@ void test_screenshot(image_recognition& recog, trading_menu& reader)
 	}
 }
 
+template <class _Rep, class _Period>
+bool wait_and_try(std::chrono::duration<_Rep,_Period> duration,
+	std::function<bool()> condition)
+{
+	std::this_thread::sleep_for(duration);
+
+	int counter = 0;
+	while (!condition() && counter++ < 3)
+	{
+		duration *= 2;
+		std::this_thread::sleep_for(duration);
+	}
+
+	return counter <= 3;
+};
+
 int main() {
 	image_recognition recog;
 	trading_menu reader(recog);
@@ -99,6 +115,7 @@ int main() {
 			relevant_traders.emplace(trader_guid);
 	}
 
+	int counter = 0;
 
 	while (true)
 	{
@@ -124,7 +141,7 @@ int main() {
 						if (relevant_items.find(item->guid) != relevant_items.end())
 						{
 							purchase_candidates.push_front(&off);
-							std::cout << "Buying item " << off.index << " with price " << off.price << std::endl;
+//							std::cout << "Buying item " << off.index << " with price " << off.price << std::endl;
 							break;
 						}
 					}
@@ -135,21 +152,16 @@ int main() {
 				if (purchase_candidates.empty())
 				{
 					mous.click(image_recognition::get_center(trading_params::pane_menu_reroll));
-					std::this_thread::sleep_for(std::chrono::milliseconds(250));
+					std::this_thread::sleep_for(std::chrono::milliseconds(300));
 					continue;
 				}
 				else {
 					
-					bool paused = false;
 					for (const offering* off : purchase_candidates)
 					{
 						reader.update(language, recog.take_screenshot(window));
-						if (reader.is_ship_full() && !paused)
+						if (reader.is_ship_full())
 						{
-							std::cout << "Cannot add item " << recog.get_dictionary().items.at(off->item_candidates.front()->guid) 
-								<< " (Item " << off->index << ") to cart. Please check ship and hit enter to continue." << std::endl;
-							system("PAUSE");
-							paused = true;
 							break;
 						}
 
@@ -157,49 +169,29 @@ int main() {
 						mous.click(image_recognition::get_center(off->box));
 					}
 
-					std::this_thread::sleep_for(std::chrono::milliseconds(400));
+					std::this_thread::sleep_for(std::chrono::milliseconds(300));
 					cv::Mat screenshot = recog.take_screenshot(window);
 					reader.update(language, screenshot);
 
 					if (!reader.is_trading_menu_open() || !reader.can_buy())
 					{
-						if (!paused)
-						{
-							std::cout << "Cannot execute trade. Please check ship and hit enter to continue." << std::endl;
-							system("PAUSE");
-						}
-						continue;
+						std::cout << "Cannot execute trade. Please check ship and hit enter to continue." << std::endl;
 					}
 
 					mous.click(image_recognition::get_center(trading_params::pane_menu_execute));
-					std::this_thread::sleep_for(std::chrono::milliseconds(400));
-
-					reader.update(language, recog.take_screenshot(window));
-					if (!reader.get_open_trader())
-					{
-						std::this_thread::sleep_for(std::chrono::milliseconds(600));
-
-						mous.click(image_recognition::get_center(trading_params::pane_prev_exchange));
-						int tries = 0;
-						while (!reader.is_trading_menu_open())
-						{
-							std::this_thread::sleep_for(std::chrono::milliseconds(250));
-							cv::Mat screenshot = recog.take_screenshot(window);
-							reader.update(language, screenshot);
-							if (tries++ >= 5)
-							{
-								std::cout << "Did not detect open trading menu." << std::endl;
-								break;
-							}
-						}
-					}
+					std::this_thread::sleep_for(std::chrono::milliseconds(200));
 
 					continue;
 				}
 			}
 			else
 			{
-				std::cout << "Offered items do not seem to have changed. Retry in 1s." << std::endl;
+//				std::cout << "Offered items do not seem to have changed. Retry in 1s." << std::endl;
+				if (++counter > 3)
+				{
+					counter = 0;
+					mous.click(image_recognition::get_center(trading_params::pane_menu_reroll));
+				}
 			}
 		}
 
