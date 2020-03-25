@@ -83,6 +83,10 @@ public:
 	bool can_buy(unsigned int index) const;
 	bool can_buy(const offering& off) const;
 
+	/*
+	* Checks wether the passed image shows an empty cargo slot
+	*/
+	bool is_empty_cargo_slot(const cv::Mat& img) const;
 
 	/*
 	* Returns all currently offered items
@@ -114,7 +118,7 @@ public:
 private:
 	image_recognition& recog;
 	std::map<unsigned int, cv::Mat> ship_items;
-	cv::Mat empty_cargo_slot;
+	cv::Mat storage_icon;
 
 	unsigned int open_trader;
 	bool menu_open;

@@ -54,17 +54,10 @@ const cv::Rect2f trading_params::pane_menu_ship_sockets = cv::Rect2f(cv::Point2f
 trading_menu::trading_menu(image_recognition& recog)
 	:
 	recog(recog),
+	storage_icon(recog.binarize_icon(image_recognition::load_image("icons/icon_goods_storage.png"))),
 	open_trader(0),
 	menu_open(false)
 {
-	cv::Mat bgr_slot_empty(image_recognition::load_image("icons/bgr_slot_empty.png"));
-	cv::Mat overlay(image_recognition::load_image("icons/icon_goods_storage.png"));
-	cv::Mat overlay_with_margin;
-	cv::copyMakeBorder(overlay, overlay_with_margin, overlay.rows * 0.2, overlay.rows * 0.2, overlay.cols * 0.2, overlay.cols * 0.2, cv::BORDER_CONSTANT, cv::Scalar());
-	cv::Mat slot = image_recognition::blend_icon(overlay_with_margin, bgr_slot_empty);
-	slot -= cv::Scalar(0, 0, 0, 124);
-	empty_cargo_slot = image_recognition::blend_icon(slot, trading_params::background_trading_menu);
-
 	for (const auto& item : recog.items)
 		if (item.second->isShipAllocation())
 			ship_items.emplace(item.first, item.second->icon);
@@ -178,6 +171,25 @@ bool trading_menu::can_buy(const offering& off) const
 	);
 
 	return !result.empty() && result.front() == item.guid;
+}
+
+bool trading_menu::is_empty_cargo_slot(const cv::Mat& img) const
+{
+	cv::Rect2i roi(0.1f * img.cols, 0.1f * img.rows,
+		0.8f * img.cols, 0.8f * img.rows);
+
+	cv::Mat icon_processed = recog.binarize_icon(img(roi), storage_icon.size());
+	int icon_white_count = cv::countNonZero(icon_processed);
+	cv::bitwise_and(storage_icon, icon_processed, icon_processed);
+
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+	cv::imwrite("debug_images/icon_intersect.png", icon_processed);
+#endif
+
+	float max_intersection = std::max(icon_white_count, cv::countNonZero(storage_icon));
+	float match = cv::countNonZero(icon_processed) / max_intersection;
+
+	return match > 0.8;
 }
 
 bool trading_menu::check_price(unsigned int guid, unsigned int selling_price, int price_modification_percent) const
@@ -361,20 +373,8 @@ std::pair<unsigned int, unsigned int> trading_menu::get_cargo_slot_count() const
 
 	for (const cv::Rect2i& item_loc : boxes)
 	{
-
-		std::vector<unsigned int> item_candidates = recog.get_guid_from_icon(
-			pane(item_loc),
-			{ { 0, empty_cargo_slot } },
-			trading_params::background_trading_menu
-		);
-
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-		cv::imwrite("debug_images/item.png", recog.screenshot(item_loc));
-#endif
-
-
-
-		if (!item_candidates.empty())
+		
+		if (!is_empty_cargo_slot(pane(item_loc)))
 		{
 			full_count++;
 		}

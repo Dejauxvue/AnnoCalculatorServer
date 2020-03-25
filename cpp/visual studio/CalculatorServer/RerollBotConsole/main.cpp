@@ -100,6 +100,7 @@ int main() {
 			relevant_traders.emplace(trader_guid);
 	}
 
+
 	while (true)
 	{
 		reader.update(language, recog.take_screenshot(window));
@@ -191,6 +192,9 @@ int main() {
 								break;
 							}
 						}
+
+						auto slots = reader.get_cargo_slot_count();
+						std::cout << std::endl << slots.first << " full of " << slots.second << std::endl;
 					}
 
 					continue;
