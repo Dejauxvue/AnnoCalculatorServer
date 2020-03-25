@@ -4,14 +4,15 @@
 
 #include <vector>
 #include <map>
+#include <set>
 #include <string>
 
 #include <opencv2/opencv.hpp>
 
 #include <tesseract/baseapi.h>
 
- #define SHOW_CV_DEBUG_IMAGE_VIEW
- #define CONSOLE_DEBUG_OUTPUT
+ //#define SHOW_CV_DEBUG_IMAGE_VIEW
+ //#define CONSOLE_DEBUG_OUTPUT
 
 namespace reader
 {
@@ -298,8 +299,10 @@ public:
 
 	static cv::Mat detect_edges(const cv::Mat& im);
 
-	static std::vector<cv::Rect2i> detect_boxes(const cv::Mat& im, const cv::Rect2i& box, float tolerance = 0.05f);
-	static std::vector<cv::Rect2i> detect_boxes(const cv::Mat& im, unsigned int width, unsigned int height, float tolerance = 0.05f);
+	static std::vector<cv::Rect2i> detect_boxes(const cv::Mat& im, const cv::Rect2i& box, float tolerance = 0.05f,
+		double threshold1 = 100, double threshold2 = 190);
+	static std::vector<cv::Rect2i> detect_boxes(const cv::Mat& im, unsigned int width, unsigned int height, float tolerance = 0.05f,
+		double threshold1 = 100, double threshold2 = 190);
 
 	/*
 	* Detects contours in the image and filters width wide horizontal lines

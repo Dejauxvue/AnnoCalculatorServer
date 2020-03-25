@@ -718,6 +718,7 @@ void image_recognition::initialize_items()
 	boost::property_tree::read_json("texts/items_2020-03-08.json", pt);
 
 	std::map<unsigned int, cv::Mat> item_backgrounds;
+	cv::Mat item_outline(load_image("icons/btn_itemsocket_outline.png"));
 
 	auto create_background = [&](rarity rarity_guid, 
 		const std::string& rarity_name,
@@ -727,9 +728,10 @@ void image_recognition::initialize_items()
 		background_ornament -= cv::Scalar(0, 0, 0, 192);
 		cv::Mat background1 = blend_icon(background_ornament, color);
 		cv::Mat background2 = blend_icon(load_image("icons/btn_itemsocket_base.png"), background1);
+		cv::Mat background3 = blend_icon(item_outline, background2);
 		//cv::imshow("icon", background2);
 		//cv::waitKey(200);
-		item_backgrounds.emplace((unsigned int) rarity_guid, background2);
+		item_backgrounds.emplace((unsigned int) rarity_guid, background3);
 	};
 
 	create_background(rarity::COMMON, "common", cv::Scalar(212, 232, 242, 255));
@@ -740,6 +742,7 @@ void image_recognition::initialize_items()
 	create_background(rarity::EPIC, "epic", cv::Scalar(213, 167, 196, 255));
 	create_background(rarity::LEGENDARY, "legendary", cv::Scalar(97, 204, 244, 255));
 
+	
 	std::map<std::string, cv::Mat> image_cache;
 	auto create_icon = [&](const std::string& path, unsigned int rarity)
 	{
@@ -1275,15 +1278,17 @@ cv::Mat image_recognition::detect_edges(const cv::Mat& im)
 	return edges;
 }
 
-std::vector<cv::Rect2i> image_recognition::detect_boxes(const cv::Mat& im, const cv::Rect2i& box, float tolerance)
+std::vector<cv::Rect2i> image_recognition::detect_boxes(const cv::Mat& im, const cv::Rect2i& box, float tolerance,
+	double threshold1, double threshold2)
 {
-	return detect_boxes(im, box.width, box.height, tolerance);
+	return detect_boxes(im, box.width, box.height, tolerance, threshold1, threshold2);
 }
 
-std::vector<cv::Rect2i> image_recognition::detect_boxes(const cv::Mat& im, unsigned int width, unsigned int height, float tolerance)
+std::vector<cv::Rect2i> image_recognition::detect_boxes(const cv::Mat& im, unsigned int width, unsigned int height, float tolerance,
+	double threshold1, double threshold2)
 {
 	cv::Mat edge_image;
-	cv::Canny(im, edge_image, 100, 190, 3);
+	cv::Canny(im, edge_image, threshold1, threshold2, 3);
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 	cv::Mat colored_edge_image;
