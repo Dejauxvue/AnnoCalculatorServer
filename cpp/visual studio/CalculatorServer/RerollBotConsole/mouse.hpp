@@ -18,9 +18,5 @@ private:
 	cv::Rect2i desktop;
 	cv::Rect2i window;
 
-	void click_hotkey(int x, int y);
-	void move_hotkey(int x, int y);
-
-	void execute_hotkey_script(const std::string& console);
 };
 

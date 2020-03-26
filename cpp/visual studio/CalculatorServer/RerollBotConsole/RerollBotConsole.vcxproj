@@ -147,10 +147,12 @@
   <ItemGroup>
     <ClCompile Include="mouse.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="wishlist.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mouse.hpp" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="wishlist.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

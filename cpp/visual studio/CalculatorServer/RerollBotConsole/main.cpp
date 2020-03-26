@@ -5,40 +5,9 @@
 #include "reader_util.hpp"
 #include "reader_trading.hpp"
 #include "mouse.hpp"
+#include "wishlist.hpp"
 
 using namespace reader;
-
-std::set<unsigned int> relevant_items({
-	191831, // propeller
-		192484, // millicent's manifesto
-		//191802, // Bente Vacation Act
-		//191799, // O'Mara's Regulations
-		192483, // Vindication Women's Rights
-
-		//190682, // Travel agent
-
-		191375, // Magnetist
-		//191587, // Dredger
-		//191376, // Elictrical Engineer
-		191377, // Pyrphorian Whizz
-		191424, // Dario
-		192450, // Feras
-		//191805, // Malching's Back-to-Back
-		191817, // Prenatal Perservation
-		//111167, // Mr. Garrick
-		192440, // Lisowski
-		//191450, // Kadijah
-		//191622, // Salima
-		//191686, // Smokestack Act
-		//190759 // First-Rate Sapper
-	
-	
-		111111, // Marshland - Water Lily
-		112733, // Marshland - Marsh-Mallow
-		111112 // Marshland - Common Reed
-
-	});
-
 
 void test_screenshot(image_recognition& recog, trading_menu& reader)
 {
@@ -97,6 +66,7 @@ bool wait_and_try(std::chrono::duration<_Rep,_Period> duration,
 int main() {
 	image_recognition recog;
 	trading_menu reader(recog);
+	item_wishlist wishlist(recog, "RerollbotConfig.json");
 
 //	test_screenshot(recog, reader);
 
@@ -106,24 +76,17 @@ int main() {
 	mouse mous(recog.get_desktop(), window);
 
 	std::vector<offering> prev_offerings;
-	std::set<unsigned int> relevant_traders;
-	std::string language("english");
 
-	for (unsigned int guid : relevant_items)
-	{
-		for(unsigned int trader_guid : recog.items.at(guid)->traders)
-			relevant_traders.emplace(trader_guid);
-	}
 
 	int counter = 0;
 
 	while (true)
 	{
-		reader.update(language, recog.take_screenshot(window));
+		reader.update(wishlist.get_language(), recog.take_screenshot(window));
 		unsigned int trader = reader.get_open_trader();
 
  		if (trader && reader.has_reroll() &&
-			relevant_traders.find(trader) != relevant_traders.end() &&
+			wishlist.buy_from(trader) &&
 			!reader.is_ship_full())
 		{
         	const auto offerings = reader.get_offerings();
@@ -138,7 +101,7 @@ int main() {
 					//std::cout << off.index << ": " << recog.get_dictionary().items.at(off.item_candidates.front()->guid) << std::endl;
 					for (const auto& item : off.item_candidates)
 					{
-						if (relevant_items.find(item->guid) != relevant_items.end())
+						if (wishlist.contains(item->guid))
 						{
 							purchase_candidates.push_front(&off);
 //							std::cout << "Buying item " << off.index << " with price " << off.price << std::endl;
@@ -157,28 +120,35 @@ int main() {
 				}
 				else {
 					
-					for (const offering* off : purchase_candidates)
+					auto purchase_iter = purchase_candidates.begin();
+					for (; purchase_iter != purchase_candidates.end(); ++purchase_iter)
 					{
-						reader.update(language, recog.take_screenshot(window));
+						reader.update(wishlist.get_language(), recog.take_screenshot(window));
 						if (reader.is_ship_full())
 						{
 							break;
 						}
 
 						
-						mous.click(image_recognition::get_center(off->box));
+						mous.click(image_recognition::get_center((*purchase_iter)->box));
 					}
 
 					std::this_thread::sleep_for(std::chrono::milliseconds(300));
 					cv::Mat screenshot = recog.take_screenshot(window);
-					reader.update(language, screenshot);
+					reader.update(wishlist.get_language(), screenshot);
 
 					if (!reader.is_trading_menu_open() || !reader.can_buy())
 					{
 						std::cout << "Cannot execute trade. Please check ship and hit enter to continue." << std::endl;
+						continue;
 					}
 
 					mous.click(image_recognition::get_center(trading_params::pane_menu_execute));
+					for (auto iter = purchase_candidates.begin(); iter != purchase_iter; ++iter)
+					{
+						for (const auto& candidate : (*iter)->item_candidates)
+							wishlist.bought(candidate->guid);
+					}
 					std::this_thread::sleep_for(std::chrono::milliseconds(200));
 
 					continue;

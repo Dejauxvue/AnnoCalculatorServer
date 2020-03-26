@@ -24,12 +24,18 @@
     <ClCompile Include="mouse.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="wishlist.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="mouse.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="wishlist.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
