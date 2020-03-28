@@ -2482,6 +2482,30 @@
       }
     },
     {
+      "guid": 191658,
+      "price": 5000,
+      "icon": "icon_worker_106.png",
+      "rarity": 118002,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Watchmaker",
+        "german": "Taschenuhrmacher",
+        "brazilian": "Watchmaker",
+        "chinese": "表匠",
+        "french": "Cadranier",
+        "italian": "Produttore di orologi da polso",
+        "japanese": "時計職人",
+        "korean": "손목시계 제작자",
+        "polish": "Wytwórca zegarków",
+        "portuguese": "Watchmaker",
+        "russian": "Часовщик",
+        "spanish": "Relojero",
+        "taiwanese": "錶匠"
+      }
+    },
+    {
       "guid": 190883,
       "price": 23000,
       "icon": "icon_loom_1.png",
@@ -2503,6 +2527,54 @@
         "russian": "Механический ткацкий станок",
         "spanish": "Telar mecánico",
         "taiwanese": "機械織布機"
+      }
+    },
+    {
+      "guid": 191659,
+      "price": 25000,
+      "icon": "icon_worker_202.png",
+      "rarity": 118003,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Clockmaker",
+        "german": "Uhrmacher",
+        "brazilian": "Clockmaker",
+        "chinese": "钟表匠",
+        "french": "Horloger",
+        "italian": "Orologiaio",
+        "japanese": "時計工",
+        "korean": "벽시계 제조가",
+        "polish": "Wytwórca zegarów",
+        "portuguese": "Clockmaker",
+        "russian": "Часовых дел мастер",
+        "spanish": "Fabricante de relojes",
+        "taiwanese": "鐘錶匠"
+      }
+    },
+    {
+      "guid": 191660,
+      "price": 75000,
+      "icon": "icon_worker_407.png",
+      "rarity": 118004,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Precision Horologist",
+        "german": "Präzisionshorologin",
+        "brazilian": "Precision Horologist",
+        "chinese": "精准钟表专家",
+        "french": "Horloger de précision",
+        "italian": "Orologiaio di precisione",
+        "japanese": "精密時計学者",
+        "korean": "정밀 시계공",
+        "polish": "Wytwórczyni czasomierzy",
+        "portuguese": "Precision Horologist",
+        "russian": "Опытная часовщица",
+        "spanish": "Horólogo preciso",
+        "taiwanese": "精準鐘錶專家"
       }
     },
     {
@@ -2553,6 +2625,54 @@
         "russian": "Механическая прядильная машина",
         "spanish": "Telar de vapor",
         "taiwanese": "動力織布機"
+      }
+    },
+    {
+      "guid": 191661,
+      "price": 250000,
+      "icon": "icon_well_dressed_407.png",
+      "rarity": 118005,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Chronometrist Chiara",
+        "german": "Chronometrikerin Chiara",
+        "brazilian": "Chronometrist Chiara",
+        "chinese": "测时学家奇亚拉",
+        "french": "Chiara, chronométriste",
+        "italian": "Chiara la cronometrista",
+        "japanese": "クロノメーター専門家のチアラ",
+        "korean": "시간 측정학자 키아라",
+        "polish": "Chronometryczka Chiara ",
+        "portuguese": "Chronometrist Chiara",
+        "russian": "Изготовительница хронометров Кьяра",
+        "spanish": "Cronometrista Chiara",
+        "taiwanese": "測時學家奇亞拉"
+      }
+    },
+    {
+      "guid": 191662,
+      "price": 750000,
+      "icon": "icon_well_dressed_108.png",
+      "rarity": 118006,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Hans Graf, Of The Timeless Timepiece",
+        "german": "Hans Graf vom zeitlosen Zeitmesser",
+        "brazilian": "Hans Graf, Of The Timeless Timepiece",
+        "chinese": "“恒久远钟表”的汉斯·葛拉夫",
+        "french": "Hans Graf - Du garde-temps intemporel",
+        "italian": "Hans Graf dell'orologio senza tempo",
+        "japanese": "いつまでも色あせない時計のハンス・グラーフ",
+        "korean": "시대를 초월하는 시계 제작자, 한스 그라프",
+        "polish": "Hans Graf - od ponadczasowego chronometru",
+        "portuguese": "Hans Graf - Of the Timeless Timepiece",
+        "russian": "Ганс Граф, создатель Бесценного Хронометра",
+        "spanish": "Hans Klein, Padre Tiempo",
+        "taiwanese": "「恆久遠鐘錶」的漢斯．葛拉夫"
       }
     },
     {
@@ -5008,6 +5128,32 @@
         "russian": "Марсель Форкас, знаменитый шеф-повар",
         "spanish": "Marcel Forcas, chef famoso",
         "taiwanese": "明星大廚馬歇爾．佛卡斯"
+      }
+    },
+    {
+      "guid": 190915,
+      "price": 18500,
+      "icon": "icon_seeds_grain.png",
+      "rarity": 118003,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [
+        78
+      ],
+      "locaText": {
+        "english": "Grain Seeds",
+        "german": "Grain Seeds",
+        "brazilian": "Grain Seeds",
+        "chinese": "Grain Seeds",
+        "french": "Grain Seeds",
+        "italian": "Grain Seeds",
+        "japanese": "Grain Seeds",
+        "korean": "Grain Seeds",
+        "polish": "Grain Seeds",
+        "portuguese": "Grain Seeds",
+        "russian": "Grain Seeds",
+        "spanish": "Grain Seeds",
+        "taiwanese": "Grain Seeds"
       }
     },
     {
@@ -7642,6 +7788,32 @@
         "russian": "Скребок",
         "spanish": "Rasqueta de pieles",
         "taiwanese": "剝皮刀"
+      }
+    },
+    {
+      "guid": 190946,
+      "price": 24000,
+      "icon": "icon_seeds_coffee.png",
+      "rarity": 118003,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [
+        29
+      ],
+      "locaText": {
+        "english": "Coffee Beans",
+        "german": "Kaffeebohnen",
+        "brazilian": "Coffee Beans",
+        "chinese": "咖啡豆",
+        "french": "Grains de café",
+        "italian": "Fave di caffè",
+        "japanese": "コーヒー豆",
+        "korean": "커피콩",
+        "polish": "Ziarna kawy",
+        "portuguese": "Coffee Beans",
+        "russian": "Кофейные зерна",
+        "spanish": "Granos de café",
+        "taiwanese": "咖啡豆"
       }
     },
     {
@@ -11437,6 +11609,30 @@
       }
     },
     {
+      "guid": 190027,
+      "price": 5000,
+      "icon": "icon_cereals_2.png",
+      "rarity": 118004,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Grain Seeds",
+        "german": "Grain Seeds",
+        "brazilian": "Grain Seeds",
+        "chinese": "Grain Seeds",
+        "french": "Grain Seeds",
+        "italian": "Grain Seeds",
+        "japanese": "Grain Seeds",
+        "korean": "Grain Seeds",
+        "polish": "Grain Seeds",
+        "portuguese": "Grain Seeds",
+        "russian": "Grain Seeds",
+        "spanish": "Grain Seeds",
+        "taiwanese": "Grain Seeds"
+      }
+    },
+    {
       "guid": 191310,
       "price": 772000,
       "icon": "icon_well_dressed_206.png",
@@ -11482,6 +11678,30 @@
         "russian": "Серп друида",
         "spanish": "Hoz de druida",
         "taiwanese": "德魯伊的鐮刀"
+      }
+    },
+    {
+      "guid": 190028,
+      "price": 5000,
+      "icon": "icon_hops.png",
+      "rarity": 118004,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Hop Seeds",
+        "german": "Hopfensaatgut",
+        "brazilian": "Mixed Hop Seeds",
+        "chinese": "啤酒花种子",
+        "french": "Semences de houblon",
+        "italian": "Semi di luppolo",
+        "japanese": "ホップの種",
+        "korean": "홉 씨앗",
+        "polish": "Nasiona chmielu",
+        "portuguese": "Mixed Hop Seeds",
+        "russian": "Семена хмеля",
+        "spanish": "Semillas de lúpulo",
+        "taiwanese": "啤酒花種子"
       }
     },
     {
@@ -11949,6 +12169,32 @@
       }
     },
     {
+      "guid": 191320,
+      "price": 8700,
+      "icon": "icon_worker_106.png",
+      "rarity": 118002,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [
+        46
+      ],
+      "locaText": {
+        "english": "Watchmaker",
+        "german": "Taschenuhrmacher",
+        "brazilian": "Watchmaker",
+        "chinese": "表匠",
+        "french": "Cadranier",
+        "italian": "Produttore di orologi da polso",
+        "japanese": "時計職人",
+        "korean": "손목시계 제작자",
+        "polish": "Wytwórca zegarków",
+        "portuguese": "Watchmaker",
+        "russian": "Часовщик",
+        "spanish": "Relojero",
+        "taiwanese": "錶匠"
+      }
+    },
+    {
       "guid": 192299,
       "price": 265000,
       "icon": "icon_plough_1.png",
@@ -12021,6 +12267,32 @@
       }
     },
     {
+      "guid": 191321,
+      "price": 31400,
+      "icon": "icon_worker_202.png",
+      "rarity": 118003,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [
+        46
+      ],
+      "locaText": {
+        "english": "Clockmaker",
+        "german": "Uhrmacher",
+        "brazilian": "Clockmaker",
+        "chinese": "钟表匠",
+        "french": "Horloger",
+        "italian": "Orologiaio",
+        "japanese": "時計工",
+        "korean": "벽시계 제조가",
+        "polish": "Wytwórca zegarów",
+        "portuguese": "Clockmaker",
+        "russian": "Часовых дел мастер",
+        "spanish": "Fabricante de relojes",
+        "taiwanese": "鐘錶匠"
+      }
+    },
+    {
       "guid": 190862,
       "price": 24000,
       "icon": "icon_fertilizer_1.png",
@@ -12069,6 +12341,56 @@
       }
     },
     {
+      "guid": 190033,
+      "price": 15000,
+      "icon": "icon_tobacco.png",
+      "rarity": 118004,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Tobacco Seeds",
+        "german": "Tabaksaatgut",
+        "brazilian": "Mixed Tobacco Seeds",
+        "chinese": "烟草种子",
+        "french": "Semences de tabac",
+        "italian": "Semi di tabacco",
+        "japanese": "タバコの種",
+        "korean": "담배 씨앗",
+        "polish": "Nasiona tytoniu",
+        "portuguese": "Mixed Tobacco Seeds",
+        "russian": "Семена табака",
+        "spanish": "Semillas de tabaco",
+        "taiwanese": "菸草種子"
+      }
+    },
+    {
+      "guid": 191322,
+      "price": 109300,
+      "icon": "icon_worker_407.png",
+      "rarity": 118004,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [
+        46
+      ],
+      "locaText": {
+        "english": "Precision Horologist",
+        "german": "Präzisionshorologin",
+        "brazilian": "Precision Horologist",
+        "chinese": "精准钟表专家",
+        "french": "Horloger de précision",
+        "italian": "Orologiaio di precisione",
+        "japanese": "精密時計学者",
+        "korean": "정밀 시계공",
+        "polish": "Wytwórczyni czasomierzy",
+        "portuguese": "Precision Horologist",
+        "russian": "Опытная часовщица",
+        "spanish": "Horólogo preciso",
+        "taiwanese": "精準鐘錶專家"
+      }
+    },
+    {
       "guid": 190863,
       "price": 80000,
       "icon": "icon_fertilizer_2.png",
@@ -12093,6 +12415,30 @@
       }
     },
     {
+      "guid": 190032,
+      "price": 15000,
+      "icon": "icon_cotton.png",
+      "rarity": 118004,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Cotton Seeds",
+        "german": "Baumwollsamen",
+        "brazilian": "Mixed Cotton Seeds",
+        "chinese": "棉花种子",
+        "french": "Semences de coton",
+        "italian": "Semi di cotone",
+        "japanese": "綿花の種",
+        "korean": "목화 씨앗",
+        "polish": "Nasiona bawełny",
+        "portuguese": "Mixed Cotton Seeds",
+        "russian": "Семена хлопчатника",
+        "spanish": "Semillas de algodón",
+        "taiwanese": "棉花種子"
+      }
+    },
+    {
       "guid": 116179,
       "price": 63300,
       "icon": "icon_jukebox.png",
@@ -12114,6 +12460,32 @@
         "russian": "Музыкальный автомат",
         "spanish": "Gramola",
         "taiwanese": "點唱機"
+      }
+    },
+    {
+      "guid": 191323,
+      "price": 346900,
+      "icon": "icon_well_dressed_407.png",
+      "rarity": 118005,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [
+        46
+      ],
+      "locaText": {
+        "english": "Chronometrist Chiara",
+        "german": "Chronometrikerin Chiara",
+        "brazilian": "Chronometrist Chiara",
+        "chinese": "测时学家奇亚拉",
+        "french": "Chiara, chronométriste",
+        "italian": "Chiara la cronometrista",
+        "japanese": "クロノメーター専門家のチアラ",
+        "korean": "시간 측정학자 키아라",
+        "polish": "Chronometryczka Chiara ",
+        "portuguese": "Chronometrist Chiara",
+        "russian": "Изготовительница хронометров Кьяра",
+        "spanish": "Cronometrista Chiara",
+        "taiwanese": "測時學家奇亞拉"
       }
     },
     {
@@ -14587,6 +14959,32 @@
         "russian": "Большой набор инструментов",
         "spanish": "Armario de herramientas del astillero",
         "taiwanese": "船塢工具箱"
+      }
+    },
+    {
+      "guid": 190694,
+      "price": 8300,
+      "icon": "icon_carpenter_722.png",
+      "rarity": 118002,
+      "allocation": 4065,
+      "tradePriceModifier": 0,
+      "traders": [
+        46
+      ],
+      "locaText": {
+        "english": "Carpenter",
+        "german": "Zimmermann",
+        "brazilian": "Carpenter",
+        "chinese": "木匠",
+        "french": "Charpentier",
+        "italian": "Carpentiere",
+        "japanese": "大工",
+        "korean": "목수",
+        "polish": "Stolarz",
+        "portuguese": "Carpenter",
+        "russian": "Плотник",
+        "spanish": "Carpintero",
+        "taiwanese": "木匠"
       }
     },
     {
@@ -19416,6 +19814,30 @@
       }
     },
     {
+      "guid": 190288,
+      "price": 1000,
+      "icon": "icon_schnapps_3.png",
+      "rarity": 118002,
+      "allocation": 2347,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Medicine",
+        "german": "Heilkunst",
+        "brazilian": "Diseases",
+        "chinese": "医学",
+        "french": "Médecine",
+        "italian": "Medicina",
+        "japanese": "薬",
+        "korean": "의약품",
+        "polish": "Medycyna",
+        "portuguese": "Diseases",
+        "russian": "Медицина",
+        "spanish": "Medicina",
+        "taiwanese": "醫學"
+      }
+    },
+    {
       "guid": 191748,
       "price": 84500,
       "icon": "icon_book_uncommon.png",
@@ -20796,6 +21218,33 @@
       }
     },
     {
+      "guid": 191878,
+      "price": 262500,
+      "icon": "icon_white_flag.png",
+      "rarity": 118005,
+      "allocation": 2342,
+      "tradePriceModifier": 0,
+      "traders": [
+        29,
+        77
+      ],
+      "locaText": {
+        "english": "White Flag",
+        "german": "White Flag",
+        "brazilian": "White Flag",
+        "chinese": "White Flag",
+        "french": "White Flag",
+        "italian": "White Flag",
+        "japanese": "White Flag",
+        "korean": "White Flag",
+        "polish": "White Flag",
+        "portuguese": "White Flag",
+        "russian": "White Flag",
+        "spanish": "White Flag",
+        "taiwanese": "White Flag"
+      }
+    },
+    {
       "guid": 191831,
       "price": 240000,
       "icon": "icon_screw_propeller_3.png",
@@ -22048,6 +22497,34 @@
       }
     },
     {
+      "guid": 191599,
+      "price": 31800,
+      "icon": "icon_custom_officer_104.png",
+      "rarity": 118003,
+      "allocation": 12812,
+      "tradePriceModifier": 0,
+      "traders": [
+        76,
+        73,
+        46
+      ],
+      "locaText": {
+        "english": "Sergeant",
+        "german": "Wachtmeister",
+        "brazilian": "Sergeant",
+        "chinese": "巡佐",
+        "french": "Sergent",
+        "italian": "Sergente",
+        "japanese": "巡査部長",
+        "korean": "경사",
+        "polish": "Sierżant",
+        "portuguese": "Sergeant",
+        "russian": "Сержант",
+        "spanish": "Sargento",
+        "taiwanese": "巡佐"
+      }
+    },
+    {
       "guid": 190105,
       "price": 5000,
       "icon": "icon_resource_worker_2.png",
@@ -22417,6 +22894,30 @@
         "russian": "Поставщик товаров за рубеж",
         "spanish": "Exportador de bienes",
         "taiwanese": "貨物出口商"
+      }
+    },
+    {
+      "guid": 192090,
+      "price": 200000,
+      "icon": "icon_captain_103.png",
+      "rarity": 118005,
+      "allocation": 2342,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Captain Moby, Old Dog of the Sea",
+        "german": "Kapitän Moby, der alte Seebär",
+        "brazilian": "Captain Moby - Old Dog of the Sea",
+        "chinese": "“海上老狗”魔比船长",
+        "french": "Capitaine Moby, Vieux loup de mer",
+        "italian": "Capitan Moby, Vecchio lupo di mare",
+        "japanese": "海の老犬ことモビー船長",
+        "korean": "오래된 바다의 개, 모비 선장",
+        "polish": "Kapitan Moby, Stary Pies Morski",
+        "portuguese": "Captain Moby - Old Dog of the Sea",
+        "russian": "Капитан Моби, старый морской пес",
+        "spanish": "Capitán Moby, viejo lobo de mar",
+        "taiwanese": "「海上老狗」魔比船長"
       }
     },
     {
@@ -30960,6 +31461,54 @@
       }
     },
     {
+      "guid": 191481,
+      "price": 1000,
+      "icon": "icon_mortar.png",
+      "rarity": 118002,
+      "allocation": 2342,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Mortar",
+        "german": "Mörser",
+        "brazilian": "Mortar",
+        "chinese": "迫击炮",
+        "french": "Mortier",
+        "italian": "Mortaio",
+        "japanese": "迫撃砲",
+        "korean": "박격포",
+        "polish": "Moździerz",
+        "portuguese": "Mortar",
+        "russian": "Мортира",
+        "spanish": "Mortero",
+        "taiwanese": "迫擊炮"
+      }
+    },
+    {
+      "guid": 191474,
+      "price": 500,
+      "icon": "icon_torpedo_rework.png",
+      "rarity": 118003,
+      "allocation": 2342,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Torpedo",
+        "german": "Torpedo",
+        "brazilian": "Torpedo",
+        "chinese": "鱼雷",
+        "french": "Torpille",
+        "italian": "Siluro",
+        "japanese": "魚雷",
+        "korean": "어뢰",
+        "polish": "Torpeda",
+        "portuguese": "Torpedo",
+        "russian": "Торпеда",
+        "spanish": "Torpedo",
+        "taiwanese": "魚雷"
+      }
+    },
+    {
       "guid": 191958,
       "price": 13200,
       "icon": "icon_piercing_shell_2.png",
@@ -31399,6 +31948,30 @@
         "russian": "Ящик с содрогающейся наживкой",
         "spanish": "Caja de cebo en movimiento",
         "taiwanese": "一箱抽搐的誘餌"
+      }
+    },
+    {
+      "guid": 192096,
+      "price": 5000,
+      "icon": "icon_mortar.png",
+      "rarity": 118003,
+      "allocation": 2342,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Mortar",
+        "german": "Mörser",
+        "brazilian": "Mortar",
+        "chinese": "迫击炮",
+        "french": "Mortier",
+        "italian": "Mortaio",
+        "japanese": "迫撃砲",
+        "korean": "박격포",
+        "polish": "Moździerz",
+        "portuguese": "Mortar",
+        "russian": "Мортира",
+        "spanish": "Mortero",
+        "taiwanese": "迫擊炮"
       }
     },
     {
@@ -31980,6 +32553,33 @@
       }
     },
     {
+      "guid": 191999,
+      "price": 10000,
+      "icon": "icon_suicide_bombs_1.png",
+      "rarity": 118003,
+      "allocation": 12812,
+      "tradePriceModifier": 0,
+      "traders": [
+        73,
+        220
+      ],
+      "locaText": {
+        "english": "Bomb",
+        "german": "Bombe",
+        "brazilian": "Bomb",
+        "chinese": "炸弹",
+        "french": "Bombe",
+        "italian": "Bomba",
+        "japanese": "爆弾",
+        "korean": "폭탄",
+        "polish": "Bomba",
+        "portuguese": "Bomb",
+        "russian": "Бомба",
+        "spanish": "Bomba",
+        "taiwanese": "炸彈"
+      }
+    },
+    {
       "guid": 112569,
       "price": 30000,
       "icon": "icon_crane_03.png",
@@ -32178,6 +32778,34 @@
         "russian": "Приносящий удачу золотоискатель",
         "spanish": "Prospector de fortuna",
         "taiwanese": "招財大師"
+      }
+    },
+    {
+      "guid": 192001,
+      "price": 10000,
+      "icon": "icon_fire_bomb_1.png",
+      "rarity": 118003,
+      "allocation": 12812,
+      "tradePriceModifier": 0,
+      "traders": [
+        76,
+        73,
+        220
+      ],
+      "locaText": {
+        "english": "Greek Fire",
+        "german": "Greek Fire",
+        "brazilian": "Greek Fire",
+        "chinese": "Greek Fire",
+        "french": "Greek Fire",
+        "italian": "Greek Fire",
+        "japanese": "Greek Fire",
+        "korean": "Greek Fire",
+        "polish": "Greek Fire",
+        "portuguese": "Greek Fire",
+        "russian": "Greek Fire",
+        "spanish": "Greek Fire",
+        "taiwanese": "Greek Fire"
       }
     },
     {
@@ -32768,6 +33396,32 @@
       }
     },
     {
+      "guid": 192013,
+      "price": 2000,
+      "icon": "icon_dynamite_1.png",
+      "rarity": 118002,
+      "allocation": 2346,
+      "tradePriceModifier": 0,
+      "traders": [
+        77
+      ],
+      "locaText": {
+        "english": "Dynamite",
+        "german": "Dynamite",
+        "brazilian": "Dynamite",
+        "chinese": "Dynamite",
+        "french": "Dynamite",
+        "italian": "Dynamite",
+        "japanese": "Dynamite",
+        "korean": "Dynamite",
+        "polish": "Dynamite",
+        "portuguese": "Dynamite",
+        "russian": "Dynamite",
+        "spanish": "Dynamite",
+        "taiwanese": "Dynamite"
+      }
+    },
+    {
       "guid": 191920,
       "price": 11000,
       "icon": "icon_extinguisher_grenade_2.png",
@@ -33190,6 +33844,30 @@
       }
     },
     {
+      "guid": 192129,
+      "price": 25000,
+      "icon": "icon_pirate_flag.png",
+      "rarity": 118004,
+      "allocation": 2342,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Pirate Flag",
+        "german": "Pirate Flag",
+        "brazilian": "Pirate Flag",
+        "chinese": "Pirate Flag",
+        "french": "Pirate Flag",
+        "italian": "Pirate Flag",
+        "japanese": "Pirate Flag",
+        "korean": "Pirate Flag",
+        "polish": "Pirate Flag",
+        "portuguese": "Pirate Flag",
+        "russian": "Pirate Flag",
+        "spanish": "Pirate Flag",
+        "taiwanese": "Pirate Flag"
+      }
+    },
+    {
       "guid": 192130,
       "price": 150000,
       "icon": "icon_pirate_flag.png",
@@ -33387,6 +34065,30 @@
         "russian": "Обычные инструменты",
         "spanish": "Herramientas comunes",
         "taiwanese": "常見工具"
+      }
+    },
+    {
+      "guid": 191496,
+      "price": 1000,
+      "icon": "ico_repair_toolset.png",
+      "rarity": 118002,
+      "allocation": 2342,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Ship Repair Toolset",
+        "german": "Ship Repair Toolset",
+        "brazilian": "Ship Repair Toolset",
+        "chinese": "Ship Repair Toolset",
+        "french": "Ship Repair Toolset",
+        "italian": "Ship Repair Toolset",
+        "japanese": "Ship Repair Toolset",
+        "korean": "Ship Repair Toolset",
+        "polish": "Ship Repair Toolset",
+        "portuguese": "Ship Repair Toolset",
+        "russian": "Ship Repair Toolset",
+        "spanish": "Ship Repair Toolset",
+        "taiwanese": "Ship Repair Toolset"
       }
     },
     {
@@ -33821,6 +34523,33 @@
       }
     },
     {
+      "guid": 114859,
+      "price": 10000,
+      "icon": "icon_botanica_redandwhiteflower.png",
+      "rarity": 118002,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Red White Petunia Garden",
+        "german": "Rot-weißer Petunien-Garten",
+        "brazilian": "Red White Petunia Garden",
+        "chinese": "红白碧冬茄花园",
+        "french": "Jardin de pétunias rouges et blancs",
+        "italian": "Giardino di petunie rosse e bianche",
+        "japanese": "紅白のペチュニアの庭",
+        "korean": "적색 및 흰색 피튜니아 정원",
+        "polish": "Ogród z czerwono-białymi petuniami",
+        "portuguese": "Red White Petunia Garden",
+        "russian": "Красно-белые петунии",
+        "spanish": "Jardín de petunias rojas y blancas",
+        "taiwanese": "紅白碧冬茄花園"
+      }
+    },
+    {
       "guid": 114876,
       "price": 20000,
       "icon": "icon_botanica_darkpinkflower.png",
@@ -33877,10 +34606,64 @@
       }
     },
     {
+      "guid": 114860,
+      "price": 10000,
+      "icon": "icon_botanica_darkpinkflower.png",
+      "rarity": 118002,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Hibiscus Garden",
+        "german": "Hibiskus-Garten",
+        "brazilian": "Hibiscus Garden",
+        "chinese": "木槿花园",
+        "french": "Jardin d'althéas",
+        "italian": "Giardino di ibischi",
+        "japanese": "ハイビスカスの庭",
+        "korean": "무궁화 정원",
+        "polish": "Ogród z hibiskusem",
+        "portuguese": "Hibiscus Garden",
+        "russian": "Гибискус",
+        "spanish": "Jardín de hibiscos",
+        "taiwanese": "木槿花園"
+      }
+    },
+    {
       "guid": 114878,
       "price": 20000,
       "icon": "icon_botanica_blueflower.png",
       "rarity": 118004,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Gentian Garden",
+        "german": "Enzian-Garten",
+        "brazilian": "Gentian Garden",
+        "chinese": "龙胆花园",
+        "french": "Jardin de gentianes",
+        "italian": "Giardino di genziane",
+        "japanese": "リンドウの庭",
+        "korean": "용담 정원",
+        "polish": "Ogród z goryczką",
+        "portuguese": "Gentian Garden",
+        "russian": "Горечавка",
+        "spanish": "Jardín de gencianas",
+        "taiwanese": "龍膽花園"
+      }
+    },
+    {
+      "guid": 114861,
+      "price": 10000,
+      "icon": "icon_botanica_blueflower.png",
+      "rarity": 118002,
       "allocation": -1230,
       "tradePriceModifier": 0,
       "traders": [
@@ -33931,6 +34714,33 @@
       }
     },
     {
+      "guid": 114862,
+      "price": 10000,
+      "icon": "icon_botanica_whiteflower.png",
+      "rarity": 118002,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Lily Garden",
+        "german": "Lilien-Garten",
+        "brazilian": "Lily Garden",
+        "chinese": "百合花园",
+        "french": "Jardin de lys",
+        "italian": "Giardino di gigli",
+        "japanese": "ユリの庭",
+        "korean": "백합 정원",
+        "polish": "Ogród z liliami",
+        "portuguese": "Lily Garden",
+        "russian": "Лилии",
+        "spanish": "Jardín de lirios",
+        "taiwanese": "百合花園"
+      }
+    },
+    {
       "guid": 114882,
       "price": 20000,
       "icon": "icon_botanica_orangeflower.png",
@@ -33958,10 +34768,61 @@
       }
     },
     {
+      "guid": 114863,
+      "price": 10000,
+      "icon": "icon_botanica_orangeflower.png",
+      "rarity": 118002,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Marigold Garden",
+        "german": "Ringelblumen-Garten",
+        "brazilian": "Marigold Garden",
+        "chinese": "万寿菊花园",
+        "french": "Jardin de soucis",
+        "italian": "Giardino di calendule",
+        "japanese": "マリーゴールドの庭",
+        "korean": "금잔화 정원",
+        "polish": "Ogród z nagietkami",
+        "portuguese": "Marigold Garden",
+        "russian": "Бархатцы",
+        "spanish": "Jardín de tagetes",
+        "taiwanese": "萬壽菊花園"
+      }
+    },
+    {
       "guid": 114884,
       "price": 20000,
       "icon": "icon_botanica_hedgespath.png",
       "rarity": 118004,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Topiary Avenue",
+        "german": "Formschnitt-Allee",
+        "brazilian": "Topiary Avenue",
+        "chinese": "植景小径",
+        "french": "Allée de topiaires",
+        "italian": "Viale di topiarie",
+        "japanese": "トピアリーの小道",
+        "korean": "정원길",
+        "polish": "Aleja z topiarami",
+        "portuguese": "Topiary Avenue",
+        "russian": "Фигурно стриженные кусты",
+        "spanish": "Avenida topiaria",
+        "taiwanese": "植景小徑"
+      }
+    },
+    {
+      "guid": 114864,
+      "price": 10000,
+      "icon": "icon_botanica_hedgespath.png",
+      "rarity": 118002,
       "allocation": -1230,
       "tradePriceModifier": 0,
       "traders": [],
@@ -34034,6 +34895,30 @@
       }
     },
     {
+      "guid": 114865,
+      "price": 10000,
+      "icon": "icon_botanica_labybrinth.png",
+      "rarity": 118002,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Hedge Maze",
+        "german": "Heckenlabyrinth",
+        "brazilian": "Hedge Maze",
+        "chinese": "围篱迷宫",
+        "french": "Labyrinthe végétal",
+        "italian": "Labirinto di siepi",
+        "japanese": "生け垣の迷路",
+        "korean": "생울타리 미로",
+        "polish": "Labirynt z żywopłotu",
+        "portuguese": "Hedge Maze",
+        "russian": "Лабиринт из живой изгороди",
+        "spanish": "Laberinto erizo",
+        "taiwanese": "圍籬迷宮"
+      }
+    },
+    {
       "guid": 114888,
       "price": 20000,
       "icon": "icon_botanica_treesculptures.png",
@@ -34083,6 +34968,30 @@
         "russian": "Карта: Барьерный риф",
         "spanish": "Mapa de una barrera de coral",
         "taiwanese": "大堡礁的地圖"
+      }
+    },
+    {
+      "guid": 114866,
+      "price": 10000,
+      "icon": "icon_botanica_treesculptures.png",
+      "rarity": 118002,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Topiary Garden",
+        "german": "Formschnitt-Garten",
+        "brazilian": "Topiary Garden",
+        "chinese": "植景花园",
+        "french": "Jardin de topiaires",
+        "italian": "Giardino di topiarie",
+        "japanese": "トピアリーの庭",
+        "korean": "장식 정원",
+        "polish": "Ogród z topiarami",
+        "portuguese": "Topiary Garden",
+        "russian": "Топиарный сад",
+        "spanish": "Jardín topiario",
+        "taiwanese": "植景花園"
       }
     },
     {
@@ -34309,6 +35218,33 @@
       }
     },
     {
+      "guid": 114873,
+      "price": 15000,
+      "icon": "icon_botanica_redandwhiteflower.png",
+      "rarity": 118003,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Red White Petunia Garden",
+        "german": "Rot-weißer Petunien-Garten",
+        "brazilian": "Red White Petunia Garden",
+        "chinese": "红白碧冬茄花园",
+        "french": "Jardin de pétunias rouges et blancs",
+        "italian": "Giardino di petunie rosse e bianche",
+        "japanese": "紅白のペチュニアの庭",
+        "korean": "적색 및 흰색 피튜니아 정원",
+        "polish": "Ogród z czerwono-białymi petuniami",
+        "portuguese": "Red White Petunia Garden",
+        "russian": "Красно-белые петунии",
+        "spanish": "Jardín de petunias rojas y blancas",
+        "taiwanese": "紅白碧冬茄花園"
+      }
+    },
+    {
       "guid": 112937,
       "price": 20000,
       "icon": "item_treasuremap_st_01.png",
@@ -34361,6 +35297,33 @@
         "russian": "Карта: гнездо Кукумаца",
         "spanish": "Nido de Kukulkán",
         "taiwanese": "庫庫馬茨的巢"
+      }
+    },
+    {
+      "guid": 114875,
+      "price": 15000,
+      "icon": "icon_botanica_darkpinkflower.png",
+      "rarity": 118003,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Hibiscus Garden",
+        "german": "Hibiskus-Garten",
+        "brazilian": "Hibiscus Garden",
+        "chinese": "木槿花园",
+        "french": "Jardin d'althéas",
+        "italian": "Giardino di ibischi",
+        "japanese": "ハイビスカスの庭",
+        "korean": "무궁화 정원",
+        "polish": "Ogród z hibiskusem",
+        "portuguese": "Hibiscus Garden",
+        "russian": "Гибискус",
+        "spanish": "Jardín de hibiscos",
+        "taiwanese": "木槿花園"
       }
     },
     {
@@ -34446,6 +35409,33 @@
       }
     },
     {
+      "guid": 114877,
+      "price": 15000,
+      "icon": "icon_botanica_blueflower.png",
+      "rarity": 118003,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Gentian Garden",
+        "german": "Enzian-Garten",
+        "brazilian": "Gentian Garden",
+        "chinese": "龙胆花园",
+        "french": "Jardin de gentianes",
+        "italian": "Giardino di genziane",
+        "japanese": "リンドウの庭",
+        "korean": "용담 정원",
+        "polish": "Ogród z goryczką",
+        "portuguese": "Gentian Garden",
+        "russian": "Горечавка",
+        "spanish": "Jardín de gencianas",
+        "taiwanese": "龍膽花園"
+      }
+    },
+    {
       "guid": 112938,
       "price": 50000,
       "icon": "item_treasuremap_newworld_02.png",
@@ -34471,6 +35461,33 @@
         "russian": "Карта: подводная пирамида",
         "spanish": "Mapa de una pirámide bajo el agua",
         "taiwanese": "水下金字塔的地圖"
+      }
+    },
+    {
+      "guid": 114879,
+      "price": 15000,
+      "icon": "icon_botanica_whiteflower.png",
+      "rarity": 118003,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Lily Garden",
+        "german": "Lilien-Garten",
+        "brazilian": "Lily Garden",
+        "chinese": "百合花园",
+        "french": "Jardin de lys",
+        "italian": "Giardino di gigli",
+        "japanese": "ユリの庭",
+        "korean": "백합 정원",
+        "polish": "Ogród z liliami",
+        "portuguese": "Lily Garden",
+        "russian": "Лилии",
+        "spanish": "Jardín de lirios",
+        "taiwanese": "百合花園"
       }
     },
     {
@@ -34553,6 +35570,33 @@
         "russian": "Карта: затонувший город",
         "spanish": "Mapa de una ciudad sumergida",
         "taiwanese": "沉沒城市的地圖"
+      }
+    },
+    {
+      "guid": 114881,
+      "price": 15000,
+      "icon": "icon_botanica_orangeflower.png",
+      "rarity": 118003,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Marigold Garden",
+        "german": "Ringelblumen-Garten",
+        "brazilian": "Marigold Garden",
+        "chinese": "万寿菊花园",
+        "french": "Jardin de soucis",
+        "italian": "Giardino di calendule",
+        "japanese": "マリーゴールドの庭",
+        "korean": "금잔화 정원",
+        "polish": "Ogród z nagietkami",
+        "portuguese": "Marigold Garden",
+        "russian": "Бархатцы",
+        "spanish": "Jardín de tagetes",
+        "taiwanese": "萬壽菊花園"
       }
     },
     {
@@ -34640,6 +35684,30 @@
       }
     },
     {
+      "guid": 114883,
+      "price": 15000,
+      "icon": "icon_botanica_hedgespath.png",
+      "rarity": 118003,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Topiary Avenue",
+        "german": "Formschnitt-Allee",
+        "brazilian": "Topiary Avenue",
+        "chinese": "植景小径",
+        "french": "Allée de topiaires",
+        "italian": "Viale di topiarie",
+        "japanese": "トピアリーの小道",
+        "korean": "정원길",
+        "polish": "Aleja z topiarami",
+        "portuguese": "Topiary Avenue",
+        "russian": "Фигурно стриженные кусты",
+        "spanish": "Avenida topiaria",
+        "taiwanese": "植景小徑"
+      }
+    },
+    {
       "guid": 115479,
       "price": 50000,
       "icon": "item_treasuremap_passage_02.png",
@@ -34722,6 +35790,30 @@
       }
     },
     {
+      "guid": 114885,
+      "price": 15000,
+      "icon": "icon_botanica_labybrinth.png",
+      "rarity": 118003,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Hedge Maze",
+        "german": "Heckenlabyrinth",
+        "brazilian": "Hedge Maze",
+        "chinese": "围篱迷宫",
+        "french": "Labyrinthe végétal",
+        "italian": "Labirinto di siepi",
+        "japanese": "生け垣の迷路",
+        "korean": "생울타리 미로",
+        "polish": "Labirynt z żywopłotu",
+        "portuguese": "Hedge Maze",
+        "russian": "Лабиринт из живой изгороди",
+        "spanish": "Laberinto erizo",
+        "taiwanese": "圍籬迷宮"
+      }
+    },
+    {
       "guid": 115480,
       "price": 100000,
       "icon": "item_treasuremap_passage_03.png",
@@ -34771,6 +35863,30 @@
         "russian": "Карта: дневник пастуха",
         "spanish": "El diario del resero",
         "taiwanese": "放牧人的日記"
+      }
+    },
+    {
+      "guid": 114887,
+      "price": 15000,
+      "icon": "icon_botanica_treesculptures.png",
+      "rarity": 118003,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Topiary Garden",
+        "german": "Formschnitt-Garten",
+        "brazilian": "Topiary Garden",
+        "chinese": "植景花园",
+        "french": "Jardin de topiaires",
+        "italian": "Giardino di topiarie",
+        "japanese": "トピアリーの庭",
+        "korean": "장식 정원",
+        "polish": "Ogród z topiarami",
+        "portuguese": "Topiary Garden",
+        "russian": "Топиарный сад",
+        "spanish": "Jardín topiario",
+        "taiwanese": "植景花園"
       }
     },
     {
@@ -34860,6 +35976,33 @@
       }
     },
     {
+      "guid": 114868,
+      "price": 20000,
+      "icon": "icon_botanica_purpleflower.png",
+      "rarity": 118004,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Iris Garden",
+        "german": "Iris-Garten",
+        "brazilian": "Iris Garden",
+        "chinese": "彩虹花园",
+        "french": "Jardin d'iris",
+        "italian": "Giardino di iris",
+        "japanese": "アヤメの庭",
+        "korean": "붓꽃 정원",
+        "polish": "Ogród z irysami",
+        "portuguese": "Iris Garden",
+        "russian": "Ирисы",
+        "spanish": "Jardín de iris",
+        "taiwanese": "彩虹花園"
+      }
+    },
+    {
       "guid": 115482,
       "price": 50000,
       "icon": "item_treasuremap_passage_02.png",
@@ -34916,6 +36059,33 @@
       }
     },
     {
+      "guid": 114870,
+      "price": 20000,
+      "icon": "icon_botanica_pinkflower.png",
+      "rarity": 118004,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Camellia Garden",
+        "german": "Kamelien-Garten",
+        "brazilian": "Camellia Garden",
+        "chinese": "山茶花园",
+        "french": "Jardin de camélias",
+        "italian": "Giardino di camelie",
+        "japanese": "ツバキの庭",
+        "korean": "동백꽃 정원",
+        "polish": "Ogród z kameliami",
+        "portuguese": "Camellia Garden",
+        "russian": "Камелии",
+        "spanish": "Jardín de camelias",
+        "taiwanese": "山茶花園"
+      }
+    },
+    {
       "guid": 113202,
       "price": 50000,
       "icon": "item_treasuremap_st_02.png",
@@ -34941,6 +36111,33 @@
         "russian": "Карта: затонувший клипер Ля Короны",
         "spanish": "Mapa de un clíper de La Corona hundido",
         "taiwanese": "拉科羅納快速帆船沉沒處的地圖"
+      }
+    },
+    {
+      "guid": 114872,
+      "price": 20000,
+      "icon": "icon_botanica_yellowflower.png",
+      "rarity": 118004,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Yellow Daisy Garden",
+        "german": "Gänseblümchen-Garten",
+        "brazilian": "Yellow Daisy Garden",
+        "chinese": "黄雏菊花园",
+        "french": "Jardin de marguerites jaunes",
+        "italian": "Giardino di margherite",
+        "japanese": "キヌガサギクの庭",
+        "korean": "노란 데이지 정원",
+        "polish": "Ogród z żółtymi stokrotkami",
+        "portuguese": "Yellow Daisy Garden",
+        "russian": "Желтые маргаритки",
+        "spanish": "Jardín de margaritas amarillas",
+        "taiwanese": "黃雛菊花園"
       }
     },
     {
@@ -35072,6 +36269,111 @@
       }
     },
     {
+      "guid": 113679,
+      "price": 20000,
+      "icon": "item_treasuremap_st_01.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Dubious Treasure Map",
+        "german": "Obskure Schatzkarte",
+        "brazilian": "Dubious Treasure Map",
+        "chinese": "可疑宝藏地图",
+        "french": "Carte au trésor suspecte",
+        "italian": "Mappa del tesoro dubbia",
+        "japanese": "怪しい宝の地図",
+        "korean": "진위가 의심되는 보물 지도",
+        "polish": "Podejrzana mapa skarbów",
+        "portuguese": "Dubious Treasure Map",
+        "russian": "Подозрительная карта сокровищ",
+        "spanish": "Mapa del tesoro sospechoso",
+        "taiwanese": "可疑寶藏地圖"
+      }
+    },
+    {
+      "guid": 114816,
+      "price": 10000,
+      "icon": "icon_botanica_purpleflower.png",
+      "rarity": 118002,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Iris Garden",
+        "german": "Iris-Garten",
+        "brazilian": "Iris Garden",
+        "chinese": "彩虹花园",
+        "french": "Jardin d'iris",
+        "italian": "Giardino di iris",
+        "japanese": "アヤメの庭",
+        "korean": "붓꽃 정원",
+        "polish": "Ogród z irysami",
+        "portuguese": "Iris Garden",
+        "russian": "Ирисы",
+        "spanish": "Jardín de iris",
+        "taiwanese": "彩虹花園"
+      }
+    },
+    {
+      "guid": 114857,
+      "price": 10000,
+      "icon": "icon_botanica_pinkflower.png",
+      "rarity": 118002,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Camellia Garden",
+        "german": "Kamelien-Garten",
+        "brazilian": "Camellia Garden",
+        "chinese": "山茶花园",
+        "french": "Jardin de camélias",
+        "italian": "Giardino di camelie",
+        "japanese": "ツバキの庭",
+        "korean": "동백꽃 정원",
+        "polish": "Ogród z kameliami",
+        "portuguese": "Camellia Garden",
+        "russian": "Камелии",
+        "spanish": "Jardín de camelias",
+        "taiwanese": "山茶花園"
+      }
+    },
+    {
+      "guid": 114858,
+      "price": 10000,
+      "icon": "icon_botanica_yellowflower.png",
+      "rarity": 118002,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [
+        45,
+        78
+      ],
+      "locaText": {
+        "english": "Yellow Daisy Garden",
+        "german": "Gänseblümchen-Garten",
+        "brazilian": "Yellow Daisy Garden",
+        "chinese": "黄雏菊花园",
+        "french": "Jardin de marguerites jaunes",
+        "italian": "Giardino di margherite",
+        "japanese": "キヌガサギクの庭",
+        "korean": "노란 데이지 정원",
+        "polish": "Ogród z żółtymi stokrotkami",
+        "portuguese": "Yellow Daisy Garden",
+        "russian": "Желтые маргаритки",
+        "spanish": "Jardín de margaritas amarillas",
+        "taiwanese": "黃雛菊花園"
+      }
+    },
+    {
       "guid": 113103,
       "price": 100,
       "icon": "icon_reward_6.png",
@@ -35141,6 +36443,30 @@
         "russian": "Особый саженец Бенте",
         "spanish": "Planta enrarecida de Bente",
         "taiwanese": "班特的稀疏幼苗"
+      }
+    },
+    {
+      "guid": 113104,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -35216,6 +36542,54 @@
       }
     },
     {
+      "guid": 113105,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
+      "guid": 113106,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192194,
       "price": 100,
       "icon": "icon_pearls.png",
@@ -35261,6 +36635,30 @@
         "russian": "Золотое ружье Пакла",
         "spanish": "Cañón Puckle dorado",
         "taiwanese": "金色轉輪燧石槍"
+      }
+    },
+    {
+      "guid": 113109,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -35333,6 +36731,30 @@
         "russian": "Ладный сигнальный колокол",
         "spanish": "Alarma buena",
         "taiwanese": "良好的警報鈴"
+      }
+    },
+    {
+      "guid": 113112,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -35576,6 +36998,30 @@
       }
     },
     {
+      "guid": 113446,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy_Stick",
+        "german": "QI_Treasure_Dummy_Stick",
+        "brazilian": "QI_Treasure_Dummy_Stick",
+        "chinese": "QI_Treasure_Dummy_Stick",
+        "french": "QI_Treasure_Dummy_Stick",
+        "italian": "QI_Treasure_Dummy_Stick",
+        "japanese": "QI_Treasure_Dummy_Stick",
+        "korean": "QI_Treasure_Dummy_Stick",
+        "polish": "QI_Treasure_Dummy_Stick",
+        "portuguese": "QI_Treasure_Dummy_Stick",
+        "russian": "QI_Treasure_Dummy_Stick",
+        "spanish": "QI_Treasure_Dummy_Stick",
+        "taiwanese": "QI_Treasure_Dummy_Stick"
+      }
+    },
+    {
       "guid": 192198,
       "price": 100,
       "icon": "icon_dragsaw_.png",
@@ -35624,6 +37070,30 @@
       }
     },
     {
+      "guid": 113691,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Scrap",
+        "german": "Schrott",
+        "brazilian": "Scrap",
+        "chinese": "废弃物",
+        "french": "Ferraille",
+        "italian": "Rottami",
+        "japanese": "スクラップ",
+        "korean": "고철",
+        "polish": "Złom",
+        "portuguese": "Scrap",
+        "russian": "Скрап",
+        "spanish": "Chatarra",
+        "taiwanese": "廢棄物"
+      }
+    },
+    {
       "guid": 192234,
       "price": 100,
       "icon": "icon_museum_readbeard_skeletton.png",
@@ -35669,6 +37139,30 @@
         "russian": "Пако, упрямый осел",
         "spanish": "Paco, el burro terco",
         "taiwanese": "頑固驢子佩可"
+      }
+    },
+    {
+      "guid": 114043,
+      "price": 100,
+      "icon": "icon_gold.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -35744,6 +37238,30 @@
       }
     },
     {
+      "guid": 114044,
+      "price": 100,
+      "icon": "icon_pearls.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192236,
       "price": 100,
       "icon": "icon_phonographs.png",
@@ -35813,6 +37331,30 @@
         "russian": "Золотой слиток Вилли",
         "spanish": "Lingote de oro de Willie",
         "taiwanese": "威利的金條"
+      }
+    },
+    {
+      "guid": 113956,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -35888,6 +37430,30 @@
       }
     },
     {
+      "guid": 113957,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192203,
       "price": 100,
       "icon": "icon_reward_3.png",
@@ -35909,6 +37475,30 @@
         "russian": "Совершенно обычный деревянный ящик Вилли",
         "spanish": "Caja de madera normal y corriente de Willie",
         "taiwanese": "威利的極度普通木箱"
+      }
+    },
+    {
+      "guid": 113958,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -35957,6 +37547,30 @@
         "russian": "Разорванная книга",
         "spanish": "Novela raída",
         "taiwanese": "破爛小說"
+      }
+    },
+    {
+      "guid": 113963,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -36032,6 +37646,30 @@
       }
     },
     {
+      "guid": 600673,
+      "price": 100,
+      "icon": "icon_diving_helmet.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192240,
       "price": 100,
       "icon": "icon_letter_closed.png",
@@ -36101,6 +37739,30 @@
         "russian": "Ножнички для ногтей Берил",
         "spanish": "Cortaúñas de Beryl",
         "taiwanese": "貝羅的指甲剪"
+      }
+    },
+    {
+      "guid": 112857,
+      "price": 100,
+      "icon": "icon_diving_helmet.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Scrap",
+        "german": "Schrott",
+        "brazilian": "Scrap",
+        "chinese": "废弃物",
+        "french": "Ferraille",
+        "italian": "Rottami",
+        "japanese": "スクラップ",
+        "korean": "고철",
+        "polish": "Złom",
+        "portuguese": "Scrap",
+        "russian": "Скрап",
+        "spanish": "Chatarra",
+        "taiwanese": "廢棄物"
       }
     },
     {
@@ -36176,6 +37838,30 @@
       }
     },
     {
+      "guid": 116312,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192207,
       "price": 100,
       "icon": "icon_beryl_tea.png",
@@ -36197,6 +37883,30 @@
         "russian": "Чашечка чудесного Дарджилинга",
         "spanish": "Taza de té Darjeeling",
         "taiwanese": "好一杯大吉嶺"
+      }
+    },
+    {
+      "guid": 116313,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -36245,6 +37955,30 @@
         "russian": "Рупор Мерсье",
         "spanish": "Megáfono de Mercier",
         "taiwanese": "莫西爾的擴音器"
+      }
+    },
+    {
+      "guid": 116314,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -36320,6 +38054,30 @@
       }
     },
     {
+      "guid": 116315,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192296,
       "price": 100,
       "icon": "icon_bread.png",
@@ -36389,6 +38147,30 @@
         "russian": "Манифест Мерсье о свободах",
         "spanish": "Manifiesto de la libertad de Mercier",
         "taiwanese": "莫西爾的自由宣言"
+      }
+    },
+    {
+      "guid": 116316,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -36464,6 +38246,30 @@
       }
     },
     {
+      "guid": 116317,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192298,
       "price": 100,
       "icon": "icon_potatoes.png",
@@ -36512,6 +38318,78 @@
       }
     },
     {
+      "guid": 112946,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
+      "guid": 116318,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
+      "guid": 112951,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192300,
       "price": 100,
       "icon": "icon_beer_2.png",
@@ -36533,6 +38411,30 @@
         "russian": "Пустая бутылка",
         "spanish": "Botella vacía",
         "taiwanese": "空瓶"
+      }
+    },
+    {
+      "guid": 116319,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -36560,6 +38462,30 @@
       }
     },
     {
+      "guid": 112952,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192301,
       "price": 100,
       "icon": "ico_repair_toolset.png",
@@ -36581,6 +38507,30 @@
         "russian": "Ящик с инструментами",
         "spanish": "Caja de herramientas",
         "taiwanese": "工具箱"
+      }
+    },
+    {
+      "guid": 116320,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -36608,6 +38558,30 @@
       }
     },
     {
+      "guid": 112954,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192302,
       "price": 100,
       "icon": "icon_seagull.png",
@@ -36629,6 +38603,30 @@
         "russian": "Томмити, молчаливая серебристая чайка",
         "spanish": "Tommity, la callada gaviota argéntea",
         "taiwanese": "沉靜黑脊鷗湯米堤"
+      }
+    },
+    {
+      "guid": 116716,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -36656,6 +38654,30 @@
       }
     },
     {
+      "guid": 112955,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192303,
       "price": 100,
       "icon": "icon_coal_2.png",
@@ -36677,6 +38699,30 @@
         "russian": "Самородок",
         "spanish": "Oro de obrero",
         "taiwanese": "工人的金子"
+      }
+    },
+    {
+      "guid": 116717,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "Scrap",
+        "german": "Schrott",
+        "brazilian": "Scrap",
+        "chinese": "废弃物",
+        "french": "Ferraille",
+        "italian": "Rottami",
+        "japanese": "スクラップ",
+        "korean": "고철",
+        "polish": "Złom",
+        "portuguese": "Scrap",
+        "russian": "Скрап",
+        "spanish": "Chatarra",
+        "taiwanese": "廢棄物"
       }
     },
     {
@@ -36704,6 +38750,30 @@
       }
     },
     {
+      "guid": 112956,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192304,
       "price": 100,
       "icon": "icon_beer.png",
@@ -36725,6 +38795,54 @@
         "russian": "Кувшин с пивом",
         "spanish": "Jarra de cerveza",
         "taiwanese": "啤酒杯"
+      }
+    },
+    {
+      "guid": 116718,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
+      "guid": 112957,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -36773,6 +38891,30 @@
         "russian": "Статуя нефритового дракона",
         "spanish": "Estatua de dragón de jade",
         "taiwanese": "玉龍雕像"
+      }
+    },
+    {
+      "guid": 112958,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -36848,6 +38990,30 @@
       }
     },
     {
+      "guid": 112959,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192307,
       "price": 100,
       "icon": "icon_vitamin_supplement_1.png",
@@ -36920,6 +39086,30 @@
       }
     },
     {
+      "guid": 113097,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192308,
       "price": 100,
       "icon": "icon_loudspeaker.png",
@@ -36968,6 +39158,30 @@
       }
     },
     {
+      "guid": 113098,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192309,
       "price": 100,
       "icon": "icon_glasses.png",
@@ -36989,6 +39203,30 @@
         "russian": "Очки",
         "spanish": "Par de gafas",
         "taiwanese": "一副眼鏡"
+      }
+    },
+    {
+      "guid": 113099,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
@@ -37040,6 +39278,30 @@
       }
     },
     {
+      "guid": 113100,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192313,
       "price": 100,
       "icon": "icon_drill_3.png",
@@ -37088,6 +39350,30 @@
       }
     },
     {
+      "guid": 113101,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
+      }
+    },
+    {
       "guid": 192314,
       "price": 100,
       "icon": "icon_thermometer_3.png",
@@ -37133,6 +39419,30 @@
         "russian": "Веревка",
         "spanish": "Cuerda",
         "taiwanese": "繩索"
+      }
+    },
+    {
+      "guid": 113102,
+      "price": 100,
+      "icon": "icon_reward_6.png",
+      "rarity": 118007,
+      "allocation": -1230,
+      "tradePriceModifier": 0,
+      "traders": [],
+      "locaText": {
+        "english": "QI_Treasure_Dummy",
+        "german": "QI_Treasure_Dummy",
+        "brazilian": "QI_Treasure_Dummy",
+        "chinese": "QI_Treasure_Dummy",
+        "french": "QI_Treasure_Dummy",
+        "italian": "QI_Treasure_Dummy",
+        "japanese": "QI_Treasure_Dummy",
+        "korean": "QI_Treasure_Dummy",
+        "polish": "QI_Treasure_Dummy",
+        "portuguese": "QI_Treasure_Dummy",
+        "russian": "QI_Treasure_Dummy",
+        "spanish": "QI_Treasure_Dummy",
+        "taiwanese": "QI_Treasure_Dummy"
       }
     },
     {
