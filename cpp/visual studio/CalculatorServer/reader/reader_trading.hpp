@@ -90,6 +90,7 @@ public:
 
 	/*
 	* Returns all currently offered items
+	* Throws if item is not loaded (only monochrome background shown)
 	*/
 	std::vector<offering> get_offerings() const;
 	std::vector<offering> get_capped_items() const;

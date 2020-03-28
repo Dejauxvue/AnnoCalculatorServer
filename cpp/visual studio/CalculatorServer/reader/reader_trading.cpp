@@ -224,8 +224,8 @@ std::vector<offering> trading_menu::get_offerings() const
 		cv::Mat price_img = recog.binarize(image_recognition::get_pane(trading_params::size_offering_price, pane(offering_loc)), true);
 
 		int price = recog.number_from_region(price_img);
-		std::map<unsigned int, cv::Mat> icon_dictionary;
-		
+		std::map<unsigned int, cv::Mat> icon_dictionary(recog.item_backgrounds.begin(), recog.item_backgrounds.end());
+
 
 		for (unsigned int guid : recog.trader_to_offerings.at(open_trader))
 		{
@@ -241,6 +241,10 @@ std::vector<offering> trading_menu::get_offerings() const
 			icon_dictionary,
 			trading_params::background_sand_bright
 		);
+
+		
+		if (item_candidates.size() && recog.item_backgrounds.find(item_candidates.front()) != recog.item_backgrounds.end())
+			throw std::exception("item not loaded");
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 		cv::imwrite("debug_images/offering.png", recog.screenshot(offering_loc));

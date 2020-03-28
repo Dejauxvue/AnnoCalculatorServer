@@ -353,6 +353,7 @@ public:
 	std::map<unsigned int, std::vector<unsigned int>> product_to_factories;
 	std::map<unsigned int, std::set<unsigned int>> trader_to_offerings;
 	std::map<unsigned int, item::ptr> items;
+	std::map<unsigned int, cv::Mat> item_backgrounds;
 
 	static const std::map<std::string, std::string> tesseract_languages;
 };

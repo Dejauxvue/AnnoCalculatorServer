@@ -717,7 +717,6 @@ void image_recognition::initialize_items()
 	boost::property_tree::ptree pt;
 	boost::property_tree::read_json("texts/items_2020-03-08.json", pt);
 
-	std::map<unsigned int, cv::Mat> item_backgrounds;
 	cv::Mat item_outline(load_image("icons/btn_itemsocket_outline.png"));
 
 	auto create_background = [&](rarity rarity_guid, 

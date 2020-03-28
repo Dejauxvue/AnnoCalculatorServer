@@ -97,7 +97,7 @@ void item_wishlist::load()
 		w.guid = entry.second.get_child("guid").get_value<unsigned int>();
 		auto iter = recog.items.find(w.guid);
 		if (iter == recog.items.end())
-			throw std::invalid_argument(std::string("GUID: ") + std::to_string(w.guid) + " is not an item");
+			throw std::invalid_argument(std::string("GUID: ") + std::to_string(w.guid) + " is not an item\nPlease check your configuration file!");
 		
 
 

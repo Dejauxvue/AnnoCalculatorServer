@@ -64,110 +64,130 @@ bool wait_and_try(std::chrono::duration<_Rep,_Period> duration,
 };
 
 int main() {
-	image_recognition recog;
-	trading_menu reader(recog);
-	item_wishlist wishlist(recog, "RerollbotConfig.json");
+	try {
+		image_recognition recog;
+		trading_menu reader(recog);
+		item_wishlist wishlist(recog, "RerollbotConfig.json");
 
-//	test_screenshot(recog, reader);
+		//	test_screenshot(recog, reader);
 
-	cv::Rect2i window = recog.find_anno();
-	if (!window.area())
-		window = recog.get_desktop();
-	mouse mous(recog.get_desktop(), window);
+		cv::Rect2i window = recog.find_anno();
+		if (!window.area())
+			window = recog.get_desktop();
+		mouse mous(recog.get_desktop(), window);
 
-	std::vector<offering> prev_offerings;
+		std::vector<offering> prev_offerings;
 
 
-	int counter = 0;
+		int counter = 0;
 
-	while (true)
-	{
-		reader.update(wishlist.get_language(), recog.take_screenshot(window));
-		unsigned int trader = reader.get_open_trader();
-
- 		if (trader && reader.has_reroll() &&
-			wishlist.buy_from(trader) &&
-			!reader.is_ship_full())
+		while (true)
 		{
-        	const auto offerings = reader.get_offerings();
+			reader.update(wishlist.get_language(), recog.take_screenshot(window));
+			unsigned int trader = reader.get_open_trader();
 
-			if (offerings != prev_offerings)
-			{
-				prev_offerings = offerings;
-				std::list<const offering*> purchase_candidates;
+			if (trader && reader.has_reroll() &&
+				wishlist.buy_from(trader) &&
+				!reader.is_ship_full())
 
-				for (const offering& off : offerings)
+				try {
+				const auto offerings = reader.get_offerings();
+
+
+				if (offerings != prev_offerings)
 				{
-					//std::cout << off.index << ": " << recog.get_dictionary().items.at(off.item_candidates.front()->guid) << std::endl;
-					for (const auto& item : off.item_candidates)
+					prev_offerings = offerings;
+					std::list<const offering*> purchase_candidates;
+
+					for (const offering& off : offerings)
 					{
-						if (wishlist.contains(item->guid))
+						//std::cout << off.index << ": " << recog.get_dictionary().items.at(off.item_candidates.front()->guid) << std::endl;
+						for (const auto& item : off.item_candidates)
 						{
-							purchase_candidates.push_front(&off);
-//							std::cout << "Buying item " << off.index << " with price " << off.price << std::endl;
-							break;
+							if (wishlist.contains(item->guid))
+							{
+								purchase_candidates.push_front(&off);
+								//							std::cout << "Buying item " << off.index << " with price " << off.price << std::endl;
+								break;
+							}
 						}
 					}
-				}
-				
-				//std::cout << std::endl;
 
-				if (purchase_candidates.empty())
-				{
-					mous.click(image_recognition::get_center(trading_params::pane_menu_reroll));
-					std::this_thread::sleep_for(std::chrono::milliseconds(300));
-					continue;
-				}
-				else {
-					
-					auto purchase_iter = purchase_candidates.begin();
-					for (; purchase_iter != purchase_candidates.end(); ++purchase_iter)
+					//std::cout << std::endl;
+
+					if (purchase_candidates.empty())
 					{
-						reader.update(wishlist.get_language(), recog.take_screenshot(window));
-						if (reader.is_ship_full())
-						{
-							break;
-						}
-
-						
-						mous.click(image_recognition::get_center((*purchase_iter)->box));
-					}
-
-					std::this_thread::sleep_for(std::chrono::milliseconds(300));
-					cv::Mat screenshot = recog.take_screenshot(window);
-					reader.update(wishlist.get_language(), screenshot);
-
-					if (!reader.is_trading_menu_open() || !reader.can_buy())
-					{
-						std::cout << "Cannot execute trade. Please check ship and hit enter to continue." << std::endl;
+						mous.click(image_recognition::get_center(trading_params::pane_menu_reroll));
+						std::this_thread::sleep_for(std::chrono::milliseconds(250));
 						continue;
 					}
+					else {
 
-					mous.click(image_recognition::get_center(trading_params::pane_menu_execute));
-					for (auto iter = purchase_candidates.begin(); iter != purchase_iter; ++iter)
-					{
-						for (const auto& candidate : (*iter)->item_candidates)
-							wishlist.bought(candidate->guid);
+						auto purchase_iter = purchase_candidates.begin();
+						for (; purchase_iter != purchase_candidates.end(); ++purchase_iter)
+						{
+							reader.update(wishlist.get_language(), recog.take_screenshot(window));
+							if (reader.is_ship_full())
+							{
+								break;
+							}
+
+
+							mous.click(image_recognition::get_center((*purchase_iter)->box));
+						}
+
+						int count = 0;
+						do
+						{
+							std::this_thread::sleep_for(std::chrono::milliseconds(300));
+							cv::Mat screenshot = recog.take_screenshot(window);
+							reader.update(wishlist.get_language(), screenshot);
+
+						} while ((!reader.is_trading_menu_open() || !reader.can_buy()) && count++ < 2);
+
+						if (count == 3)
+						{
+							std::cout << "Cannot execute trade. Please check ship and hit enter to continue." << std::endl;
+							continue;
+						}
+
+						mous.click(image_recognition::get_center(trading_params::pane_menu_execute));
+						for (auto iter = purchase_candidates.begin(); iter != purchase_iter; ++iter)
+						{
+							for (const auto& candidate : (*iter)->item_candidates)
+								wishlist.bought(candidate->guid);
+						}
+						std::this_thread::sleep_for(std::chrono::milliseconds(400));
+
+						continue;
 					}
-					std::this_thread::sleep_for(std::chrono::milliseconds(200));
-
-					continue;
 				}
-			}
-			else
-			{
-//				std::cout << "Offered items do not seem to have changed. Retry in 1s." << std::endl;
-				if (++counter > 3)
+				else
 				{
-					counter = 0;
-					mous.click(image_recognition::get_center(trading_params::pane_menu_reroll));
+					//				std::cout << "Offered items do not seem to have changed. Retry in 1s." << std::endl;
+					if (++counter > 3)
+					{
+						counter = 0;
+						mous.click(image_recognition::get_center(trading_params::pane_menu_reroll));
+					}
 				}
 			}
+			catch (const std::exception & e)
+			{
+				// wait for item being fully loaded
+				std::this_thread::sleep_for(std::chrono::milliseconds(250));
+				continue;
+			}
+
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 
-		std::this_thread::sleep_for(std::chrono::seconds(1));
+		return 0;
 	}
-
-
-	return 0;
+	catch (const std::exception & e)
+	{
+		std::cout << e.what() << std::endl;
+		system("pause");
+		return -1;
+	}
 }
