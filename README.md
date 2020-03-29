@@ -1,3 +1,7 @@
+# This repository is outdated. Development continues here: [https://github.com/NiHoel/Anno1800UXEnhancer](https://github.com/NiHoel/Anno1800UXEnhancer)
+
+
+
 [![Tutorial](https://img.youtube.com/vi/fxzYSh-92Ng/0.jpg)](https://www.youtube.com/watch?v=fxzYSh-92Ng)
 
 # How to use
