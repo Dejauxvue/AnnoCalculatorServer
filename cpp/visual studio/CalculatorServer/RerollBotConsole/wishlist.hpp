@@ -32,6 +32,7 @@ public:
 	bool buy_from(unsigned int trader_guid) const;
 
 	std::string get_language() const;
+	unsigned int get_max_reroll_costs() const;
 
 	void bought(unsigned int guid);
 
@@ -43,7 +44,8 @@ private:
 
 	// settings
 	std::string language;
-	bool deleteBought;
+	bool delete_bought;
+	unsigned int max_reroll_costs;
 
 	void load();
 	void save();

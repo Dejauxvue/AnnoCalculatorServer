@@ -198,14 +198,7 @@ image_recognition::image_recognition()
 			phrase::KAHINA_HARBOUR,
 			phrase::NATE_HARBOUR,
 			phrase::INUIT_HARBOUR,
-			phrase::INUIT,
-			phrase::ARCHIBALD,
-			phrase::ANNE,
-			phrase::FORTUNE,
-			phrase::ISABELL,
-			phrase::ELI,
-			phrase::KAHINA,
-			phrase::NATE,
+			phrase::REROLL_OFFERED_ITEMS,
 			phrase::TRADE
 			});
 

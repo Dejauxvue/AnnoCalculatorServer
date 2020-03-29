@@ -19,7 +19,7 @@ void test_screenshot(image_recognition& recog, trading_menu& reader)
 	for (const offering& off : offerings)
 	{
 		std::cout << off.index << ": " << off.price;
-		for(const auto& item : off.item_candidates)
+		for (const auto& item : off.item_candidates)
 			try {
 			std::cout << " " << recog.get_dictionary().items.at(item->guid) << " (" << item->guid << ")";
 		}
@@ -48,7 +48,7 @@ void test_screenshot(image_recognition& recog, trading_menu& reader)
 }
 
 template <class _Rep, class _Period>
-bool wait_and_try(std::chrono::duration<_Rep,_Period> duration,
+bool wait_and_try(std::chrono::duration<_Rep, _Period> duration,
 	std::function<bool()> condition)
 {
 	std::this_thread::sleep_for(duration);
@@ -65,9 +65,15 @@ bool wait_and_try(std::chrono::duration<_Rep,_Period> duration,
 
 int main() {
 	try {
+		std::cout << "Initializing ...";
 		image_recognition recog;
 		trading_menu reader(recog);
 		item_wishlist wishlist(recog, "RerollbotConfig.json");
+		std::cout << "Done" << std::endl;
+
+		std::map<unsigned int, unsigned int> reroll_costs;
+		for (const auto& entry : recog.trader_to_offerings)
+			reroll_costs.emplace(entry.first, 0);
 
 		//	test_screenshot(recog, reader);
 
@@ -89,13 +95,29 @@ int main() {
 			if (trader && reader.has_reroll() &&
 				wishlist.buy_from(trader) &&
 				!reader.is_ship_full())
+			{
+				unsigned int reroll_cost = reader.get_reroll_cost();
+				if (reroll_cost)
+					reroll_costs[trader] = reroll_cost;
+
+				std::vector<offering> offerings;
 
 				try {
-				const auto offerings = reader.get_offerings();
+					offerings = reader.get_offerings();
+				}
+				catch (const std::exception & e) {}
 
 
-				if (offerings != prev_offerings)
+				if (offerings != prev_offerings && offerings.size())
 				{
+					if (!reroll_cost && wishlist.get_max_reroll_costs() &&
+						(!reroll_costs[trader] || reroll_costs[trader] + 5000 > wishlist.get_max_reroll_costs()))
+					{
+						mous.move(image_recognition::get_center(trading_params::pane_menu_reroll));
+						std::this_thread::sleep_for(std::chrono::milliseconds(250));
+						continue;
+					}
+
 					prev_offerings = offerings;
 					std::list<const offering*> purchase_candidates;
 
@@ -117,8 +139,12 @@ int main() {
 
 					if (purchase_candidates.empty())
 					{
-						mous.click(image_recognition::get_center(trading_params::pane_menu_reroll));
-						std::this_thread::sleep_for(std::chrono::milliseconds(250));
+						if (!wishlist.get_max_reroll_costs() ||
+							reroll_costs[trader] < wishlist.get_max_reroll_costs())
+						{
+							mous.click(image_recognition::get_center(trading_params::pane_menu_reroll));
+							std::this_thread::sleep_for(std::chrono::milliseconds(250));
+						}
 						continue;
 					}
 					else {
@@ -168,17 +194,20 @@ int main() {
 					if (++counter > 3)
 					{
 						counter = 0;
-						mous.click(image_recognition::get_center(trading_params::pane_menu_reroll));
+						if (!wishlist.get_max_reroll_costs() ||
+							reroll_costs[trader] < wishlist.get_max_reroll_costs())
+							mous.click(image_recognition::get_center(trading_params::pane_menu_reroll));
+					}
+
+					if (!offerings.size())
+					{
+						// wait for item being fully loaded
+						std::this_thread::sleep_for(std::chrono::milliseconds(250));
+						continue;
 					}
 				}
-			}
-			catch (const std::exception & e)
-			{
-				// wait for item being fully loaded
-				std::this_thread::sleep_for(std::chrono::milliseconds(250));
-				continue;
-			}
 
+			}
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 

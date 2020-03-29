@@ -50,6 +50,9 @@ public:
 	static const cv::Rect2f pane_menu_ship_cargo;
 	static const cv::Rect2f pane_menu_ship_sockets;
 
+	static const cv::Rect2f pane_tooltip_reroll_heading;
+	static const cv::Rect2f pane_tooltip_reroll_price;
+
 	static const cv::Point2f pixel_ship_full;
 };
 
@@ -110,6 +113,12 @@ public:
 	cv::Rect2f get_rel_location(unsigned int index) const;
 
 	unsigned int get_open_trader() const;
+
+	/*
+	* Returns cost for next reroll
+	* Returns 0 if reroll tooltip is not open
+	*/
+	unsigned int get_reroll_cost() const;
 
 private:
 	image_recognition& recog;

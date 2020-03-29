@@ -53,11 +53,6 @@ namespace reader {
 		std::vector<offering> get_offerings();
 		std::vector<offering> get_capped_items();
 
-		/**
-		* Returns the number of (total slots, empty slots)
-		*/
-		std::pair<unsigned int, unsigned int> get_cargo_slot_count();
-
 		/*
 		* Returns the modification of trading prices introduced
 		* by capped itemes

@@ -48,11 +48,6 @@ std::vector<reader::offering> reader::TradingMenu::get_capped_items()
 	return NativePtr->get_capped_items();
 }
 
-std::pair<unsigned int, unsigned int> reader::TradingMenu::get_cargo_slot_count()
-{
-	return NativePtr->get_cargo_slot_count();
-}
-
 int reader::TradingMenu::get_price_modification()
 {
 	return NativePtr->get_price_modification();

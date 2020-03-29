@@ -6,7 +6,8 @@ item_wishlist::item_wishlist(reader::image_recognition& recog, const std::string
 	:
 	recog(recog),
 	path(path),
-	deleteBought(false)
+	delete_bought(false),
+	max_reroll_costs(0)
 {
 	load();
 }
@@ -27,6 +28,11 @@ std::string item_wishlist::get_language() const
 	return language;
 }
 
+unsigned int item_wishlist::get_max_reroll_costs() const
+{
+	return max_reroll_costs;
+}
+
 void item_wishlist::bought(unsigned int guid)
 {
 	auto iter = items.find(guid);
@@ -39,7 +45,7 @@ void item_wishlist::bought(unsigned int guid)
 		count--;
 
 	bool erased = false;
-	if (deleteBought && !count)
+	if (delete_bought && !count)
 	{
 		iter = items.erase(iter);
 		erased = true;
@@ -82,10 +88,17 @@ void item_wishlist::load()
 		}
 
 		try{
-			deleteBought = st.get().get_child("deleteBought").get_value<bool>();
+			delete_bought = st.get().get_child("deleteBought").get_value<bool>();
 		}
 		catch (const std::exception & e)
 		{	}
+
+		try {
+			max_reroll_costs = st.get().get_child("maxRerollCosts").get_value<unsigned int>();
+		}
+		catch (const std::exception & e)
+		{
+		}
 	}
 
 	recog.update(language);
@@ -110,7 +123,7 @@ void item_wishlist::load()
 			w.count = std::numeric_limits<unsigned int>::max();
 		}
 
-		if(w.count || !deleteBought)
+		if(w.count || !delete_bought)
 			for (unsigned int trader : iter->second->traders)
 			{
 				auto t_iter = traders.find(trader);
@@ -147,8 +160,13 @@ void item_wishlist::save()
 	
 	pt_val.put_value(language);
 	pt_settings.push_back(std::make_pair("language", pt_val));
-	pt_val.put_value(deleteBought);
+	pt_val.put_value(delete_bought);
 	pt_settings.push_back(std::make_pair("deleteBought", pt_val));
+	if (max_reroll_costs)
+	{
+		pt_val.put_value(max_reroll_costs);
+		pt_settings.push_back(std::make_pair("maxRerollCosts", pt_val));
+	}
 	pt.push_back(std::make_pair("settings", pt_settings));
 
 	for (const auto& entry : items)

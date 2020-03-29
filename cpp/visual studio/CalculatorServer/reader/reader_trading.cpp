@@ -45,6 +45,9 @@ const cv::Rect2f trading_params::pane_menu_title = cv::Rect2f(cv::Point2f(0.4356
 const cv::Rect2f trading_params::pane_menu_ship_cargo = cv::Rect2f(cv::Point2f(0.2272, 0.4264), cv::Point2f(0.3715, 0.5977));
 const cv::Rect2f trading_params::pane_menu_ship_sockets = cv::Rect2f(cv::Point2f(0.2272, 0.6207), cv::Point2f(0.3715, 0.701));
 
+const cv::Rect2f trading_params::pane_tooltip_reroll_heading = cv::Rect2f(cv::Point2f(0.7238, 0.776), cv::Point2f(0.8352, 0.8044));
+const cv::Rect2f trading_params::pane_tooltip_reroll_price = cv::Rect2f(cv::Point2f(0.8, 0.8412), cv::Point2f(0.8434, 0.8607));
+
 const cv::Point2f trading_params::pixel_ship_full = cv::Point2f(0.2375, 0.4382);
 
 ////////////////////////////////////////
@@ -394,6 +397,18 @@ cv::Rect2f trading_menu::get_rel_location(unsigned int index) const
 unsigned int trading_menu::get_open_trader() const
 {
 	return open_trader;
+}
+
+unsigned int trading_menu::get_reroll_cost() const
+{
+	if(!is_trading_menu_open())
+		return 0;
+
+	cv::Mat tooltip_heading = recog.binarize(recog.get_pane(trading_params::pane_tooltip_reroll_heading), true);
+	if (recog.get_guid_from_name(tooltip_heading, recog.make_dictionary({ phrase::REROLL_OFFERED_ITEMS })).empty())
+		return 0;
+
+	return recog.number_from_region(recog.binarize(recog.get_pane(trading_params::pane_tooltip_reroll_price), true));
 }
 
 
