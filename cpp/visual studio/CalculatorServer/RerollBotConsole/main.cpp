@@ -11,7 +11,7 @@ using namespace reader;
 
 void test_screenshot(image_recognition& recog, trading_menu& reader)
 {
-	reader.update("german", recog.load_image("test_screenshots/trading_eli_6.png"));
+	reader.update("english", recog.load_image("test_screenshots/trading_kahina_1.jpg"));
 	auto offerings = reader.get_offerings();
 
 	std::cout << std::endl;
@@ -75,7 +75,7 @@ int main() {
 		for (const auto& entry : recog.trader_to_offerings)
 			reroll_costs.emplace(entry.first, 0);
 
-		//	test_screenshot(recog, reader);
+		// test_screenshot(recog, reader);
 
 		cv::Rect2i window = recog.find_anno();
 		if (!window.area())
@@ -100,16 +100,13 @@ int main() {
 				if (reroll_cost)
 					reroll_costs[trader] = reroll_cost;
 
-				std::vector<offering> offerings;
-
-				try {
-					offerings = reader.get_offerings();
-				}
-				catch (const std::exception & e) {}
-
+				std::vector<offering> offerings = reader.get_offerings(counter <= 3);
+				
 
 				if (offerings != prev_offerings && offerings.size())
 				{
+					counter = 0;
+
 					if (!reroll_cost && wishlist.get_max_reroll_costs() &&
 						(!reroll_costs[trader] || reroll_costs[trader] + 5000 > wishlist.get_max_reroll_costs()))
 					{
@@ -162,18 +159,18 @@ int main() {
 							mous.click(image_recognition::get_center((*purchase_iter)->box));
 						}
 
-						int count = 0;
+						int exceute_check_count = 0;
 						do
 						{
 							std::this_thread::sleep_for(std::chrono::milliseconds(300));
 							cv::Mat screenshot = recog.take_screenshot(window);
 							reader.update(wishlist.get_language(), screenshot);
 
-						} while ((!reader.is_trading_menu_open() || !reader.can_buy()) && count++ < 2);
+						} while ((!reader.is_trading_menu_open() || !reader.can_buy()) && exceute_check_count++ < 4);
 
-						if (count == 3)
+						if (exceute_check_count == 5)
 						{
-							std::cout << "Cannot execute trade. Please check ship and hit enter to continue." << std::endl;
+							std::cout << "Cannot execute trade. Proceed with rerolling." << std::endl;
 							continue;
 						}
 
@@ -202,7 +199,7 @@ int main() {
 					if (!offerings.size())
 					{
 						// wait for item being fully loaded
-						std::this_thread::sleep_for(std::chrono::milliseconds(250));
+						std::this_thread::sleep_for(std::chrono::milliseconds(100));
 						continue;
 					}
 				}

@@ -93,9 +93,10 @@ public:
 
 	/*
 	* Returns all currently offered items
-	* Throws if item is not loaded (only monochrome background shown)
+	* @param{abort_if_not_loaded} If one of the items is not fully rendered (i.e. only the background shown), 
+	* the method returns an empty vector
 	*/
-	std::vector<offering> get_offerings() const;
+	std::vector<offering> get_offerings(bool abort_if_not_loaded = false) const;
 	std::vector<offering> get_capped_items() const;
 
 	/*

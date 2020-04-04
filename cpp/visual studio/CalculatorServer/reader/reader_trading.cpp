@@ -193,7 +193,7 @@ bool trading_menu::check_price(unsigned int guid, unsigned int selling_price, in
 	return std::floor(price - 0.5f) <= selling_price && selling_price <= std::ceil(price + 0.5f);
 }
 
-std::vector<offering> trading_menu::get_offerings() const
+std::vector<offering> trading_menu::get_offerings(bool abort_if_not_loaded) const
 {
 	if(!is_trading_menu_open())
 		return std::vector<offering>();
@@ -227,7 +227,7 @@ std::vector<offering> trading_menu::get_offerings() const
 		cv::Mat price_img = recog.binarize(image_recognition::get_pane(trading_params::size_offering_price, pane(offering_loc)), true);
 
 		int price = recog.number_from_region(price_img);
-		std::map<unsigned int, cv::Mat> icon_dictionary(recog.item_backgrounds.begin(), recog.item_backgrounds.end());
+		std::map<unsigned int, cv::Mat> icon_dictionary;
 
 
 		for (unsigned int guid : recog.trader_to_offerings.at(open_trader))
@@ -239,15 +239,35 @@ std::vector<offering> trading_menu::get_offerings() const
 				icon_dictionary.emplace(guid, recog.items[guid]->icon);
 		}
 
-		std::vector<unsigned int> item_candidates = recog.get_guid_from_icon(
-			image_recognition::get_pane(trading_params::size_offering_icon, pane(offering_loc)),
-			icon_dictionary,
-			trading_params::background_sand_bright
-		);
+		std::vector<unsigned int> item_candidates;
 
+		if (icon_dictionary.size() == 1)
+			item_candidates.push_back(icon_dictionary.begin()->first);
+		else
+		{
+			if (icon_dictionary.empty())
+			{
+				for (unsigned int guid : recog.trader_to_offerings.at(open_trader))
+				{
+					if (recog.items.find(guid) == recog.items.end())
+						continue;
+					icon_dictionary.emplace(guid, recog.items[guid]->icon);
+				}
+			}
+
+			for (const auto& entry : recog.item_backgrounds)
+				icon_dictionary.insert(entry);
+
+			item_candidates = recog.get_guid_from_icon(
+				image_recognition::get_pane(trading_params::size_offering_icon, pane(offering_loc)),
+				icon_dictionary,
+				trading_params::background_sand_bright
+			);
+		}
 		
-		if (item_candidates.size() && recog.item_backgrounds.find(item_candidates.front()) != recog.item_backgrounds.end())
-			throw std::exception("item not loaded");
+		if (abort_if_not_loaded && item_candidates.size() && 
+			recog.item_backgrounds.find(item_candidates.front()) != recog.item_backgrounds.end())
+			return result;
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 		cv::imwrite("debug_images/offering.png", recog.screenshot(offering_loc));

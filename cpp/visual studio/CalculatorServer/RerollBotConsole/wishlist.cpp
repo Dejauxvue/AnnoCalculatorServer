@@ -44,28 +44,24 @@ void item_wishlist::bought(unsigned int guid)
 	if(count && count != std::numeric_limits<unsigned int>::max())
 		count--;
 
-	bool erased = false;
 	if (delete_bought && !count)
 	{
 		iter = items.erase(iter);
-		erased = true;
 	}
 		
 	save();
 
-	if (!erased)
-		return;
+	if(!count)
+		for (unsigned int trader : recog.items[guid]->traders)
+		{
+			auto t_iter = traders.find(trader);
+			if (t_iter == traders.end())
+				continue;
 
-	for (unsigned int trader : recog.items[guid]->traders)
-	{
-		auto t_iter = traders.find(trader);
-		if (t_iter == traders.end())
-			continue;
-
-		t_iter->second.erase(guid);
-		if (t_iter->second.empty())
-			traders.erase(t_iter);
-	}
+			t_iter->second.erase(guid);
+			if (t_iter->second.empty())
+				traders.erase(t_iter);
+		}
 }
 
 void item_wishlist::load()
@@ -123,7 +119,7 @@ void item_wishlist::load()
 			w.count = std::numeric_limits<unsigned int>::max();
 		}
 
-		if(w.count || !delete_bought)
+		if(w.count)
 			for (unsigned int trader : iter->second->traders)
 			{
 				auto t_iter = traders.find(trader);

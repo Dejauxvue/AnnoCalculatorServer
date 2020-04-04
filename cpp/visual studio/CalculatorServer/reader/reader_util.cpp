@@ -1009,6 +1009,10 @@ cv::Rect image_recognition::get_aa_bb(const std::list<cv::Point>& input)
 	return cv::Rect(min, max + cv::Point(1, 1));
 }
 
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+int counter = 0;
+#endif
+
 void image_recognition::update(const std::string& language,
 	const cv::Mat& img)
 {
@@ -1025,7 +1029,9 @@ void image_recognition::update(const std::string& language,
 		screenshot = img;
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/screenshot.png", screenshot);
+	cv::imwrite("debug_images/screenshot-"+std::to_string(counter)+".png", screenshot);
+	if (++counter > 20)
+		counter = 0;
 #endif
 
 }
