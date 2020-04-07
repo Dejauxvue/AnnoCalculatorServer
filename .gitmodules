@@ -1,6 +1,3 @@
 [submodule "cpp/vcpkg"]
 	path = cpp/vcpkg
 	url = https://github.com/microsoft/vcpkg.git
-[submodule "cpp/visual studio/GUI"]
-	path = cpp/visual studio/GUI
-	url = https://github.com/NiHoel/AssetViewer.git
