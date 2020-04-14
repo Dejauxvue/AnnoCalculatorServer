@@ -1,7 +1,7 @@
 # Usage
 
 ## Statistics Extractor
-[![Tutorial](https://i9.ytimg.com/vi/fxzYSh-92Ng/mq2.jpg?sqp=COjngvQF&rs=AOn4CLAMwEkElAJLIJ3LHL1foNFahOau2Q)](https://www.youtube.com/watch?v=fxzYSh-92Ng)
+[![Tutorial](https://i9.ytimg.com/vi/fxzYSh-92Ng/mqdefault.jpg?time=1586900125524&sqp=CITZ2PQF&rs=AOn4CLCqmj2slXG_K0rWpKVs0M_Tq--oPA)](https://www.youtube.com/watch?v=fxzYSh-92Ng)
 
 - [one-time setup] download, install (and reboot your computer afterwards): [vc_redist](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 - run the Server.exe from the [zip archive](https://github.com/NiHoel/Anno1800UXEnhancer/releases/latest/) which should open a command window and might require administrator rights
