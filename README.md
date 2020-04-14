@@ -13,7 +13,7 @@
 
 
 ## Rerollbot
-[![Tutorial](https://i9.ytimg.com/vi/yOkjKXnUFAw/mq2.jpg?sqp=CJvggvQF&rs=AOn4CLDpiTtUMyNLkD_tm4A_70CzAqrWYA)](https://youtu.be/yOkjKXnUFAw)
+[![Tutorial](https://i9.ytimg.com/vi/pPx0_A10G2Q/mqdefault.jpg?time=1586900122438&sqp=CITZ2PQF&rs=AOn4CLCMjXfm6ODoJJ7R-2vagN8pHoHMUA)](https://youtu.be/pPx0_A10G2Q)
 
 - [one-time setup] download, install (and reboot your computer afterwards): [vc_redist](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 - Run UXEnhancer.exe
