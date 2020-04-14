@@ -20,9 +20,12 @@ calculator-recognition-issues
 *.zip
 *.ggb
 Thumbs.db
+*x64
 /cpp/visual studio/CalculatorServer/reader/x64
 /cpp/visual studio/CalculatorServer/RerollBotConsole/*.user
 /cpp/visual studio/CalculatorServer/RerollBotConsole/RerollBotConsole.aps
 /cpp/visual studio/CalculatorServer/RerollBotConsole/x64
+/cpp/visual studio/packages
 .vs
 Debug
+desktop.ini

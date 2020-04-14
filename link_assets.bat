@@ -2,8 +2,8 @@
 SETLOCAL EnableDelayedExpansion
 
 :: relative path from repository root to build directories
-set "release_path=cpp\visual studio\CalculatorServer\x64\Release"
-set "debug_path=cpp\visual studio\CalculatorServer\x64\Debug"
+set "release_path=cpp\visual studio\x64\Release"
+set "debug_path=cpp\visual studio\x64\Debug"
 
 cd "%~dp0"
 echo %cd%

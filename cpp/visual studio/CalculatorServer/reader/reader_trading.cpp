@@ -265,9 +265,13 @@ std::vector<offering> trading_menu::get_offerings(bool abort_if_not_loaded) cons
 			);
 		}
 		
-		if (abort_if_not_loaded && item_candidates.size() && 
-			recog.item_backgrounds.find(item_candidates.front()) != recog.item_backgrounds.end())
+		if (abort_if_not_loaded && 
+			(!item_candidates.size() || 
+			recog.item_backgrounds.find(item_candidates.front()) != recog.item_backgrounds.end()))
+		{
+			result.clear();
 			return result;
+		}
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 		cv::imwrite("debug_images/offering.png", recog.screenshot(offering_loc));

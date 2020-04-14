@@ -47,8 +47,8 @@ std::string get_time_str()
 
 void test_screenshot(image_recognition& recog, trading_menu& reader)
 {
-	reader.update("english", recog.load_image("test_screenshots/trading_kahina_1.jpg"));
-	auto offerings = reader.get_offerings();
+	reader.update("english", recog.load_image("test_screenshots/trading_kahina_2.png"));
+	auto offerings = reader.get_offerings(true);
 
 	std::cout << std::endl;
 
