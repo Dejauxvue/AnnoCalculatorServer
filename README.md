@@ -16,73 +16,45 @@
 [![Tutorial](https://i9.ytimg.com/vi/yOkjKXnUFAw/mq2.jpg?sqp=CJvggvQF&rs=AOn4CLDpiTtUMyNLkD_tm4A_70CzAqrWYA)](https://youtu.be/yOkjKXnUFAw)
 
 - [one-time setup] download, install (and reboot your computer afterwards): [vc_redist](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
-- Edit RerollbotConfig.json according to your needs, see below. To find out the GUIDs of the items, download the [AssetViewer](https://github.com/Miraak7000/AssetViewer)
-- Run Rerollbot.exe
+- Run UXEnhancer.exe
+- Edit the counters to specify how many times you want to buy that item.
 - Open the trade menu of a trader that sells one of the items you want. The bot will start buying / rerolling automatically
 - Hit 'Esc' to pause the bot and close the window
 - [Tutorial](https://youtu.be/yOkjKXnUFAw)
+- Thanks to [Veraatversus](https://github.com/Veraatversus) for adopting the AssetViewer
 
-## Editing RerollbotConfig.json
-Make sure that language matches your in-game text language
-Possible values are:
+## Editing UXEnhancerConfig.json
+Make sure the program is not running.
 
-"brazilian",
-"chinese",
-"english",
-"french",
-"german",
-"italian",
-"japanese",
-"korean",
-"polish",
-"portuguese",
-"russian",
-"spanish",
-"taiwanese"
+You can add a maximum reroll cost in the settings (e.g. set it to 1 million):
 
-Below the settings is the list of items. "\[" and "]" mark the beginning and end of this list.
-Each item is encapsulated in curly braces ("{", "}") and has the following attributes:
-
-* name: The item name to make the file more readable, the bot ignores this attributes
-* guid: The unique idenfigier of this item. See the [AssetViewer](https://github.com/Miraak7000/AssetViewer/releases) to find the guid for an item (Hint: In the startup view in the right column: Right of the name of the item is its guid)
-* count: how many times you want to buy this item; this value will be updated by the bot when it buys this item; if you leave out this property, the bot will buy this item whenever it can
-
-To add an item, you can add the following code (replace <GUID> by the number):
-
+```
 {
-  "guid": <GUID>
-},
-
-
-if you want to buy it only once:
-
-{
-  "guid": <GUID>,
-  "count": 1
-},
-
-The name will be automatically added when you rung the bot. If you set count to 0, the bot won't buy this item but it will stay in the list, in case you need it later on.
-Keep in mind that it's a list of items and each item is a list of properties, so don't forget the comma in between list elements!
+    "settings": {
+    	"maxRerollCosts": 1000000
+        "language": "english"
+    },
+    ...
+}
+```
 
 # Troubleshooting
 In case **vcruntime140_1.dll** is missing, download the vc_redist from [https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 
-In case no values are updated, make sure:
+In case nothing happens, make sure:
 - the ingame text language and the language of the calculator/bot config are identical
-- the values to be read are not covered by something else (overlay, external program, etc.)
+- the values to be read are not covered by something else (overlay, external program, etc.; basically things you would see when running a screen capturing program)
 - (Statistics Extractor) the correct island is selected in the statistics screen
 - (Statistics Extractor) the island has a long (> 8 letters) name composed from standard letters (A-Za-z) and with other islands as few characters in common as possible
   - NEGATIVE example: "Múa-1" and "Múa-2": Too short, non standard letter ú and both names only differ in one letter
 - (Statistics Extractor) in the center of the statistics menu the selected entry is fully visible
 - the scaling in windows is set to 100%
-- (Rerollbot) Make sure that RerollbotConfig.json is properly formatted 
+- (UXEnhancer) Some items have identical prices and icons. In such cases wrong items might be bought or several counters decremented although only one item was bought.
 
 
 **If you encounter any bug, feel free to contact me and if possible send me the following information**
 - your game's screen resolution
-- the text from the Server.exe (or Rerollbot.exe) console when the bug occured
-- if the bug is reproducable: try ServerD.exe instead of Server.exe and send me the images that are generated in the folder image_recon/
-
+- the text from the Server.exe (or UXEnhancer.exe) console when the bug occured
 
 
 # Use prebuild binaries
@@ -96,16 +68,13 @@ In case no values are updated, make sure:
 	
 ## Build instructions
 - git clone https://github.com/NiHoel/Anno1800UXEnhancer.git
-- cd AnnoCalculatorServer
-- git submodule update --init
-- cd cpp/vcpkg/
-- bootstrap-vcpkg.bat
+- cd Anno1800UXEnhancer
+- SETUP.bat
 - vcpkg install boost-property-tree:x64-windows (takes circa 2 minutes)
 - vcpkg install tesseract:x64-windows (takes circa 17 minutes)
 - vcpkg install cpprestsdk[core]:x64-windows (takes circa 10 minutes)
 - vcpkg install opencv4[png]:x64-windows opencv4[jpeg]:x64-windows (takes circa 7 minutes)
-- vcpkg integrate project
-- <build cpp/visual studio/CalculatorServer/CalculatorServer.sln>
+- <build cpp/visual studio/UXEnhancer.sln>
 			
 ## Troubleshooting 
 - copy, move, rename errors during installation: make sure that vcpkg resides on a short path (e.g. accass the folder via a drive letter)
