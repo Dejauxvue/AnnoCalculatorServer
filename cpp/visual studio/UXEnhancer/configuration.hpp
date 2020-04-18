@@ -25,6 +25,8 @@ class item_wishlist
 public:
 	friend class configuration;
 
+	static const unsigned int MAX_COUNT = 999999999;
+
 	item_wishlist(reader::image_recognition& recog);
 
 	bool contains(unsigned int guid) const;

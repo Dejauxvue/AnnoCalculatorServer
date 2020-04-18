@@ -45,7 +45,7 @@ bool item_wishlist::bought(unsigned int guid)
 
 	unsigned int count = iter->second;
 
-	if(count && count != std::numeric_limits<unsigned int>::max())
+	if(count && count != MAX_COUNT)
 		set_count(guid, --count);
 
 	
@@ -185,7 +185,7 @@ void item_wishlist::load(const boost::property_tree::ptree& tree)
 		}
 		catch (const std::exception & e)
 		{
-			count = std::numeric_limits<unsigned int>::max();
+			count = MAX_COUNT;
 		}
 
 		set_count(guid, count);
@@ -212,7 +212,7 @@ boost::property_tree::ptree item_wishlist::serialize() const
 		pt_val.put_value(guid);
 		pt_item.push_back(std::make_pair("guid", pt_val));
 
-		if (count != std::numeric_limits<unsigned int>::max())
+		if (count != MAX_COUNT)
 		{
 			pt_val.put_value(count);
 			pt_item.push_back(std::make_pair("count", pt_val));
