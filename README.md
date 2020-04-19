@@ -17,7 +17,7 @@
 
 - [one-time setup] download, install (and reboot your computer afterwards): [vc_redist](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 - Run UXEnhancer.exe
-- Edit the counters to specify how many times you want to buy that item.
+- Edit the counters to specify how many times you want to buy that item (9999 is the maximum count and equivalent to infinity).
 - Open the trade menu of a trader that sells one of the items you want. The bot will start buying / rerolling automatically
 - Hit 'Esc' to pause the bot and close the window
 - [Tutorial](https://youtu.be/yOkjKXnUFAw)

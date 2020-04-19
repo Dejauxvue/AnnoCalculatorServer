@@ -182,6 +182,8 @@ void item_wishlist::load(const boost::property_tree::ptree& tree)
 		try
 		{
 			count = entry.second.get_child("count").get_value<unsigned int>();
+			if (count > MAX_COUNT)
+				count = MAX_COUNT;
 		}
 		catch (const std::exception & e)
 		{
