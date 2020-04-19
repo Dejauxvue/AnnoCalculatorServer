@@ -49,7 +49,7 @@ void version::check_and_log()
                             else
                             {
                                 std::cout << "New version " << latest_version << " available at" << std::endl
-                                    << "https://api.github.com/repos/NiHoel/Anno1800UXEnhancer/releases/latest" << std::endl;
+                                    << "https://github.com/NiHoel/Anno1800UXEnhancer/releases/latest" << std::endl;
                                 return;
                             }
 
@@ -62,7 +62,7 @@ void version::check_and_log()
                     }
 
                     std::cout << "Version check failed. New versions are available here:" << std::endl
-                        << "https://api.github.com/repos/NiHoel/Anno1800UXEnhancer/releases/latest" << std::endl;
+                        << "https://github.com/NiHoel/Anno1800UXEnhancer/releases/latest" << std::endl;
                 });
  }
 
