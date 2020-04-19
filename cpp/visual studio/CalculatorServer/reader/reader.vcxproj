@@ -156,6 +156,7 @@
     <ClInclude Include="reader_statistics_screen.hpp" />
     <ClInclude Include="reader_trading.hpp" />
     <ClInclude Include="reader_util.hpp" />
+    <ClInclude Include="version.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="reader_statistics_screen.cpp" />
     <ClCompile Include="reader_trading.cpp" />
     <ClCompile Include="reader_util.cpp" />
+    <ClCompile Include="version.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

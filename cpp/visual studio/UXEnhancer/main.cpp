@@ -6,10 +6,12 @@
 
 #include "../CalculatorServer/reader/reader_util.hpp"
 #include "../CalculatorServer/reader/reader_trading.hpp"
+#include "../CalculatorServer/reader/version.hpp"
 
 #include "configuration.hpp"
 #include "bots.hpp"
 #include "gui.hpp"
+
 
 using namespace System;
 using namespace System::Threading;
@@ -52,7 +54,9 @@ int main(int argc, char* argv[])
 	if (argc > 1 && std::strcmp(argv[1], "-v") == 0)
 		verbose = true;
 
-	std::cout << "Initializing ...";
+	std::cout << "Initializing ... ";
+
+	reader::version::check_and_log();
 
 	reader::image_recognition recog;
 	reader::trading_menu trade(recog);

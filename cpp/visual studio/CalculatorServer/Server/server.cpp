@@ -1,5 +1,6 @@
 #include "server.hpp"
 
+#include "version.hpp"
 
 using namespace std;
 using namespace web;
@@ -9,8 +10,7 @@ using namespace web::http::experimental::listener;
 
 using namespace reader;
 
-/* IMPORTANT!!: this should be updated to the current release tag*/
-const std::string server::VERSION_TAG("v4.0");
+
 
 server::server(utility::string_t url) : m_listener(url)
 {
@@ -112,7 +112,7 @@ void server::handle_get(http_request request)
 		read_buildings_count(json_message);
 		read_productivity_statistics(json_message, optimal_productivity);
 
-		json_message[U("version")] = web::json::value(std::wstring(VERSION_TAG.begin(), VERSION_TAG.end()));
+		json_message[U("version")] = web::json::value(std::wstring(version::VERSION_TAG.begin(), version::VERSION_TAG.end()));
 		json_message[U("islandName")] = web::json::value(image_recognition::to_wstring(reader.get_selected_island()));
 
 		web::http::http_response response(status_codes::OK);

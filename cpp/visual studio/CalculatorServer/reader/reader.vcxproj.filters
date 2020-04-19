@@ -30,6 +30,9 @@
     <ClInclude Include="reader_trading.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="version.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -48,6 +51,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="reader_trading.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="version.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
