@@ -42,13 +42,14 @@ You can add a maximum reroll cost in the settings (e.g. set it to 1 million):
 In case **vcruntime140_1.dll** is missing, download the vc_redist from [https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 
 In case nothing happens, make sure:
+- **The UI scaling in Windows is set to 100%**
 - the ingame text language and the language of the calculator/bot config are identical
 - the values to be read are not covered by something else (overlay, external program, etc.; basically things you would see when running a screen capturing program)
 - (Statistics Extractor) the correct island is selected in the statistics screen
 - (Statistics Extractor) the island has a long (> 8 letters) name composed from standard letters (A-Za-z) and with other islands as few characters in common as possible
   - NEGATIVE example: "Múa-1" and "Múa-2": Too short, non standard letter ú and both names only differ in one letter
 - (Statistics Extractor) in the center of the statistics menu the selected entry is fully visible
-- the scaling in windows is set to 100%
+
 - (UXEnhancer) Some items have identical prices and icons. In such cases wrong items might be bought or several counters decremented although only one item was bought.
 
 
