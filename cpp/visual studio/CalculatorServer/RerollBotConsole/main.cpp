@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
 
 
 		std::cout << "Initializing ...";
-		image_recognition recog;
+		image_recognition recog(verbose);
 		trading_menu reader(recog);
 		item_wishlist wishlist(recog, "RerollbotConfig.json");
 		std::cout << "Done" << std::endl;

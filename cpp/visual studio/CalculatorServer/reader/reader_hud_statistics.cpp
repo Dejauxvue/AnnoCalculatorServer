@@ -15,7 +15,8 @@ void hud_statistics::update(const std::string& language,
 {
 	population_icon_position = cv::Rect(-1, -1, 0, 0);
 	selected_island.clear();
-	recog.update(language, img);
+	recog.update(language);
+	img.copyTo(this->screenshot);
 }
 
 cv::Rect hud_statistics::find_population_icon()
@@ -31,19 +32,18 @@ cv::Rect hud_statistics::find_population_icon()
 	};
 
 	static template_images templates;
-	cv::Mat screenshot = recog.get_screenshot();
 	std::string resolution_id = std::to_string(screenshot.cols) + "x" + std::to_string(screenshot.rows);
 	if (templates.resolution_id != resolution_id)
 	{
 		try {
-#ifdef CONSOLE_DEBUG_OUTPUT
-			std::cout << "detected resolution: " << resolution_id
-				<< std::endl;
-#endif
+			if (recog.is_verbose()) {
+				std::cout << "detected resolution: " << resolution_id
+					<< std::endl;
+			}
 			templates.island_pop_symbol = recog.load_image("image_recon/" + resolution_id + "/population_symbol_with_bar.bmp");
 			templates.resolution_id = resolution_id;
 		}
-		catch (const std::invalid_argument & e) {
+		catch (const std::invalid_argument& e) {
 			std::cout << e.what() << ". Make sure the Anno 1800 is focused and has proper resolution!" << std::endl;
 			population_icon_position = cv::Rect(0, 0, 0, 0);
 			return population_icon_position;
@@ -56,9 +56,9 @@ cv::Rect hud_statistics::find_population_icon()
 	const auto pop_symbol_match_result = recog.match_template(im_copy, templates.island_pop_symbol);
 
 	if (!fit_criterion(pop_symbol_match_result.second)) {
-#ifdef CONSOLE_DEBUG_OUTPUT
-		std::cout << "can't find population" << std::endl;
-#endif
+		if (recog.is_verbose()) {
+			std::cout << "can't find population" << std::endl;
+		}
 		population_icon_position = cv::Rect(0, 0, 0, 0);
 	}
 	population_icon_position = pop_symbol_match_result.first;
@@ -108,7 +108,7 @@ std::map<unsigned int, int> hud_statistics::get_anno_population_from_ocr_result(
 		const match m = queue.top(); queue.pop();
 		similarity = m.similarity;
 
-		if (similarity > threshold&&
+		if (similarity > threshold &&
 			matched_keywords.find(m.kw) == matched_keywords.end() &&
 			matched_occurences.find(m.occurrence) == matched_occurences.end())
 		{
@@ -145,9 +145,9 @@ std::map<unsigned int, int> hud_statistics::get_anno_population_from_ocr_result(
 
 			}
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("debug_images/pop_number_region.png", img(number_region));
-#endif
+			if (recog.is_verbose()) {
+				cv::imwrite("debug_images/pop_number_region.png", img(number_region));
+			}
 			number_region.x--;
 			number_region.y--;
 			number_region.height += 2;
@@ -165,17 +165,17 @@ std::map<unsigned int, int> hud_statistics::get_anno_population_from_ocr_result(
 
 			//if word based ocr fails, try symbols (probably only 1 digit population)
 			if (population == 0) {
-#ifdef CONSOLE_DEBUG_OUTPUT
-				std::cout << "could not find population number, if the number is only 1 digit, this is a known problem" << std::endl;
-#endif
+				if (recog.is_verbose()) {
+					std::cout << "could not find population number, if the number is only 1 digit, this is a known problem" << std::endl;
+				}
 			}
 
 
 			if (population > 0) {
 				auto insert_result = ret.insert(std::make_pair(m.kw->first, population));
-#ifdef CONSOLE_DEBUG_OUTPUT
-				std::cout << "new value for " << m.kw->first << ": " << population << std::endl;
-#endif
+				if (recog.is_verbose()) {
+					std::cout << "new value for " << m.kw->first << ": " << population << std::endl;
+				}
 			}
 		}
 	}
@@ -201,13 +201,13 @@ std::map<unsigned int, int> hud_statistics::get_population_amount()
 	if (pop_icon_position.tl().x <= 0)
 		return std::map<unsigned int, int>();
 
-	auto region = recog.find_rgb_region(recog.get_screenshot(), pop_icon_position.br(), 0);
+	auto region = recog.find_rgb_region(screenshot, pop_icon_position.br(), 0);
 	cv::Rect aa_bb = recog.get_aa_bb(region);
 	if (aa_bb.area() <= 0)
 		return std::map<unsigned int, int>();
 
 	cv::Mat cropped_image;
-	recog.get_screenshot()(aa_bb).copyTo(cropped_image);
+	screenshot(aa_bb).copyTo(cropped_image);
 
 	std::vector<cv::Mat> channels(4);
 	cv::split(cropped_image, channels);
@@ -217,15 +217,15 @@ std::map<unsigned int, int> hud_statistics::get_population_amount()
 	channels[3] = 255;
 	cv::merge(channels, cropped_image);
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/pop_popup.png", cropped_image);
-#endif //SHOW_CV_DEBUG_IMAGE_VIEW
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/pop_popup.png", cropped_image);
+	} //SHOW_CV_DEBUG_IMAGE_VIEW
 
 	std::vector<std::pair<std::string, cv::Rect>> ocr_result;
 	try {
 		ocr_result = recog.detect_words(cropped_image);
 	}
-	catch (const std::exception & e) {
+	catch (const std::exception& e) {
 		std::cout << "there was an exception: " << e.what() << std::endl;
 	}
 	catch (...)
@@ -245,29 +245,27 @@ std::string hud_statistics::get_selected_island()
 	if (pop_icon_position.tl().x <= 0)
 		return std::string();
 
-	if (pop_icon_position.tl().x < 0.3 * recog.get_screenshot().cols)
+	if (pop_icon_position.tl().x < 0.3 * screenshot.cols)
 	{
-#ifdef CONSOLE_DEBUG_OUTPUT
-		std::cout << recog.ALL_ISLANDS << std::endl;
-#endif
+		if (recog.is_verbose()) {
+			std::cout << recog.ALL_ISLANDS << std::endl;
+		}
 		selected_island = recog.ALL_ISLANDS;
 		return recog.ALL_ISLANDS;
 	}
 	else
 	{
-		cv::Mat screenshot = recog.get_screenshot();
-
 		cv::Mat island_name_img = screenshot(cv::Rect(0.0036f * screenshot.cols, 0.6641f * screenshot.rows, 0.115f * screenshot.cols, 0.0245f * screenshot.rows));
 		island_name_img = recog.binarize(island_name_img, true);
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-		cv::imwrite("debug_images/island_name_minimap.png", island_name_img);
-#endif
+		if (recog.is_verbose()) {
+			cv::imwrite("debug_images/island_name_minimap.png", island_name_img);
+		}
 		std::string result = recog.join(recog.detect_words(island_name_img, tesseract::PSM_SINGLE_LINE), true);
 
-#ifdef CONSOLE_DEBUG_OUTPUT
-		std::cout << result << std::endl;
-#endif
+		if (recog.is_verbose()) {
+			std::cout << result << std::endl;
+		}
 		selected_island = result;
 
 		return result;

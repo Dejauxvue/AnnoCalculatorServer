@@ -9,10 +9,10 @@
 namespace reader
 {
 
-class reader 
+class statistics 
 {
 public:
-	reader();
+	statistics(image_recognition& recog);
 
 	void update(const std::string& language, const cv::Mat& img);
 
@@ -43,7 +43,7 @@ public:
 	bool has_language(const std::string& language);
 
 private:
-	image_recognition recog;
+	image_recognition& recog;
 	statistics_screen stats_screen;
 	hud_statistics hud;
 

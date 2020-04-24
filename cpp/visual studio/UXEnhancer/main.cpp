@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
 
 	reader::version::check_and_log();
 
-	reader::image_recognition recog;
+	reader::image_recognition recog(verbose);
 	reader::trading_menu trade(recog);
 
 	configuration config(recog, "UXEnhancerConfig.json");

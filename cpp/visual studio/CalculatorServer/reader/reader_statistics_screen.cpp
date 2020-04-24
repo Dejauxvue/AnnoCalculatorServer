@@ -59,54 +59,57 @@ void statistics_screen::update(const std::string& language, const cv::Mat& img)
 	selected_session = 0;
 	center_pane_selection = 0;
 
-	recog.update(language, img);
-
-	img.copyTo(this->screenshot);
-
-	cv::Mat& src = this->screenshot;
-	// handle 21:9 widescreen where statistics screen is shown 16:9 with black bars
-	if (src.rows && (src.cols / (float)src.rows) >= 2.33)
-	{
-		int width = src.rows * 16 / 9;
-		int crop = (src.cols - width) / 2;
-		cv::Rect roi(crop, 0, width, src.rows);
-		src = src(roi);
-	}
+	recog.update(language);
 
 	// test if open
 
-	cv::Mat statistics_text_img = recog.binarize(recog.get_pane(statistics_screen_params::pane_title), true);
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/statistics_text.png", statistics_text_img);
-#endif
+	cv::Mat statistics_text_img = recog.binarize(recog.get_pane(statistics_screen_params::pane_title, img), true);
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/statistics_text.png", statistics_text_img);
+		cv::imwrite("debug_images/statistics_screenshot.png", this->screenshot);
+	}
 	if (recog.get_guid_from_name(statistics_text_img, recog.make_dictionary({ phrase::STATISTICS })).empty())
 	{
 		open_tab = tab::NONE;
-#ifdef CONSOLE_DEBUG_OUTPUT
-		std::cout << std::endl;
-#endif
+		if (recog.is_verbose()) {
+			std::cout << std::endl;
+		}
 		return;
 	}
 
-#ifdef CONSOLE_DEBUG_OUTPUT
-	std::cout << std::endl;
-#endif
+	if (recog.is_verbose()) {
+		std::cout << std::endl;
+	}
+
+	// handle 21:9 widescreen where statistics screen is shown 16:9 with black bars
+	if (img.rows && (img.cols / (float)img.rows) >= 2.33)
+	{
+		int width = img.rows * 16 / 9;
+		int crop = (img.cols - width) / 2;
+		cv::Rect roi(crop, 0, width, img.rows);
+		this->screenshot = img(roi);
+	}
+	else
+	{
+		img.copyTo(this->screenshot);
+	}
+
 
 	open_tab = compute_open_tab();
 	if (open_tab == tab::NONE)
 		return;
 	bool update = true;
-	if (prev_islands.size().area() == recog.get_pane(statistics_screen_params::pane_islands).size().area())
+	if (prev_islands.size().area() == recog.get_pane(statistics_screen_params::pane_islands, screenshot).size().area())
 	{
 		cv::Mat diff;
-		cv::absdiff(recog.get_pane(statistics_screen_params::pane_islands), prev_islands, diff);
+		cv::absdiff(recog.get_pane(statistics_screen_params::pane_islands, screenshot), prev_islands, diff);
 		std::cout << ((float)cv::sum(diff).ddot(cv::Scalar::ones())) << std::endl;
 		float match = ((float)cv::sum(diff).ddot(cv::Scalar::ones())) / prev_islands.rows / prev_islands.cols;
 		update = match > 30;
 	}
 	if (update)
 	{ // island list changed
-		recog.get_pane(statistics_screen_params::pane_islands).copyTo(prev_islands);
+		recog.get_pane(statistics_screen_params::pane_islands, screenshot).copyTo(prev_islands);
 		update_islands();
 	}
 }
@@ -123,7 +126,7 @@ statistics_screen::tab statistics_screen::get_open_tab() const
 
 statistics_screen::tab statistics_screen::compute_open_tab() const
 {
-	cv::Mat tabs = recog.get_pane(statistics_screen_params::pane_tabs);
+	cv::Mat tabs = recog.get_pane(statistics_screen_params::pane_tabs, screenshot);
 	int tabs_count = (int)tab::POPULATION;
 	int tab_width = tabs.cols / tabs_count;
 	int v_center = tabs.rows / 2;
@@ -132,12 +135,12 @@ statistics_screen::tab statistics_screen::compute_open_tab() const
 		cv::Vec4b pixel = tabs.at<cv::Vec4b>(v_center, (int)(i * tab_width - 0.2f * tab_width));
 		if (is_tab_selected(pixel))
 		{
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("debug_images/tab.png", tabs(cv::Rect(i * tab_width - 0.2f * tab_width, v_center, 10, 10)));
-#endif
-#ifdef CONSOLE_DEBUG_OUTPUT
-			std::cout << "Open tab:\t" << i << std::endl;
-#endif
+			if (recog.is_verbose()) {
+				cv::imwrite("debug_images/tab.png", tabs(cv::Rect(i * tab_width - 0.2f * tab_width, v_center, 10, 10)));
+			}
+			if (recog.is_verbose()) {
+				std::cout << "Open tab:\t" << i << std::endl;
+			}
 			return tab(i);
 		}
 	}
@@ -156,15 +159,15 @@ void statistics_screen::update_islands()
 		phrase::CAPE_TRELAWNEY });
 
 	recog.iterate_rows(prev_islands, [&](const cv::Mat& row) {
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-		cv::imwrite("debug_images/row.png", row);
-#endif
+		if (recog.is_verbose()) {
+			cv::imwrite("debug_images/row.png", row);
+		}
 
 		cv::Mat subheading = recog.binarize(recog.get_cell(row, 0.01f, 0.6f, 0.f), true);
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-		cv::imwrite("debug_images/subheading.png", subheading);
-#endif
+		if (recog.is_verbose()) {
+			cv::imwrite("debug_images/subheading.png", subheading);
+		}
 
 		std::vector<unsigned int> ids = recog.get_guid_from_name(subheading, phrases);
 		if (ids.size() == 1)
@@ -175,16 +178,16 @@ void statistics_screen::update_islands()
 
 
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-		cv::imwrite("debug_images/selection_test.png", row(cv::Rect((int)(0.8f * row.cols), (int)(0.5f * row.rows), 10, 10)));
-#endif
+		if (recog.is_verbose()) {
+			cv::imwrite("debug_images/selection_test.png", row(cv::Rect((int)(0.8f * row.cols), (int)(0.5f * row.rows), 10, 10)));
+		}
 
 		bool selected = is_selected(row.at<cv::Vec4b>((int)(0.5f * row.rows), (int)(0.8f * row.cols)));
 		cv::Mat island_name_image = recog.binarize(recog.get_cell(row, 0.15f, 0.65f), selected);
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-		cv::imwrite("debug_images/island_name.png", island_name_image);
-#endif
+		if (recog.is_verbose()) {
+			cv::imwrite("debug_images/island_name.png", island_name_image);
+		}
 
 		std::string island_name = recog.join(recog.detect_words(island_name_image), true);
 		if (island_name.empty())
@@ -194,22 +197,22 @@ void statistics_screen::update_islands()
 			return;
 
 		cv::Mat session_icon = recog.get_cell(row, 0.025f, 0.14f);
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-		cv::imwrite("debug_images/session_icon.png", session_icon);
-#endif
+		if (recog.is_verbose()) {
+			cv::imwrite("debug_images/session_icon.png", session_icon);
+		}
 		session_guid = recog.get_session_guid(session_icon);
 
 		if (session_guid)
 			island_to_session.emplace(island_name, session_guid);
 
-#ifdef CONSOLE_DEBUG_OUTPUT
-		std::cout << "Island added:\t" << island_name;
-		try {
-			std::cout << " (" << recog.get_dictionary().ui_texts.at(session_guid) << ")";
+		if (recog.is_verbose()) {
+			std::cout << "Island added:\t" << island_name;
+			try {
+				std::cout << " (" << recog.get_dictionary().ui_texts.at(session_guid) << ")";
+			}
+			catch (const std::exception& e) {}
+			std::cout << std::endl;
 		}
-		catch (const std::exception & e) {}
-		std::cout << std::endl;
-#endif
 
 		});
 }
@@ -219,7 +222,7 @@ bool statistics_screen::is_all_islands_selected() const
 	if (!screenshot.size || !is_open())
 		return false;
 
-	cv::Mat button = recog.get_pane(statistics_screen_params::pane_all_islands);
+	cv::Mat button = recog.get_pane(statistics_screen_params::pane_all_islands, screenshot);
 	if (button.empty())
 		return false;
 
@@ -240,11 +243,11 @@ cv::Mat statistics_screen::get_center_pane() const
 	switch (get_open_tab())
 	{
 	case tab::FINANCE:
-		return recog.get_pane(statistics_screen_params::pane_finance_center);
+		return recog.get_pane(statistics_screen_params::pane_finance_center, screenshot);
 	case tab::PRODUCTION:
-		return recog.get_pane(statistics_screen_params::pane_production_center);
+		return recog.get_pane(statistics_screen_params::pane_production_center, screenshot);
 	case tab::POPULATION:
-		return recog.get_pane(statistics_screen_params::pane_population_center);
+		return recog.get_pane(statistics_screen_params::pane_population_center, screenshot);
 	default:
 		return cv::Mat();
 	}
@@ -257,7 +260,7 @@ cv::Mat statistics_screen::get_left_pane() const
 	case tab::NONE:
 		return cv::Mat();
 	default:
-		return recog.get_pane(statistics_screen_params::pane_islands);
+		return recog.get_pane(statistics_screen_params::pane_islands, screenshot);
 	}
 }
 
@@ -266,9 +269,9 @@ cv::Mat statistics_screen::get_right_pane() const
 	switch (get_open_tab())
 	{
 	case tab::FINANCE:
-		return recog.get_pane(statistics_screen_params::pane_finance_right);
+		return recog.get_pane(statistics_screen_params::pane_finance_right, screenshot);
 	case tab::PRODUCTION:
-		return recog.get_pane(statistics_screen_params::pane_production_right);
+		return recog.get_pane(statistics_screen_params::pane_production_right, screenshot);
 	default:
 		return cv::Mat();
 	}
@@ -281,7 +284,7 @@ cv::Mat statistics_screen::get_center_header() const
 	case tab::NONE:
 		return cv::Mat();
 	default:
-		return recog.get_pane(statistics_screen_params::pane_header_center);
+		return recog.get_pane(statistics_screen_params::pane_header_center, screenshot);
 	}
 }
 
@@ -292,7 +295,7 @@ cv::Mat statistics_screen::get_right_header() const
 	case tab::NONE:
 		return cv::Mat();
 	default:
-		return recog.get_pane(statistics_screen_params::pane_header_right);
+		return recog.get_pane(statistics_screen_params::pane_header_right, screenshot);
 	}
 }
 
@@ -321,18 +324,18 @@ std::map<unsigned int, int> statistics_screen::get_optimal_productivities()
 	if (get_open_tab() != statistics_screen::tab::PRODUCTION)
 		return result;
 
-#ifdef CONSOLE_DEBUG_OUTPUT
-	std::cout << "Optimal productivities" << std::endl;
-#endif
+	if (recog.is_verbose()) {
+		std::cout << "Optimal productivities" << std::endl;
+	}
 
 	cv::Mat buildings_text = recog.binarize(im(cv::Rect(0.6522f * im.cols, 0.373f * im.rows, 0.093f * im.cols, 0.0245f * im.rows)));
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/buildings_text.png", buildings_text);
-#endif
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/buildings_text.png", buildings_text);
+	}
 	int buildings_count = recog.number_from_region(buildings_text);
-#ifdef CONSOLE_DEBUG_OUTPUT
-	std::cout << std::endl;
-#endif
+	if (recog.is_verbose()) {
+		std::cout << std::endl;
+	}
 
 	if (buildings_count < 0)
 		return result;
@@ -342,26 +345,26 @@ std::map<unsigned int, int> statistics_screen::get_optimal_productivities()
 	if (roi.empty())
 		return result;
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
-#endif
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
+	}
 
 
 	cv::Mat factory_text = im(cv::Rect(0.6522f * im.cols, 0.373f * im.rows, 0.093f * im.cols, 0.0245f * im.rows));
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/factory_text.png", factory_text);
-#endif
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/factory_text.png", factory_text);
+	}
 	std::vector<unsigned int> guids = recog.get_guid_from_name(factory_text, recog.get_dictionary().factories);
 	if (guids.size() != 1)
 		return result;
 
-#ifdef CONSOLE_DEBUG_OUTPUT
-	try {
-		std::cout << recog.get_dictionary().factories.at(guids.front()) << ":\t";
+	if (recog.is_verbose()) {
+		try {
+			std::cout << recog.get_dictionary().factories.at(guids.front()) << ":\t";
+		}
+		catch (...) {}
+		std::cout << std::endl;
 	}
-	catch (...) {}
-	std::cout << std::endl;
-#endif
 
 	std::vector<float> productivities;
 	recog.iterate_rows(roi, [&](const cv::Mat& row)
@@ -370,9 +373,9 @@ std::map<unsigned int, int> statistics_screen::get_optimal_productivities()
 			for (const std::pair<float, float> cell : std::vector<std::pair<float, float>>({ {0.6f, 0.2f}, {0.8f, 0.2f} }))
 			{
 				cv::Mat productivity_text = recog.binarize(recog.get_cell(row, cell.first, cell.second));
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-				cv::imwrite("debug_images/productivity_text.png", productivity_text);
-#endif
+				if (recog.is_verbose()) {
+					cv::imwrite("debug_images/productivity_text.png", productivity_text);
+				}
 				int prod = recog.number_from_region(productivity_text);
 				if (prod > 1000) // sometimes '%' is detected as '0/0' or '00'
 					prod /= 100;
@@ -383,9 +386,9 @@ std::map<unsigned int, int> statistics_screen::get_optimal_productivities()
 					return;
 			}
 
-#ifdef CONSOLE_DEBUG_OUTPUT
-			std::cout << std::endl;
-#endif
+			if (recog.is_verbose()) {
+				std::cout << std::endl;
+			}
 
 			productivities.push_back(productivity);
 
@@ -396,9 +399,9 @@ std::map<unsigned int, int> statistics_screen::get_optimal_productivities()
 
 	int sum = std::accumulate(productivities.begin(), productivities.end(), 0);
 
-#ifdef CONSOLE_DEBUG_OUTPUT
-	std::cout << " = " << sum << std::endl;
-#endif
+	if (recog.is_verbose()) {
+		std::cout << " = " << sum << std::endl;
+	}
 
 	if (productivities.size() != buildings_count)
 	{
@@ -426,42 +429,42 @@ std::map<unsigned int, int> statistics_screen::get_average_productivities()
 	if (roi.empty())
 		return result;
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
-#endif
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
+	}
 
-#ifdef CONSOLE_DEBUG_OUTPUT
-	std::cout << "Average productivities" << std::endl;
-#endif
+	if (recog.is_verbose()) {
+		std::cout << "Average productivities" << std::endl;
+	}
 
 	recog.iterate_rows(roi, [&](const cv::Mat& row)
 		{
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("debug_images/row.png", row);
-#endif
+			if (recog.is_verbose()) {
+				cv::imwrite("debug_images/row.png", row);
+			}
 
 			cv::Mat product_icon = recog.get_square_region(row, statistics_screen_params::position_factory_icon);
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("debug_images/factory_icon.png", product_icon);
-#endif
+			if (recog.is_verbose()) {
+				cv::imwrite("debug_images/factory_icon.png", product_icon);
+			}
 			cv::Scalar background_color = statistics_screen::is_selected(product_icon.at<cv::Vec4b>(0, 0)) ? statistics_screen_params::background_blue_dark : statistics_screen_params::background_brown_light;
 
 			std::vector<unsigned int> p_guids = recog.get_guid_from_icon(product_icon, recog.product_icons, background_color);
 			if (p_guids.empty())
 				return;
 
-#ifdef CONSOLE_DEBUG_OUTPUT
-			try {
-				std::cout << recog.get_dictionary().products.at(p_guids.front()) << ":\t";
+			if (recog.is_verbose()) {
+				try {
+					std::cout << recog.get_dictionary().products.at(p_guids.front()) << ":\t";
+				}
+				catch (...) {}
 			}
-			catch (...) {}
-#endif
 
 			bool selected = is_selected(row.at<cv::Vec4b>(0.1f * row.rows, 0.5f * row.cols));
-			cv::Mat productivity_text = recog.binarize( recog.get_cell(row, 0.7f, 0.1f, 0.4f), selected);
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("debug_images/productivity_text.png", productivity_text);
-#endif
+			cv::Mat productivity_text = recog.binarize(recog.get_cell(row, 0.7f, 0.1f, 0.4f), selected);
+			if (recog.is_verbose()) {
+				cv::imwrite("debug_images/productivity_text.png", productivity_text);
+			}
 			int prod = recog.number_from_region(productivity_text);
 
 			if (prod > 500)
@@ -475,9 +478,9 @@ std::map<unsigned int, int> statistics_screen::get_average_productivities()
 			}
 
 
-#ifdef CONSOLE_DEBUG_OUTPUT
-			std::cout << std::endl;
-#endif
+			if (recog.is_verbose()) {
+				std::cout << std::endl;
+			}
 
 		});
 
@@ -509,9 +512,9 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 	if (roi.empty())
 		return result;
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
-#endif
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
+	}
 
 	std::map<unsigned int, std::string> category_dict = recog.make_dictionary({ phrase::RESIDENTS, phrase::PRODUCTION });
 
@@ -521,12 +524,12 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 
 
 
-#ifdef CONSOLE_DEBUG_OUTPUT
-	try {
-		std::cout << recog.get_dictionary().ui_texts.at(center_pane_selection) << std::endl;
+	if (recog.is_verbose()) {
+		try {
+			std::cout << recog.get_dictionary().ui_texts.at(center_pane_selection) << std::endl;
+		}
+		catch (...) {}
 	}
-	catch (...) {}
-#endif
 
 	if (selection.size() != 1)
 		return result; // nothing selected that we want to evaluate
@@ -545,43 +548,43 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 	}
 
 	roi = get_right_pane();
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/statistics_window_table_area.png", roi);
-#endif
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/statistics_window_table_area.png", roi);
+	}
 	std::vector<unsigned int> prev_guids;
 	int prev_count = 0;
 
 	recog.iterate_rows(roi, [&](const cv::Mat& row)
 		{
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("debug_images/row.png", row);
-			cv::imwrite("debug_images/selection_test.png", row(cv::Rect((int)(0.037f * row.cols), (int)(0.5f * row.rows), 10, 10)));
-#endif
+			if (recog.is_verbose()) {
+				cv::imwrite("debug_images/row.png", row);
+				cv::imwrite("debug_images/selection_test.png", row(cv::Rect((int)(0.037f * row.cols), (int)(0.5f * row.rows), 10, 10)));
+			}
 			bool is_summary_entry = image_recognition::closer_to(row.at<cv::Vec4b>(0.5f * row.rows, 0.037f * row.cols), statistics_screen_params::expansion_arrow, statistics_screen_params::background_brown_light);
 
 			if (is_summary_entry)
 			{
 				prev_guids.clear();
 
-				cv::Mat text = recog.binarize( recog.get_cell(row, 0.15f, 0.5f));
+				cv::Mat text = recog.binarize(recog.get_cell(row, 0.15f, 0.5f));
 
 				std::vector<unsigned int> guids = recog.get_guid_from_name(text, *dictionary);
 
 
-#ifdef CONSOLE_DEBUG_OUTPUT
-				try {
-					for (unsigned int guid : guids)
-						std::cout << dictionary->at(guid) << ", ";
-					std::cout << "\t";
+				if (recog.is_verbose()) {
+					try {
+						for (unsigned int guid : guids)
+							std::cout << dictionary->at(guid) << ", ";
+						std::cout << "\t";
+					}
+					catch (...) {}
 				}
-				catch (...) {}
-#endif
 
-				cv::Mat count_text = recog.binarize( recog.get_cell(row, 0.15f, 0.5f));
+				cv::Mat count_text = recog.binarize(recog.get_cell(row, 0.15f, 0.5f));
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-				cv::imwrite("debug_images/count_text.png", count_text);
-#endif
+				if (recog.is_verbose()) {
+					cv::imwrite("debug_images/count_text.png", count_text);
+				}
 
 				std::vector<std::pair<std::string, cv::Rect>> words = recog.detect_words(count_text, tesseract::PSM_SINGLE_LINE);
 				std::string number_string;
@@ -603,15 +606,15 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 				}
 
 				number_string = std::regex_replace(number_string, std::regex("\\D"), "");
-#ifdef CONSOLE_DEBUG_OUTPUT
-				std::cout << number_string;
-#endif
+				if (recog.is_verbose()) {
+					std::cout << number_string;
+				}
 				int count = std::numeric_limits<int>::lowest();
 				try { count = std::stoi(number_string); }
 				catch (...) {
-#ifdef CONSOLE_DEBUG_OUTPUT
-					std::cout << " (could not recognize number)";
-#endif
+					if (recog.is_verbose()) {
+						std::cout << " (could not recognize number)";
+					}
 				}
 
 				if (count >= 0)
@@ -632,9 +635,9 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 			else if (!prev_guids.empty()) // no summary entry, test whether upper row is expanded
 			{
 				cv::Mat session_icon = recog.get_cell(row, 0.08f, 0.08f);
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-				cv::imwrite("debug_images/session_icon.png", session_icon);
-#endif
+				if (recog.is_verbose()) {
+					cv::imwrite("debug_images/session_icon.png", session_icon);
+				}
 
 				unsigned int session_guid = recog.get_session_guid(session_icon);
 				if (!session_guid)
@@ -651,9 +654,9 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 				prev_guids.clear();
 
 			}
-#ifdef CONSOLE_DEBUG_OUTPUT
-			std::cout << std::endl;
-#endif
+			if (recog.is_verbose()) {
+				std::cout << std::endl;
+			}
 		});
 
 	return result;
@@ -673,24 +676,24 @@ std::map<unsigned int, int> statistics_screen::get_population_amount() const
 	if (roi.empty())
 		return result;
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
-#endif
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
+	}
 
 	recog.iterate_rows(roi, [&](const cv::Mat& row)
 		{
-			cv::Mat population_name = recog.binarize( recog.get_cell(row, 0.076f, 0.2f));
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("debug_images/population_name.png", population_name);
-#endif
+			cv::Mat population_name = recog.binarize(recog.get_cell(row, 0.076f, 0.2f));
+			if (recog.is_verbose()) {
+				cv::imwrite("debug_images/population_name.png", population_name);
+			}
 			std::vector<unsigned int> guids = recog.get_guid_from_name(population_name, recog.get_dictionary().population_levels);
 			if (guids.size() != 1)
 				return;
 
-			cv::Mat text_img = recog.binarize( recog.get_cell(row, 0.5f, 0.27f, 0.4f));
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("debug_images/pop_amount_text.png", text_img);
-#endif
+			cv::Mat text_img = recog.binarize(recog.get_cell(row, 0.5f, 0.27f, 0.4f));
+			if (recog.is_verbose()) {
+				cv::imwrite("debug_images/pop_amount_text.png", text_img);
+			}
 
 			std::string number_string;
 
@@ -700,12 +703,12 @@ std::map<unsigned int, int> statistics_screen::get_population_amount() const
 				std::string joined_string = recog.join(texts);
 
 
-#ifdef CONSOLE_DEBUG_OUTPUT
-				try {
-					std::cout << recog.get_dictionary().population_levels.at(guids.front()) << "\t" << joined_string << std::endl;
+				if (recog.is_verbose()) {
+					try {
+						std::cout << recog.get_dictionary().population_levels.at(guids.front()) << "\t" << joined_string << std::endl;
+					}
+					catch (...) {}
 				}
-				catch (...) {}
-#endif
 
 				std::vector<std::string> split_string;
 				boost::split(split_string, joined_string, [](char c) {return c == '/' || c == '[' || c == '(' || c == '{'; });
@@ -740,8 +743,6 @@ std::map<unsigned int, int> statistics_screen::get_population_amount() const
 
 std::map<unsigned int, int> statistics_screen::get_population_existing_buildings() const
 {
-	const cv::Mat& im = recog.get_screenshot();
-
 	std::map<unsigned int, int> result;
 
 	if (get_open_tab() != statistics_screen::tab::POPULATION)
@@ -752,24 +753,24 @@ std::map<unsigned int, int> statistics_screen::get_population_existing_buildings
 	if (roi.empty())
 		return result;
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
-#endif
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
+	}
 
 	recog.iterate_rows(roi, [&](const cv::Mat& row)
 		{
-			cv::Mat population_name = recog.binarize( recog.get_cell(row, 0.076f, 0.2f));
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("debug_images/population_name.png", population_name);
-#endif
+			cv::Mat population_name = recog.binarize(recog.get_cell(row, 0.076f, 0.2f));
+			if (recog.is_verbose()) {
+				cv::imwrite("debug_images/population_name.png", population_name);
+			}
 			std::vector<unsigned int> guids = recog.get_guid_from_name(population_name, recog.get_dictionary().population_levels);
 			if (guids.size() != 1)
 				return;
 
-			cv::Mat text_img = recog.binarize( recog.get_cell(row, 0.3f, 0.15f, 0.4f));
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("debug_images/pop_houses_text.png", text_img);
-#endif
+			cv::Mat text_img = recog.binarize(recog.get_cell(row, 0.3f, 0.15f, 0.4f));
+			if (recog.is_verbose()) {
+				cv::imwrite("debug_images/pop_houses_text.png", text_img);
+			}
 			int houses = recog.number_from_region(text_img);
 
 			if (houses >= 0)
@@ -797,9 +798,9 @@ std::string statistics_screen::get_selected_island()
 
 	if (is_all_islands_selected())
 	{
-#ifdef CONSOLE_DEBUG_OUTPUT
-		std::cout << recog.ALL_ISLANDS << std::endl;
-#endif
+		if (recog.is_verbose()) {
+			std::cout << recog.ALL_ISLANDS << std::endl;
+		}
 		selected_session = recog.SESSION_META;
 		selected_island = recog.ALL_ISLANDS;
 		return selected_island;
@@ -812,9 +813,9 @@ std::string statistics_screen::get_selected_island()
 	if (roi.empty())
 		return result;
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/header.png", roi);
-#endif
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/header.png", roi);
+	}
 
 	auto words_and_boxes = recog.detect_words(roi, tesseract::PSM_SINGLE_LINE);
 	result = recog.join(words_and_boxes, true);
@@ -825,9 +826,9 @@ std::string statistics_screen::get_selected_island()
 	selected_session = island.second;
 
 
-#ifdef CONSOLE_DEBUG_OUTPUT
-	std::cout << result << std::endl;
-#endif
+	if (recog.is_verbose()) {
+		std::cout << result << std::endl;
+	}
 	return selected_island;
 }
 
@@ -854,24 +855,24 @@ std::map<unsigned int, int> statistics_screen::get_population_workforce() const
 	if (roi.empty())
 		return result;
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
-#endif
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
+	}
 
 	recog.iterate_rows(roi, [&](const cv::Mat& row)
 		{
-			cv::Mat population_name = recog.binarize( recog.get_cell(row, 0.076f, 0.2f));
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("debug_images/population_name.png", population_name);
-#endif
+			cv::Mat population_name = recog.binarize(recog.get_cell(row, 0.076f, 0.2f));
+			if (recog.is_verbose()) {
+				cv::imwrite("debug_images/population_name.png", population_name);
+			}
 			std::vector<unsigned int> guids = recog.get_guid_from_name(population_name, recog.get_dictionary().population_levels);
 			if (guids.size() != 1)
 				return;
 
-			cv::Mat text_img = recog.binarize( recog.get_cell(row, 0.8f, 0.1f));
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-			cv::imwrite("debug_images/pop_houses_text.png", text_img);
-#endif
+			cv::Mat text_img = recog.binarize(recog.get_cell(row, 0.8f, 0.1f));
+			if (recog.is_verbose()) {
+				cv::imwrite("debug_images/pop_houses_text.png", text_img);
+			}
 			int workforce = recog.number_from_region(text_img);
 
 			if (workforce >= 0)

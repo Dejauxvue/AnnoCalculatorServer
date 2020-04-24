@@ -123,6 +123,7 @@ public:
 
 private:
 	image_recognition& recog;
+	cv::Mat screenshot;
 	std::map<unsigned int, cv::Mat> ship_items;
 	cv::Mat storage_icon;
 

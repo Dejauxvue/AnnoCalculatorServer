@@ -11,8 +11,8 @@
 
 #include <tesseract/baseapi.h>
 
- //#define SHOW_CV_DEBUG_IMAGE_VIEW
- //#define CONSOLE_DEBUG_OUTPUT
+ #define SHOW_CV_DEBUG_IMAGE_VIEW
+ #define CONSOLE_DEBUG_OUTPUT
 
 namespace reader
 {
@@ -82,7 +82,7 @@ class image_recognition
 {
 
 public:
-	image_recognition();
+	image_recognition(bool verbose);
 
 	static std::string to_string(const std::wstring&);
 	static std::wstring to_wstring(const std::string&);
@@ -92,12 +92,10 @@ public:
 	static cv::Mat get_square_region(const cv::Mat& img, const cv::Rect2f& rect);
 	static cv::Mat get_cell(const cv::Mat& img, float crop_left, float width, float crop_vertical = 0.1f);
 
-	static cv::Mat get_pane(const cv::Rect2f& rect, const cv::Mat& img);
-
 	/*
-	* Returns the region of the screenshot specified by a subregion of [0,1]²
+	* Returns the region of @param{img} specified by a subregion of [0,1]²
 	*/
-	cv::Mat get_pane(const cv::Rect2f& rect) const;
+	static cv::Mat get_pane(const cv::Rect2f& rect, const cv::Mat& img);
 
 	static bool closer_to(const cv::Scalar& color, const cv::Scalar& ref, const cv::Scalar& other);
 
@@ -232,15 +230,14 @@ public:
 	static std::pair<cv::Rect, float> match_template(const cv::Mat& source, const cv::Mat& template_img);
 
 
-	void update(const std::string& language = std::string("english"),
-		const cv::Mat& img = cv::Mat());
+	void update(const std::string& language = std::string("english"));
 	
 	/**
 	* makes a screenshot from the Anno 7.exe application 
 	*/
-	static cv::Rect2i find_anno();
-	static cv::Rect2i get_desktop();
-	static cv::Mat take_screenshot(cv::Rect2i rect = cv::Rect2i());
+	cv::Rect2i find_anno();
+	cv::Rect2i get_desktop();
+	cv::Mat take_screenshot(cv::Rect2i rect = cv::Rect2i());
 
 	/**
 	* detect arbitrary words in the given image [in]
@@ -273,12 +270,12 @@ public:
 	*/
 	bool has_language(const std::string& language) const;
 
+	bool is_verbose() const;
+
 	/*
 	* Returns the dictionary currently in use.
 	*/
 	const keyword_dictionary& get_dictionary() const;
-
-	cv::Mat get_screenshot() const;
 
 	/*
 	* Compose custom dictionary from phrases
@@ -327,9 +324,9 @@ public:
 	static const std::map<char, char> letter_to_digit;
 	static const std::string ALL_ISLANDS;
 
+	bool verbose;
+	int verbose_screenshot_counter = 0;
 
-
-	cv::Mat screenshot;
 	std::string language;
 
 	typedef std::vector<double> hu_moments;

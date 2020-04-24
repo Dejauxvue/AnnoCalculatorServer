@@ -16,8 +16,8 @@ using namespace http::experimental::listener;
 class server
 {
 public:
-	server() {}
-	server(utility::string_t url);
+	server(bool verbose);
+	server(bool verbose, utility::string_t url);
 
 	pplx::task<void> open() { return m_listener.open(); }
 	pplx::task<void> close() { return m_listener.close(); }
@@ -29,7 +29,8 @@ private:
 
 	void handle_get(http_request message);
 
-	reader::reader reader;
+	reader::image_recognition recog;
+	reader::statistics stats;
 	http_listener m_listener;
 	std::mutex mutex_;
 };

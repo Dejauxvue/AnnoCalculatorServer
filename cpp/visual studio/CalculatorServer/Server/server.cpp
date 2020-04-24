@@ -12,7 +12,17 @@ using namespace reader;
 
 
 
-server::server(utility::string_t url) : m_listener(url)
+server::server(bool verbose)
+	:
+	recog(verbose),
+	stats(recog)
+{
+}
+
+server::server(bool verbose, utility::string_t url) :
+	recog(verbose),
+	stats(recog),
+	m_listener(url)
 {
 	m_listener.support(methods::GET, std::bind(&server::handle_get, this, std::placeholders::_1));
 }
@@ -21,7 +31,7 @@ server::server(utility::string_t url) : m_listener(url)
 void server::read_anno_population(web::json::value& result)
 {
 
-	auto population = reader.get_population_amount();
+	auto population = stats.get_population_amount();
 
 	for (const auto& p : population) {
 		web::json::value entry;
@@ -37,7 +47,7 @@ void server::read_buildings_count(web::json::value& result)
 {
 
 
-	auto values = reader.get_assets_existing_buildings();
+	auto values = stats.get_assets_existing_buildings();
 
 	for (const auto& p : values) {
 		web::json::value entry;
@@ -52,7 +62,7 @@ void server::read_buildings_count(web::json::value& result)
 
 void server::read_productivity_statistics(web::json::value& result, bool optimal_productivity)
 {
-	auto values = optimal_productivity ? reader.get_optimal_productivities() : reader.get_average_productivities();
+	auto values = optimal_productivity ? stats.get_optimal_productivities() : stats.get_average_productivities();
 
 	for (const auto& p : values) {
 		web::json::value entry;
@@ -79,7 +89,7 @@ void server::handle_get(http_request request)
 			if (query_params.find(L"lang") != query_params.end())
 			{
 				std::string lang = image_recognition::to_string(query_params.find(L"lang")->second);
-				if (reader.has_language(lang))
+				if (stats.has_language(lang))
 					language = lang;
 			}
 			
@@ -93,7 +103,7 @@ void server::handle_get(http_request request)
 
 
 
-		cv::Rect2i window(image_recognition::find_anno());
+		cv::Rect2i window(recog.find_anno());
 		if (!window.area())
 		{
 			std::cout << "Couldn't take screenshot" << std::endl;
@@ -104,8 +114,8 @@ void server::handle_get(http_request request)
 			return;
 		}
 
-		cv::Mat screenshot(image_recognition::take_screenshot(window));
-		reader.update(language, screenshot);
+		cv::Mat screenshot(recog.take_screenshot(window));
+		stats.update(language, screenshot);
 
 		web::json::value json_message;
 		read_anno_population(json_message);
@@ -113,7 +123,7 @@ void server::handle_get(http_request request)
 		read_productivity_statistics(json_message, optimal_productivity);
 
 		json_message[U("version")] = web::json::value(std::wstring(version::VERSION_TAG.begin(), version::VERSION_TAG.end()));
-		json_message[U("islandName")] = web::json::value(image_recognition::to_wstring(reader.get_selected_island()));
+		json_message[U("islandName")] = web::json::value(image_recognition::to_wstring(stats.get_selected_island()));
 
 		web::http::http_response response(status_codes::OK);
 		response.headers().add(U("Access-Control-Allow-Origin"), U("*"));

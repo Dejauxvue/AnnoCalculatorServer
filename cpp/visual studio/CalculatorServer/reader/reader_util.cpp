@@ -47,8 +47,9 @@ struct comparePoints {
 ////////////////////////////////////////
 
 
-image_recognition::image_recognition()
+image_recognition::image_recognition(bool verbose)
 	:
+	verbose(verbose),
 	language("english")
 {
 	boost::property_tree::ptree pt;
@@ -61,7 +62,7 @@ image_recognition::image_recognition()
 		dictionaries.emplace(key, value);
 	}
 
-	auto load_and_save_icon = [](unsigned int guid, 
+	auto load_and_save_icon = [&](unsigned int guid, 
 		const boost::property_tree::ptree& asset, 
 		std::map<unsigned int, cv::Mat>& container)
 	{
@@ -72,9 +73,9 @@ image_recognition::image_recognition()
 				cv::Mat icon = load_image("icons/" + asset.get_child("icon").get_value<std::string>());
 				container.emplace(guid, icon);
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+if(verbose){
 				cv::imwrite("debug_images/icon_template.png", icon);
-#endif
+}
 			}
 			catch (const std::invalid_argument& e)
 			{
@@ -84,9 +85,9 @@ image_recognition::image_recognition()
 	};
 
 	// load sessions and regions
-#ifdef CONSOLE_DEBUG_OUTPUT
+if(verbose){
 	std::cout << "Load sessions and regions." << std::endl;
-#endif
+}
 	session_icons.emplace(180023, binarize_icon(load_image("icons/icon_session_moderate_white.png")));
 	session_to_region.emplace(180023, 5000000);
 	session_icons.emplace(180045, binarize_icon(load_image("icons/icon_session_passage_white.png")));
@@ -116,9 +117,9 @@ image_recognition::image_recognition()
 		}
 	};
 
-#ifdef CONSOLE_DEBUG_OUTPUT
+if(verbose){
 	std::cout << "Load factories." << std::endl;
-#endif
+}
 	process_factories(pt.get_child("factories"));
 	process_factories(pt.get_child("powerPlants"));
 
@@ -146,9 +147,9 @@ image_recognition::image_recognition()
 		load_and_save_icon(guid, product.second, product_icons);
 	}
 
-#ifdef CONSOLE_DEBUG_OUTPUT
+if(verbose){
 	std::cout << "Load population levels." << std::endl;
-#endif
+}
 	// load population levels
 	for (const auto& level : pt.get_child("populationLevels"))
 	{
@@ -161,9 +162,9 @@ image_recognition::image_recognition()
 		}
 	}
 
-#ifdef CONSOLE_DEBUG_OUTPUT
+if(verbose){
 	std::cout << "Load texts." << std::endl;
-#endif
+}
 	pt.clear();
 	if (boost::filesystem::exists("texts/ui_texts.json"))
 	{
@@ -268,18 +269,13 @@ cv::Mat image_recognition::get_cell(const cv::Mat& img, float crop_left, float w
 
 cv::Mat image_recognition::get_pane(const cv::Rect2f& rect, const cv::Mat& img)
 {
+	if (!img.size)
+		return img;
+	
 	cv::Point2f factor(img.cols - 1, img.rows - 1);
 	cv::Rect scaled(cv::Point(rect.tl().x * factor.x, rect.tl().y * factor.y),
 		cv::Point(rect.br().x * factor.x, rect.br().y * factor.y));
 	return img(scaled);
-}
-
-cv::Mat image_recognition::get_pane(const cv::Rect2f& rect) const
-{
-	if (!screenshot.size)
-		return cv::Mat();
-
-	return get_pane(rect, screenshot);
 }
 
 bool image_recognition::closer_to(const cv::Scalar& color, const cv::Scalar& ref, const cv::Scalar& other)
@@ -450,11 +446,11 @@ std::vector<unsigned int> image_recognition::get_guid_from_icon(const cv::Mat& i
 	if (best_match > 150)
 		return std::vector<unsigned int>();
 
-#ifdef CONSOLE_DEBUG_OUTPUT
+if(verbose){
 	for (unsigned int guid : guids)
 		std::cout << guid << ", ";
 	std::cout << "(" << best_match << ")\t";
-#endif
+}
 	return guids;
 }
 
@@ -487,11 +483,11 @@ std::vector<unsigned int> image_recognition::get_guid_from_hu_moments(const cv::
 	//if (best_match > 150)
 	//	return std::vector<unsigned int>();
 
-#ifdef CONSOLE_DEBUG_OUTPUT
+if(verbose){
 	for (unsigned int guid : guids)
 		std::cout << guid << ", ";
 	std::cout << "(" << best_match << ")\t";
-#endif
+}
 	return guids;
 }
 
@@ -1009,12 +1005,7 @@ cv::Rect image_recognition::get_aa_bb(const std::list<cv::Point>& input)
 	return cv::Rect(min, max + cv::Point(1, 1));
 }
 
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-int counter = 0;
-#endif
-
-void image_recognition::update(const std::string& language,
-	const cv::Mat& img)
+void image_recognition::update(const std::string& language)
 {
 	if (has_language(language))
 		this->language = language;
@@ -1023,16 +1014,6 @@ void image_recognition::update(const std::string& language,
 
 	update_ocr(this->language);
 
-	if (img.empty())
-		screenshot = take_screenshot(find_anno());
-	else
-		screenshot = img;
-
-#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-	cv::imwrite("debug_images/screenshot-"+std::to_string(counter)+".png", screenshot);
-	if (++counter > 20)
-		counter = 0;
-#endif
 
 }
 
@@ -1083,33 +1064,33 @@ cv::Rect2i image_recognition::find_anno()
 
 		if (hwnd == NULL)
 		{
-#ifdef CONSOLE_DEBUG_OUTPUT
-			std::cout << "Can't find window with regex " << window_name_regex_string << std::endl
-				<< "open windows are:" << std::endl;
+			if (verbose) {
+				std::cout << "Can't find window with regex " << window_name_regex_string << std::endl
+					<< "open windows are:" << std::endl;
 
-			//print all open window titles
-			EnumWindows([](HWND local_hwnd, LPARAM lparam) {
-				size_t length = GetWindowTextLength(local_hwnd);
+				//print all open window titles
+				EnumWindows([](HWND local_hwnd, LPARAM lparam) {
+					size_t length = GetWindowTextLength(local_hwnd);
 
-				if (length == 0) {
+					if (length == 0) {
+						return TRUE;
+					}
+
+					wchar_t* buffer = new wchar_t[length + 1];
+					GetWindowText(local_hwnd, buffer, length + 1);
+					std::wstring  windowTitle(buffer);
+
+					std::cout << local_hwnd << ":  " << to_string(windowTitle) << std::endl;
+					if (length > 0)
+					{
+						std::cout << "match result "
+							<< std::regex_match(to_string(windowTitle), ((lambda_parameter*)lparam)->window_name_regex) << std::endl;
+					}
 					return TRUE;
-				}
-
-				wchar_t* buffer = new wchar_t[length + 1];
-				GetWindowText(local_hwnd, buffer, length + 1);
-				std::wstring  windowTitle(buffer);
-
-				std::cout << local_hwnd << ":  " << to_string(windowTitle) << std::endl;
-				if (length > 0)
-				{
-					std::cout << "match result "
-						<< std::regex_match(to_string(windowTitle), ((lambda_parameter*)lparam)->window_name_regex) << std::endl;
-				}
-				return TRUE;
-				}, (LPARAM)&params);
-#else
+					}, (LPARAM)&params);
+			}else{
 			std::cout << "Anno 1800 window not found" << std::endl;
-#endif
+}
 
 			return cv::Rect2i();
 		}
@@ -1175,6 +1156,12 @@ cv::Mat image_recognition::take_screenshot(cv::Rect2i rect)
 	DeleteDC(hwindowCompatibleDC);
 	ReleaseDC(nullptr, hwindowDC);
 
+if(verbose){
+	cv::imwrite("debug_images/screenshot-" + std::to_string(verbose_screenshot_counter) + ".png", src);
+	if (++verbose_screenshot_counter > 20)
+		verbose_screenshot_counter = 0;
+}
+
 	return src;
 
 }
@@ -1206,10 +1193,10 @@ std::vector<std::pair<std::string, cv::Rect>> image_recognition::detect_words(co
 				float conf = ri->Confidence(level);
 				int x1, y1, x2, y2;
 				ri->BoundingBox(level, &x1, &y1, &x2, &y2);
-//#ifdef CONSOLE_DEBUG_OUTPUT
+//if(verbose){
 //				printf("word: '%s';\t\tconf: %.2f; BoundingBox: %d,%d,%d,%d;\n",
 //					word, conf, x1, y1, x2, y2);
-//#endif
+//}
 				std::string word_s = word ? std::string(word) : std::string();
 				cv::Rect aa_bb(cv::Point(x1, y1), cv::Point(x2, y2));
 				ret.push_back(std::make_pair(word_s, aa_bb));
@@ -1229,17 +1216,17 @@ bool image_recognition::has_language(const std::string& language) const
 	return dictionaries.find(language) != dictionaries.end() && tesseract_languages.find(language) != tesseract_languages.end();
 }
 
+bool image_recognition::is_verbose() const
+{
+	return verbose;
+}
+
 const keyword_dictionary& image_recognition::get_dictionary() const
 {
 	auto iter = dictionaries.find(language);
 	if (iter == dictionaries.end())
 		return keyword_dictionary();
 	return iter->second;
-}
-
-cv::Mat image_recognition::get_screenshot() const
-{
-	return screenshot;
 }
 
 std::map<unsigned int, std::string>  image_recognition::make_dictionary(const std::vector<phrase>& list) const
@@ -1561,9 +1548,9 @@ std::string image_recognition::join(const std::vector<std::pair<std::string, cv:
 
 void image_recognition::update_ocr(const std::string& language)
 {
-#ifdef CONSOLE_DEBUG_OUTPUT
+if(verbose){
 	std::cout << "Update tesseract." << std::endl;
-#endif
+}
 
 	const char* lang = tesseract_languages.find(language)->second.c_str();
 //	if(ocr_)
