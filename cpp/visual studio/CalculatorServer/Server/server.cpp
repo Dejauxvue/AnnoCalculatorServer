@@ -74,6 +74,26 @@ void server::read_productivity_statistics(web::json::value& result, bool optimal
 	}
 }
 
+void server::read_islands(web::json::value& result)
+{
+
+	auto islands = stats.get_islands();
+	std::vector<web::json::value> list;
+
+	for (const auto& i : islands) {
+		web::json::value entry;
+		entry[L"name"] = web::json::value(image_recognition::to_wstring(i.first));
+		entry[L"session"] = web::json::value(i.second);
+		try {
+			entry[L"region"] = web::json::value(recog.session_to_region[i.second]);
+		}
+		catch (const std::exception& e)
+		{}
+		list.push_back(entry);
+	}
+	result[L"islands"] = web::json::value::array(list);
+}
+
 void server::handle_get(http_request request)
 {
 	if (mutex_.try_lock()) {
@@ -121,6 +141,7 @@ void server::handle_get(http_request request)
 		read_anno_population(json_message);
 		read_buildings_count(json_message);
 		read_productivity_statistics(json_message, optimal_productivity);
+		read_islands(json_message);
 
 		json_message[U("version")] = web::json::value(std::wstring(version::VERSION_TAG.begin(), version::VERSION_TAG.end()));
 		json_message[U("islandName")] = web::json::value(image_recognition::to_wstring(stats.get_selected_island()));

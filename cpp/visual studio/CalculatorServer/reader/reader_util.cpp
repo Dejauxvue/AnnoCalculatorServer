@@ -236,12 +236,14 @@ if(verbose){
 
 std::string image_recognition::to_string(const std::wstring& str)
 {
-	return std::string(str.begin(), str.end());
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+	return conv.to_bytes(str);
 }
 
 std::wstring image_recognition::to_wstring(const std::string& str)
 {
-	return std::wstring(str.begin(), str.end());
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+	return conv.from_bytes(str);
 }
 
 cv::Mat image_recognition::get_square_region(const cv::Mat& img, const cv::Rect2f& rect)

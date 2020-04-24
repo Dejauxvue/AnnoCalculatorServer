@@ -2,6 +2,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
+#include <codecvt>
 #include <vector>
 #include <map>
 #include <set>
@@ -11,8 +12,8 @@
 
 #include <tesseract/baseapi.h>
 
- #define SHOW_CV_DEBUG_IMAGE_VIEW
- #define CONSOLE_DEBUG_OUTPUT
+// #define SHOW_CV_DEBUG_IMAGE_VIEW
+// #define CONSOLE_DEBUG_OUTPUT
 
 namespace reader
 {
