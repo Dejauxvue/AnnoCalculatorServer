@@ -19,12 +19,12 @@ void print(const std::map<unsigned int, T>& map,
 	{
 		if (dictionary.find(entry.first) != dictionary.cend())
 			std::cout << dictionary.find(entry.first)->second << "\t=\t" << entry.second << std::endl;
-		else 
+		else
 			std::cout << entry.first << "\t=\t" << entry.second << std::endl;
 	}
 }
 
-void unit_tests(class reader& image_recog)
+void unit_tests(class statistics& image_recog)
 {
 	{
 		image_recog.update("german", image_recognition::load_image("test_screenshots/Anno 1800 Res 2560x1080.png"));
@@ -197,6 +197,31 @@ void unit_tests(class reader& image_recog)
 		BOOST_ASSERT(result.at(15000004) == 1);
 	}
 
+
+	{
+		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_global_widescreen.png"));
+		auto result = image_recog.get_assets_existing_buildings();
+		BOOST_ASSERT(result.at(15000001) == 335);
+		BOOST_ASSERT(result.at(15000002) == 200);
+		BOOST_ASSERT(result.at(15000003) == 32);
+		BOOST_ASSERT(result.at(15000004) == 0);
+		BOOST_ASSERT(result.at(15000005) == 86);
+		BOOST_ASSERT(result.at(15000006) == 59);
+		BOOST_ASSERT(result.at(112642) == 0);
+		BOOST_ASSERT(result.at(112643) == 0);
+
+		result = image_recog.get_population_amount();
+		BOOST_ASSERT(result.at(15000001) == 6514);
+		BOOST_ASSERT(result.at(15000002) == 5337);
+		BOOST_ASSERT(result.at(15000003) == 1069);
+		BOOST_ASSERT(result.at(15000004) == 0);
+		BOOST_ASSERT(result.at(15000005) == 568);
+		BOOST_ASSERT(result.at(15000006) == 1003);
+		BOOST_ASSERT(result.at(112642) == 0);
+		BOOST_ASSERT(result.at(112643) == 0);
+	}
+
+
 	/*
 	{
 		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_island_3.png"));
@@ -228,13 +253,16 @@ void unit_tests(class reader& image_recog)
 }
 
 int main() {
-	class reader image_recog;
+	image_recognition recog(true);
+	statistics image_recog(recog);
 	unit_tests(image_recog);
 
 //	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Documents/Anno 1800/screenshot/screenshot_2019-12-31-13-03-20.jpg");
 //	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Pictures/Uplay/Anno 1800/Anno 18002020-1-6-0-32-3.png");
-	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Documents/Dokumente/Computer/Softwareentwicklung/AnnoCalculatorServer/calculator-recognition-issues/population_number_slash_issue/screenshot6.png");
+//	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Documents/Dokumente/Computer/Softwareentwicklung/AnnoCalculatorServer/calculator-recognition-issues/population_number_slash_issue/screenshot6.png");
 //	 	cv::Mat src = image_recognition::load_image("J:/Pictures/Uplay/Anno 1800/Anno 18002020-1-6-0-32-3.png");
+
+	cv::Mat src = image_recognition::load_image("test_screenshots/stat_pop_global_widescreen.png");
 
 	image_recog.update("english", src);
 
@@ -248,9 +276,9 @@ int main() {
 	std::cout << "Island list: " << std::endl;
 	for (const auto& entry : islands)
 		try {
-			std::cout << entry.first << "\t" << image_recog.get_dictionary().ui_texts.at(entry.second) << std::endl;
-		}
-		catch (const std::exception& e) {}
+		std::cout << entry.first << "\t" << image_recog.get_dictionary().ui_texts.at(entry.second) << std::endl;
+	}
+	catch (const std::exception& e) {}
 	std::cout << std::endl;
 
 	std::cout << "Population amount" << std::endl;
