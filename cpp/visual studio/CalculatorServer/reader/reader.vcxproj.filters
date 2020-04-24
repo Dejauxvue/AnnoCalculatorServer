@@ -57,4 +57,7 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="reader.manifest" />
+  </ItemGroup>
 </Project>

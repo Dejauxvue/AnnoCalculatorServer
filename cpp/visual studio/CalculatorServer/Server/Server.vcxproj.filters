@@ -30,4 +30,7 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="server.manifest" />
+  </ItemGroup>
 </Project>

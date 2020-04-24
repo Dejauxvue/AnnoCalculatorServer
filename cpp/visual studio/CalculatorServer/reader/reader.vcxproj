@@ -167,6 +167,9 @@
     <ClCompile Include="reader_util.cpp" />
     <ClCompile Include="version.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="reader.manifest" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
