@@ -31,7 +31,7 @@ You can add a maximum reroll cost in the settings (e.g. set it to 1 million):
 ```
 {
     "settings": {
-    	"maxRerollCosts": 1000000
+    	"maxRerollCosts": 1000000,
         "language": "english"
     },
     ...
