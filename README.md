@@ -1,7 +1,7 @@
 # Usage
 
 ## Statistics Extractor
-[![Tutorial](https://i9.ytimg.com/vi/fxzYSh-92Ng/mqdefault.jpg?time=1586900125524&sqp=CITZ2PQF&rs=AOn4CLCqmj2slXG_K0rWpKVs0M_Tq--oPA)](https://www.youtube.com/watch?v=fxzYSh-92Ng)
+[![Tutorial](https://img.youtube.com/vi/fxzYSh-92Ng/0.jpg)](https://www.youtube.com/watch?v=fxzYSh-92Ng)
 
 - [one-time setup] download, install (and reboot your computer afterwards): [vc_redist](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 - run the Server.exe from the [zip archive](https://github.com/NiHoel/Anno1800UXEnhancer/releases/latest/) which should open a command window and might require administrator rights
@@ -13,7 +13,7 @@
 
 
 ## Rerollbot
-[![Tutorial](https://i9.ytimg.com/vi/pPx0_A10G2Q/mqdefault.jpg?time=1586900122438&sqp=CITZ2PQF&rs=AOn4CLCMjXfm6ODoJJ7R-2vagN8pHoHMUA)](https://youtu.be/pPx0_A10G2Q)
+[![Tutorial](https://img.youtube.com/vi/pPx0_A10G2Q/0.jpg)](https://youtu.be/pPx0_A10G2Q)
 
 - [one-time setup] download, install (and reboot your computer afterwards): [vc_redist](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 - Run UXEnhancer.exe
@@ -31,7 +31,7 @@ You can add a maximum reroll cost in the settings (e.g. set it to 1 million):
 ```
 {
     "settings": {
-    	"maxRerollCosts": 1000000
+    	"maxRerollCosts": 1000000,
         "language": "english"
     },
     ...
@@ -44,6 +44,8 @@ In case **vcruntime140_1.dll** is missing, download the vc_redist from [https://
 In case nothing happens, make sure:
 - the ingame text language and the language of the calculator/bot config are identical
 - the values to be read are not covered by something else (overlay, external program, etc.; basically things you would see when running a screen capturing program)
+- The window mode of the game is set to 'windowed full screen'
+- Disable XBOX DVR 
 - (Statistics Extractor) the correct island is selected in the statistics screen
 - (Statistics Extractor) the island has a long (> 8 letters) name composed from standard letters (A-Za-z) and with other islands as few characters in common as possible
   - NEGATIVE example: "Múa-1" and "Múa-2": Too short, non standard letter ú and both names only differ in one letter
