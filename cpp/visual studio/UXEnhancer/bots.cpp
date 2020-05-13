@@ -107,7 +107,7 @@ execution_result reroll_bot::execute_step(bool update_required)
 				if (verbose)
 					std::cout << get_time_str() << "Check reroll costs (internal: " << reroll_costs[trader] << ")" << std::endl;
 
-				mous.move(reader::image_recognition::get_center(reader::trading_params::pane_menu_reroll));
+				mous.move(reader::image_recognition::get_center(reader.get_reroll_button()));
 				
 				return execution_result(std::chrono::milliseconds(250), false);
 			}
@@ -150,7 +150,7 @@ execution_result reroll_bot::execute_step(bool update_required)
 					if (verbose)
 						std::cout << " -> Reroll" << std::endl;
 
-					mous.click(reader::image_recognition::get_center(reader::trading_params::pane_menu_reroll));
+					mous.click(reader::image_recognition::get_center(reader.get_reroll_button()));
 					return execution_result(std::chrono::milliseconds(250), false);
 				}
 				else if (verbose)
@@ -195,7 +195,7 @@ execution_result reroll_bot::execute_step(bool update_required)
 					return execution_result();
 				}
 
-				mous.click(reader::image_recognition::get_center(reader::trading_params::pane_menu_execute));
+				mous.click(reader::image_recognition::get_center(reader.get_execute_button()));
 				for (auto iter = purchase_candidates.begin(); iter != purchase_iter; ++iter)
 				{
 					for (const auto& candidate : (*iter)->item_candidates)
@@ -223,7 +223,7 @@ execution_result reroll_bot::execute_step(bool update_required)
 				{
 					if (verbose)
 						std::cout << "Tries exceeded -> Reroll" << std::endl;
-					mous.click(reader::image_recognition::get_center(reader::trading_params::pane_menu_reroll));
+					mous.click(reader::image_recognition::get_center(reader.get_reroll_button()));
 				}
 				else if (verbose)
 				{

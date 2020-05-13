@@ -15,7 +15,8 @@ namespace reader
 
 class trading_params
 {
-public:
+	friend class trading_menu;
+
 	static const cv::Scalar background_marine_blue;
 	static const cv::Scalar background_sand_dark;
 	static const cv::Scalar background_sand_bright;
@@ -35,12 +36,6 @@ public:
 
 	static const unsigned int count_cols;
 	static const unsigned int count_rows;
-
-	static const cv::Rect2f pane_prev_name;
-	static const cv::Rect2f pane_prev_tab_items;
-	static const cv::Rect2f pane_prev_offering;
-	static const cv::Rect2f pane_prev_reroll;
-	static const cv::Rect2f pane_prev_exchange;
 
 	static const cv::Rect2f pane_menu_offering;
 	static const cv::Rect2f pane_menu_name;
@@ -74,7 +69,6 @@ public:
 	void update(const std::string& language, const cv::Mat& img);
 
 
-	bool is_trade_preview_open() const;
 	bool is_trading_menu_open() const;
 	bool has_reroll() const;
 	/*
@@ -100,6 +94,12 @@ public:
 	std::vector<offering> get_capped_items() const;
 
 	/*
+	* Positions of buttons relative to the window
+	*/
+	cv::Rect2f get_execute_button() const;
+	cv::Rect2f get_reroll_button() const;
+
+	/*
 	* Returns the modification of trading prices introduced
 	* by capped itemes
 	*/
@@ -110,8 +110,10 @@ public:
 	* the position of the corresponding item on the screenshot.
 	* Distinguishes whether preview or trade menu is open.
 	*/
-	cv::Rect2i get_abs_location(unsigned int index) const;
-	cv::Rect2f get_rel_location(unsigned int index) const;
+	cv::Rect2i get_window_abs_location(unsigned int index) const;
+	cv::Rect2f get_window_rel_location(unsigned int index) const;
+	cv::Rect2i get_window_abs_location(const cv::Rect2i& roi_rel_location) const;
+	cv::Rect2f get_window_rel_location(const cv::Rect2f& roi_rel_location) const;
 
 	unsigned int get_open_trader() const;
 
@@ -126,6 +128,7 @@ private:
 	cv::Mat screenshot;
 	std::map<unsigned int, cv::Mat> ship_items;
 	cv::Mat storage_icon;
+	unsigned int window_width;
 
 	unsigned int open_trader;
 	bool menu_open;
@@ -136,7 +139,8 @@ private:
 */
 	bool check_price(unsigned int guid, unsigned int selling_price, int price_modification_percent = 0) const;
 
-
+	cv::Rect2i get_roi_abs_location(unsigned int index) const;
+	cv::Rect2f get_roi_rel_location(unsigned int index) const;
 };
 
 }

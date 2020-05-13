@@ -81,19 +81,7 @@ void statistics_screen::update(const std::string& language, const cv::Mat& img)
 		std::cout << std::endl;
 	}
 
-	// handle 21:9 widescreen where statistics screen is shown 16:9 with black bars
-	if (img.rows && (img.cols / (float)img.rows) >= 2.33)
-	{
-		int width = img.rows * 16 / 9;
-		int crop = (img.cols - width) / 2;
-		cv::Rect roi(crop, 0, width, img.rows);
-		this->screenshot = img(roi);
-	}
-	else
-	{
-		img.copyTo(this->screenshot);
-	}
-
+	recog.crop_widescreen(img).copyTo(this->screenshot);
 
 	open_tab = compute_open_tab();
 	if (open_tab == tab::NONE)

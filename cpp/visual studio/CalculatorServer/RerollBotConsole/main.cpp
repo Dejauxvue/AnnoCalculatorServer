@@ -47,7 +47,7 @@ std::string get_time_str()
 
 void test_screenshot(image_recognition& recog, trading_menu& reader)
 {
-	reader.update("english", recog.load_image("test_screenshots/trading_kahina_2.png"));
+	reader.update("english", recog.load_image("test_screenshots/trading_eli_widescreen_1.png"));
 	auto offerings = reader.get_offerings(true);
 
 	std::cout << std::endl;
@@ -98,7 +98,7 @@ int main(int argc, char** argv) {
 		for (const auto& entry : recog.trader_to_offerings)
 			reroll_costs.emplace(entry.first, 0);
 
-		// test_screenshot(recog, reader);
+		test_screenshot(recog, reader);
 
 		cv::Rect2i window = recog.find_anno();
 		if (!window.area())
@@ -157,7 +157,7 @@ int main(int argc, char** argv) {
 						if (verbose)
 							std::cout << get_time_str() << "Check reroll costs (internal: " << reroll_costs[trader] << ")" << std::endl;
 							
-						mous.move(image_recognition::get_center(trading_params::pane_menu_reroll));
+						mous.move(image_recognition::get_center(reader.get_reroll_button()));
 						std::this_thread::sleep_for(std::chrono::milliseconds(250));
 						continue;
 					}
@@ -200,7 +200,7 @@ int main(int argc, char** argv) {
 							if (verbose)
 								std::cout << " -> Reroll" << std::endl;
 
-							mous.click(image_recognition::get_center(trading_params::pane_menu_reroll));
+							mous.click(image_recognition::get_center(reader.get_reroll_button()));
 							std::this_thread::sleep_for(std::chrono::milliseconds(250));
 						}
 						else if (verbose)
@@ -244,7 +244,7 @@ int main(int argc, char** argv) {
 							continue;
 						}
 
-						mous.click(image_recognition::get_center(trading_params::pane_menu_execute));
+						mous.click(image_recognition::get_center(reader.get_execute_button()));
 						for (auto iter = purchase_candidates.begin(); iter != purchase_iter; ++iter)
 						{
 							for (const auto& candidate : (*iter)->item_candidates)
@@ -272,7 +272,7 @@ int main(int argc, char** argv) {
 						{
 							if (verbose)
 								std::cout << "Tries exceeded -> Reroll" << std::endl;
-							mous.click(image_recognition::get_center(trading_params::pane_menu_reroll));
+							mous.click(image_recognition::get_center(reader.get_reroll_button()));
 						}
 						else if (verbose)
 						{

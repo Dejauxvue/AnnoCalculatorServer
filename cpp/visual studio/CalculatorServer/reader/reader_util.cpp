@@ -702,6 +702,21 @@ cv::Mat image_recognition::load_image(const std::string& path)
 	return img;
 }
 
+cv::Mat image_recognition::crop_widescreen(const cv::Mat& img)
+{
+	if (img.rows && (img.cols / (float)img.rows) >= 2.33)
+	{
+		int width = img.rows * 16 / 9;
+		int crop = (img.cols - width) / 2;
+		cv::Rect roi(crop, 0, width, img.rows);
+		return img(roi);
+	}
+	else
+	{
+		return img;
+	}
+}
+
 void image_recognition::initialize_items()
 {
 	boost::property_tree::ptree pt;

@@ -107,6 +107,11 @@ public:
 	*/
 	static cv::Mat load_image(const std::string&);
 
+	/*
+	* Crop margins for 21:9 images
+	*/
+	static cv::Mat crop_widescreen(const cv::Mat& img);
+
 	void initialize_items();
 
 	/**
