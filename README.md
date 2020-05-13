@@ -54,9 +54,12 @@ In case nothing happens, make sure:
 - (UXEnhancer) Some items have identical prices and icons. In such cases wrong items might be bought or several counters decremented although only one item was bought.
 
 
-**If you encounter any bug, feel free to contact me and if possible send me the following information**
-- your game's screen resolution
-- the text from the Server.exe (or UXEnhancer.exe) console when the bug occured
+**If you encounter any bug, feel free to contact me (e.g. open an issue) and if possible perform the following steps**
+- Open the program in the console with verbose option:
+- Shift + right click on folder containing the exe file -> Open PowerShell Window -> Enter "UXEnhancer.exe -v" or "CalculatorServer.exe -v"
+- Configure and open the store / Open the statistics screen or where the bug occurred
+- Close the program without closing any dialog in Anno
+- Send me the console output + debug_images (+ UXEnhancerConfig.json - if the rerollbot is concerned)
 
 
 # Use prebuild binaries
