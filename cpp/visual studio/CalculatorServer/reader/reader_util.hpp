@@ -211,6 +211,8 @@ public:
 	*/
 	static std::vector<unsigned int> get_guid_from_name(const cv::Mat& text,
 		const std::map<unsigned int, std::string>& dictionary);
+	static std::vector<unsigned int> get_guid_from_name(const std::string& text,
+		const std::map<unsigned int, std::string>& dictionary);
 
 	template <typename T>
 	static cv::Point_<T> get_center(const cv::Rect_<T> box)
@@ -302,13 +304,15 @@ public:
 
 	/*
 	* Detects contours in the image and filters width wide horizontal lines
+	* @param{line_ensity} is the prercentage of set pixels per row to recognize it as a line
 	*/
-	static std::vector<int> find_horizontal_lines(const cv::Mat& im);
+	static std::vector<int> find_horizontal_lines(const cv::Mat& im, float line_density = 0.75f);
 
 	/*
 	* Iterates the rows of a table specified by horizontal lines
 	*/
 	static void iterate_rows(const cv::Mat& im,
+		float line_density,
 		const std::function<void(const cv::Mat & row)> f);
 
 

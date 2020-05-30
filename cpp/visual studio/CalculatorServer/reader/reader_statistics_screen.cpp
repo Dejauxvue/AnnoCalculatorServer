@@ -19,16 +19,16 @@ const cv::Scalar statistics_screen_params::foreground_brown_light = cv::Scalar(9
 const cv::Scalar statistics_screen_params::foreground_brown_dark = cv::Scalar(19, 53, 81, 255);
 const cv::Scalar statistics_screen_params::expansion_arrow = cv::Scalar(78, 98, 115, 255);
 
-const cv::Rect2f statistics_screen_params::pane_tabs = cv::Rect2f(cv::Point2f(0.2883f, 0.147f), cv::Point2f(0.7118f, 0.1839f));
+const cv::Rect2f statistics_screen_params::pane_tabs = cv::Rect2f(cv::Point2f(0.2352f, 0.147f), cv::Point2f(0.7648f, 0.1839f));
 const cv::Rect2f statistics_screen_params::pane_title = cv::Rect2f(cv::Point2f(0.3839f, 0), cv::Point2f(0.6176f, 0.0722f));
 const cv::Rect2f statistics_screen_params::pane_all_islands = cv::Rect2f(cv::Point2f(0.0234f, 0.2658f), cv::Point2f(0.19f, 0.315f));
 const cv::Rect2f statistics_screen_params::pane_islands = cv::Rect2f(cv::Point2f(0.0215f, 0.3326f), cv::Point2f(0.1917f, 0.9586f));
 const cv::Rect2f statistics_screen_params::pane_finance_center = cv::Rect2f(cv::Point2f(0.2471f, 0.3084f), cv::Point2f(0.5805f, 0.9576f));
 const cv::Rect2f statistics_screen_params::pane_finance_right = cv::Rect2f(cv::Point2f(0.6261f, 0.3603f), cv::Point2f(0.9635f, 0.9587f));
-const cv::Rect2f statistics_screen_params::pane_production_center = cv::Rect2f(cv::Point2f(0.246f, 0.3638f), cv::Point2f(0.5811f, 0.9567f));
-const cv::Rect2f statistics_screen_params::pane_production_right = cv::Rect2f(cv::Point2f(0.629f, 0.3613f), cv::Point2f(0.9619f, 0.936f));
+const cv::Rect2f statistics_screen_params::pane_production_center = cv::Rect2f(cv::Point2f(0.24802f, 0.3639f), cv::Point2f(0.583f, 0.9568f));
+const cv::Rect2f statistics_screen_params::pane_production_right = cv::Rect2f(cv::Point2f(0.629f, 0.3613f), cv::Point2f(0.9619f, 0.9577f));
 const cv::Rect2f statistics_screen_params::pane_population_center = cv::Rect2f(cv::Point2f(0.247f, 0.3571f), cv::Point2f(0.5802f, 0.7006f));
-const cv::Rect2f statistics_screen_params::pane_header_center = cv::Rect2f(cv::Point2f(0.2453f, 0.2238f), cv::Point2f(0.4786f, 0.2581f));
+const cv::Rect2f statistics_screen_params::pane_header_center = cv::Rect2f(cv::Point2f(0.24485f, 0.21962f), cv::Point2f(0.4786f, 0.2581f));
 const cv::Rect2f statistics_screen_params::pane_header_right = cv::Rect2f(cv::Point2f(0.6276f, 0.2238f), cv::Point2f(0.7946f, 0.2581f));
 
 const cv::Rect2f statistics_screen_params::position_factory_icon = cv::Rect2f(0.0219f, 0.135f, 0.0838f, 0.7448f);
@@ -46,7 +46,9 @@ const cv::Rect2f statistics_screen_params::position_population_icon = cv::Rect2f
 statistics_screen::statistics_screen(image_recognition& recog)
 	:
 	recog(recog),
-	open_tab(tab::NONE)
+	open_tab(tab::NONE),
+	center_pane_selection(0),
+	selected_session(0)
 {
 }
 
@@ -115,7 +117,7 @@ statistics_screen::tab statistics_screen::get_open_tab() const
 statistics_screen::tab statistics_screen::compute_open_tab() const
 {
 	cv::Mat tabs = recog.get_pane(statistics_screen_params::pane_tabs, screenshot);
-	int tabs_count = (int)tab::POPULATION;
+	int tabs_count = (int)tab::ITEMS;
 	int tab_width = tabs.cols / tabs_count;
 	int v_center = tabs.rows / 2;
 	for (int i = 1; i <= (int)tabs_count; i++)
@@ -146,7 +148,7 @@ void statistics_screen::update_islands()
 		phrase::THE_ARCTIC,
 		phrase::CAPE_TRELAWNEY });
 
-	recog.iterate_rows(prev_islands, [&](const cv::Mat& row) {
+	recog.iterate_rows(prev_islands, 0.75f, [&](const cv::Mat& row) {
 		if (recog.is_verbose()) {
 			cv::imwrite("debug_images/row.png", row);
 		}
@@ -355,7 +357,7 @@ std::map<unsigned int, int> statistics_screen::get_optimal_productivities()
 	}
 
 	std::vector<float> productivities;
-	recog.iterate_rows(roi, [&](const cv::Mat& row)
+	recog.iterate_rows(roi, 0.8f, [&](const cv::Mat& row)
 		{
 			int productivity = 0;
 			for (const std::pair<float, float> cell : std::vector<std::pair<float, float>>({ {0.6f, 0.2f}, {0.8f, 0.2f} }))
@@ -425,7 +427,7 @@ std::map<unsigned int, int> statistics_screen::get_average_productivities()
 		std::cout << "Average productivities" << std::endl;
 	}
 
-	recog.iterate_rows(roi, [&](const cv::Mat& row)
+	recog.iterate_rows(roi, 0.9f, [&](const cv::Mat& row)
 		{
 			if (recog.is_verbose()) {
 				cv::imwrite("debug_images/row.png", row);
@@ -455,7 +457,7 @@ std::map<unsigned int, int> statistics_screen::get_average_productivities()
 			}
 			int prod = recog.number_from_region(productivity_text);
 
-			if (prod > 500)
+			if (prod > 500 && prod % 100 == 0)
 				prod /= 100;
 
 			if (prod >= 0)
@@ -542,7 +544,7 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 	std::vector<unsigned int> prev_guids;
 	int prev_count = 0;
 
-	recog.iterate_rows(roi, [&](const cv::Mat& row)
+	recog.iterate_rows(roi, 0.75f, [&](const cv::Mat& row)
 		{
 			if (recog.is_verbose()) {
 				cv::imwrite("debug_images/row.png", row);
@@ -668,7 +670,7 @@ std::map<unsigned int, int> statistics_screen::get_population_amount() const
 		cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
 	}
 
-	recog.iterate_rows(roi, [&](const cv::Mat& row)
+	recog.iterate_rows(roi, 0.75f, [&](const cv::Mat& row)
 		{
 			cv::Mat population_name = recog.binarize(recog.get_cell(row, 0.076f, 0.2f));
 			if (recog.is_verbose()) {
@@ -745,7 +747,7 @@ std::map<unsigned int, int> statistics_screen::get_population_existing_buildings
 		cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
 	}
 
-	recog.iterate_rows(roi, [&](const cv::Mat& row)
+	recog.iterate_rows(roi, 0.75f, [&](const cv::Mat& row)
 		{
 			cv::Mat population_name = recog.binarize(recog.get_cell(row, 0.076f, 0.2f));
 			if (recog.is_verbose()) {
@@ -806,12 +808,49 @@ std::string statistics_screen::get_selected_island()
 	}
 
 	auto words_and_boxes = recog.detect_words(roi, tesseract::PSM_SINGLE_LINE);
-	result = recog.join(words_and_boxes, true);
 
+	int max_dist = 0;
+	int last_index = 0;
 
-	auto island = get_island_from_list(result);
-	selected_island = island.first;
-	selected_session = island.second;
+	// detect split between island and session
+	for (int i = 0; i < words_and_boxes.size() - 1; i++) {
+		int dist = words_and_boxes[i + 1].second.x -
+		(words_and_boxes[i].second.x + words_and_boxes[i].second.width);
+		if (dist > max_dist)
+		{
+			max_dist = dist;
+			last_index = i;
+		}
+	}
+
+	std::string island;
+	std::string session;
+	for(int i = 0; i < words_and_boxes.size(); i++)
+	{
+		if(i <= last_index)
+		  island += words_and_boxes[i].first + " ";
+		else
+			session += words_and_boxes[i].first + " ";
+	}
+	island.pop_back();
+	session.pop_back();
+
+	auto island_session = get_island_from_list(island);
+	selected_island = island_session.first;
+	selected_session = island_session.second;
+	if (!selected_session)
+	{
+		auto result = recog.get_guid_from_name(session, recog.make_dictionary({
+			phrase::THE_ARCTIC,
+			phrase::THE_OLD_WORLD,
+			phrase::THE_NEW_WORLD,
+			phrase::CAPE_TRELAWNEY
+			}));
+
+		if (result.size())
+			selected_session = result[0];
+	}
+
 
 
 	if (recog.is_verbose()) {
@@ -847,7 +886,7 @@ std::map<unsigned int, int> statistics_screen::get_population_workforce() const
 		cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
 	}
 
-	recog.iterate_rows(roi, [&](const cv::Mat& row)
+	recog.iterate_rows(roi, 0.75f, [&](const cv::Mat& row)
 		{
 			cv::Mat population_name = recog.binarize(recog.get_cell(row, 0.076f, 0.2f));
 			if (recog.is_verbose()) {

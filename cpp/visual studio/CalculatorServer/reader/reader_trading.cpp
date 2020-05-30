@@ -390,17 +390,17 @@ cv::Rect2f trading_menu::get_window_rel_location(unsigned int index) const
 	return get_window_rel_location(get_roi_rel_location(index));
 }
 
-cv::Rect2i trading_menu::get_window_abs_location(const cv::Rect2i& roi_rel_location) const
+cv::Rect2i trading_menu::get_window_abs_location(const cv::Rect2i& roi_abs_location) const
 {
 	if (window_width == screenshot.cols)
-		return roi_rel_location;
+		return roi_abs_location;
 
-	const cv::Rect2f& box = roi_rel_location;
+	const cv::Rect2f& box = roi_abs_location;
 
-	int width = window_width;
-	int height = screenshot.rows;
-
-	return cv::Rect2i(box.x * width, box.y * height, box.width * width, box.height * height);
+	return cv::Rect2i(box.x + (window_width - screenshot.cols) / 2.f,
+		box.y,
+		box.width,
+		box.height);
 }
 
 cv::Rect2f trading_menu::get_window_rel_location(const cv::Rect2f& roi_rel_location) const

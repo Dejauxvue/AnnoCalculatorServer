@@ -24,22 +24,23 @@
 "Amount": 20
 }
 ],
+"module": 269839,
 "region": 5000000,
 "icon": "icon_cereals_2.png",
 "locaText": {
 "brazilian": "Grain Farm",
-"portuguese": "Grain Farm",
-"chinese": "谷物农场",
 "taiwanese": "穀物農場",
+"italian": "Fattoria di grano",
+"portuguese": "Grain Farm",
+"spanish": "Granja de trigo",
+"chinese": "谷物农场",
 "english": "Grain Farm",
 "french": "Ferme céréalière",
-"italian": "Fattoria di grano",
-"spanish": "Granja de trigo",
 "polish": "Uprawa zboża",
-"korean": "곡물 농장",
+"russian": "Ферма",
 "german": "Getreidefarm",
 "japanese": "穀物農場",
-"russian": "Ферма"
+"korean": "곡물 농장"
 }
 },
 {
@@ -64,22 +65,23 @@
 "Amount": 20
 }
 ],
+"module": 269957,
 "region": 5000000,
 "icon": "icon_meat_raw.png",
 "locaText": {
 "brazilian": "Cattle Farm",
-"portuguese": "Cattle Farm",
-"chinese": "牛牧场",
 "taiwanese": "牛牧場",
+"italian": "Allevamento di bestiame",
+"portuguese": "Cattle Farm",
+"spanish": "Granja vacuna",
+"chinese": "牛牧场",
 "english": "Cattle Farm",
 "french": "Élevage de gros bétail",
-"italian": "Allevamento di bestiame",
-"spanish": "Granja vacuna",
 "polish": "Farma bydła",
-"korean": "가축 농장",
+"russian": "Скотоферма",
 "german": "Rinderfarm",
 "japanese": "牛の牧草地",
-"russian": "Скотоферма"
+"korean": "가축 농장"
 }
 },
 {
@@ -104,22 +106,23 @@
 "Amount": 20
 }
 ],
+"module": 269837,
 "region": 5000000,
 "icon": "icon_hops.png",
 "locaText": {
 "brazilian": "Hop Farm",
-"portuguese": "Hop Farm",
-"chinese": "啤酒花农场",
 "taiwanese": "啤酒花農場",
+"italian": "Fattoria di luppoli",
+"portuguese": "Hop Farm",
+"spanish": "Granja de lúpulo",
+"chinese": "啤酒花农场",
 "english": "Hop Farm",
 "french": "Houblonnière",
-"italian": "Fattoria di luppoli",
-"spanish": "Granja de lúpulo",
 "polish": "Uprawa chmielu",
-"korean": "홉 농장",
+"russian": "Ферма хмеля",
 "german": "Hopfenplantage",
 "japanese": "ホップ農場",
-"russian": "Ферма хмеля"
+"korean": "홉 농장"
 }
 },
 {
@@ -144,22 +147,23 @@
 "Amount": 20
 }
 ],
+"module": 269837,
 "region": 5000000,
 "icon": "icon_potatoes.png",
 "locaText": {
 "brazilian": "Potato Farm",
-"portuguese": "Potato Farm",
-"chinese": "土豆农场",
 "taiwanese": "馬鈴薯農場",
+"italian": "Fattoria di patate",
+"portuguese": "Potato Farm",
+"spanish": "Granja de patatas",
+"chinese": "土豆农场",
 "english": "Potato Farm",
 "french": "Exploitation de pommes de terre",
-"italian": "Fattoria di patate",
-"spanish": "Granja de patatas",
 "polish": "Uprawa ziemniaków",
-"korean": "감자 농장",
+"russian": "Картофельная ферма",
 "german": "Kartoffelhof",
 "japanese": "ジャガイモ農場",
-"russian": "Картофельная ферма"
+"korean": "감자 농장"
 }
 },
 {
@@ -189,18 +193,18 @@
 "icon": "icon_wood_log.png",
 "locaText": {
 "brazilian": "Lumberjack's Hut",
-"portuguese": "Lumberjack's Hut",
-"chinese": "伐木工人棚屋",
 "taiwanese": "伐木工人棚屋",
+"italian": "Capanno del taglialegna",
+"portuguese": "Lumberjack's Hut",
+"spanish": "Cabaña de leñador",
+"chinese": "伐木工人棚屋",
 "english": "Lumberjack's Hut",
 "french": "Cabane de bûcheron",
-"italian": "Capanno del taglialegna",
-"spanish": "Cabaña de leñador",
 "polish": "Chata drwala",
-"korean": "벌목꾼의 오두막",
+"russian": "Хижина лесоруба",
 "german": "Holzfällerhütte",
 "japanese": "木こりの小屋",
-"russian": "Хижина лесоруба"
+"korean": "벌목꾼의 오두막"
 }
 },
 {
@@ -225,22 +229,23 @@
 "Amount": 10
 }
 ],
+"module": 269957,
 "region": 5000000,
 "icon": "icon_wool.png",
 "locaText": {
 "brazilian": "Sheep Farm",
-"portuguese": "Sheep Farm",
-"chinese": "绵羊牧场",
 "taiwanese": "綿羊牧場",
+"italian": "Allevamento di pecore",
+"portuguese": "Sheep Farm",
+"spanish": "Granja ovina",
+"chinese": "绵羊牧场",
 "english": "Sheep Farm",
 "french": "Élevage de moutons",
-"italian": "Allevamento di pecore",
-"spanish": "Granja ovina",
 "polish": "Farma owiec",
-"korean": "양 농장",
+"russian": "Овцеферма",
 "german": "Schäferei",
 "japanese": "羊の牧草地",
-"russian": "Овцеферма"
+"korean": "양 농장"
 }
 },
 {
@@ -265,22 +270,23 @@
 "Amount": 30
 }
 ],
+"module": 269957,
 "region": 5000000,
 "icon": "icon_pigs.png",
 "locaText": {
 "brazilian": "Pig Farm",
-"portuguese": "Pig Farm",
-"chinese": "养猪场",
 "taiwanese": "養豬場",
+"italian": "Allevamento di maiali",
+"portuguese": "Pig Farm",
+"spanish": "Granja porcina",
+"chinese": "养猪场",
 "english": "Pig Farm",
 "french": "Élevage de porcs",
-"italian": "Allevamento di maiali",
-"spanish": "Granja porcina",
 "polish": "Farma świń",
-"korean": "돼지 농장",
+"russian": "Свиноферма",
 "german": "Schweinezucht",
 "japanese": "豚の牧草地",
-"russian": "Свиноферма"
+"korean": "돼지 농장"
 }
 },
 {
@@ -310,18 +316,18 @@
 "icon": "icon_fur.png",
 "locaText": {
 "brazilian": "Hunting Cabin",
-"portuguese": "Hunting Cabin",
-"chinese": "狩猎小屋",
 "taiwanese": "狩獵小屋",
+"italian": "Capanno da caccia",
+"portuguese": "Hunting Cabin",
+"spanish": "Cabaña de cazador",
+"chinese": "狩猎小屋",
 "english": "Hunting Cabin",
 "french": "Cabane de chasse",
-"italian": "Capanno da caccia",
-"spanish": "Cabaña de cazador",
 "polish": "Chata myśliwska",
-"korean": "사냥꾼의 오두막",
+"russian": "Хижина охотника",
 "german": "Jagdhütte",
 "japanese": "狩猟小屋",
-"russian": "Хижина охотника"
+"korean": "사냥꾼의 오두막"
 }
 },
 {
@@ -346,22 +352,23 @@
 "Amount": 10
 }
 ],
+"module": 269837,
 "region": 5000000,
 "icon": "icon_pepper.png",
 "locaText": {
 "brazilian": "Red Pepper Farm",
-"portuguese": "Red Pepper Farm",
-"chinese": "红椒农场",
 "taiwanese": "紅椒農場",
+"italian": "Fattoria di peperoncini",
+"portuguese": "Red Pepper Farm",
+"spanish": "Granja de pimientos rojos",
+"chinese": "红椒农场",
 "english": "Red Pepper Farm",
 "french": "Ferme de poivrons rouges",
-"italian": "Fattoria di peperoncini",
-"spanish": "Granja de pimientos rojos",
 "polish": "Uprawa czerwonej papryki",
-"korean": "피망 농장",
+"russian": "Перечная ферма",
 "german": "Paprikafarm",
 "japanese": "赤トウガラシ農園",
-"russian": "Перечная ферма"
+"korean": "피망 농장"
 }
 },
 {
@@ -386,22 +393,23 @@
 "Amount": 10
 }
 ],
+"module": 269837,
 "region": 5000000,
 "icon": "icon_grapes.png",
 "locaText": {
 "brazilian": "Vineyard",
-"portuguese": "Vineyard",
-"chinese": "葡萄园",
 "taiwanese": "葡萄園",
+"italian": "Vigneto",
+"portuguese": "Vineyard",
+"spanish": "Viñedo",
+"chinese": "葡萄园",
 "english": "Vineyard",
 "french": "Vignoble",
-"italian": "Vigneto",
-"spanish": "Viñedo",
 "polish": "Winnica",
-"korean": "포도원",
+"russian": "Виноградник",
 "german": "Weinberg",
 "japanese": "ブドウ園",
-"russian": "Виноградник"
+"korean": "포도원"
 }
 },
 {
@@ -430,18 +438,18 @@
 "icon": "icon_fish.png",
 "locaText": {
 "brazilian": "Fishery",
-"portuguese": "Fishery",
-"chinese": "渔场",
 "taiwanese": "漁場",
+"italian": "Area di pesca",
+"portuguese": "Fishery",
+"spanish": "Pescadería",
+"chinese": "渔场",
 "english": "Fishery",
 "french": "Pêcherie",
-"italian": "Area di pesca",
-"spanish": "Pescadería",
 "polish": "Dom rybaka",
-"korean": "양어장",
+"russian": "Рыболовецкая гавань",
 "german": "Fischerei",
 "japanese": "漁場",
-"russian": "Рыболовецкая гавань"
+"korean": "양어장"
 }
 },
 {
@@ -470,18 +478,18 @@
 "icon": "icon_niter.png",
 "locaText": {
 "brazilian": "Saltpetre Works",
-"portuguese": "Saltpetre Works",
-"chinese": "硝石采石场",
 "taiwanese": "硝石採石場",
+"italian": "Salina",
+"portuguese": "Saltpetre Works",
+"spanish": "Taller de salitre",
+"chinese": "硝石采石场",
 "english": "Saltpetre Works",
 "french": "Salpêtrière",
-"italian": "Salina",
-"spanish": "Taller de salitre",
 "polish": "Wytwórnia saletry",
-"korean": "초석 작업장",
+"russian": "Фабрика селитры",
 "german": "Salpeterwerk",
 "japanese": "硝石の採石場",
-"russian": "Фабрика селитры"
+"korean": "초석 작업장"
 }
 },
 {
@@ -510,18 +518,18 @@
 "icon": "icon_quartz_sand.png",
 "locaText": {
 "brazilian": "Sand Mine",
-"portuguese": "Sand Mine",
-"chinese": "沙矿",
 "taiwanese": "沙礦",
+"italian": "Miniera di sabbia",
+"portuguese": "Sand Mine",
+"spanish": "Mina de arena",
+"chinese": "沙矿",
 "english": "Sand Mine",
 "french": "Mine de silice",
-"italian": "Miniera di sabbia",
-"spanish": "Mina de arena",
 "polish": "Kopalnia piasku",
-"korean": "모래 광산",
+"russian": "Песчаный карьер",
 "german": "Quarzgrube",
 "japanese": "砂採取場",
-"russian": "Песчаный карьер"
+"korean": "모래 광산"
 }
 },
 {
@@ -562,18 +570,18 @@
 "icon": "icon_reinforced_concrete.png",
 "locaText": {
 "brazilian": "Concrete Factory",
-"portuguese": "Concrete Factory",
-"chinese": "混凝土工厂",
 "taiwanese": "混凝土工廠",
+"italian": "Fabbrica di calcestruzzo",
+"portuguese": "Concrete Factory",
+"spanish": "Fábrica de cemento",
+"chinese": "混凝土工厂",
 "english": "Concrete Factory",
 "french": "Cimenterie",
-"italian": "Fabbrica di calcestruzzo",
-"spanish": "Fábrica de cemento",
 "polish": "Fabryka betonu zbrojonego",
-"korean": "콘크리트 공장",
+"russian": "Бетоносмесительный завод",
 "german": "Betonwerk",
 "japanese": "コンクリート工場",
-"russian": "Бетоносмесительный завод"
+"korean": "콘크리트 공장"
 }
 },
 {
@@ -609,18 +617,18 @@
 "icon": "icon_soap_2.png",
 "locaText": {
 "brazilian": "Soap Factory",
-"portuguese": "Soap Factory",
-"chinese": "肥皂工厂",
 "taiwanese": "肥皂工廠",
+"italian": "Fabbrica di sapone",
+"portuguese": "Soap Factory",
+"spanish": "Fábrica de jabón",
+"chinese": "肥皂工厂",
 "english": "Soap Factory",
 "french": "Savonnerie",
-"italian": "Fabbrica di sapone",
-"spanish": "Fábrica de jabón",
 "polish": "Wytwórnia mydła",
-"korean": "비누 공장",
+"russian": "Мыловарня",
 "german": "Siederei",
 "japanese": "石鹸工場",
-"russian": "Мыловарня"
+"korean": "비누 공장"
 }
 },
 {
@@ -656,18 +664,18 @@
 "icon": "icon_bricks.png",
 "locaText": {
 "brazilian": "Brick Factory",
-"portuguese": "Brick Factory",
-"chinese": "砖块工厂",
 "taiwanese": "磚塊工廠",
+"italian": "Fabbrica di mattoni",
+"portuguese": "Brick Factory",
+"spanish": "Fábrica de ladrillos",
+"chinese": "砖块工厂",
 "english": "Brick Factory",
 "french": "Briqueterie",
-"italian": "Fabbrica di mattoni",
-"spanish": "Fábrica de ladrillos",
 "polish": "Cegielnia",
-"korean": "벽돌 공장",
+"russian": "Кирпичный завод",
 "german": "Ziegelei",
 "japanese": "レンガ工場",
-"russian": "Кирпичный завод"
+"korean": "벽돌 공장"
 }
 },
 {
@@ -703,18 +711,18 @@
 "icon": "icon_wooden_planks.png",
 "locaText": {
 "brazilian": "Sawmill",
-"portuguese": "Sawmill",
-"chinese": "锯木厂",
 "taiwanese": "鋸木廠",
+"italian": "Segheria",
+"portuguese": "Sawmill",
+"spanish": "Serrería",
+"chinese": "锯木厂",
 "english": "Sawmill",
 "french": "Scierie",
-"italian": "Segheria",
-"spanish": "Serrería",
 "polish": "Tartak",
-"korean": "제재소",
+"russian": "Лесопилка",
 "german": "Sägewerk",
 "japanese": "製材所",
-"russian": "Лесопилка"
+"korean": "제재소"
 }
 },
 {
@@ -755,18 +763,18 @@
 "icon": "icon_fur_coats.png",
 "locaText": {
 "brazilian": "Fur Dealer",
-"portuguese": "Fur Dealer",
-"chinese": "皮草贸易商",
 "taiwanese": "皮草貿易商",
+"italian": "Mercante di pellicce",
+"portuguese": "Fur Dealer",
+"spanish": "Tratante de pieles",
+"chinese": "皮草贸易商",
 "english": "Fur Dealer",
 "french": "Pelleterie",
-"italian": "Mercante di pellicce",
-"spanish": "Tratante de pieles",
 "polish": "Zakład futrzarski",
-"korean": "모피상",
+"russian": "Меховщик",
 "german": "Schneiderei",
 "japanese": "毛皮商",
-"russian": "Меховщик"
+"korean": "모피상"
 }
 },
 {
@@ -807,18 +815,18 @@
 "icon": "icon_light_bulb.png",
 "locaText": {
 "brazilian": "Light Bulb Factory",
-"portuguese": "Light Bulb Factory",
-"chinese": "灯泡工厂",
 "taiwanese": "燈泡工廠",
+"italian": "Fattoria di lampadine",
+"portuguese": "Light Bulb Factory",
+"spanish": "Fábrica de bombillas",
+"chinese": "灯泡工厂",
 "english": "Light Bulb Factory",
 "french": "Usine d'ampoules",
-"italian": "Fattoria di lampadine",
-"spanish": "Fábrica de bombillas",
 "polish": "Fabryka żarówek",
-"korean": "전구 공장",
+"russian": "Электроламповый завод",
 "german": "Glühbirnenfabrik",
 "japanese": "電球工場",
-"russian": "Электроламповый завод"
+"korean": "전구 공장"
 }
 },
 {
@@ -859,18 +867,18 @@
 "icon": "icon_glass_window_3.png",
 "locaText": {
 "brazilian": "Window-Makers",
-"portuguese": "Window-Makers",
-"chinese": "窗户制造厂",
 "taiwanese": "窗戶製造廠",
+"italian": "Produttori di finestre",
+"portuguese": "Window-Makers",
+"spanish": "Fabricante de ventanas",
+"chinese": "窗户制造厂",
 "english": "Window Makers",
 "french": "Vitrerie",
-"italian": "Produttori di finestre",
-"spanish": "Fabricante de ventanas",
 "polish": "Wytwórnia okien",
-"korean": "창문 공장",
+"russian": "Оконная фабрика",
 "german": "Fensterfabrik",
 "japanese": "窓製造所",
-"russian": "Оконная фабрика"
+"korean": "창문 공장"
 }
 },
 {
@@ -906,18 +914,18 @@
 "icon": "icon_sail.png",
 "locaText": {
 "brazilian": "Sailmakers",
-"portuguese": "Sailmakers",
-"chinese": "船帆制造厂",
 "taiwanese": "船帆製造廠",
+"italian": "Velai",
+"portuguese": "Sailmakers",
+"spanish": "Fabricante de velas",
+"chinese": "船帆制造厂",
 "english": "Sailmakers",
 "french": "Voilerie",
-"italian": "Velai",
-"spanish": "Fabricante de velas",
 "polish": "Żaglomistrz",
-"korean": "돛 제작소",
+"russian": "Парусная фабрика",
 "german": "Segelweberei",
 "japanese": "帆布工場",
-"russian": "Парусная фабрика"
+"korean": "돛 제작소"
 }
 },
 {
@@ -946,18 +954,18 @@
 "icon": "icon_clay.png",
 "locaText": {
 "brazilian": "Clay Pit",
-"portuguese": "Clay Pit",
-"chinese": "陶土矿场",
 "taiwanese": "陶土礦場",
+"italian": "Cava di argilla",
+"portuguese": "Clay Pit",
+"spanish": "Cantera de arcilla",
+"chinese": "陶土矿场",
 "english": "Clay Pit",
 "french": "Carrière d'argile",
-"italian": "Cava di argilla",
-"spanish": "Cantera de arcilla",
 "polish": "Wyrobisko gliny",
-"korean": "점토 채취장",
+"russian": "Глиняный карьер",
 "german": "Lehmgrube",
 "japanese": "粘土穴",
-"russian": "Глиняный карьер"
+"korean": "점토 채취장"
 }
 },
 {
@@ -998,18 +1006,18 @@
 "icon": "icon_chassis.png",
 "locaText": {
 "brazilian": "Coachmakers",
-"portuguese": "Coachmakers",
-"chinese": "车辆制造厂",
 "taiwanese": "車輛製造廠",
+"italian": "Carrozzai",
+"portuguese": "Coachmakers",
+"spanish": "Fábrica de carros",
+"chinese": "车辆制造厂",
 "english": "Coachmakers",
 "french": "Carrossier",
-"italian": "Carrozzai",
-"spanish": "Fábrica de carros",
 "polish": "Fabryka podwozi",
-"korean": "마차 제작소",
-"german": "Kutschen-Werkhalle",
+"russian": "Каретная мастерская",
+"german": "Kutschen-​Werkhalle",
 "japanese": "客車工場",
-"russian": "Каретная мастерская"
+"korean": "마차 제작소"
 }
 },
 {
@@ -1045,18 +1053,18 @@
 "icon": "icon_bread.png",
 "locaText": {
 "brazilian": "Bakery",
-"portuguese": "Bakery",
-"chinese": "面包店",
 "taiwanese": "麵包店",
+"italian": "Panificio",
+"portuguese": "Bakery",
+"spanish": "Panadería",
+"chinese": "面包店",
 "english": "Bakery",
 "french": "Boulangerie",
-"italian": "Panificio",
-"spanish": "Panadería",
 "polish": "Piekarnia",
-"korean": "제빵소",
+"russian": "Пекарня",
 "german": "Bäckerei",
 "japanese": "パン屋",
-"russian": "Пекарня"
+"korean": "제빵소"
 }
 },
 {
@@ -1097,18 +1105,18 @@
 "icon": "icon_beer.png",
 "locaText": {
 "brazilian": "Brewery",
-"portuguese": "Brewery",
-"chinese": "酿酒厂",
 "taiwanese": "釀酒廠",
+"italian": "Birrificio",
+"portuguese": "Brewery",
+"spanish": "Cervecería",
+"chinese": "酿酒厂",
 "english": "Brewery",
 "french": "Brasserie",
-"italian": "Birrificio",
-"spanish": "Cervecería",
 "polish": "Browar",
-"korean": "양조장",
+"russian": "Пивоварня",
 "german": "Brauerei",
 "japanese": "醸造所",
-"russian": "Пивоварня"
+"korean": "양조장"
 }
 },
 {
@@ -1149,18 +1157,18 @@
 "icon": "icon_goulash_01.png",
 "locaText": {
 "brazilian": "Artisanal Kitchen",
-"portuguese": "Artisanal Kitchen",
-"chinese": "工匠厨房",
 "taiwanese": "工匠廚房",
+"italian": "Cucina artigianale",
+"portuguese": "Artisanal Kitchen",
+"spanish": "Cocina artesanal",
+"chinese": "工匠厨房",
 "english": "Artisanal Kitchen",
 "french": "Cuisine artisanale",
-"italian": "Cucina artigianale",
-"spanish": "Cocina artesanal",
 "polish": "Kuchnia tradycyjna",
-"korean": "직공 주방",
+"russian": "Кухня",
 "german": "Großküche",
 "japanese": "職人キッチン",
-"russian": "Кухня"
+"korean": "직공 주방"
 }
 },
 {
@@ -1201,18 +1209,18 @@
 "icon": "icon_canned_goulash.png",
 "locaText": {
 "brazilian": "Cannery",
-"portuguese": "Cannery",
-"chinese": "罐头工厂",
 "taiwanese": "罐頭工廠",
+"italian": "Conservificio",
+"portuguese": "Cannery",
+"spanish": "Fábrica de conservas",
+"chinese": "罐头工厂",
 "english": "Cannery",
 "french": "Conserverie",
-"italian": "Conservificio",
-"spanish": "Fábrica de conservas",
 "polish": "Fabryka konserw",
-"korean": "통조림 공장",
+"russian": "Консервный завод",
 "german": "Konservenfabrik",
 "japanese": "缶詰工場",
-"russian": "Консервный завод"
+"korean": "통조림 공장"
 }
 },
 {
@@ -1248,18 +1256,18 @@
 "icon": "icon_schnapps_4.png",
 "locaText": {
 "brazilian": "Schnapps Distillery",
-"portuguese": "Schnapps Distillery",
-"chinese": "烈酒酿酒厂",
 "taiwanese": "烈酒釀酒廠",
+"italian": "Distilleria di liquori",
+"portuguese": "Schnapps Distillery",
+"spanish": "Destilería de licor",
+"chinese": "烈酒酿酒厂",
 "english": "Schnapps Distillery",
 "french": "Distillerie",
-"italian": "Distilleria di liquori",
-"spanish": "Destilería de licor",
 "polish": "Gorzelnia",
-"korean": "슈냅스 양조장",
+"russian": "Винокурня",
 "german": "Schnapsbrennerei",
 "japanese": "アルコール蒸留所",
-"russian": "Винокурня"
+"korean": "슈냅스 양조장"
 }
 },
 {
@@ -1295,18 +1303,18 @@
 "icon": "icon_meat_sausage.png",
 "locaText": {
 "brazilian": "Butcher's",
-"portuguese": "Butcher's",
-"chinese": "肉铺",
 "taiwanese": "肉鋪",
+"italian": "Macelleria",
+"portuguese": "Butcher's",
+"spanish": "Carnicería",
+"chinese": "肉铺",
 "english": "Slaughterhouse",
 "french": "Boucherie",
-"italian": "Macelleria",
-"spanish": "Carnicería",
 "polish": "Rzeźnik",
-"korean": "도축장",
+"russian": "Мясная лавка",
 "german": "Metzgerei",
 "japanese": "肉屋",
-"russian": "Мясная лавка"
+"korean": "도축장"
 }
 },
 {
@@ -1347,18 +1355,18 @@
 "icon": "icon_champagne.png",
 "locaText": {
 "brazilian": "Champagne Cellar",
-"portuguese": "Champagne Cellar",
-"chinese": "香槟酒厂",
 "taiwanese": "香檳酒廠",
+"italian": "Cantina di champagne",
+"portuguese": "Champagne Cellar",
+"spanish": "Bodega de champán",
+"chinese": "香槟酒厂",
 "english": "Champagne Cellar",
 "french": "Cave à champagne",
-"italian": "Cantina di champagne",
-"spanish": "Bodega de champán",
 "polish": "Wytwórnia szampana",
-"korean": "샴페인 저장고",
+"russian": "Завод игристых вин",
 "german": "Sektkellerei",
 "japanese": "シャンパン醸造所",
-"russian": "Завод игристых вин"
+"korean": "샴페인 저장고"
 }
 },
 {
@@ -1394,18 +1402,18 @@
 "icon": "icon_beams.png",
 "locaText": {
 "brazilian": "Steelworks",
-"portuguese": "Steelworks",
-"chinese": "炼钢厂",
 "taiwanese": "煉鋼廠",
+"italian": "Acciaieria",
+"portuguese": "Steelworks",
+"spanish": "Acerería",
+"chinese": "炼钢厂",
 "english": "Steelworks",
 "french": "Aciérie",
-"italian": "Acciaieria",
-"spanish": "Acerería",
 "polish": "Stalownia",
-"korean": "제강소",
+"russian": "Сталелитейный завод",
 "german": "Stahlwerk",
 "japanese": "鉄工所",
-"russian": "Сталелитейный завод"
+"korean": "제강소"
 }
 },
 {
@@ -1446,18 +1454,18 @@
 "icon": "icon_steel.png",
 "locaText": {
 "brazilian": "Furnace",
-"portuguese": "Furnace",
-"chinese": "高炉",
 "taiwanese": "高爐",
+"italian": "Fornace",
+"portuguese": "Furnace",
+"spanish": "Alto horno",
+"chinese": "高炉",
 "english": "Furnace",
 "french": "Fourneau",
-"italian": "Fornace",
-"spanish": "Alto horno",
 "polish": "Piec hutniczy",
-"korean": "제철소",
+"russian": "Плавильня",
 "german": "Hochofen",
 "japanese": "溶鉱炉",
-"russian": "Плавильня"
+"korean": "제철소"
 }
 },
 {
@@ -1487,18 +1495,18 @@
 "icon": "icon_coal_burn.png",
 "locaText": {
 "brazilian": "Charcoal Kiln",
-"portuguese": "Charcoal Kiln",
-"chinese": "炭窑",
 "taiwanese": "炭窯",
+"italian": "Forno a carbone",
+"portuguese": "Charcoal Kiln",
+"spanish": "Horno de carbonización",
+"chinese": "炭窑",
 "english": "Charcoal Kiln",
 "french": "Charbonnière",
-"italian": "Forno a carbone",
-"spanish": "Horno de carbonización",
 "polish": "Mielerz",
-"korean": "숯가마",
+"russian": "Угольная печь",
 "german": "Köhlerei",
 "japanese": "木炭窯",
-"russian": "Угольная печь"
+"korean": "숯가마"
 }
 },
 {
@@ -1534,18 +1542,18 @@
 "icon": "icon_weapons.png",
 "locaText": {
 "brazilian": "Weapon Factory",
-"portuguese": "Weapon Factory",
-"chinese": "武器工厂",
 "taiwanese": "武器工廠",
+"italian": "Fabbrica di armi",
+"portuguese": "Weapon Factory",
+"spanish": "Fábrica de armas",
+"chinese": "武器工厂",
 "english": "Weapon Factory",
 "french": "Usine d'armements",
-"italian": "Fabbrica di armi",
-"spanish": "Fábrica de armas",
 "polish": "Fabryka broni",
-"korean": "무기 공장",
+"russian": "Оружейный завод",
 "german": "Kanonengießerei",
 "japanese": "武器工場",
-"russian": "Оружейный завод"
+"korean": "무기 공장"
 }
 },
 {
@@ -1586,18 +1594,18 @@
 "icon": "icon_advanced_weaponry.png",
 "locaText": {
 "brazilian": "Heavy Weapons Factory",
-"portuguese": "Heavy Weapons Factory",
-"chinese": "重兵器工厂",
 "taiwanese": "重兵器工廠",
+"italian": "Fabbrica di armi pesanti",
+"portuguese": "Heavy Weapons Factory",
+"spanish": "Fábrica de armas pesadas",
+"chinese": "重兵器工厂",
 "english": "Heavy Weapons Factory",
 "french": "Usine d'armements lourds",
-"italian": "Fabbrica di armi pesanti",
-"spanish": "Fábrica de armas pesadas",
 "polish": "Fabryka broni ciężkiej",
-"korean": "중화기 공장",
+"russian": "Завод тяжелого вооружения",
 "german": "Geschützfabrik",
 "japanese": "重火器工場",
-"russian": "Завод тяжелого вооружения"
+"korean": "중화기 공장"
 }
 },
 {
@@ -1638,18 +1646,18 @@
 "icon": "icon_steam_machine.png",
 "locaText": {
 "brazilian": "Motor Assembly Line",
+"taiwanese": "蒸汽機生產線",
+"italian": "Catena di montaggio automobilistica",
 "portuguese": "Motor Assembly Line",
-"chinese": "马达生产线",
-"taiwanese": "馬達生產線",
+"spanish": "Fábrica de motores",
+"chinese": "蒸汽机生产线",
 "english": "Motor Assembly Line",
 "french": "Usine de moteurs",
-"italian": "Catena di montaggio automobilistica",
-"spanish": "Fábrica de motores",
 "polish": "Linia montażowa silników",
-"korean": "전동기 공장",
+"russian": "Линия сборки двигателей",
 "german": "Motorenfabrik",
 "japanese": "モーター組み立てライン",
-"russian": "Линия сборки двигателей"
+"korean": "전동기 공장"
 }
 },
 {
@@ -1690,18 +1698,18 @@
 "icon": "icon_steam_carriage.png",
 "locaText": {
 "brazilian": "Cab Assembly Line",
-"portuguese": "Cab Assembly Line",
-"chinese": "汽车生产线",
 "taiwanese": "汽車生產線",
+"italian": "Catena di montaggio carrozze",
+"portuguese": "Cab Assembly Line",
+"spanish": "Fábrica de coches",
+"chinese": "汽车生产线",
 "english": "Cab Assembly Line",
 "french": "Usine d'automobiles à vapeur",
-"italian": "Catena di montaggio carrozze",
-"spanish": "Fábrica de coches",
 "polish": "Linia montażowa nadwozi",
-"korean": "자동차 공장",
+"russian": "Линия сборки парового транспорта",
 "german": "Dampfwagenfabrik",
 "japanese": "馬車組み立てライン",
-"russian": "Линия сборки парового транспорта"
+"korean": "자동차 공장"
 }
 },
 {
@@ -1742,18 +1750,18 @@
 "icon": "icon_brass.png",
 "locaText": {
 "brazilian": "Brass Smeltery",
-"portuguese": "Brass Smeltery",
-"chinese": "黄铜冶炼厂",
 "taiwanese": "黃銅冶煉廠",
+"italian": "Fonderia di ottone",
+"portuguese": "Brass Smeltery",
+"spanish": "Fundición de latón",
+"chinese": "黄铜冶炼厂",
 "english": "Brass Smeltery",
 "french": "Fonderie de laiton",
-"italian": "Fonderia di ottone",
-"spanish": "Fundición de latón",
 "polish": "Odlewnia mosiądzu",
-"korean": "황동 제작소",
+"russian": "Плавильня латуни",
 "german": "Messinghütte",
 "japanese": "真鍮精錬所",
-"russian": "Плавильня латуни"
+"korean": "황동 제작소"
 }
 },
 {
@@ -1782,18 +1790,18 @@
 "icon": "icon_oil.png",
 "locaText": {
 "brazilian": "Oil Refinery",
-"portuguese": "Oil Refinery",
-"chinese": "炼油厂",
 "taiwanese": "煉油廠",
+"italian": "Raffineria petrolifera",
+"portuguese": "Oil Refinery",
+"spanish": "Refinería de petróleo",
+"chinese": "炼油厂",
 "english": "Oil Refinery",
 "french": "Raffinerie de pétrole",
-"italian": "Raffineria petrolifera",
-"spanish": "Refinería de petróleo",
 "polish": "Rafineria",
-"korean": "정유 공장",
+"russian": "Нефтяной завод",
 "german": "Ölraffinerie",
 "japanese": "石油精製所",
-"russian": "Нефтяной завод"
+"korean": "정유 공장"
 }
 },
 {
@@ -1819,21 +1827,21 @@
 }
 ],
 "region": 5000000,
-"icon": "icon_coal.png",
+"icon": "icon_coal_2.png",
 "locaText": {
 "brazilian": "Coal Mine",
-"portuguese": "Coal Mine",
-"chinese": "煤矿",
 "taiwanese": "煤礦",
+"italian": "Miniera di carbone",
+"portuguese": "Coal Mine",
+"spanish": "Mina de carbón",
+"chinese": "煤矿",
 "english": "Coal Mine",
 "french": "Mine de charbon",
-"italian": "Miniera di carbone",
-"spanish": "Mina de carbón",
 "polish": "Kopalnia węgla",
-"korean": "석탄 광산",
+"russian": "Угольная шахта",
 "german": "Kohlemine",
 "japanese": "炭鉱",
-"russian": "Угольная шахта"
+"korean": "석탄 광산"
 }
 },
 {
@@ -1862,18 +1870,18 @@
 "icon": "icon_iron.png",
 "locaText": {
 "brazilian": "Iron Mine",
-"portuguese": "Iron Mine",
-"chinese": "铁矿",
 "taiwanese": "鐵礦",
+"italian": "Miniera di ferro",
+"portuguese": "Iron Mine",
+"spanish": "Mina de hierro",
+"chinese": "铁矿",
 "english": "Iron Mine",
 "french": "Mine de fer",
-"italian": "Miniera di ferro",
-"spanish": "Mina de hierro",
 "polish": "Kopalnia żelaza",
-"korean": "철광산",
+"russian": "Железный рудник",
 "german": "Eisenmine",
 "japanese": "鉄鉱",
-"russian": "Железный рудник"
+"korean": "철광산"
 }
 },
 {
@@ -1902,18 +1910,18 @@
 "icon": "icon_tin_ore.png",
 "locaText": {
 "brazilian": "Zinc Mine",
-"portuguese": "Zinc Mine",
-"chinese": "锌矿",
 "taiwanese": "鋅礦",
+"italian": "Miniera di zinco",
+"portuguese": "Zinc Mine",
+"spanish": "Mina de zinc",
+"chinese": "锌矿",
 "english": "Zinc Mine",
 "french": "Mine de zinc",
-"italian": "Miniera di zinco",
-"spanish": "Mina de zinc",
 "polish": "Kopalnia cynku",
-"korean": "아연 광산",
+"russian": "Цинковый рудник",
 "german": "Zinkmine",
 "japanese": "亜鉛鉱",
-"russian": "Цинковый рудник"
+"korean": "아연 광산"
 }
 },
 {
@@ -1942,18 +1950,18 @@
 "icon": "icon_copper.png",
 "locaText": {
 "brazilian": "Copper Mine",
-"portuguese": "Copper Mine",
-"chinese": "铜矿",
 "taiwanese": "銅礦",
+"italian": "Miniera di rame",
+"portuguese": "Copper Mine",
+"spanish": "Mina de cobre",
+"chinese": "铜矿",
 "english": "Copper Mine",
 "french": "Mine de cuivre",
-"italian": "Miniera di rame",
-"spanish": "Mina de cobre",
 "polish": "Kopalnia miedzi",
-"korean": "구리 광산",
+"russian": "Медный рудник",
 "german": "Kupfermine",
 "japanese": "銅鉱",
-"russian": "Медный рудник"
+"korean": "구리 광산"
 }
 },
 {
@@ -1982,18 +1990,18 @@
 "icon": "icon_cement.png",
 "locaText": {
 "brazilian": "Limestone Quarry",
-"portuguese": "Limestone Quarry",
-"chinese": "石灰岩矿场",
 "taiwanese": "石灰岩礦場",
+"italian": "Giacimento di calcare",
+"portuguese": "Limestone Quarry",
+"spanish": "Cantera de caliza",
+"chinese": "石灰岩矿场",
 "english": "Limestone Quarry",
 "french": "Carrière de calcaire",
-"italian": "Giacimento di calcare",
-"spanish": "Cantera de caliza",
 "polish": "Kopalnia wapienia",
-"korean": "석회석 광산",
+"russian": "Известняковый карьер",
 "german": "Zementmine",
 "japanese": "石灰岩の採石場",
-"russian": "Известняковый карьер"
+"korean": "석회석 광산"
 }
 },
 {
@@ -2029,18 +2037,18 @@
 "icon": "icon_tallow.png",
 "locaText": {
 "brazilian": "Rendering Works",
-"portuguese": "Rendering Works",
-"chinese": "精炼工作坊",
 "taiwanese": "精煉工作坊",
+"italian": "Scorticatoio",
+"portuguese": "Rendering Works",
+"spanish": "Extractor de grasa",
+"chinese": "精炼工作坊",
 "english": "Rendering Works",
 "french": "Fonderie de suif",
-"italian": "Scorticatoio",
-"spanish": "Extractor de grasa",
 "polish": "Wytwórnia łoju",
-"korean": "축산 가공장",
+"russian": "Салотопный завод",
 "german": "Wasenmeisterei",
 "japanese": "獣脂加工所",
-"russian": "Салотопный завод"
+"korean": "축산 가공장"
 }
 },
 {
@@ -2076,18 +2084,18 @@
 "icon": "icon_flour.png",
 "locaText": {
 "brazilian": "Flour Mill",
-"portuguese": "Flour Mill",
-"chinese": "磨坊",
 "taiwanese": "磨坊",
+"italian": "Mulino",
+"portuguese": "Flour Mill",
+"spanish": "Molino de harina",
+"chinese": "磨坊",
 "english": "Flour Mill",
 "french": "Moulin",
-"italian": "Mulino",
-"spanish": "Molino de harina",
 "polish": "Wiatrak",
-"korean": "제분소",
+"russian": "Мельница",
 "german": "Mühle",
 "japanese": "製粉所",
-"russian": "Мельница"
+"korean": "제분소"
 }
 },
 {
@@ -2123,18 +2131,18 @@
 "icon": "icon_malt.png",
 "locaText": {
 "brazilian": "Malthouse",
-"portuguese": "Malthouse",
-"chinese": "麦芽加工厂",
 "taiwanese": "麥芽加工廠",
+"italian": "Malteria",
+"portuguese": "Malthouse",
+"spanish": "Maltería",
+"chinese": "麦芽加工厂",
 "english": "Malthouse",
 "french": "Malterie",
-"italian": "Malteria",
-"spanish": "Maltería",
 "polish": "Słodownia",
-"korean": "맥아 저장고",
+"russian": "Солодильня",
 "german": "Mälzerei",
 "japanese": "麦芽製造所",
-"russian": "Солодильня"
+"korean": "맥아 저장고"
 }
 },
 {
@@ -2170,18 +2178,18 @@
 "icon": "icon_working_cloth.png",
 "locaText": {
 "brazilian": "Framework Knitters",
-"portuguese": "Framework Knitters",
-"chinese": "纺织工厂",
 "taiwanese": "紡織工廠",
+"italian": "Maglieriste",
+"portuguese": "Framework Knitters",
+"spanish": "Telar de marco",
+"chinese": "纺织工厂",
 "english": "Framework Knitters",
 "french": "Filature",
-"italian": "Maglieriste",
-"spanish": "Telar de marco",
 "polish": "Szwalnia",
-"korean": "편물 공장",
+"russian": "Ткацкая мастерская",
 "german": "Weberei",
 "japanese": "織物工場",
-"russian": "Ткацкая мастерская"
+"korean": "편물 공장"
 }
 },
 {
@@ -2222,18 +2230,18 @@
 "icon": "icon_dynamite.png",
 "locaText": {
 "brazilian": "Dynamite Factory",
-"portuguese": "Dynamite Factory",
-"chinese": "炸药工厂",
 "taiwanese": "炸藥工廠",
+"italian": "Fabbrica di dinamite",
+"portuguese": "Dynamite Factory",
+"spanish": "Fábrica de dinamita",
+"chinese": "炸药工厂",
 "english": "Dynamite Factory",
 "french": "Usine de dynamite",
-"italian": "Fabbrica di dinamite",
-"spanish": "Fábrica de dinamita",
 "polish": "Fabryka dynamitu",
-"korean": "다이너마이트 공장",
+"russian": "Фабрика динамита",
 "german": "Dynamitfabrik",
 "japanese": "ダイナマイト工場",
-"russian": "Фабрика динамита"
+"korean": "다이너마이트 공장"
 }
 },
 {
@@ -2269,18 +2277,18 @@
 "icon": "icon_glass.png",
 "locaText": {
 "brazilian": "Glassmakers",
-"portuguese": "Glassmakers",
-"chinese": "玻璃制造厂",
 "taiwanese": "玻璃製造廠",
+"italian": "Vetrai",
+"portuguese": "Glassmakers",
+"spanish": "Cristalero",
+"chinese": "玻璃制造厂",
 "english": "Glassmakers",
 "french": "Verrerie",
-"italian": "Vetrai",
-"spanish": "Cristalero",
 "polish": "Huta szkła",
-"korean": "유리 제조소",
+"russian": "Стекольная фабрика",
 "german": "Glashütte",
 "japanese": "ガラス工場",
-"russian": "Стекольная фабрика"
+"korean": "유리 제조소"
 }
 },
 {
@@ -2316,18 +2324,18 @@
 "icon": "icon_inlay.png",
 "locaText": {
 "brazilian": "Marquetry Workshop",
-"portuguese": "Marquetry Workshop",
-"chinese": "镶嵌工作坊",
 "taiwanese": "鑲嵌工作坊",
+"italian": "Laboratorio di intarsi",
+"portuguese": "Marquetry Workshop",
+"spanish": "Taller de marquetería",
+"chinese": "镶嵌工作坊",
 "english": "Marquetry Workshop",
 "french": "Atelier de marqueterie",
-"italian": "Laboratorio di intarsi",
-"spanish": "Taller de marquetería",
 "polish": "Zakład snycerski",
-"korean": "고급 가구 제작소",
+"russian": "Завод по обработке дерева",
 "german": "Kunstschreinerei",
 "japanese": "寄せ木工房",
-"russian": "Завод по обработке дерева"
+"korean": "고급 가구 제작소"
 }
 },
 {
@@ -2363,18 +2371,18 @@
 "icon": "icon_carbon_filament.png",
 "locaText": {
 "brazilian": "Filament Factory",
-"portuguese": "Filament Factory",
-"chinese": "灯丝工厂",
 "taiwanese": "燈絲工廠",
+"italian": "Fabbrica di filati",
+"portuguese": "Filament Factory",
+"spanish": "Fábrica de filamentos",
+"chinese": "灯丝工厂",
 "english": "Filament Factory",
 "french": "Usine de filaments",
-"italian": "Fabbrica di filati",
-"spanish": "Fábrica de filamentos",
 "polish": "Fabryka żarników",
-"korean": "필라멘트 공장",
+"russian": "Завод нитей накала",
 "german": "Glühfadenfabrik",
 "japanese": "フィラメント工場",
-"russian": "Завод нитей накала"
+"korean": "필라멘트 공장"
 }
 },
 {
@@ -2415,18 +2423,18 @@
 "icon": "icon_high_wheeler.png",
 "locaText": {
 "brazilian": "Bicycle Factory",
-"portuguese": "Bicycle Factory",
-"chinese": "脚踏车工厂",
 "taiwanese": "腳踏車工廠",
+"italian": "Fabbrica di biciclette",
+"portuguese": "Bicycle Factory",
+"spanish": "Fábrica de bicicletas",
+"chinese": "脚踏车工厂",
 "english": "Bicycle Factory",
 "french": "Usine de grands-bis",
-"italian": "Fabbrica di biciclette",
-"spanish": "Fábrica de bicicletas",
 "polish": "Fabryka bicykli",
-"korean": "자전거 공장",
-"german": "Hochrad-Werkhalle",
+"russian": "Фабрика велосипедов",
+"german": "Hochrad-​Werkhalle",
 "japanese": "自転車工場",
-"russian": "Фабрика велосипедов"
+"korean": "자전거 공장"
 }
 },
 {
@@ -2467,18 +2475,18 @@
 "icon": "icon_pocket_watch.png",
 "locaText": {
 "brazilian": "Clockmakers",
-"portuguese": "Clockmakers",
-"chinese": "钟表匠",
 "taiwanese": "鐘錶匠",
+"italian": "Orologiai",
+"portuguese": "Clockmakers",
+"spanish": "Relojero",
+"chinese": "钟表匠",
 "english": "Clockmakers",
 "french": "Horlogerie",
-"italian": "Orologiai",
-"spanish": "Relojero",
 "polish": "Wytwórnia zegarów",
-"korean": "시계 제작소",
+"russian": "Часовщики",
 "german": "Uhrenwerkstatt",
 "japanese": "時計職人",
-"russian": "Часовщики"
+"korean": "시계 제작소"
 }
 },
 {
@@ -2519,18 +2527,18 @@
 "icon": "icon_sewing_machine.png",
 "locaText": {
 "brazilian": "Sewing Machine Factory",
-"portuguese": "Sewing Machine Factory",
-"chinese": "缝纫机器工厂",
 "taiwanese": "縫紉機器工廠",
+"italian": "Fabbrica di macchine da cucire",
+"portuguese": "Sewing Machine Factory",
+"spanish": "Fábrica de máquinas de costura",
+"chinese": "缝纫机器工厂",
 "english": "Sewing Machine Factory",
 "french": "Usine de machines à coudre",
-"italian": "Fabbrica di macchine da cucire",
-"spanish": "Fábrica de máquinas de costura",
 "polish": "Fabryka maszyn do szycia",
-"korean": "재봉틀 공장",
+"russian": "Фабрика швейных машин",
 "german": "Nähmaschinenfabrik",
 "japanese": "ミシン工場",
-"russian": "Фабрика швейных машин"
+"korean": "재봉틀 공장"
 }
 },
 {
@@ -2571,18 +2579,18 @@
 "icon": "icon_phonographs.png",
 "locaText": {
 "brazilian": "Gramophone Factory",
-"portuguese": "Gramophone Factory",
-"chinese": "留声机工厂",
 "taiwanese": "留聲機工廠",
+"italian": "Fabbrica di grammofoni",
+"portuguese": "Gramophone Factory",
+"spanish": "Fábrica de gramófonos",
+"chinese": "留声机工厂",
 "english": "Gramophone Factory",
 "french": "Usine de gramophones",
-"italian": "Fabbrica di grammofoni",
-"spanish": "Fábrica de gramófonos",
 "polish": "Fabryka gramofonów",
-"korean": "축음기 공장",
+"russian": "Фабрика граммофонов",
 "german": "Phonographenfabrik",
 "japanese": "蓄音機工場",
-"russian": "Фабрика граммофонов"
+"korean": "축음기 공장"
 }
 },
 {
@@ -2623,18 +2631,18 @@
 "icon": "icon_gold.png",
 "locaText": {
 "brazilian": "Goldsmiths",
-"portuguese": "Goldsmiths",
-"chinese": "金匠",
 "taiwanese": "金匠",
+"italian": "Orafi",
+"portuguese": "Goldsmiths",
+"spanish": "Orfebre",
+"chinese": "金匠",
 "english": "Goldsmiths",
 "french": "Orfèvrerie",
-"italian": "Orafi",
-"spanish": "Orfebre",
 "polish": "Warsztat złotnika",
-"korean": "금 세공소",
+"russian": "Плавильня золота",
 "german": "Goldschmelze",
 "japanese": "金細工工房",
-"russian": "Плавильня золота"
+"korean": "금 세공소"
 }
 },
 {
@@ -2675,18 +2683,18 @@
 "icon": "icon_jewelry.png",
 "locaText": {
 "brazilian": "Jewellers",
-"portuguese": "Jewellers",
-"chinese": "珠宝商",
 "taiwanese": "珠寶商",
+"italian": "Gioiellieri",
+"portuguese": "Jewellers",
+"spanish": "Joyero",
+"chinese": "珠宝商",
 "english": "Jewellers",
 "french": "Joaillerie",
-"italian": "Gioiellieri",
-"spanish": "Joyero",
 "polish": "Warsztat jubilera",
-"korean": "귀금속 세공소",
+"russian": "Ювелирная мастерская",
 "german": "Goldschmiede",
 "japanese": "宝石商",
-"russian": "Ювелирная мастерская"
+"korean": "귀금속 세공소"
 }
 },
 {
@@ -2727,18 +2735,18 @@
 "icon": "icon_glasses.png",
 "locaText": {
 "brazilian": "Spectacle Factory",
-"portuguese": "Spectacle Factory",
-"chinese": "眼镜工厂",
 "taiwanese": "眼鏡工廠",
+"italian": "Fabbrica di occhiali",
+"portuguese": "Spectacle Factory",
+"spanish": "Fábrica de gafas",
+"chinese": "眼镜工厂",
 "english": "Spectacle Factory",
 "french": "Usine de lunettes",
-"italian": "Fabbrica di occhiali",
-"spanish": "Fábrica de gafas",
 "polish": "Fabryka okularów",
-"korean": "안경 공장",
+"russian": "Оптическая мастерская",
 "german": "Brillenfabrik",
 "japanese": "眼鏡工場",
-"russian": "Оптическая мастерская"
+"korean": "안경 공장"
 }
 },
 {
@@ -2763,22 +2771,23 @@
 "Amount": 10
 }
 ],
+"module": 269849,
 "region": 5000001,
 "icon": "icon_cane_sugar_1.png",
 "locaText": {
 "brazilian": "Sugar Cane Plantation",
-"portuguese": "Sugar Cane Plantation",
-"chinese": "甘蔗园",
 "taiwanese": "甘蔗園",
+"italian": "Piantagione di canne da zucchero",
+"portuguese": "Sugar Cane Plantation",
+"spanish": "Plantación de caña de azúcar",
+"chinese": "甘蔗园",
 "english": "Sugar Cane Plantation",
 "french": "Plantation de canne à sucre",
-"italian": "Piantagione di canne da zucchero",
-"spanish": "Plantación de caña de azúcar",
 "polish": "Plantacja trzciny cukrowej",
-"korean": "사탕수수 농장",
+"russian": "Плантация тростника",
 "german": "Zuckerrohrplantage",
 "japanese": "さとうきび農園",
-"russian": "Плантация тростника"
+"korean": "사탕수수 농장"
 }
 },
 {
@@ -2803,22 +2812,23 @@
 "Amount": 10
 }
 ],
+"module": 269848,
 "region": 5000001,
 "icon": "icon_tobacco.png",
 "locaText": {
 "brazilian": "Tobacco Plantation",
-"portuguese": "Tobacco Plantation",
-"chinese": "烟草园",
 "taiwanese": "菸草園",
+"italian": "Piantagione di tabacco",
+"portuguese": "Tobacco Plantation",
+"spanish": "Plantación de tabaco",
+"chinese": "烟草园",
 "english": "Tobacco Plantation",
 "french": "Plantation de tabac",
-"italian": "Piantagione di tabacco",
-"spanish": "Plantación de tabaco",
 "polish": "Plantacja tytoniu",
-"korean": "담배 농장",
+"russian": "Плантация табака",
 "german": "Tabakplantage",
 "japanese": "タバコ農園",
-"russian": "Плантация табака"
+"korean": "담배 농장"
 }
 },
 {
@@ -2843,22 +2853,23 @@
 "Amount": 10
 }
 ],
+"module": 269848,
 "region": 5000001,
 "icon": "icon_cotton.png",
 "locaText": {
 "brazilian": "Cotton Plantation",
-"portuguese": "Cotton Plantation",
-"chinese": "棉花园",
 "taiwanese": "棉花園",
+"italian": "Piantagione di cotone",
+"portuguese": "Cotton Plantation",
+"spanish": "Plantación de algodón",
+"chinese": "棉花园",
 "english": "Cotton Plantation",
 "french": "Plantation de coton",
-"italian": "Piantagione di cotone",
-"spanish": "Plantación de algodón",
 "polish": "Plantacja bawełny",
-"korean": "목화 농장",
+"russian": "Плантация хлопка",
 "german": "Baumwollplantage",
 "japanese": "綿花農園",
-"russian": "Плантация хлопка"
+"korean": "목화 농장"
 }
 },
 {
@@ -2883,22 +2894,23 @@
 "Amount": 10
 }
 ],
+"module": 269848,
 "region": 5000001,
 "icon": "icon_cocoa.png",
 "locaText": {
 "brazilian": "Cocoa Plantation",
-"portuguese": "Cocoa Plantation",
-"chinese": "可可园",
 "taiwanese": "可可園",
+"italian": "Piantagione di cacao",
+"portuguese": "Cocoa Plantation",
+"spanish": "Plantación de cacao",
+"chinese": "可可园",
 "english": "Cocoa Plantation",
 "french": "Plantation de cacao",
-"italian": "Piantagione di cacao",
-"spanish": "Plantación de cacao",
 "polish": "Plantacja kakaowców",
-"korean": "코코아 농장",
+"russian": "Плантация какао",
 "german": "Kakaoplantage",
 "japanese": "ココア農園",
-"russian": "Плантация какао"
+"korean": "코코아 농장"
 }
 },
 {
@@ -2923,22 +2935,23 @@
 "Amount": 10
 }
 ],
+"module": 269848,
 "region": 5000001,
 "icon": "icon_caoutchouc.png",
 "locaText": {
 "brazilian": "Caoutchouc Plantation",
-"portuguese": "Caoutchouc Plantation",
-"chinese": "橡胶园",
 "taiwanese": "橡膠園",
+"italian": "Piantagione di caucciù",
+"portuguese": "Caoutchouc Plantation",
+"spanish": "Plantación de caucho",
+"chinese": "橡胶园",
 "english": "Caoutchouc Plantation",
 "french": "Plantation de latex",
-"italian": "Piantagione di caucciù",
-"spanish": "Plantación de caucho",
 "polish": "Plantacja kauczuku",
-"korean": "생고무 농장",
+"russian": "Плантация каучука",
 "german": "Kautschukplantage",
 "japanese": "天然ゴム農園",
-"russian": "Плантация каучука"
+"korean": "생고무 농장"
 }
 },
 {
@@ -2970,18 +2983,18 @@
 "region": 5000001,
 "locaText": {
 "brazilian": "Lumberjack's Hut",
-"portuguese": "Lumberjack's Hut",
-"chinese": "伐木工人棚屋",
 "taiwanese": "伐木工人棚屋",
+"italian": "Capanno del taglialegna",
+"portuguese": "Lumberjack's Hut",
+"spanish": "Cabaña de leñador",
+"chinese": "伐木工人棚屋",
 "english": "Lumberjack's Hut",
 "french": "Cabane de bûcheron",
-"italian": "Capanno del taglialegna",
-"spanish": "Cabaña de leñador",
 "polish": "Chata drwala",
-"korean": "벌목꾼의 오두막",
+"russian": "Хижина лесоруба",
 "german": "Holzfällerhütte",
 "japanese": "木こりの小屋",
-"russian": "Хижина лесоруба"
+"korean": "벌목꾼의 오두막"
 }
 },
 {
@@ -3006,22 +3019,23 @@
 "Amount": 10
 }
 ],
+"module": 269848,
 "region": 5000001,
 "icon": "icon_coffee_beans.png",
 "locaText": {
 "brazilian": "Coffee Plantation",
-"portuguese": "Coffee Plantation",
-"chinese": "咖啡园",
 "taiwanese": "咖啡園",
+"italian": "Piantagione di caffè",
+"portuguese": "Coffee Plantation",
+"spanish": "Plantación de café",
+"chinese": "咖啡园",
 "english": "Coffee Plantation",
 "french": "Plantation de café",
-"italian": "Piantagione di caffè",
-"spanish": "Plantación de café",
 "polish": "Plantacja kawy",
-"korean": "커피 농장",
+"russian": "Кофейная плантация",
 "german": "Kaffeeplantage",
 "japanese": "コーヒー農園",
-"russian": "Кофейная плантация"
+"korean": "커피 농장"
 }
 },
 {
@@ -3062,22 +3076,23 @@
 "Amount": 10
 }
 ],
+"module": 269848,
 "region": 5000001,
 "icon": "icon_banana.png",
 "locaText": {
 "brazilian": "Banana Plantation",
-"portuguese": "Banana Plantation",
-"chinese": "大蕉园",
 "taiwanese": "大蕉園",
+"italian": "Piantagione di banane",
+"portuguese": "Banana Plantation",
+"spanish": "Plantación de plátanos",
+"chinese": "大蕉园",
 "english": "Plantain Plantation",
 "french": "Plantation de bananes",
-"italian": "Piantagione di banane",
-"spanish": "Plantación de plátanos",
 "polish": "Plantacja bananów",
-"korean": "플랜테인 농장",
+"russian": "Банановая плантация",
 "german": "Bananenplantage",
 "japanese": "バナナ農園",
-"russian": "Банановая плантация"
+"korean": "플랜테인 농장"
 }
 },
 {
@@ -3106,21 +3121,22 @@
 "VectorElement": null
 }
 ],
+"module": 269958,
 "region": 5000001,
 "locaText": {
 "brazilian": "Cattle Farm",
-"portuguese": "Cattle Farm",
-"chinese": "牛牧场",
 "taiwanese": "牛牧場",
+"italian": "Allevamento di bestiame",
+"portuguese": "Cattle Farm",
+"spanish": "Granja vacuna",
+"chinese": "牛牧场",
 "english": "Cattle Farm",
 "french": "Élevage de gros bétail",
-"italian": "Allevamento di bestiame",
-"spanish": "Granja vacuna",
 "polish": "Farma bydła",
-"korean": "가축 농장",
+"russian": "Скотоферма",
 "german": "Rinderfarm",
 "japanese": "牛牧場",
-"russian": "Скотоферма"
+"korean": "가축 농장"
 }
 },
 {
@@ -3145,22 +3161,23 @@
 "Amount": 10
 }
 ],
+"module": 269849,
 "region": 5000001,
 "icon": "icon_corn.png",
 "locaText": {
 "brazilian": "Corn Farm",
-"portuguese": "Corn Farm",
-"chinese": "玉米农场",
 "taiwanese": "玉米農場",
+"italian": "Fattoria di mais",
+"portuguese": "Corn Farm",
+"spanish": "Granja de maíz",
+"chinese": "玉米农场",
 "english": "Corn Farm",
 "french": "Exploitation de maïs",
-"italian": "Fattoria di mais",
-"spanish": "Granja de maíz",
 "polish": "Plantacja kukurydzy",
-"korean": "옥수수 농장",
+"russian": "Кукурузная ферма",
 "german": "Maisplantage",
 "japanese": "トウモロコシ農場",
-"russian": "Кукурузная ферма"
+"korean": "옥수수 농장"
 }
 },
 {
@@ -3185,22 +3202,23 @@
 "Amount": 10
 }
 ],
+"module": 269958,
 "region": 5000001,
 "icon": "icon_alpaca_wool.png",
 "locaText": {
 "brazilian": "Alpaca Farm",
-"portuguese": "Alpaca Farm",
-"chinese": "羊驼牧场",
 "taiwanese": "羊駝牧場",
+"italian": "Fattoria di alpaca",
+"portuguese": "Alpaca Farm",
+"spanish": "Granja de alpacas",
+"chinese": "羊驼牧场",
 "english": "Alpaca Farm",
 "french": "Élevage d'alpagas",
-"italian": "Fattoria di alpaca",
-"spanish": "Granja de alpacas",
 "polish": "Farma alpak",
-"korean": "알파카 농장",
+"russian": "Ферма альпака",
 "german": "Alpakafarm",
 "japanese": "アルパカ牧場",
-"russian": "Ферма альпака"
+"korean": "알파카 농장"
 }
 },
 {
@@ -3229,18 +3247,18 @@
 "icon": "icon_pearls.png",
 "locaText": {
 "brazilian": "Pearl Farm",
-"portuguese": "Pearl Farm",
-"chinese": "珍珠养殖场",
 "taiwanese": "珍珠養殖場",
+"italian": "Allevamento di perle",
+"portuguese": "Pearl Farm",
+"spanish": "Cultivo de perlas",
+"chinese": "珍珠养殖场",
 "english": "Pearl Farm",
 "french": "Ferme perlière",
-"italian": "Allevamento di perle",
-"spanish": "Cultivo de perlas",
 "polish": "Hodowla perłopławów",
-"korean": "진주 양식장",
+"russian": "Жемчужная ферма",
 "german": "Perlenfarm",
 "japanese": "真珠養殖場",
-"russian": "Жемчужная ферма"
+"korean": "진주 양식장"
 }
 },
 {
@@ -3285,18 +3303,18 @@
 "icon": "icon_fishoil.png",
 "locaText": {
 "brazilian": "Fish Oil Factory",
-"portuguese": "Fish Oil Factory",
-"chinese": "鱼油工厂",
 "taiwanese": "魚油工廠",
+"italian": "Fabbrica olio di pesce",
+"portuguese": "Fish Oil Factory",
+"spanish": "Fábrica de aceite de pescado",
+"chinese": "鱼油工厂",
 "english": "Fish Oil Factory",
 "french": "Fabrique d'huile de poisson",
-"italian": "Fabbrica olio di pesce",
-"spanish": "Fábrica de aceite de pescado",
 "polish": "Fabryka tranu",
-"korean": "어유 공장",
+"russian": "Фабрика рыбьего жира",
 "german": "Fischölfabrik",
 "japanese": "漁油工場",
-"russian": "Фабрика рыбьего жира"
+"korean": "어유 공장"
 }
 },
 {
@@ -3327,18 +3345,18 @@
 "region": 5000001,
 "locaText": {
 "brazilian": "Saltpetre Works",
-"portuguese": "Saltpetre Works",
-"chinese": "硝石采石场",
 "taiwanese": "硝石採石場",
+"italian": "Salina",
+"portuguese": "Saltpetre Works",
+"spanish": "Taller de salitre",
+"chinese": "硝石采石场",
 "english": "Saltpetre Works",
 "french": "Salpêtrière",
-"italian": "Salina",
-"spanish": "Taller de salitre",
 "polish": "Wytwórnia saletry",
-"korean": "초석 작업장",
+"russian": "Фабрика селитры",
 "german": "Salpeterwerk",
 "japanese": "硝石の採石場",
-"russian": "Фабрика селитры"
+"korean": "초석 작업장"
 }
 },
 {
@@ -3375,18 +3393,18 @@
 "region": 5000001,
 "locaText": {
 "brazilian": "Sawmill",
-"portuguese": "Sawmill",
-"chinese": "锯木厂",
 "taiwanese": "鋸木廠",
+"italian": "Segheria",
+"portuguese": "Sawmill",
+"spanish": "Serrería",
+"chinese": "锯木厂",
 "english": "Sawmill",
 "french": "Scierie",
-"italian": "Segheria",
-"spanish": "Serrería",
 "polish": "Tartak",
-"korean": "제재소",
+"russian": "Лесопилка",
 "german": "Sägewerk",
 "japanese": "製材所",
-"russian": "Лесопилка"
+"korean": "제재소"
 }
 },
 {
@@ -3424,18 +3442,18 @@
 "region": 5000001,
 "locaText": {
 "brazilian": "Sailmakers",
-"portuguese": "Sailmakers",
-"chinese": "船帆制造厂",
 "taiwanese": "船帆製造廠",
+"italian": "Velai",
+"portuguese": "Sailmakers",
+"spanish": "Fabricante de velas",
+"chinese": "船帆制造厂",
 "english": "Sailmakers",
 "french": "Voilerie",
-"italian": "Velai",
-"spanish": "Fabricante de velas",
 "polish": "Warsztat żaglomistrza",
-"korean": "돛 제작소",
+"russian": "Парусная фабрика",
 "german": "Segelweberei",
 "japanese": "帆布工場",
-"russian": "Парусная фабрика"
+"korean": "돛 제작소"
 }
 },
 {
@@ -3471,18 +3489,18 @@
 "icon": "icon_cotton_fur.png",
 "locaText": {
 "brazilian": "Cotton Mill",
-"portuguese": "Cotton Mill",
-"chinese": "棉纺织厂",
 "taiwanese": "棉紡織廠",
+"italian": "Cotonificio",
+"portuguese": "Cotton Mill",
+"spanish": "Molino de algodón",
+"chinese": "棉纺织厂",
 "english": "Cotton Mill",
 "french": "Filature de coton",
-"italian": "Cotonificio",
-"spanish": "Molino de algodón",
 "polish": "Przędzalnia bawełny",
-"korean": "방적 공장",
+"russian": "Хлопкопрядильная фабрика",
 "german": "Baumwollweberei",
 "japanese": "紡績工場",
-"russian": "Хлопкопрядильная фабрика"
+"korean": "방적 공장"
 }
 },
 {
@@ -3513,18 +3531,18 @@
 "region": 5000001,
 "locaText": {
 "brazilian": "Clay Pit",
-"portuguese": "Clay Pit",
-"chinese": "陶土矿场",
 "taiwanese": "陶土礦場",
+"italian": "Cava di argilla",
+"portuguese": "Clay Pit",
+"spanish": "Cantera de arcilla",
+"chinese": "陶土矿场",
 "english": "Clay Pit",
 "french": "Carrière d'argile",
-"italian": "Cava di argilla",
-"spanish": "Cantera de arcilla",
 "polish": "Wyrobisko gliny",
-"korean": "점토 채취장",
+"russian": "Глиняный карьер",
 "german": "Lehmgrube",
 "japanese": "粘土穴",
-"russian": "Глиняный карьер"
+"korean": "점토 채취장"
 }
 },
 {
@@ -3561,18 +3579,18 @@
 "region": 5000001,
 "locaText": {
 "brazilian": "Brick Factory",
-"portuguese": "Brick Factory",
-"chinese": "砖块工厂",
 "taiwanese": "磚塊工廠",
+"italian": "Fabbrica di mattoni",
+"portuguese": "Brick Factory",
+"spanish": "Fábrica de ladrillos",
+"chinese": "砖块工厂",
 "english": "Brick Factory",
 "french": "Briqueterie",
-"italian": "Fabbrica di mattoni",
-"spanish": "Fábrica de ladrillos",
 "polish": "Cegielnia",
-"korean": "벽돌 공장",
+"russian": "Кирпичный завод",
 "german": "Ziegelei",
 "japanese": "レンガ工場",
-"russian": "Кирпичный завод"
+"korean": "벽돌 공장"
 }
 },
 {
@@ -3608,18 +3626,18 @@
 "icon": "icon_felt.png",
 "locaText": {
 "brazilian": "Felt Producer",
-"portuguese": "Felt Producer",
-"chinese": "毛毡制造厂",
 "taiwanese": "毛氈製造廠",
+"italian": "Produttore di feltro",
+"portuguese": "Felt Producer",
+"spanish": "Productor de fieltro",
+"chinese": "毛毡制造厂",
 "english": "Felt Producer",
 "french": "Producteur de feutre",
-"italian": "Produttore di feltro",
-"spanish": "Productor de fieltro",
 "polish": "Wytwórca filcu",
-"korean": "펠트 공장",
+"russian": "Войлочная фабрика",
 "german": "Filzfabrik",
 "japanese": "フェルト生産所",
-"russian": "Войлочная фабрика"
+"korean": "펠트 공장"
 }
 },
 {
@@ -3660,18 +3678,18 @@
 "icon": "icon_bowler_hat.png",
 "locaText": {
 "brazilian": "Bombín Weaver",
-"portuguese": "Bombín Weaver",
-"chinese": "圆顶硬礼帽编织厂",
 "taiwanese": "圓頂硬禮帽編織廠",
+"italian": "Produttore di bombette",
+"portuguese": "Bombín Weaver",
+"spanish": "Tejedor de bombines",
+"chinese": "圆顶硬礼帽编织厂",
 "english": "Bombín Weaver",
 "french": "Fabricant de chapeaux melon",
-"italian": "Produttore di bombette",
-"spanish": "Tejedor de bombines",
 "polish": "Wytwórca kapeluszy",
-"korean": "봄빈 직조소",
+"russian": "Фабрика котелков",
 "german": "Hutmacherei",
 "japanese": "ボンビンハット職人",
-"russian": "Фабрика котелков"
+"korean": "봄빈 직조소"
 }
 },
 {
@@ -3712,18 +3730,18 @@
 "icon": "icon_rum_barrel.png",
 "locaText": {
 "brazilian": "Rum Distillery",
-"portuguese": "Rum Distillery",
-"chinese": "兰姆酒工厂",
 "taiwanese": "蘭姆酒工廠",
+"italian": "Distilleria di rum",
+"portuguese": "Rum Distillery",
+"spanish": "Destilería de ron",
+"chinese": "兰姆酒工厂",
 "english": "Rum Distillery",
 "french": "Rhumerie",
-"italian": "Distilleria di rum",
-"spanish": "Destilería de ron",
 "polish": "Destylarnia rumu",
-"korean": "럼주 양조장",
+"russian": "Фабрика рома",
 "german": "Rumbrennerei",
 "japanese": "ラム酒蒸留所",
-"russian": "Фабрика рома"
+"korean": "럼주 양조장"
 }
 },
 {
@@ -3764,18 +3782,18 @@
 "icon": "icon_chocolate.png",
 "locaText": {
 "brazilian": "Chocolate Factory",
-"portuguese": "Chocolate Factory",
-"chinese": "巧克力工厂",
 "taiwanese": "巧克力工廠",
+"italian": "Fabbrica di cioccolato",
+"portuguese": "Chocolate Factory",
+"spanish": "Fábrica de chocolate",
+"chinese": "巧克力工厂",
 "english": "Chocolate Factory",
 "french": "Chocolaterie",
-"italian": "Fabbrica di cioccolato",
-"spanish": "Fábrica de chocolate",
 "polish": "Fabryka czekolady",
-"korean": "초콜릿 공장",
+"russian": "Шоколадная фабрика",
 "german": "Schokoladenfabrik",
 "japanese": "チョコレート工場",
-"russian": "Шоколадная фабрика"
+"korean": "초콜릿 공장"
 }
 },
 {
@@ -3811,18 +3829,18 @@
 "icon": "icon_coffe_cup.png",
 "locaText": {
 "brazilian": "Coffee Roaster",
-"portuguese": "Coffee Roaster",
-"chinese": "咖啡烘焙厂",
 "taiwanese": "咖啡烘焙廠",
+"italian": "Torrefazione",
+"portuguese": "Coffee Roaster",
+"spanish": "Tostador de café",
+"chinese": "咖啡烘焙厂",
 "english": "Coffee Roaster",
 "french": "Brûlerie de café",
-"italian": "Torrefazione",
-"spanish": "Tostador de café",
 "polish": "Palarnia kawy",
-"korean": "커피 제조소",
+"russian": "Фабрика обжарки кофе",
 "german": "Kaffeerösterei",
 "japanese": "コーヒー焙煎場",
-"russian": "Фабрика обжарки кофе"
+"korean": "커피 제조소"
 }
 },
 {
@@ -3863,18 +3881,18 @@
 "icon": "icon_fried_bananas.png",
 "locaText": {
 "brazilian": "Fried Banana Kitchen",
-"portuguese": "Fried Plantain Kitchen",
-"chinese": "炸大蕉饼店",
 "taiwanese": "炸大蕉餅店",
+"italian": "Cucina banane fritte",
+"portuguese": "Fried Plantain Kitchen",
+"spanish": "Freiduría de plátano",
+"chinese": "炸大蕉饼店",
 "english": "Fried Plantain Kitchen",
 "french": "Cuisine de plantains frits",
-"italian": "Cucina banane fritte",
-"spanish": "Freiduría de plátano",
 "polish": "Kuchnia pieczonych bananów",
-"korean": "플랜테인 튀김 주방",
+"russian": "Кухня для поджарки бананов",
 "german": "Küche",
 "japanese": "フライドバナナキッチン",
-"russian": "Кухня для поджарки бананов"
+"korean": "플랜테인 튀김 주방"
 }
 },
 {
@@ -3915,18 +3933,18 @@
 "icon": "icon_burrito.png",
 "locaText": {
 "brazilian": "Burrito Maker",
-"portuguese": "Tortilla Maker",
-"chinese": "制玉米饼店",
 "taiwanese": "製玉米餅店",
+"italian": "Produttore di tortillas",
+"portuguese": "Tortilla Maker",
+"spanish": "Máquina tortilladora",
+"chinese": "制玉米饼店",
 "english": "Tortilla Maker",
 "french": "Fabricant de tortillas",
-"italian": "Produttore di tortillas",
-"spanish": "Máquina tortilladora",
 "polish": "Wytwórca tortilli",
-"korean": "토르티야 가게",
-"german": "Tortilla-Bäckerei",
+"russian": "Печь для тортильи",
+"german": "Tortilla-​Bäckerei",
 "japanese": "トルティーヤ製造会社",
-"russian": "Печь для тортильи"
+"korean": "토르티야 가게"
 }
 },
 {
@@ -3957,18 +3975,18 @@
 "region": 5000001,
 "locaText": {
 "brazilian": "Oil Refinery",
-"portuguese": "Oil Refinery",
-"chinese": "炼油厂",
 "taiwanese": "煉油廠",
+"italian": "Raffineria petrolifera",
+"portuguese": "Oil Refinery",
+"spanish": "Refinería de petróleo",
+"chinese": "炼油厂",
 "english": "Oil Refinery",
 "french": "Raffinerie de pétrole",
-"italian": "Raffineria petrolifera",
-"spanish": "Refinería de petróleo",
 "polish": "Rafineria",
-"korean": "정유 공장",
+"russian": "Нефтяной завод",
 "german": "Ölraffinerie",
 "japanese": "石油精製所",
-"russian": "Нефтяной завод"
+"korean": "정유 공장"
 }
 },
 {
@@ -3999,18 +4017,18 @@
 "region": 5000001,
 "locaText": {
 "brazilian": "Gold Mine",
-"portuguese": "Gold Mine",
-"chinese": "金矿",
 "taiwanese": "金礦",
+"italian": "Miniera d'oro",
+"portuguese": "Gold Mine",
+"spanish": "Mina de oro",
+"chinese": "金矿",
 "english": "Gold Mine",
 "french": "Mine d'or",
-"italian": "Miniera d'oro",
-"spanish": "Mina de oro",
 "polish": "Kopalnia złota",
-"korean": "금광",
+"russian": "Золотая шахта",
 "german": "Goldmine",
 "japanese": "金鉱",
-"russian": "Золотая шахта"
+"korean": "금광"
 }
 },
 {
@@ -4046,18 +4064,18 @@
 "icon": "icon_salt.png",
 "locaText": {
 "brazilian": "Sugar Refinery",
-"portuguese": "Sugar Refinery",
-"chinese": "制糖厂",
 "taiwanese": "製糖廠",
+"italian": "Raffineria di zucchero",
+"portuguese": "Sugar Refinery",
+"spanish": "Refinería de azúcar",
+"chinese": "制糖厂",
 "english": "Sugar Refinery",
 "french": "Raffinerie de sucre",
-"italian": "Raffineria di zucchero",
-"spanish": "Refinería de azúcar",
 "polish": "Cukrownia",
-"korean": "제당소",
+"russian": "Сахарный завод",
 "german": "Zuckerraffinerie",
 "japanese": "砂糖精製工場",
-"russian": "Сахарный завод"
+"korean": "제당소"
 }
 },
 {
@@ -4093,18 +4111,18 @@
 "icon": "icon_poncho.png",
 "locaText": {
 "brazilian": "Poncho Darner",
-"portuguese": "Poncho Darner",
-"chinese": "斗篷缝补厂",
 "taiwanese": "斗篷縫補廠",
+"italian": "Rammendatore di poncho",
+"portuguese": "Poncho Darner",
+"spanish": "Tejedor de ponchos",
+"chinese": "斗篷缝补厂",
 "english": "Poncho Darner",
 "french": "Fabricant de ponchos",
-"italian": "Rammendatore di poncho",
-"spanish": "Tejedor de ponchos",
 "polish": "Wytwórca poncz",
-"korean": "판초 제작소",
+"russian": "Фабрика пончо",
 "german": "Ponchoweberei",
 "japanese": "ポンチョ修繕場",
-"russian": "Фабрика пончо"
+"korean": "판초 제작소"
 }
 },
 {
@@ -4141,18 +4159,18 @@
 "region": 5000001,
 "locaText": {
 "brazilian": "Marquetry Workshop",
-"portuguese": "Marquetry Workshop",
-"chinese": "镶嵌工作坊",
 "taiwanese": "鑲嵌工作坊",
+"italian": "Laboratorio di intarsi",
+"portuguese": "Marquetry Workshop",
+"spanish": "Taller de marquetería",
+"chinese": "镶嵌工作坊",
 "english": "Marquetry Workshop",
 "french": "Atelier de marqueterie",
-"italian": "Laboratorio di intarsi",
-"spanish": "Taller de marquetería",
 "polish": "Zakład snycerski",
-"korean": "고급 가구 제작소",
+"russian": "Деревообрабатывающий завод",
 "german": "Kunstschreinerei",
 "japanese": "寄せ木工房",
-"russian": "Деревообрабатывающий завод"
+"korean": "고급 가구 제작소"
 }
 },
 {
@@ -4193,18 +4211,18 @@
 "icon": "icon_cigars.png",
 "locaText": {
 "brazilian": "Cigar Factory",
-"portuguese": "Cigar Factory",
-"chinese": "雪茄工厂",
 "taiwanese": "雪茄工廠",
+"italian": "Fabbrica di sigari",
+"portuguese": "Cigar Factory",
+"spanish": "Fábrica de puros",
+"chinese": "雪茄工厂",
 "english": "Cigar Factory",
 "french": "Usine de cigares",
-"italian": "Fabbrica di sigari",
-"spanish": "Fábrica de puros",
 "polish": "Fabryka cygar",
-"korean": "시가 공장",
-"german": "Zigarren-Manufaktur",
+"russian": "Фабрика сигар",
+"german": "Zigarren-​Manufaktur",
 "japanese": "葉巻工場",
-"russian": "Фабрика сигар"
+"korean": "시가 공장"
 }
 },
 {
@@ -4233,17 +4251,17 @@
 "region": 160001,
 "icon": "icon_wood_log.png",
 "locaText": {
-"chinese": "伐木工人棚屋",
 "taiwanese": "伐木工人棚屋",
-"english": "Lumberjack's Hut",
-"french": "Cabane de bûcheron",
 "italian": "Capanno del taglialegna",
 "spanish": "Cabaña de leñador",
+"chinese": "伐木工人棚屋",
+"english": "Lumberjack's Hut",
+"french": "Cabane de bûcheron",
 "polish": "Chata drwala",
-"korean": "벌목꾼의 오두막",
+"russian": "Хижина лесоруба",
 "german": "Holzfällerhütte",
 "japanese": "木こりの小屋",
-"russian": "Хижина лесоруба"
+"korean": "벌목꾼의 오두막"
 }
 },
 {
@@ -4272,17 +4290,17 @@
 "region": 160001,
 "icon": "icon_reindeer_meat.png",
 "locaText": {
-"chinese": "驯鹿猎人",
 "taiwanese": "馴鹿獵人",
-"english": "Caribou Hunting Cabin",
-"french": "Cabane de chasseur de caribous",
 "italian": "Capanno dei cacciatori di caribù",
 "spanish": "Cabaña de cazador de caribús",
+"chinese": "驯鹿猎人",
+"english": "Caribou Hunting Cabin",
+"french": "Cabane de chasseur de caribous",
 "polish": "Chata łowcy karibu",
-"korean": "카리부 사냥꾼",
-"german": "Rentier-Jagdhütte",
+"russian": "Хижина охотника на карибу",
+"german": "Rentier-​Jagdhütte",
 "japanese": "カリブーハンター",
-"russian": "Хижина охотника на карибу"
+"korean": "카리부 사냥꾼"
 }
 },
 {
@@ -4311,17 +4329,17 @@
 "region": 160001,
 "icon": "icon_goose_feathers.png",
 "locaText": {
-"chinese": "鹅农场",
 "taiwanese": "鵝農場",
-"english": "Goose Farm",
-"french": "Élevage d'oies",
 "italian": "Allevamento di oche",
 "spanish": "Granja de gansos",
+"chinese": "鹅农场",
+"english": "Goose Farm",
+"french": "Élevage d'oies",
 "polish": "Hodowla gęsi",
-"korean": "거위 농장",
+"russian": "Гусиная ферма",
 "german": "Gänsefarm",
 "japanese": "ガチョウ牧場",
-"russian": "Гусиная ферма"
+"korean": "거위 농장"
 }
 },
 {
@@ -4350,17 +4368,17 @@
 "region": 160001,
 "icon": "icon_bear_fur.png",
 "locaText": {
-"chinese": "熊猎人",
 "taiwanese": "熊獵人",
-"english": "Bear Hunting Cabin",
-"french": "Cabane de chasseur d'ours",
 "italian": "Capanno dei cacciatori di orsi",
 "spanish": "Cabaña de cazador de osos",
+"chinese": "熊猎人",
+"english": "Bear Hunting Cabin",
+"french": "Cabane de chasseur d'ours",
 "polish": "Chata łowcy niedźwiedzi",
-"korean": "곰 사냥꾼",
-"german": "Bären-Jagdhütte",
+"russian": "Хижина охотника на медведей",
+"german": "Bären-​Jagdhütte",
 "japanese": "熊ハンター",
-"russian": "Хижина охотника на медведей"
+"korean": "곰 사냥꾼"
 }
 },
 {
@@ -4389,17 +4407,17 @@
 "region": 160001,
 "icon": "icon_husky.png",
 "locaText": {
-"chinese": "哈士奇农场",
 "taiwanese": "哈士奇農場",
-"english": "Husky Farm",
-"french": "Élevage de huskies",
 "italian": "Allevamento di husky",
 "spanish": "Granja de huskies",
+"chinese": "哈士奇农场",
+"english": "Husky Farm",
+"french": "Élevage de huskies",
 "polish": "Hodowla husky",
-"korean": "허스키 농장",
+"russian": "Питомник лаек",
 "german": "Huskyfarm",
 "japanese": "ハスキー牧場",
-"russian": "Питомник лаек"
+"korean": "허스키 농장"
 }
 },
 {
@@ -4428,17 +4446,17 @@
 "region": 160001,
 "icon": "icon_fur.png",
 "locaText": {
-"chinese": "一级狩猎小屋",
 "taiwanese": "一級狩獵小屋",
-"english": "Prime Hunting Cabin",
-"french": "Cabane de chasse supérieure",
 "italian": "Capanno da caccia esteso",
 "spanish": "Cabaña de cazador avanzada",
+"chinese": "一级狩猎小屋",
+"english": "Prime Hunting Cabin",
+"french": "Cabane de chasse supérieure",
 "polish": "Duża chata myśliwska",
-"korean": "베테랑 사냥꾼의 오두막",
+"russian": "Улучшенная хижина охотника",
 "german": "Meisterhafte Jagdhütte",
 "japanese": "上等な狩猟小屋",
-"russian": "Улучшенная хижина охотника"
+"korean": "베테랑 사냥꾼의 오두막"
 }
 },
 {
@@ -4467,17 +4485,17 @@
 "region": 160001,
 "icon": "icon_coal_burn.png",
 "locaText": {
-"chinese": "炭窑",
 "taiwanese": "炭窯",
-"english": "Charcoal Kiln",
-"french": "Charbonnière",
 "italian": "Forno a carbone",
 "spanish": "Horno de carbonización",
+"chinese": "炭窑",
+"english": "Charcoal Kiln",
+"french": "Charbonnière",
 "polish": "Mielerz",
-"korean": "숯가마",
+"russian": "Углевыжигательная печь",
 "german": "Köhlerei",
 "japanese": "木炭窯",
-"russian": "Углевыжигательная печь"
+"korean": "숯가마"
 }
 },
 {
@@ -4506,17 +4524,17 @@
 "region": 160001,
 "icon": "icon_whale_oil_2.png",
 "locaText": {
-"chinese": "鲸鱼猎人",
 "taiwanese": "鯨魚獵人",
-"english": "Whaling Station",
-"french": "Pêcherie de baleines",
 "italian": "Stazione dei cacciatori di balene",
 "spanish": "Cabaña de cazador de ballenas",
+"chinese": "鲸鱼猎人",
+"english": "Whaling Station",
+"french": "Pêcherie de baleines",
 "polish": "Przystań łowcy wielorybów",
-"korean": "고래 사냥꾼",
+"russian": "Китобойная станция",
 "german": "Walfängerei",
 "japanese": "鯨ハンター",
-"russian": "Китобойная станция"
+"korean": "고래 사냥꾼"
 }
 },
 {
@@ -4545,17 +4563,17 @@
 "region": 160001,
 "icon": "icon_seal_skin.png",
 "locaText": {
-"chinese": "海豹猎人",
 "taiwanese": "海豹獵人",
-"english": "Seal Hunting Docks",
-"french": "Pêcherie de phoques",
 "italian": "Capanno dei cacciatori di foche",
 "spanish": "Cabaña de cazador de focas",
+"chinese": "海豹猎人",
+"english": "Seal Hunting Docks",
+"french": "Pêcherie de phoques",
 "polish": "Przystań łowcy fok",
-"korean": "바다표범 사냥꾼",
+"russian": "Тюленебойная станция",
 "german": "Robbenfängerei",
 "japanese": "アザラシハンター",
-"russian": "Тюленебойная станция"
+"korean": "바다표범 사냥꾼"
 }
 },
 {
@@ -4591,17 +4609,17 @@
 "region": 160001,
 "icon": "icon_wooden_planks.png",
 "locaText": {
-"chinese": "锯木厂",
 "taiwanese": "鋸木廠",
-"english": "Sawmill",
-"french": "Scierie",
 "italian": "Segheria",
 "spanish": "Serrería",
+"chinese": "锯木厂",
+"english": "Sawmill",
+"french": "Scierie",
 "polish": "Tartak",
-"korean": "제재소",
+"russian": "Лесопилка",
 "german": "Sägewerk",
 "japanese": "製材所",
-"russian": "Лесопилка"
+"korean": "제재소"
 }
 },
 {
@@ -4642,17 +4660,17 @@
 "region": 160001,
 "icon": "icon_sleeping_bags.png",
 "locaText": {
-"chinese": "睡袋工厂",
 "taiwanese": "睡袋工廠",
-"english": "Sleeping Bag Factory",
-"french": "Usine de sacs de couchage",
 "italian": "Fabbrica di sacchi a pelo",
 "spanish": "Fábrica de sacos de dormir",
+"chinese": "睡袋工厂",
+"english": "Sleeping Bag Factory",
+"french": "Usine de sacs de couchage",
 "polish": "Fabryka śpiworów",
-"korean": "침낭 공장",
+"russian": "Фабрика спальных мешков",
 "german": "Schlafsackfabrik",
 "japanese": "寝袋工場",
-"russian": "Фабрика спальных мешков"
+"korean": "침낭 공장"
 }
 },
 {
@@ -4693,17 +4711,17 @@
 "region": 160001,
 "icon": "icon_oil_lamps.png",
 "locaText": {
-"chinese": "油灯工厂",
 "taiwanese": "油燈工廠",
-"english": "Oil Lamp Factory",
-"french": "Usine de lampes à huile",
 "italian": "Fabbrica di lampade a olio",
 "spanish": "Fábrica de faroles de aceite",
+"chinese": "油灯工厂",
+"english": "Oil Lamp Factory",
+"french": "Usine de lampes à huile",
 "polish": "Fabryka lamp naftowych",
-"korean": "기름 램프 공장",
+"russian": "Фабрика масляных ламп",
 "german": "Öllampenfabrik",
 "japanese": "オイルランプ工場",
-"russian": "Фабрика масляных ламп"
+"korean": "기름 램프 공장"
 }
 },
 {
@@ -4744,17 +4762,17 @@
 "region": 160001,
 "icon": "icon_fur_parka.png",
 "locaText": {
-"chinese": "连帽大衣工厂",
 "taiwanese": "連帽大衣工廠",
-"english": "Parka Factory",
-"french": "Usine de parkas",
 "italian": "Fabbrica di parka",
 "spanish": "Fábrica de parkas",
+"chinese": "连帽大衣工厂",
+"english": "Parka Factory",
+"french": "Usine de parkas",
 "polish": "Fabryka parek",
-"korean": "파카 공장",
+"russian": "Фабрика курток",
 "german": "Parkaschneiderei",
 "japanese": "防寒着工場",
-"russian": "Фабрика курток"
+"korean": "파카 공장"
 }
 },
 {
@@ -4795,17 +4813,17 @@
 "region": 160001,
 "icon": "icon_sled_frame.png",
 "locaText": {
-"chinese": "雪橇骨架工厂",
 "taiwanese": "雪橇骨架工廠",
-"english": "Sled Frame Factory",
-"french": "Usine de châssis pour traîneaux",
 "italian": "Fabbrica di telai per slitte",
 "spanish": "Fábrica de armazones para trineos",
+"chinese": "雪橇骨架工厂",
+"english": "Sled Frame Factory",
+"french": "Usine de châssis pour traîneaux",
 "polish": "Fabryka ram do sań",
-"korean": "썰매 틀 공장",
+"russian": "Мастерская по изготовлению каркасов для нарт",
 "german": "Schlittenmanufaktur",
 "japanese": "そりの骨組み工場",
-"russian": "Мастерская по изготовлению каркасов для нарт"
+"korean": "썰매 틀 공장"
 }
 },
 {
@@ -4846,17 +4864,17 @@
 "region": 160001,
 "icon": "icon_sled.png",
 "locaText": {
-"chinese": "犬雪橇工厂",
 "taiwanese": "犬雪橇工廠",
-"english": "Husky Sled Factory",
-"french": "Usine de traîneaux à huskies",
 "italian": "Fabbrica di slitte trainate da cani",
 "spanish": "Fábrica de trineos de huskies",
+"chinese": "犬雪橇工厂",
+"english": "Husky Sled Factory",
+"french": "Usine de traîneaux à huskies",
 "polish": "Fabryka psich zaprzęgów",
-"korean": "허스키 썰매 공장",
-"german": "Hundeschlitten-Station",
+"russian": "Мастерская по изготовлению нарт",
+"german": "Hundeschlitten-​Station",
 "japanese": "犬ぞり工場",
-"russian": "Мастерская по изготовлению нарт"
+"korean": "허스키 썰매 공장"
 }
 },
 {
@@ -4897,17 +4915,17 @@
 "region": 160001,
 "icon": "icon_pemmican.png",
 "locaText": {
-"chinese": "干肉饼工厂",
 "taiwanese": "乾肉餅工廠",
-"english": "Pemmican Cookhouse",
-"french": "Usine de pemmican",
 "italian": "Fabbrica di pemmican",
 "spanish": "Fábrica de pemmican",
+"chinese": "干肉饼工厂",
+"english": "Pemmican Cookhouse",
+"french": "Usine de pemmican",
 "polish": "Fabryka pemikanu",
-"korean": "페미컨 공장",
-"german": "Pemmikan-Räucherei",
+"russian": "Фабрика пеммикана",
+"german": "Pemmikan-​Räucherei",
 "japanese": "保存食工場",
-"russian": "Фабрика пеммикана"
+"korean": "페미컨 공장"
 }
 },
 {
@@ -4936,17 +4954,17 @@
 "region": 160001,
 "icon": "icon_gas_red.png",
 "locaText": {
-"chinese": "天然气矿场",
 "taiwanese": "天然氣礦場",
-"english": "Gas Mine",
-"french": "Mine de gaz",
 "italian": "Miniera di gas",
 "spanish": "Mina de gas",
+"chinese": "天然气矿场",
+"english": "Gas Mine",
+"french": "Mine de gaz",
 "polish": "Kopalnia gazu",
-"korean": "가스 추출장",
+"russian": "Газовая скважина",
 "german": "Gasförderstätte",
 "japanese": "ガス鉱床",
-"russian": "Газовая скважина"
+"korean": "가스 추출장"
 }
 },
 {
@@ -4975,17 +4993,109 @@
 "region": 160001,
 "icon": "icon_gold_ore.png",
 "locaText": {
-"chinese": "深层金矿",
 "taiwanese": "深層金礦",
-"english": "Deep Gold Mine",
-"french": "Mine d'or profonde",
 "italian": "Miniera d'oro profonda",
 "spanish": "Mina de oro profunda",
+"chinese": "深层金矿",
+"english": "Deep Gold Mine",
+"french": "Mine d'or profonde",
 "polish": "Głęboka kopalnia złota",
-"korean": "풍부한 금광",
+"russian": "Глубокая золотая шахта",
 "german": "Tiefe Goldmine",
 "japanese": "巨大金鉱",
-"russian": "Глубокая золотая шахта"
+"korean": "풍부한 금광"
+}
+},
+{
+"name": "Fuel Station",
+"guid": 118571,
+"tpmin": 4,
+"outputs": [
+{
+"Product": 270042,
+"Amount": 1,
+"StorageAmount": 20
+}
+],
+"inputs": [
+{
+"Product": 1010566,
+"Amount": 1,
+"StorageAmount": 50
+}
+],
+"maintenances": [
+{
+"Product": 1010017,
+"Amount": 350,
+"InactiveAmount": 175
+},
+{
+"Product": 1010115,
+"Amount": 75,
+"ShutdownThreshold": 0.5
+}
+],
+"region": 5000000,
+"icon": "icon_gasoline.png",
+"locaText": {
+"taiwanese": "燃料站",
+"italian": "Stazione di rifornimento",
+"spanish": "Estación de combustible",
+"chinese": "燃料站",
+"english": "Fuel Station",
+"french": "Station essence",
+"polish": "Stacja paliwowa",
+"russian": "Заправочная станция",
+"german": "Tankhof",
+"japanese": "燃料補給所",
+"korean": "정유소"
+}
+},
+{
+"name": "Fuel Station",
+"guid": 269840,
+"tpmin": 4,
+"outputs": [
+{
+"Product": 270042,
+"Amount": 1,
+"StorageAmount": 20
+}
+],
+"inputs": [
+{
+"Product": 1010566,
+"Amount": 1,
+"StorageAmount": 50
+}
+],
+"maintenances": [
+{
+"Product": 1010017,
+"Amount": 350,
+"InactiveAmount": 175
+},
+{
+"Product": 1010367,
+"Amount": 75,
+"ShutdownThreshold": 0.5
+}
+],
+"region": 5000001,
+"icon": "icon_gasoline.png",
+"locaText": {
+"taiwanese": "燃料站",
+"italian": "Stazione di rifornimento",
+"spanish": "Estación de combustible",
+"chinese": "燃料站",
+"english": "Fuel Station",
+"french": "Station essence",
+"polish": "Stacja paliwowa",
+"russian": "Заправочная станция",
+"german": "Tankhof",
+"japanese": "燃料補給所",
+"korean": "정유소"
 }
 }
 ],
@@ -5010,17 +5120,17 @@
 "region": 160001,
 "icon": "icon_heating_center.png",
 "locaText": {
-"chinese": "暖炉",
 "taiwanese": "暖爐",
-"english": "Heater",
-"french": "Chaudière",
 "italian": "Riscaldatore",
 "spanish": "Estufa",
+"chinese": "暖炉",
+"english": "Heater",
+"french": "Chaudière",
 "polish": "Kotłownia",
-"korean": "난방기",
+"russian": "Котельная",
 "german": "Heizofen",
 "japanese": "暖房",
-"russian": "Котельная"
+"korean": "난방기"
 }
 },
 {
@@ -5049,17 +5159,17 @@
 "region": 5000000,
 "icon": "icon_electric_works_gas.png",
 "locaText": {
-"chinese": "燃气发电厂",
 "taiwanese": "燃氣發電廠",
-"english": "Gas-Fired Power Plant",
-"french": "Centrale au gaz",
 "italian": "Centrale elettrica a gas",
 "spanish": "Central eléctrica a gas",
+"chinese": "燃气发电厂",
+"english": "Gas-Fired Power Plant",
+"french": "Centrale au gaz",
 "polish": "Elektrownia gazowa",
-"korean": "가스 화력 발전소",
+"russian": "Газовая электростанция",
 "german": "Gasbetriebenes Kraftwerk",
 "japanese": "ガス火力発電所",
-"russian": "Газовая электростанция"
+"korean": "가스 화력 발전소"
 }
 },
 {
@@ -5089,18 +5199,18 @@
 "icon": "icon_electric_works_oil.png",
 "locaText": {
 "brazilian": "Oil Power Plant",
-"portuguese": "Oil Power Plant",
-"chinese": "燃油发电厂",
 "taiwanese": "燃油發電廠",
+"italian": "Centrale elettrica a petrolio",
+"portuguese": "Oil Power Plant",
+"spanish": "Central de petróleo",
+"chinese": "燃油发电厂",
 "english": "Oil Power Plant",
 "french": "Centrale pétrolière",
-"italian": "Centrale elettrica a petrolio",
-"spanish": "Central de petróleo",
 "polish": "Elektrownia na ropę",
-"korean": "유류 발전소",
+"russian": "Нефт. электростанция",
 "german": "Kraftwerk",
 "japanese": "石油発電所",
-"russian": "Нефт. электростанция"
+"korean": "유류 발전소"
 }
 }
 ],
@@ -5136,18 +5246,18 @@
 "icon": "icon_resident_farmer.png",
 "locaText": {
 "brazilian": "Farmers",
-"portuguese": "Farmers",
-"chinese": "农夫",
 "taiwanese": "農夫",
+"italian": "Contadini",
+"portuguese": "Farmers",
+"spanish": "Granjeros",
+"chinese": "农夫",
 "english": "Farmers",
 "french": "Fermiers",
-"italian": "Contadini",
-"spanish": "Granjeros",
 "polish": "Farmerzy",
-"korean": "농부",
+"russian": "Фермеры",
 "german": "Bauern",
 "japanese": "農家",
-"russian": "Фермеры"
+"korean": "농부"
 }
 },
 {
@@ -5207,18 +5317,18 @@
 "icon": "icon_resident_worker.png",
 "locaText": {
 "brazilian": "Workers",
-"portuguese": "Workers",
-"chinese": "工人",
 "taiwanese": "工人",
+"italian": "Lavoratori",
+"portuguese": "Workers",
+"spanish": "Trabajadores",
+"chinese": "工人",
 "english": "Workers",
 "french": "Ouvriers",
-"italian": "Lavoratori",
-"spanish": "Trabajadores",
 "polish": "Robotnicy",
-"korean": "노동자",
+"russian": "Рабочие",
 "german": "Arbeiter",
 "japanese": "労働者",
-"russian": "Рабочие"
+"korean": "노동자"
 }
 },
 {
@@ -5282,18 +5392,18 @@
 "icon": "icon_resident_artisan.png",
 "locaText": {
 "brazilian": "Artisans",
-"portuguese": "Artisans",
-"chinese": "工匠",
 "taiwanese": "工匠",
+"italian": "Artigiani",
+"portuguese": "Artisans",
+"spanish": "Artesanos",
+"chinese": "工匠",
 "english": "Artisans",
 "french": "Artisans",
-"italian": "Artigiani",
-"spanish": "Artesanos",
 "polish": "Rzemieślnicy",
-"korean": "직공",
+"russian": "Ремесленники",
 "german": "Handwerker",
 "japanese": "職人",
-"russian": "Ремесленники"
+"korean": "직공"
 }
 },
 {
@@ -5362,18 +5472,18 @@
 "icon": "icon_resident_engineer.png",
 "locaText": {
 "brazilian": "Engineers",
-"portuguese": "Engineers",
-"chinese": "工程师",
 "taiwanese": "工程師",
+"italian": "Ingegneri",
+"portuguese": "Engineers",
+"spanish": "Ingenieros",
+"chinese": "工程师",
 "english": "Engineers",
 "french": "Ingénieurs",
-"italian": "Ingegneri",
-"spanish": "Ingenieros",
 "polish": "Inżynierowie",
-"korean": "기술자",
+"russian": "Инженеры",
 "german": "Ingenieure",
 "japanese": "技師",
-"russian": "Инженеры"
+"korean": "기술자"
 }
 },
 {
@@ -5447,18 +5557,18 @@
 "icon": "icon_resident_investor.png",
 "locaText": {
 "brazilian": "Investors",
-"portuguese": "Investors",
-"chinese": "投资人",
 "taiwanese": "投資人",
+"italian": "Investitori",
+"portuguese": "Investors",
+"spanish": "Inversores",
+"chinese": "投资人",
 "english": "Investors",
 "french": "Investisseurs",
-"italian": "Investitori",
-"spanish": "Inversores",
 "polish": "Inwestorzy",
-"korean": "투자가",
+"russian": "Инвесторы",
 "german": "Investoren",
 "japanese": "投資家",
-"russian": "Инвесторы"
+"korean": "투자가"
 }
 },
 {
@@ -5492,18 +5602,18 @@
 "icon": "icon_resident_jornalero.png",
 "locaText": {
 "brazilian": "Jornaleros",
-"portuguese": "Jornaleros",
-"chinese": "临时工",
 "taiwanese": "臨時工",
+"italian": "Jornaleros",
+"portuguese": "Jornaleros",
+"spanish": "Jornaleros",
+"chinese": "临时工",
 "english": "Jornaleros",
 "french": "Jornaleros",
-"italian": "Jornaleros",
-"spanish": "Jornaleros",
 "polish": "Jornaleros",
-"korean": "식민지 노동자",
+"russian": "Хорналеро",
 "german": "Jornaleros",
 "japanese": "日雇い労働者",
-"russian": "Хорналеро"
+"korean": "식민지 노동자"
 }
 },
 {
@@ -5568,18 +5678,18 @@
 "icon": "icon_resident_obrera.png",
 "locaText": {
 "brazilian": "Obreros",
-"portuguese": "Obreros",
-"chinese": "劳工",
 "taiwanese": "勞工",
+"italian": "Obreros",
+"portuguese": "Obreros",
+"spanish": "Obreros",
+"chinese": "劳工",
 "english": "Obreros",
 "french": "Obreros",
-"italian": "Obreros",
-"spanish": "Obreros",
 "polish": "Obreros",
-"korean": "식민지 직공",
+"russian": "Обреро",
 "german": "Obreros",
 "japanese": "単純労働者",
-"russian": "Обреро"
+"korean": "식민지 직공"
 }
 },
 {
@@ -5614,17 +5724,17 @@
 ],
 "icon": "icon_resident_colony03_tier01.png",
 "locaText": {
-"chinese": "探险家",
 "taiwanese": "探險家",
-"english": "Explorers",
-"french": "Explorateurs",
 "italian": "Esploratori",
 "spanish": "Exploradores",
+"chinese": "探险家",
+"english": "Explorers",
+"french": "Explorateurs",
 "polish": "Odkrywcy",
-"korean": "탐험가",
+"russian": "Исследователи",
 "german": "Entdecker",
 "japanese": "探検家",
-"russian": "Исследователи"
+"korean": "탐험가"
 }
 },
 {
@@ -5679,17 +5789,17 @@
 ],
 "icon": "icon_resident_colony03_tier02.png",
 "locaText": {
-"chinese": "技师",
 "taiwanese": "技師",
-"english": "Technicians",
-"french": "Techniciens",
 "italian": "Tecnici",
 "spanish": "Técnicos",
+"chinese": "技师",
+"english": "Technicians",
+"french": "Techniciens",
 "polish": "Technicy",
-"korean": "기술자",
+"russian": "Техники",
 "german": "Techniker",
 "japanese": "技術家",
-"russian": "Техники"
+"korean": "기술자"
 }
 }
 ],
@@ -5700,18 +5810,18 @@
 "icon": "icon_resource_money_4.png",
 "locaText": {
 "brazilian": "Credits",
-"portuguese": "Credits",
-"chinese": "钱币",
 "taiwanese": "錢幣",
+"italian": "Monete",
+"portuguese": "Credits",
+"spanish": "Monedas",
+"chinese": "钱币",
 "english": "Coins",
 "french": "Pièces",
-"italian": "Monete",
-"spanish": "Monedas",
 "polish": "Monety",
-"korean": "코인",
+"russian": "Монеты",
 "german": "Münzen",
 "japanese": "コイン",
-"russian": "Монеты"
+"korean": "코인"
 }
 },
 {
@@ -5720,36 +5830,18 @@
 "icon": "icon_influence.png",
 "locaText": {
 "brazilian": "Influence",
-"portuguese": "Influence",
-"chinese": "影响力",
 "taiwanese": "影響力",
+"italian": "Influenza",
+"portuguese": "Influence",
+"spanish": "Influencia",
+"chinese": "影响力",
 "english": "Influence",
 "french": "Influence",
-"italian": "Influenza",
-"spanish": "Influencia",
 "polish": "Wpływ",
-"korean": "영향력",
+"russian": "Влияние",
 "german": "Einfluss",
 "japanese": "影響力",
-"russian": "Влияние"
-}
-},
-{
-"name": "Uknown Stuff",
-"guid": 193482,
-"icon": "icon_questionmark.png",
-"locaText": {
-"chinese": "Uknown Stuff",
-"taiwanese": "Uknown Stuff",
-"english": "Uknown Stuff",
-"french": "Uknown Stuff",
-"italian": "Uknown Stuff",
-"spanish": "Uknown Stuff",
-"polish": "Uknown Stuff",
-"korean": "Uknown Stuff",
-"german": "Uknown Stuff",
-"japanese": "Uknown Stuff",
-"russian": "Uknown Stuff"
+"korean": "영향력"
 }
 },
 {
@@ -5758,18 +5850,18 @@
 "icon": "icon_coal.png",
 "locaText": {
 "brazilian": "Coal",
-"portuguese": "Coal",
-"chinese": "煤",
 "taiwanese": "煤",
+"italian": "Carbone",
+"portuguese": "Coal",
+"spanish": "Carbón",
+"chinese": "煤",
 "english": "Coal",
 "french": "Charbon",
-"italian": "Carbone",
-"spanish": "Carbón",
 "polish": "Węgiel",
-"korean": "석탄",
+"russian": "Уголь",
 "german": "Steinkohle",
 "japanese": "石炭",
-"russian": "Уголь"
+"korean": "석탄"
 }
 },
 {
@@ -5782,18 +5874,18 @@
 "icon": "icon_oil.png",
 "locaText": {
 "brazilian": "Oil",
-"portuguese": "Oil",
-"chinese": "原油",
 "taiwanese": "原油",
+"italian": "Petrolio",
+"portuguese": "Oil",
+"spanish": "Petróleo",
+"chinese": "原油",
 "english": "Oil",
 "french": "Pétrole",
-"italian": "Petrolio",
-"spanish": "Petróleo",
 "polish": "Ropa",
-"korean": "석유",
+"russian": "Нефть",
 "german": "Öl",
 "japanese": "石油",
-"russian": "Нефть"
+"korean": "석유"
 }
 },
 {
@@ -5802,18 +5894,18 @@
 "icon": "icon_electricity.png",
 "locaText": {
 "brazilian": "Electricity",
-"portuguese": "Electricity",
-"chinese": "电力",
 "taiwanese": "電力",
+"italian": "Elettricità",
+"portuguese": "Electricity",
+"spanish": "Electricidad",
+"chinese": "电力",
 "english": "Electricity",
 "french": "Électricité",
-"italian": "Elettricità",
-"spanish": "Electricidad",
 "polish": "Elektryczność",
-"korean": "전기",
+"russian": "Электричество",
 "german": "Elektrizität",
 "japanese": "電気",
-"russian": "Электричество"
+"korean": "전기"
 }
 },
 {
@@ -5822,18 +5914,18 @@
 "icon": "icon_marketplace.png",
 "locaText": {
 "brazilian": "Market",
-"portuguese": "Market",
-"chinese": "市场",
 "taiwanese": "市場",
+"italian": "Mercato",
+"portuguese": "Market",
+"spanish": "Mercado",
+"chinese": "市场",
 "english": "Market",
 "french": "Économie",
-"italian": "Mercato",
-"spanish": "Mercado",
 "polish": "Rynek",
-"korean": "시장",
+"russian": "Рынок",
 "german": "Markt",
 "japanese": "市場",
-"russian": "Рынок"
+"korean": "시장"
 }
 },
 {
@@ -5842,18 +5934,18 @@
 "icon": "icon_pub.png",
 "locaText": {
 "brazilian": "Community",
-"portuguese": "Community",
-"chinese": "酒吧",
 "taiwanese": "酒吧",
+"italian": "Pub",
+"portuguese": "Community",
+"spanish": "Pub",
+"chinese": "酒吧",
 "english": "Pub",
 "french": "Pubs",
-"italian": "Pub",
-"spanish": "Pub",
 "polish": "Karczma",
-"korean": "선술집",
+"russian": "Паб",
 "german": "Wirtshaus",
 "japanese": "パブ",
-"russian": "Паб"
+"korean": "선술집"
 }
 },
 {
@@ -5862,18 +5954,18 @@
 "icon": "icon_church.png",
 "locaText": {
 "brazilian": "Faith",
-"portuguese": "Faith",
-"chinese": "教堂",
 "taiwanese": "教堂",
+"italian": "Chiesa",
+"portuguese": "Faith",
+"spanish": "Iglesia",
+"chinese": "教堂",
 "english": "Church",
 "french": "Églises",
-"italian": "Chiesa",
-"spanish": "Iglesia",
 "polish": "Kościół",
-"korean": "교회",
+"russian": "Церковь",
 "german": "Kirche",
 "japanese": "教会",
-"russian": "Церковь"
+"korean": "교회"
 }
 },
 {
@@ -5882,18 +5974,18 @@
 "icon": "icon_school.png",
 "locaText": {
 "brazilian": "Education",
-"portuguese": "Education",
-"chinese": "学校",
 "taiwanese": "學校",
+"italian": "Scuola",
+"portuguese": "Education",
+"spanish": "Escuela",
+"chinese": "学校",
 "english": "School",
 "french": "Écoles",
-"italian": "Scuola",
-"spanish": "Escuela",
 "polish": "Szkoła",
-"korean": "학교",
+"russian": "Школа",
 "german": "Schule",
 "japanese": "学校",
-"russian": "Школа"
+"korean": "학교"
 }
 },
 {
@@ -5902,18 +5994,18 @@
 "icon": "icon_cabaret.png",
 "locaText": {
 "brazilian": "Entertainment",
-"portuguese": "Entertainment",
-"chinese": "综艺剧场",
 "taiwanese": "綜藝劇場",
+"italian": "Teatro di varietà",
+"portuguese": "Entertainment",
+"spanish": "Teatro de variedades",
+"chinese": "综艺剧场",
 "english": "Variety Theatre",
 "french": "Cabarets",
-"italian": "Teatro di varietà",
-"spanish": "Teatro de variedades",
 "polish": "Rewia",
-"korean": "보드빌 극장",
+"russian": "Театр Варьете",
 "german": "Varieté",
 "japanese": "多目的劇場",
-"russian": "Театр Варьете"
+"korean": "보드빌 극장"
 }
 },
 {
@@ -5922,18 +6014,18 @@
 "icon": "icon_university.png",
 "locaText": {
 "brazilian": "Graduation",
-"portuguese": "Graduation",
-"chinese": "大学",
 "taiwanese": "大學",
+"italian": "Università",
+"portuguese": "Graduation",
+"spanish": "Universidad",
+"chinese": "大学",
 "english": "University",
 "french": "Universités",
-"italian": "Università",
-"spanish": "Universidad",
 "polish": "Uniwersytet",
-"korean": "대학",
+"russian": "Университет",
 "german": "Universität",
 "japanese": "大学",
-"russian": "Университет"
+"korean": "대학"
 }
 },
 {
@@ -5942,18 +6034,18 @@
 "icon": "icon_electric_works_oil.png",
 "locaText": {
 "brazilian": "Electricity",
-"portuguese": "Electricity",
-"chinese": "电力",
 "taiwanese": "電力",
+"italian": "Elettricità",
+"portuguese": "Electricity",
+"spanish": "Electricidad",
+"chinese": "电力",
 "english": "Electricity",
 "french": "Électricité",
-"italian": "Elettricità",
-"spanish": "Electricidad",
 "polish": "Elektryczność",
-"korean": "전기",
+"russian": "Электричество",
 "german": "Elektrizität",
 "japanese": "電気",
-"russian": "Электричество"
+"korean": "전기"
 }
 },
 {
@@ -5962,18 +6054,18 @@
 "icon": "icon_club_house.png",
 "locaText": {
 "brazilian": "Leisure",
-"portuguese": "Leisure",
-"chinese": "会员俱乐部",
 "taiwanese": "會員俱樂部",
+"italian": "Club esclusivo",
+"portuguese": "Leisure",
+"spanish": "Club privado",
+"chinese": "会员俱乐部",
 "english": "Members Club",
 "french": "Foyers",
-"italian": "Club esclusivo",
-"spanish": "Club privado",
 "polish": "Elitarny klub",
-"korean": "회원제 클럽",
+"russian": "Клуб",
 "german": "Clubhaus",
 "japanese": "会員制クラブ",
-"russian": "Клуб"
+"korean": "회원제 클럽"
 }
 },
 {
@@ -5982,18 +6074,18 @@
 "icon": "icon_bank.png",
 "locaText": {
 "brazilian": "Banking",
-"portuguese": "Banking",
-"chinese": "银行",
 "taiwanese": "銀行",
+"italian": "Banca",
+"portuguese": "Banking",
+"spanish": "Banca",
+"chinese": "银行",
 "english": "Bank",
 "french": "Banques",
-"italian": "Banca",
-"spanish": "Banca",
 "polish": "Bank",
-"korean": "은행",
+"russian": "Банк",
 "german": "Bankhaus",
 "japanese": "銀行",
-"russian": "Банк"
+"korean": "은행"
 }
 },
 {
@@ -6001,18 +6093,18 @@
 "guid": 120050,
 "icon": "icon_church.png",
 "locaText": {
-"portuguese": "Chapel",
-"chinese": "小礼拜堂",
 "taiwanese": "小禮拜堂",
+"italian": "Cappella",
+"portuguese": "Chapel",
+"spanish": "Capilla",
+"chinese": "小礼拜堂",
 "english": "Chapel",
 "french": "Chapelle",
-"italian": "Cappella",
-"spanish": "Capilla",
 "polish": "Kaplica",
-"korean": "예배당",
+"russian": "Часовня",
 "german": "Kapelle",
 "japanese": "礼拝堂",
-"russian": "Часовня"
+"korean": "예배당"
 }
 },
 {
@@ -6021,18 +6113,18 @@
 "icon": "icon_box_arena.png",
 "locaText": {
 "brazilian": "Hygiene",
-"portuguese": "Hygiene",
-"chinese": "拳击馆",
 "taiwanese": "拳擊館",
+"italian": "Arena di pugilato",
+"portuguese": "Hygiene",
+"spanish": "Estadio de boxeo",
+"chinese": "拳击馆",
 "english": "Boxing Arena",
 "french": "Salle de boxe",
-"italian": "Arena di pugilato",
-"spanish": "Estadio de boxeo",
 "polish": "Ring bokserski",
-"korean": "권투 경기장",
+"russian": "Боксерский ринг",
 "german": "Boxkampfarena",
 "japanese": "格闘アリーナ",
-"russian": "Боксерский ринг"
+"korean": "권투 경기장"
 }
 },
 {
@@ -6040,17 +6132,17 @@
 "guid": 112708,
 "icon": "icon_heating_center.png",
 "locaText": {
-"chinese": "热源",
 "taiwanese": "熱源",
-"english": "Heat",
-"french": "Chaleur",
 "italian": "Calore",
 "spanish": "Calor",
+"chinese": "热源",
+"english": "Heat",
+"french": "Chaleur",
 "polish": "Ciepło",
-"korean": "난방",
+"russian": "Отопление",
 "german": "Wärme",
 "japanese": "熱",
-"russian": "Отопление"
+"korean": "난방"
 }
 },
 {
@@ -6058,17 +6150,17 @@
 "guid": 112693,
 "icon": "icon_post_office.png",
 "locaText": {
-"chinese": "邮务处",
 "taiwanese": "郵務處",
-"english": "Post Office",
-"french": "Bureau de poste",
 "italian": "Ufficio postale",
 "spanish": "Oficina postal",
+"chinese": "邮务处",
+"english": "Post Office",
+"french": "Bureau de poste",
 "polish": "Urząd pocztowy",
-"korean": "우체국",
+"russian": "Почта",
 "german": "Postamt",
 "japanese": "郵便局",
-"russian": "Почта"
+"korean": "우체국"
 }
 },
 {
@@ -6076,17 +6168,57 @@
 "guid": 114890,
 "icon": "icon_canteen.png",
 "locaText": {
-"chinese": "膳食房",
 "taiwanese": "膳食房",
-"english": "Canteen",
-"french": "Réfectoire",
 "italian": "Mensa",
 "spanish": "Cantina",
+"chinese": "膳食房",
+"english": "Canteen",
+"french": "Réfectoire",
 "polish": "Stołówka",
-"korean": "식당",
+"russian": "Столовая",
 "german": "Kantine",
 "japanese": "食堂",
-"russian": "Столовая"
+"korean": "식당"
+}
+},
+{
+"name": "Fuel",
+"guid": 269751,
+"icon": "icon_gasoline_3d_outline.png",
+"locaText": {
+"taiwanese": "燃料",
+"italian": "Carburante",
+"spanish": "Combustible",
+"chinese": "燃料",
+"english": "Fuel",
+"french": "Carburant",
+"polish": "Paliwo",
+"russian": "Топливо",
+"german": "Treibstoff",
+"japanese": "燃料",
+"korean": "연료"
+}
+},
+{
+"name": "Fuel",
+"guid": 270042,
+"producers": [
+118571,
+269840
+],
+"icon": "icon_gasoline.png",
+"locaText": {
+"taiwanese": "燃料",
+"italian": "Carburante",
+"spanish": "Combustible",
+"chinese": "燃料",
+"english": "Fuel",
+"french": "Carburant",
+"polish": "Paliwo",
+"russian": "Топливо",
+"german": "Treibstoff",
+"japanese": "燃料",
+"korean": "연료"
 }
 },
 {
@@ -6098,18 +6230,18 @@
 "icon": "icon_cereals_2.png",
 "locaText": {
 "brazilian": "Grain",
-"portuguese": "Grain",
-"chinese": "谷物",
 "taiwanese": "穀物",
+"italian": "Grano",
+"portuguese": "Grain",
+"spanish": "Trigo",
+"chinese": "谷物",
 "english": "Grain",
 "french": "Blé",
-"italian": "Grano",
-"spanish": "Trigo",
 "polish": "Zboże",
-"korean": "곡물",
+"russian": "Зерно",
 "german": "Getreide",
 "japanese": "穀物",
-"russian": "Зерно"
+"korean": "곡물"
 }
 },
 {
@@ -6122,18 +6254,18 @@
 "icon": "icon_meat_raw.png",
 "locaText": {
 "brazilian": "Beef",
-"portuguese": "Beef",
-"chinese": "牛肉",
 "taiwanese": "牛肉",
+"italian": "Manzo",
+"portuguese": "Beef",
+"spanish": "Ternera",
+"chinese": "牛肉",
 "english": "Beef",
 "french": "Bœuf",
-"italian": "Manzo",
-"spanish": "Ternera",
 "polish": "Wołowina",
-"korean": "소고기",
+"russian": "Говядина",
 "german": "Rindfleisch",
 "japanese": "牛肉",
-"russian": "Говядина"
+"korean": "소고기"
 }
 },
 {
@@ -6145,18 +6277,18 @@
 "icon": "icon_hops.png",
 "locaText": {
 "brazilian": "Hops",
-"portuguese": "Hops",
-"chinese": "啤酒花",
 "taiwanese": "啤酒花",
+"italian": "Luppoli",
+"portuguese": "Hops",
+"spanish": "Lúpulo",
+"chinese": "啤酒花",
 "english": "Hops",
 "french": "Houblon",
-"italian": "Luppoli",
-"spanish": "Lúpulo",
 "polish": "Chmiel",
-"korean": "홉",
+"russian": "Хмель",
 "german": "Hopfen",
 "japanese": "ホップ",
-"russian": "Хмель"
+"korean": "홉"
 }
 },
 {
@@ -6168,18 +6300,18 @@
 "icon": "icon_potatoes.png",
 "locaText": {
 "brazilian": "Potatoes",
-"portuguese": "Potatoes",
-"chinese": "土豆",
 "taiwanese": "馬鈴薯",
+"italian": "Patate",
+"portuguese": "Potatoes",
+"spanish": "Patatas",
+"chinese": "土豆",
 "english": "Potatoes",
 "french": "Pommes de terre",
-"italian": "Patate",
-"spanish": "Patatas",
 "polish": "Ziemniaki",
-"korean": "감자",
+"russian": "Картофель",
 "german": "Kartoffeln",
 "japanese": "ジャガイモ",
-"russian": "Картофель"
+"korean": "감자"
 }
 },
 {
@@ -6193,18 +6325,18 @@
 "icon": "icon_wood_log.png",
 "locaText": {
 "brazilian": "Wood",
-"portuguese": "Wood",
-"chinese": "原木",
 "taiwanese": "原木",
+"italian": "Legno",
+"portuguese": "Wood",
+"spanish": "Madera",
+"chinese": "原木",
 "english": "Wood",
 "french": "Bois",
-"italian": "Legno",
-"spanish": "Madera",
 "polish": "Drewno",
-"korean": "나무",
+"russian": "Древесина",
 "german": "Holz",
 "japanese": "丸太",
-"russian": "Древесина"
+"korean": "나무"
 }
 },
 {
@@ -6216,18 +6348,18 @@
 "icon": "icon_wool.png",
 "locaText": {
 "brazilian": "Wool",
-"portuguese": "Wool",
-"chinese": "羊毛",
 "taiwanese": "羊毛",
+"italian": "Lana",
+"portuguese": "Wool",
+"spanish": "Lana",
+"chinese": "羊毛",
 "english": "Wool",
 "french": "Laine",
-"italian": "Lana",
-"spanish": "Lana",
 "polish": "Wełna",
-"korean": "양모",
+"russian": "Шерсть",
 "german": "Wolle",
 "japanese": "羊毛",
-"russian": "Шерсть"
+"korean": "양모"
 }
 },
 {
@@ -6239,18 +6371,18 @@
 "icon": "icon_pigs.png",
 "locaText": {
 "brazilian": "Pigs",
-"portuguese": "Pigs",
-"chinese": "猪只",
 "taiwanese": "豬隻",
+"italian": "Maiali",
+"portuguese": "Pigs",
+"spanish": "Cerdos",
+"chinese": "猪只",
 "english": "Pigs",
 "french": "Porcs",
-"italian": "Maiali",
-"spanish": "Cerdos",
 "polish": "Prosięta",
-"korean": "돼지",
+"russian": "Свиньи",
 "german": "Schweine",
 "japanese": "豚",
-"russian": "Свиньи"
+"korean": "돼지"
 }
 },
 {
@@ -6263,18 +6395,18 @@
 "icon": "icon_fur.png",
 "locaText": {
 "brazilian": "Furs",
-"portuguese": "Furs",
-"chinese": "毛皮",
 "taiwanese": "毛皮",
+"italian": "Pellicce",
+"portuguese": "Furs",
+"spanish": "Pieles",
+"chinese": "毛皮",
 "english": "Furs",
 "french": "Fourrures",
-"italian": "Pellicce",
-"spanish": "Pieles",
 "polish": "Futra",
-"korean": "모피",
+"russian": "Меха",
 "german": "Felle",
 "japanese": "毛皮",
-"russian": "Меха"
+"korean": "모피"
 }
 },
 {
@@ -6286,18 +6418,18 @@
 "icon": "icon_grapes.png",
 "locaText": {
 "brazilian": "Grapes",
-"portuguese": "Grapes",
-"chinese": "葡萄",
 "taiwanese": "葡萄",
+"italian": "Uva",
+"portuguese": "Grapes",
+"spanish": "Uvas",
+"chinese": "葡萄",
 "english": "Grapes",
 "french": "Raisin",
-"italian": "Uva",
-"spanish": "Uvas",
 "polish": "Winogrona",
-"korean": "포도",
+"russian": "Виноград",
 "german": "Trauben",
 "japanese": "ブドウ",
-"russian": "Виноград"
+"korean": "포도"
 }
 },
 {
@@ -6309,18 +6441,18 @@
 "icon": "icon_pepper.png",
 "locaText": {
 "brazilian": "Red Peppers",
-"portuguese": "Red Peppers",
-"chinese": "红椒",
 "taiwanese": "紅椒",
+"italian": "Peperoncini",
+"portuguese": "Red Peppers",
+"spanish": "Pimientos rojos",
+"chinese": "红椒",
 "english": "Red Peppers",
 "french": "Poivrons rouges",
-"italian": "Peperoncini",
-"spanish": "Pimientos rojos",
 "polish": "Czerwona papryka",
-"korean": "피망",
+"russian": "Перец",
 "german": "Paprika",
 "japanese": "赤トウガラシ",
-"russian": "Перец"
+"korean": "피망"
 }
 },
 {
@@ -6332,18 +6464,18 @@
 "icon": "icon_fish.png",
 "locaText": {
 "brazilian": "Fish",
-"portuguese": "Fish",
-"chinese": "鱼",
 "taiwanese": "魚",
+"italian": "Pesce",
+"portuguese": "Fish",
+"spanish": "Pescado",
+"chinese": "鱼",
 "english": "Fish",
 "french": "Poisson",
-"italian": "Pesce",
-"spanish": "Pescado",
 "polish": "Ryby",
-"korean": "생선",
+"russian": "Рыба",
 "german": "Fische",
 "japanese": "魚",
-"russian": "Рыба"
+"korean": "생선"
 }
 },
 {
@@ -6356,18 +6488,18 @@
 "icon": "icon_niter.png",
 "locaText": {
 "brazilian": "Saltpetre Works",
-"portuguese": "Saltpetre Works",
-"chinese": "硝石",
 "taiwanese": "硝石",
+"italian": "Salnitro",
+"portuguese": "Saltpetre Works",
+"spanish": "Salitre",
+"chinese": "硝石",
 "english": "Saltpetre",
 "french": "Salpêtre",
-"italian": "Salnitro",
-"spanish": "Salitre",
 "polish": "Saletra",
-"korean": "초석",
+"russian": "Селитра",
 "german": "Salpeter",
 "japanese": "硝石",
-"russian": "Селитра"
+"korean": "초석"
 }
 },
 {
@@ -6379,18 +6511,18 @@
 "icon": "icon_quartz_sand.png",
 "locaText": {
 "brazilian": "Quartz Sand",
-"portuguese": "Quartz Sand",
-"chinese": "石英沙",
 "taiwanese": "石英沙",
+"italian": "Sabbia di quarzo",
+"portuguese": "Quartz Sand",
+"spanish": "Arena de cuarzo",
+"chinese": "石英沙",
 "english": "Quartz Sand",
 "french": "Sable de quartz",
-"italian": "Sabbia di quarzo",
-"spanish": "Arena de cuarzo",
 "polish": "Piasek kwarcowy",
-"korean": "규사",
+"russian": "Кварцевый песок",
 "german": "Quarzsand",
 "japanese": "けい砂",
-"russian": "Кварцевый песок"
+"korean": "규사"
 }
 },
 {
@@ -6402,18 +6534,18 @@
 "icon": "icon_reinforced_concrete.png",
 "locaText": {
 "brazilian": "Reinforced Concrete",
-"portuguese": "Reinforced Concrete",
-"chinese": "钢筋混凝土",
 "taiwanese": "鋼筋混凝土",
+"italian": "Cemento armato",
+"portuguese": "Reinforced Concrete",
+"spanish": "Hormigón armado",
+"chinese": "钢筋混凝土",
 "english": "Reinforced Concrete",
 "french": "Béton renforcé",
-"italian": "Cemento armato",
-"spanish": "Hormigón armado",
 "polish": "Beton zbrojony",
-"korean": "강화 콘크리트",
+"russian": "Железобетон",
 "german": "Stahlbeton",
 "japanese": "鉄筋コンクリート",
-"russian": "Железобетон"
+"korean": "강화 콘크리트"
 }
 },
 {
@@ -6425,18 +6557,18 @@
 "icon": "icon_soap_2.png",
 "locaText": {
 "brazilian": "Soap",
-"portuguese": "Soap",
-"chinese": "肥皂",
 "taiwanese": "肥皂",
+"italian": "Sapone",
+"portuguese": "Soap",
+"spanish": "Jabón",
+"chinese": "肥皂",
 "english": "Soap",
 "french": "Savon",
-"italian": "Sapone",
-"spanish": "Jabón",
 "polish": "Mydło",
-"korean": "비누",
+"russian": "Мыло",
 "german": "Seife",
 "japanese": "石鹸",
-"russian": "Мыло"
+"korean": "비누"
 }
 },
 {
@@ -6450,18 +6582,18 @@
 "icon": "icon_wooden_planks.png",
 "locaText": {
 "brazilian": "Timber",
-"portuguese": "Timber",
-"chinese": "木材",
 "taiwanese": "木材",
+"italian": "Legname",
+"portuguese": "Timber",
+"spanish": "Tablones",
+"chinese": "木材",
 "english": "Timber",
 "french": "Planches",
-"italian": "Legname",
-"spanish": "Tablones",
 "polish": "Deski",
-"korean": "목재",
+"russian": "Доски",
 "german": "Bretter",
 "japanese": "木板",
-"russian": "Доски"
+"korean": "목재"
 }
 },
 {
@@ -6474,18 +6606,18 @@
 "icon": "icon_bricks.png",
 "locaText": {
 "brazilian": "Bricks",
-"portuguese": "Bricks",
-"chinese": "砖块",
 "taiwanese": "磚塊",
+"italian": "Mattoni",
+"portuguese": "Bricks",
+"spanish": "Ladrillos",
+"chinese": "砖块",
 "english": "Bricks",
 "french": "Briques",
-"italian": "Mattoni",
-"spanish": "Ladrillos",
 "polish": "Cegły",
-"korean": "벽돌",
+"russian": "Кирпичи",
 "german": "Ziegelsteine",
 "japanese": "レンガ",
-"russian": "Кирпичи"
+"korean": "벽돌"
 }
 },
 {
@@ -6497,18 +6629,18 @@
 "icon": "icon_fur_coats.png",
 "locaText": {
 "brazilian": "Fur Coats",
-"portuguese": "Fur Coats",
-"chinese": "皮草大衣",
 "taiwanese": "皮草大衣",
+"italian": "Abiti di pelliccia",
+"portuguese": "Fur Coats",
+"spanish": "Abrigos de piel",
+"chinese": "皮草大衣",
 "english": "Fur Coats",
 "french": "Manteaux de fourrure",
-"italian": "Abiti di pelliccia",
-"spanish": "Abrigos de piel",
 "polish": "Płaszcze futrzane",
-"korean": "모피 코트",
+"russian": "Шубы",
 "german": "Pelzmäntel",
 "japanese": "毛皮のコート",
-"russian": "Шубы"
+"korean": "모피 코트"
 }
 },
 {
@@ -6520,18 +6652,18 @@
 "icon": "icon_glass_window_3.png",
 "locaText": {
 "brazilian": "Windows",
-"portuguese": "Windows",
-"chinese": "窗户",
 "taiwanese": "窗戶",
+"italian": "Finestre",
+"portuguese": "Windows",
+"spanish": "Ventanas",
+"chinese": "窗户",
 "english": "Windows",
 "french": "Fenêtres",
-"italian": "Finestre",
-"spanish": "Ventanas",
 "polish": "Okna",
-"korean": "창문",
+"russian": "Окна",
 "german": "Fenster",
 "japanese": "窓",
-"russian": "Окна"
+"korean": "창문"
 }
 },
 {
@@ -6543,18 +6675,18 @@
 "icon": "icon_light_bulb.png",
 "locaText": {
 "brazilian": "Light Bulbs",
-"portuguese": "Light Bulbs",
-"chinese": "灯泡",
 "taiwanese": "燈泡",
+"italian": "Lampadine",
+"portuguese": "Light Bulbs",
+"spanish": "Bombillas",
+"chinese": "灯泡",
 "english": "Light Bulbs",
 "french": "Ampoules",
-"italian": "Lampadine",
-"spanish": "Bombillas",
 "polish": "Żarówki",
-"korean": "전구",
+"russian": "Электролампы",
 "german": "Glühbirnen",
 "japanese": "電球",
-"russian": "Электролампы"
+"korean": "전구"
 }
 },
 {
@@ -6567,18 +6699,18 @@
 "icon": "icon_sail.png",
 "locaText": {
 "brazilian": "Sails",
-"portuguese": "Sails",
-"chinese": "船帆",
 "taiwanese": "船帆",
+"italian": "Vele",
+"portuguese": "Sails",
+"spanish": "Velas",
+"chinese": "船帆",
 "english": "Sails",
 "french": "Voiles",
-"italian": "Vele",
-"spanish": "Velas",
 "polish": "Żagle",
-"korean": "돛",
+"russian": "Паруса",
 "german": "Segel",
 "japanese": "帆布",
-"russian": "Паруса"
+"korean": "돛"
 }
 },
 {
@@ -6590,18 +6722,18 @@
 "icon": "icon_chassis.png",
 "locaText": {
 "brazilian": "Chassis",
-"portuguese": "Chassis",
-"chinese": "底盘",
 "taiwanese": "底盤",
+"italian": "Telaio",
+"portuguese": "Chassis",
+"spanish": "Chasis",
+"chinese": "底盘",
 "english": "Chassis",
 "french": "Châssis",
-"italian": "Telaio",
-"spanish": "Chasis",
 "polish": "Podwozia",
-"korean": "차체",
+"russian": "Шасси",
 "german": "Fahrgestelle",
 "japanese": "シャーシ",
-"russian": "Шасси"
+"korean": "차체"
 }
 },
 {
@@ -6614,18 +6746,18 @@
 "icon": "icon_clay.png",
 "locaText": {
 "brazilian": "Clay",
-"portuguese": "Clay",
-"chinese": "陶土",
 "taiwanese": "陶土",
+"italian": "Creta",
+"portuguese": "Clay",
+"spanish": "Arcilla",
+"chinese": "陶土",
 "english": "Clay",
 "french": "Argile",
-"italian": "Creta",
-"spanish": "Arcilla",
 "polish": "Glina",
-"korean": "점토",
+"russian": "Глина",
 "german": "Lehm",
 "japanese": "粘土",
-"russian": "Глина"
+"korean": "점토"
 }
 },
 {
@@ -6637,18 +6769,18 @@
 "icon": "icon_sewing_machine.png",
 "locaText": {
 "brazilian": "Sewing Machines",
-"portuguese": "Sewing Machines",
-"chinese": "缝纫机",
 "taiwanese": "縫紉機",
+"italian": "Macchine da cucire",
+"portuguese": "Sewing Machines",
+"spanish": "Máquinas de costura",
+"chinese": "缝纫机",
 "english": "Sewing Machines",
 "french": "Machines à coudre",
-"italian": "Macchine da cucire",
-"spanish": "Máquinas de costura",
 "polish": "Maszyny do szycia",
-"korean": "재봉틀",
+"russian": "Швейные машины",
 "german": "Nähmaschinen",
 "japanese": "ミシン",
-"russian": "Швейные машины"
+"korean": "재봉틀"
 }
 },
 {
@@ -6660,18 +6792,18 @@
 "icon": "icon_bread.png",
 "locaText": {
 "brazilian": "Bread",
-"portuguese": "Bread",
-"chinese": "面包",
 "taiwanese": "麵包",
+"italian": "Pane",
+"portuguese": "Bread",
+"spanish": "Pan",
+"chinese": "面包",
 "english": "Bread",
 "french": "Pain",
-"italian": "Pane",
-"spanish": "Pan",
 "polish": "Chleb",
-"korean": "빵",
+"russian": "Хлеб",
 "german": "Brot",
 "japanese": "パン",
-"russian": "Хлеб"
+"korean": "빵"
 }
 },
 {
@@ -6683,18 +6815,18 @@
 "icon": "icon_beer.png",
 "locaText": {
 "brazilian": "Beer",
-"portuguese": "Beer",
-"chinese": "啤酒",
 "taiwanese": "啤酒",
+"italian": "Birra",
+"portuguese": "Beer",
+"spanish": "Cerveza",
+"chinese": "啤酒",
 "english": "Beer",
 "french": "Bière",
-"italian": "Birra",
-"spanish": "Cerveza",
 "polish": "Piwo",
-"korean": "맥주",
+"russian": "Пиво",
 "german": "Bier",
 "japanese": "ビール",
-"russian": "Пиво"
+"korean": "맥주"
 }
 },
 {
@@ -6706,18 +6838,18 @@
 "icon": "icon_goulash_01.png",
 "locaText": {
 "brazilian": "Goulash",
-"portuguese": "Goulash",
-"chinese": "红椒炖肉",
 "taiwanese": "紅椒燉肉",
+"italian": "Gulasch",
+"portuguese": "Goulash",
+"spanish": "Goulash",
+"chinese": "红椒炖肉",
 "english": "Goulash",
 "french": "Goulasch",
-"italian": "Gulasch",
-"spanish": "Goulash",
 "polish": "Gulasz",
-"korean": "굴라시",
+"russian": "Гуляш",
 "german": "Gulasch",
 "japanese": "グーラッシュ",
-"russian": "Гуляш"
+"korean": "굴라시"
 }
 },
 {
@@ -6729,18 +6861,18 @@
 "icon": "icon_canned_goulash.png",
 "locaText": {
 "brazilian": "Canned Food",
-"portuguese": "Canned Food",
-"chinese": "罐头食物",
 "taiwanese": "罐頭食物",
+"italian": "Cibo in scatola",
+"portuguese": "Canned Food",
+"spanish": "Comida en conserva",
+"chinese": "罐头食物",
 "english": "Canned Food",
 "french": "Conserves",
-"italian": "Cibo in scatola",
-"spanish": "Comida en conserva",
 "polish": "Konserwy",
-"korean": "통조림",
+"russian": "Консервы",
 "german": "Fleischkonserven",
 "japanese": "缶詰",
-"russian": "Консервы"
+"korean": "통조림"
 }
 },
 {
@@ -6752,18 +6884,18 @@
 "icon": "icon_schnapps_4.png",
 "locaText": {
 "brazilian": "Schnapps",
-"portuguese": "Schnapps",
-"chinese": "烈酒",
 "taiwanese": "烈酒",
+"italian": "Liquore",
+"portuguese": "Schnapps",
+"spanish": "Licor",
+"chinese": "烈酒",
 "english": "Schnapps",
 "french": "Eau-de-vie",
-"italian": "Liquore",
-"spanish": "Licor",
 "polish": "Alkohol",
-"korean": "슈냅스",
+"russian": "Шнапс",
 "german": "Schnaps",
 "japanese": "シュナップス",
-"russian": "Шнапс"
+"korean": "슈냅스"
 }
 },
 {
@@ -6775,18 +6907,18 @@
 "icon": "icon_meat_sausage.png",
 "locaText": {
 "brazilian": "Sausages",
-"portuguese": "Sausages",
-"chinese": "香肠",
 "taiwanese": "香腸",
+"italian": "Salsicce",
+"portuguese": "Sausages",
+"spanish": "Salchichas",
+"chinese": "香肠",
 "english": "Sausages",
 "french": "Saucisses",
-"italian": "Salsicce",
-"spanish": "Salchichas",
 "polish": "Kiełbasy",
-"korean": "소시지",
+"russian": "Колбаски",
 "german": "Wurst",
 "japanese": "ソーセージ",
-"russian": "Колбаски"
+"korean": "소시지"
 }
 },
 {
@@ -6798,18 +6930,18 @@
 "icon": "icon_champagne.png",
 "locaText": {
 "brazilian": "Champagne",
-"portuguese": "Champagne",
-"chinese": "香槟",
 "taiwanese": "香檳",
+"italian": "Champagne",
+"portuguese": "Champagne",
+"spanish": "Champán",
+"chinese": "香槟",
 "english": "Champagne",
 "french": "Champagne",
-"italian": "Champagne",
-"spanish": "Champán",
 "polish": "Szampan",
-"korean": "샴페인",
+"russian": "Игристое вино",
 "german": "Sekt",
 "japanese": "シャンパン",
-"russian": "Игристое вино"
+"korean": "샴페인"
 }
 },
 {
@@ -6821,18 +6953,18 @@
 "icon": "icon_beams.png",
 "locaText": {
 "brazilian": "Beams",
-"portuguese": "Beams",
-"chinese": "钢梁",
 "taiwanese": "鋼梁",
+"italian": "Travi d'acciaio",
+"portuguese": "Beams",
+"spanish": "Vigas de acero",
+"chinese": "钢梁",
 "english": "Steel Beams",
 "french": "Poutres d'acier",
-"italian": "Travi d'acciaio",
-"spanish": "Vigas de acero",
 "polish": "Stalowe belki",
-"korean": "철재",
+"russian": "Стальные балки",
 "german": "Stahlträger",
 "japanese": "鉄骨材",
-"russian": "Стальные балки"
+"korean": "철재"
 }
 },
 {
@@ -6844,18 +6976,18 @@
 "icon": "icon_steel.png",
 "locaText": {
 "brazilian": "Steel",
-"portuguese": "Steel",
-"chinese": "钢铁",
 "taiwanese": "鋼鐵",
+"italian": "Acciaio",
+"portuguese": "Steel",
+"spanish": "Acero",
+"chinese": "钢铁",
 "english": "Steel",
 "french": "Acier",
-"italian": "Acciaio",
-"spanish": "Acero",
 "polish": "Stal",
-"korean": "강철",
+"russian": "Сталь",
 "german": "Stahl",
 "japanese": "鋼鉄",
-"russian": "Сталь"
+"korean": "강철"
 }
 },
 {
@@ -6867,18 +6999,18 @@
 "icon": "icon_weapons.png",
 "locaText": {
 "brazilian": "Weapons",
-"portuguese": "Weapons",
-"chinese": "武器",
 "taiwanese": "武器",
+"italian": "Armi",
+"portuguese": "Weapons",
+"spanish": "Armas",
+"chinese": "武器",
 "english": "Weapons",
 "french": "Armes",
-"italian": "Armi",
-"spanish": "Armas",
 "polish": "Uzbrojenie",
-"korean": "무기",
+"russian": "Оружие",
 "german": "Kanonen",
 "japanese": "武器",
-"russian": "Оружие"
+"korean": "무기"
 }
 },
 {
@@ -6890,18 +7022,18 @@
 "icon": "icon_dynamite.png",
 "locaText": {
 "brazilian": "Dynamite",
-"portuguese": "Dynamite",
-"chinese": "炸药",
 "taiwanese": "炸藥",
+"italian": "Dinamite",
+"portuguese": "Dynamite",
+"spanish": "Dinamita",
+"chinese": "炸药",
 "english": "Dynamite",
 "french": "Dynamite",
-"italian": "Dinamite",
-"spanish": "Dinamita",
 "polish": "Dynamit",
-"korean": "다이너마이트",
+"russian": "Динамит",
 "german": "Dynamit",
 "japanese": "ダイナマイト",
-"russian": "Динамит"
+"korean": "다이너마이트"
 }
 },
 {
@@ -6913,18 +7045,18 @@
 "icon": "icon_advanced_weaponry.png",
 "locaText": {
 "brazilian": "Advanced Weapons",
-"portuguese": "Advanced Weapons",
-"chinese": "先进武器",
 "taiwanese": "先進武器",
+"italian": "Armi avanzate",
+"portuguese": "Advanced Weapons",
+"spanish": "Armas avanzadas",
+"chinese": "先进武器",
 "english": "Advanced Weapons",
 "french": "Armes lourdes",
-"italian": "Armi avanzate",
-"spanish": "Armas avanzadas",
 "polish": "Zaawansowane uzbrojenie",
-"korean": "고급 무기",
+"russian": "Усовершенствованное оружие",
 "german": "Schwere Geschütze",
 "japanese": "最新武器",
-"russian": "Усовершенствованное оружие"
+"korean": "고급 무기"
 }
 },
 {
@@ -6936,18 +7068,18 @@
 "icon": "icon_steam_machine.png",
 "locaText": {
 "brazilian": "Steam Motors",
-"portuguese": "Steam Motors",
-"chinese": "蒸汽机",
 "taiwanese": "蒸汽機",
+"italian": "Motori a vapore",
+"portuguese": "Steam Motors",
+"spanish": "Motores de vapor",
+"chinese": "蒸汽机",
 "english": "Steam Motors",
 "french": "Moteurs à vapeur",
-"italian": "Motori a vapore",
-"spanish": "Motores de vapor",
 "polish": "Silniki parowe",
-"korean": "증기 모터",
+"russian": "Паровые двигатели",
 "german": "Dampfmaschinen",
 "japanese": "蒸気モーター",
-"russian": "Паровые двигатели"
+"korean": "증기 모터"
 }
 },
 {
@@ -6959,18 +7091,18 @@
 "icon": "icon_steam_carriage.png",
 "locaText": {
 "brazilian": "Steam Carriages",
-"portuguese": "Steam Carriages",
-"chinese": "蒸汽车",
 "taiwanese": "蒸汽車",
+"italian": "Carrozze a vapore",
+"portuguese": "Steam Carriages",
+"spanish": "Carruajes de vapor",
+"chinese": "蒸汽车",
 "english": "Steam Carriages",
 "french": "Automobiles à vapeur",
-"italian": "Carrozze a vapore",
-"spanish": "Carruajes de vapor",
 "polish": "Pojazdy parowe",
-"korean": "증기차",
+"russian": "Паровой транспорт",
 "german": "Dampfwagen",
 "japanese": "蒸気自動車",
-"russian": "Паровой транспорт"
+"korean": "증기차"
 }
 },
 {
@@ -6982,18 +7114,18 @@
 "icon": "icon_brass.png",
 "locaText": {
 "brazilian": "Brass",
-"portuguese": "Brass",
-"chinese": "黄铜",
 "taiwanese": "黃銅",
+"italian": "Ottone",
+"portuguese": "Brass",
+"spanish": "Latón",
+"chinese": "黄铜",
 "english": "Brass",
 "french": "Laiton",
-"italian": "Ottone",
-"spanish": "Latón",
 "polish": "Mosiądz",
-"korean": "황동",
+"russian": "Латунь",
 "german": "Messing",
 "japanese": "真鍮",
-"russian": "Латунь"
+"korean": "황동"
 }
 },
 {
@@ -7007,18 +7139,18 @@
 "icon": "icon_coal.png",
 "locaText": {
 "brazilian": "Coal",
-"portuguese": "Coal",
-"chinese": "煤",
 "taiwanese": "煤",
+"italian": "Carbone",
+"portuguese": "Coal",
+"spanish": "Carbón",
+"chinese": "煤",
 "english": "Coal",
 "french": "Charbon",
-"italian": "Carbone",
-"spanish": "Carbón",
 "polish": "Węgiel",
-"korean": "석탄",
+"russian": "Уголь",
 "german": "Kohle",
 "japanese": "石炭",
-"russian": "Уголь"
+"korean": "석탄"
 }
 },
 {
@@ -7030,18 +7162,18 @@
 "icon": "icon_iron.png",
 "locaText": {
 "brazilian": "Iron",
-"portuguese": "Iron",
-"chinese": "铁",
 "taiwanese": "鐵",
+"italian": "Ferro",
+"portuguese": "Iron",
+"spanish": "Hierro",
+"chinese": "铁",
 "english": "Iron",
 "french": "Fer",
-"italian": "Ferro",
-"spanish": "Hierro",
 "polish": "Żelazo",
-"korean": "철",
+"russian": "Железо",
 "german": "Eisen",
 "japanese": "鉄",
-"russian": "Железо"
+"korean": "철"
 }
 },
 {
@@ -7053,18 +7185,18 @@
 "icon": "icon_tin_ore.png",
 "locaText": {
 "brazilian": "Zinc",
-"portuguese": "Zinc",
-"chinese": "锌",
 "taiwanese": "鋅",
+"italian": "Zinco",
+"portuguese": "Zinc",
+"spanish": "Zinc",
+"chinese": "锌",
 "english": "Zinc",
 "french": "Zinc",
-"italian": "Zinco",
-"spanish": "Zinc",
 "polish": "Cynk",
-"korean": "아연",
+"russian": "Цинк",
 "german": "Zink",
 "japanese": "亜鉛",
-"russian": "Цинк"
+"korean": "아연"
 }
 },
 {
@@ -7076,18 +7208,18 @@
 "icon": "icon_copper.png",
 "locaText": {
 "brazilian": "Copper",
-"portuguese": "Copper",
-"chinese": "铜",
 "taiwanese": "銅",
+"italian": "Rame",
+"portuguese": "Copper",
+"spanish": "Cobre",
+"chinese": "铜",
 "english": "Copper",
 "french": "Cuivre",
-"italian": "Rame",
-"spanish": "Cobre",
 "polish": "Miedź",
-"korean": "구리",
+"russian": "Медь",
 "german": "Kupfer",
 "japanese": "銅",
-"russian": "Медь"
+"korean": "구리"
 }
 },
 {
@@ -7099,18 +7231,18 @@
 "icon": "icon_cement.png",
 "locaText": {
 "brazilian": "Cement",
-"portuguese": "Cement",
-"chinese": "水泥",
 "taiwanese": "水泥",
+"italian": "Cemento",
+"portuguese": "Cement",
+"spanish": "Cemento",
+"chinese": "水泥",
 "english": "Cement",
 "french": "Ciment",
-"italian": "Cemento",
-"spanish": "Cemento",
 "polish": "Cement",
-"korean": "시멘트",
+"russian": "Цемент",
 "german": "Zement",
 "japanese": "セメント",
-"russian": "Цемент"
+"korean": "시멘트"
 }
 },
 {
@@ -7123,18 +7255,18 @@
 "icon": "icon_gold_ore.png",
 "locaText": {
 "brazilian": "Gold Ore",
-"portuguese": "Gold Ore",
-"chinese": "金矿石",
 "taiwanese": "金礦石",
+"italian": "Minerale d'oro",
+"portuguese": "Gold Ore",
+"spanish": "Mineral de oro",
+"chinese": "金矿石",
 "english": "Gold Ore",
 "french": "Minerai d'or",
-"italian": "Minerale d'oro",
-"spanish": "Mineral de oro",
 "polish": "Ruda złota",
-"korean": "금광석",
+"russian": "Золотая руда",
 "german": "Gold",
 "japanese": "金鉱",
-"russian": "Золотая руда"
+"korean": "금광석"
 }
 },
 {
@@ -7146,18 +7278,18 @@
 "icon": "icon_tallow.png",
 "locaText": {
 "brazilian": "Tallow",
-"portuguese": "Tallow",
-"chinese": "动物性油脂",
 "taiwanese": "動物性油脂",
+"italian": "Sego",
+"portuguese": "Tallow",
+"spanish": "Sebo",
+"chinese": "动物性油脂",
 "english": "Tallow",
 "french": "Suif",
-"italian": "Sego",
-"spanish": "Sebo",
 "polish": "Łój",
-"korean": "수지",
+"russian": "Сало",
 "german": "Talg",
 "japanese": "獣脂",
-"russian": "Сало"
+"korean": "수지"
 }
 },
 {
@@ -7169,18 +7301,18 @@
 "icon": "icon_flour.png",
 "locaText": {
 "brazilian": "Flour",
-"portuguese": "Flour",
-"chinese": "小麦粉",
 "taiwanese": "小麥粉",
+"italian": "Farina",
+"portuguese": "Flour",
+"spanish": "Harina",
+"chinese": "小麦粉",
 "english": "Flour",
 "french": "Farine",
-"italian": "Farina",
-"spanish": "Harina",
 "polish": "Mąka",
-"korean": "밀가루",
+"russian": "Мука",
 "german": "Mehl",
 "japanese": "小麦粉",
-"russian": "Мука"
+"korean": "밀가루"
 }
 },
 {
@@ -7192,18 +7324,18 @@
 "icon": "icon_malt.png",
 "locaText": {
 "brazilian": "Malt",
-"portuguese": "Malt",
-"chinese": "麦芽",
 "taiwanese": "麥芽",
+"italian": "Malto",
+"portuguese": "Malt",
+"spanish": "Malta",
+"chinese": "麦芽",
 "english": "Malt",
 "french": "Malt",
-"italian": "Malto",
-"spanish": "Malta",
 "polish": "Słód",
-"korean": "맥아",
+"russian": "Солод",
 "german": "Malz",
 "japanese": "麦芽",
-"russian": "Солод"
+"korean": "맥아"
 }
 },
 {
@@ -7215,18 +7347,18 @@
 "icon": "icon_working_cloth.png",
 "locaText": {
 "brazilian": "Work Clothes",
-"portuguese": "Work Clothes",
-"chinese": "工作服",
 "taiwanese": "工作服",
+"italian": "Abiti da lavoro",
+"portuguese": "Work Clothes",
+"spanish": "Ropas de trabajo",
+"chinese": "工作服",
 "english": "Work Clothes",
 "french": "Vêtements de travail",
-"italian": "Abiti da lavoro",
-"spanish": "Ropas de trabajo",
 "polish": "Ubrania robocze",
-"korean": "작업복",
+"russian": "Рабочая одежда",
 "german": "Arbeitskleidung",
 "japanese": "作業着",
-"russian": "Рабочая одежда"
+"korean": "작업복"
 }
 },
 {
@@ -7238,18 +7370,18 @@
 "icon": "icon_glass.png",
 "locaText": {
 "brazilian": "Glass",
-"portuguese": "Glass",
-"chinese": "玻璃",
 "taiwanese": "玻璃",
+"italian": "Vetro",
+"portuguese": "Glass",
+"spanish": "Cristal",
+"chinese": "玻璃",
 "english": "Glass",
 "french": "Verre",
-"italian": "Vetro",
-"spanish": "Cristal",
 "polish": "Szkło",
-"korean": "유리",
+"russian": "Стекло",
 "german": "Glas",
 "japanese": "ガラス",
-"russian": "Стекло"
+"korean": "유리"
 }
 },
 {
@@ -7262,18 +7394,18 @@
 "icon": "icon_inlay.png",
 "locaText": {
 "brazilian": "Wood Veneers",
-"portuguese": "Wood Veneers",
-"chinese": "薄木片",
 "taiwanese": "薄木片",
+"italian": "Impiallacciature di legno",
+"portuguese": "Wood Veneers",
+"spanish": "Revestimientos de madera",
+"chinese": "薄木片",
 "english": "Wood Veneers",
 "french": "Placages de bois",
-"italian": "Impiallacciature di legno",
-"spanish": "Revestimientos de madera",
 "polish": "Okładzina drewniana",
-"korean": "합판",
+"russian": "Шпон",
 "german": "Holzfurnier",
 "japanese": "寄せ木細工",
-"russian": "Шпон"
+"korean": "합판"
 }
 },
 {
@@ -7285,18 +7417,18 @@
 "icon": "icon_carbon_filament.png",
 "locaText": {
 "brazilian": "Filaments",
-"portuguese": "Filaments",
-"chinese": "灯丝",
 "taiwanese": "燈絲",
+"italian": "Filati",
+"portuguese": "Filaments",
+"spanish": "Filamentos",
+"chinese": "灯丝",
 "english": "Filaments",
 "french": "Filaments",
-"italian": "Filati",
-"spanish": "Filamentos",
 "polish": "Żarniki",
-"korean": "필라멘트",
+"russian": "Нити накала",
 "german": "Glühfäden",
 "japanese": "フィラメント",
-"russian": "Нити накала"
+"korean": "필라멘트"
 }
 },
 {
@@ -7308,18 +7440,18 @@
 "icon": "icon_high_wheeler.png",
 "locaText": {
 "brazilian": "Penny Farthings",
-"portuguese": "Penny Farthings",
-"chinese": "大小轮自行车",
 "taiwanese": "大小輪自行車",
+"italian": "Biciclo",
+"portuguese": "Penny Farthings",
+"spanish": "Cuartos de penique",
+"chinese": "大小轮自行车",
 "english": "Penny Farthings",
 "french": "Grands-bis",
-"italian": "Biciclo",
-"spanish": "Cuartos de penique",
 "polish": "Bicykle",
-"korean": "자전거",
+"russian": "Пенни-фартинги",
 "german": "Hochräder",
 "japanese": "ファージング硬貨",
-"russian": "Пенни-фартинги"
+"korean": "자전거"
 }
 },
 {
@@ -7331,18 +7463,18 @@
 "icon": "icon_pocket_watch.png",
 "locaText": {
 "brazilian": "Pocket Watches",
-"portuguese": "Pocket Watches",
-"chinese": "怀表",
 "taiwanese": "懷錶",
+"italian": "Orologi da taschino",
+"portuguese": "Pocket Watches",
+"spanish": "Relojes de bolsillo",
+"chinese": "怀表",
 "english": "Pocket Watches",
 "french": "Montres à gousset",
-"italian": "Orologi da taschino",
-"spanish": "Relojes de bolsillo",
 "polish": "Zegarki kieszonkowe",
-"korean": "회중시계",
+"russian": "Карманные часы",
 "german": "Taschenuhren",
 "japanese": "懐中時計",
-"russian": "Карманные часы"
+"korean": "회중시계"
 }
 },
 {
@@ -7354,18 +7486,18 @@
 "icon": "icon_glasses.png",
 "locaText": {
 "brazilian": "Glasses",
-"portuguese": "Glasses",
-"chinese": "眼镜",
 "taiwanese": "眼鏡",
+"italian": "Occhiali",
+"portuguese": "Glasses",
+"spanish": "Gafas",
+"chinese": "眼镜",
 "english": "Glasses",
 "french": "Lunettes",
-"italian": "Occhiali",
-"spanish": "Gafas",
 "polish": "Okulary",
-"korean": "안경",
+"russian": "Очки",
 "german": "Brillen",
 "japanese": "眼鏡",
-"russian": "Очки"
+"korean": "안경"
 }
 },
 {
@@ -7377,18 +7509,18 @@
 "icon": "icon_phonographs.png",
 "locaText": {
 "brazilian": "Gramophones",
-"portuguese": "Gramophones",
-"chinese": "留声机",
 "taiwanese": "留聲機",
+"italian": "Grammofoni",
+"portuguese": "Gramophones",
+"spanish": "Gramófonos",
+"chinese": "留声机",
 "english": "Gramophones",
 "french": "Gramophones",
-"italian": "Grammofoni",
-"spanish": "Gramófonos",
 "polish": "Gramofony",
-"korean": "축음기",
+"russian": "Граммофоны",
 "german": "Phonographen",
 "japanese": "蓄音機",
-"russian": "Граммофоны"
+"korean": "축음기"
 }
 },
 {
@@ -7400,18 +7532,18 @@
 "icon": "icon_gold.png",
 "locaText": {
 "brazilian": "Gold",
-"portuguese": "Gold",
-"chinese": "金",
 "taiwanese": "金",
+"italian": "Oro",
+"portuguese": "Gold",
+"spanish": "Oro",
+"chinese": "金",
 "english": "Gold",
 "french": "Or",
-"italian": "Oro",
-"spanish": "Oro",
 "polish": "Złoto",
-"korean": "금",
+"russian": "Золото",
 "german": "Goldbarren",
 "japanese": "金",
-"russian": "Золото"
+"korean": "금"
 }
 },
 {
@@ -7423,18 +7555,18 @@
 "icon": "icon_jewelry.png",
 "locaText": {
 "brazilian": "Jewellery",
-"portuguese": "Jewellery",
-"chinese": "珠宝",
 "taiwanese": "珠寶",
+"italian": "Gioielli",
+"portuguese": "Jewellery",
+"spanish": "Joyería",
+"chinese": "珠宝",
 "english": "Jewellery",
 "french": "Bijoux",
-"italian": "Gioielli",
-"spanish": "Joyería",
 "polish": "Biżuteria",
-"korean": "보석",
+"russian": "Украшения",
 "german": "Schmuck",
 "japanese": "宝石",
-"russian": "Украшения"
+"korean": "보석"
 }
 },
 {
@@ -7446,18 +7578,18 @@
 "icon": "icon_cane_sugar_1.png",
 "locaText": {
 "brazilian": "Sugar Cane",
-"portuguese": "Sugar Cane",
-"chinese": "甘蔗",
 "taiwanese": "甘蔗",
+"italian": "Canna da zucchero",
+"portuguese": "Sugar Cane",
+"spanish": "Caña de azúcar",
+"chinese": "甘蔗",
 "english": "Sugar Cane",
 "french": "Canne à sucre",
-"italian": "Canna da zucchero",
-"spanish": "Caña de azúcar",
 "polish": "Trzcina cukrowa",
-"korean": "사탕수수",
+"russian": "Сахарный тростник",
 "german": "Zuckerrohr",
 "japanese": "さとうきび",
-"russian": "Сахарный тростник"
+"korean": "사탕수수"
 }
 },
 {
@@ -7469,18 +7601,18 @@
 "icon": "icon_tobacco.png",
 "locaText": {
 "brazilian": "Tobacco",
-"portuguese": "Tobacco",
-"chinese": "烟草",
 "taiwanese": "菸草",
+"italian": "Tabacco",
+"portuguese": "Tobacco",
+"spanish": "Tabaco",
+"chinese": "烟草",
 "english": "Tobacco",
 "french": "Tabac",
-"italian": "Tabacco",
-"spanish": "Tabaco",
 "polish": "Tytoń",
-"korean": "담배",
+"russian": "Табак",
 "german": "Tabak",
 "japanese": "タバコ",
-"russian": "Табак"
+"korean": "담배"
 }
 },
 {
@@ -7492,18 +7624,18 @@
 "icon": "icon_cotton.png",
 "locaText": {
 "brazilian": "Cotton",
-"portuguese": "Cotton",
-"chinese": "棉花",
 "taiwanese": "棉花",
+"italian": "Cotone",
+"portuguese": "Cotton",
+"spanish": "Algodón",
+"chinese": "棉花",
 "english": "Cotton",
 "french": "Coton",
-"italian": "Cotone",
-"spanish": "Algodón",
 "polish": "Bawełna",
-"korean": "목화",
+"russian": "Хлопок",
 "german": "Baumwolle",
 "japanese": "木綿",
-"russian": "Хлопок"
+"korean": "목화"
 }
 },
 {
@@ -7515,18 +7647,18 @@
 "icon": "icon_cocoa.png",
 "locaText": {
 "brazilian": "Cocoa",
-"portuguese": "Cocoa",
-"chinese": "可可",
 "taiwanese": "可可",
+"italian": "Cacao",
+"portuguese": "Cocoa",
+"spanish": "Cacao",
+"chinese": "可可",
 "english": "Cocoa",
 "french": "Cacao",
-"italian": "Cacao",
-"spanish": "Cacao",
 "polish": "Kakao",
-"korean": "코코아",
+"russian": "Какао",
 "german": "Kakao",
 "japanese": "ココア",
-"russian": "Какао"
+"korean": "코코아"
 }
 },
 {
@@ -7538,18 +7670,18 @@
 "icon": "icon_caoutchouc.png",
 "locaText": {
 "brazilian": "Caoutchouc",
-"portuguese": "Caoutchouc",
-"chinese": "橡胶",
 "taiwanese": "橡膠",
+"italian": "Caucciù",
+"portuguese": "Caoutchouc",
+"spanish": "Caucho",
+"chinese": "橡胶",
 "english": "Caoutchouc",
 "french": "Caoutchouc",
-"italian": "Caucciù",
-"spanish": "Caucho",
 "polish": "Kauczuk",
-"korean": "생고무",
+"russian": "Каучук",
 "german": "Kautschuk",
 "japanese": "天然ゴム",
-"russian": "Каучук"
+"korean": "생고무"
 }
 },
 {
@@ -7561,18 +7693,18 @@
 "icon": "icon_coffee_beans.png",
 "locaText": {
 "brazilian": "Coffee Beans",
-"portuguese": "Coffee Beans",
-"chinese": "咖啡豆",
 "taiwanese": "咖啡豆",
+"italian": "Fave di caffè",
+"portuguese": "Coffee Beans",
+"spanish": "Granos de café",
+"chinese": "咖啡豆",
 "english": "Coffee Beans",
 "french": "Grains de café",
-"italian": "Fave di caffè",
-"spanish": "Granos de café",
 "polish": "Ziarna kawy",
-"korean": "커피콩",
+"russian": "Кофейные зерна",
 "german": "Kaffeebohnen",
 "japanese": "コーヒー豆",
-"russian": "Кофейные зерна"
+"korean": "커피콩"
 }
 },
 {
@@ -7584,18 +7716,18 @@
 "icon": "icon_corn.png",
 "locaText": {
 "brazilian": "Corn",
-"portuguese": "Corn",
-"chinese": "玉米",
 "taiwanese": "玉米",
+"italian": "Mais",
+"portuguese": "Corn",
+"spanish": "Maíz",
+"chinese": "玉米",
 "english": "Corn",
 "french": "Maïs",
-"italian": "Mais",
-"spanish": "Maíz",
 "polish": "Kukurydza",
-"korean": "옥수수",
+"russian": "Кукуруза",
 "german": "Mais",
 "japanese": "トウモロコシ",
-"russian": "Кукуруза"
+"korean": "옥수수"
 }
 },
 {
@@ -7607,18 +7739,18 @@
 "icon": "icon_alpaca_wool.png",
 "locaText": {
 "brazilian": "Alpaca Wool",
-"portuguese": "Alpaca Wool",
-"chinese": "羊驼毛",
 "taiwanese": "羊駝毛",
+"italian": "Lana di alpaca",
+"portuguese": "Alpaca Wool",
+"spanish": "Lana de alpaca",
+"chinese": "羊驼毛",
 "english": "Alpaca Wool",
 "french": "Laine d'alpaga",
-"italian": "Lana di alpaca",
-"spanish": "Lana de alpaca",
 "polish": "Wełna alpaki",
-"korean": "알파카 양모",
+"russian": "Шерсть альпака",
 "german": "Alpakawolle",
 "japanese": "アルパカ生地",
-"russian": "Шерсть альпака"
+"korean": "알파카 양모"
 }
 },
 {
@@ -7630,18 +7762,18 @@
 "icon": "icon_banana.png",
 "locaText": {
 "brazilian": "Bananas",
-"portuguese": "Bananas",
-"chinese": "大蕉",
 "taiwanese": "大蕉",
+"italian": "Banane",
+"portuguese": "Bananas",
+"spanish": "Plátanos",
+"chinese": "大蕉",
 "english": "Plantains",
 "french": "Plantains",
-"italian": "Banane",
-"spanish": "Plátanos",
 "polish": "Bananowce",
-"korean": "플랜테인",
+"russian": "Бананы",
 "german": "Bananen",
 "japanese": "バナナ",
-"russian": "Бананы"
+"korean": "플랜테인"
 }
 },
 {
@@ -7653,18 +7785,18 @@
 "icon": "icon_pearls.png",
 "locaText": {
 "brazilian": "Pearls",
-"portuguese": "Pearls",
-"chinese": "珍珠",
 "taiwanese": "珍珠",
+"italian": "Perle",
+"portuguese": "Pearls",
+"spanish": "Perlas",
+"chinese": "珍珠",
 "english": "Pearls",
 "french": "Perles",
-"italian": "Perle",
-"spanish": "Perlas",
 "polish": "Perły",
-"korean": "진주",
+"russian": "Жемчуг",
 "german": "Perlen",
 "japanese": "真珠",
-"russian": "Жемчуг"
+"korean": "진주"
 }
 },
 {
@@ -7676,18 +7808,18 @@
 "icon": "icon_fishoil.png",
 "locaText": {
 "brazilian": "Fish Oil",
-"portuguese": "Fish Oil",
-"chinese": "鱼油",
 "taiwanese": "魚油",
+"italian": "Olio di pesce",
+"portuguese": "Fish Oil",
+"spanish": "Aceite de pescado",
+"chinese": "鱼油",
 "english": "Fish Oil",
 "french": "Huile de poisson",
-"italian": "Olio di pesce",
-"spanish": "Aceite de pescado",
 "polish": "Tran",
-"korean": "어유",
+"russian": "Рыбий жир",
 "german": "Fischöl",
 "japanese": "魚油",
-"russian": "Рыбий жир"
+"korean": "어유"
 }
 },
 {
@@ -7699,18 +7831,18 @@
 "icon": "icon_poncho.png",
 "locaText": {
 "brazilian": "Ponchos",
-"portuguese": "Ponchos",
-"chinese": "斗篷",
 "taiwanese": "斗篷",
+"italian": "Poncho",
+"portuguese": "Ponchos",
+"spanish": "Ponchos",
+"chinese": "斗篷",
 "english": "Ponchos",
 "french": "Ponchos",
-"italian": "Poncho",
-"spanish": "Ponchos",
 "polish": "Poncza",
-"korean": "판초",
+"russian": "Пончо",
 "german": "Ponchos",
 "japanese": "ポンチョ",
-"russian": "Пончо"
+"korean": "판초"
 }
 },
 {
@@ -7722,18 +7854,18 @@
 "icon": "icon_felt.png",
 "locaText": {
 "brazilian": "Felt",
-"portuguese": "Felt",
-"chinese": "毛毡",
 "taiwanese": "毛氈",
+"italian": "Feltro",
+"portuguese": "Felt",
+"spanish": "Fieltro",
+"chinese": "毛毡",
 "english": "Felt",
 "french": "Feutre",
-"italian": "Feltro",
-"spanish": "Fieltro",
 "polish": "Filc",
-"korean": "펠트",
+"russian": "Войлок",
 "german": "Filz",
 "japanese": "フェルト",
-"russian": "Войлок"
+"korean": "펠트"
 }
 },
 {
@@ -7745,18 +7877,18 @@
 "icon": "icon_bowler_hat.png",
 "locaText": {
 "brazilian": "Bombín",
-"portuguese": "Bombín",
-"chinese": "圆顶硬礼帽",
 "taiwanese": "圓頂硬禮帽",
+"italian": "Bombette",
+"portuguese": "Bombín",
+"spanish": "Bombines",
+"chinese": "圆顶硬礼帽",
 "english": "Bowler Hats",
 "french": "Bombín",
-"italian": "Bombette",
-"spanish": "Bombines",
 "polish": "Kapelusze",
-"korean": "중산모",
+"russian": "Котелки",
 "german": "Melonen",
 "japanese": "山高帽",
-"russian": "Котелки"
+"korean": "중산모"
 }
 },
 {
@@ -7768,18 +7900,18 @@
 "icon": "icon_rum_barrel.png",
 "locaText": {
 "brazilian": "Rum",
-"portuguese": "Rum",
-"chinese": "兰姆酒",
 "taiwanese": "蘭姆酒",
+"italian": "Rum",
+"portuguese": "Rum",
+"spanish": "Ron",
+"chinese": "兰姆酒",
 "english": "Rum",
 "french": "Rhum",
-"italian": "Rum",
-"spanish": "Ron",
 "polish": "Rum",
-"korean": "럼주",
+"russian": "Ром",
 "german": "Rum",
 "japanese": "ラム酒",
-"russian": "Ром"
+"korean": "럼주"
 }
 },
 {
@@ -7791,18 +7923,18 @@
 "icon": "icon_chocolate.png",
 "locaText": {
 "brazilian": "Chocolate",
-"portuguese": "Chocolate",
-"chinese": "巧克力",
 "taiwanese": "巧克力",
+"italian": "Cioccolato",
+"portuguese": "Chocolate",
+"spanish": "Chocolate",
+"chinese": "巧克力",
 "english": "Chocolate",
 "french": "Chocolat",
-"italian": "Cioccolato",
-"spanish": "Chocolate",
 "polish": "Czekolada",
-"korean": "초콜릿",
+"russian": "Шоколад",
 "german": "Schokolade",
 "japanese": "チョコレート",
-"russian": "Шоколад"
+"korean": "초콜릿"
 }
 },
 {
@@ -7814,18 +7946,18 @@
 "icon": "icon_coffe_cup.png",
 "locaText": {
 "brazilian": "Coffee",
-"portuguese": "Coffee",
-"chinese": "咖啡",
 "taiwanese": "咖啡",
+"italian": "Caffè",
+"portuguese": "Coffee",
+"spanish": "Café",
+"chinese": "咖啡",
 "english": "Coffee",
 "french": "Café",
-"italian": "Caffè",
-"spanish": "Café",
 "polish": "Kawa",
-"korean": "커피",
+"russian": "Кофе",
 "german": "Kaffee",
 "japanese": "コーヒー",
-"russian": "Кофе"
+"korean": "커피"
 }
 },
 {
@@ -7837,18 +7969,18 @@
 "icon": "icon_fried_bananas.png",
 "locaText": {
 "brazilian": "Fried Bananas",
-"portuguese": "Fried Bananas",
-"chinese": "炸大蕉饼",
 "taiwanese": "炸大蕉餅",
+"italian": "Banane fritte",
+"portuguese": "Fried Bananas",
+"spanish": "Plátanos fritos",
+"chinese": "炸大蕉饼",
 "english": "Fried Plantains",
 "french": "Plantains frits",
-"italian": "Banane fritte",
-"spanish": "Plátanos fritos",
 "polish": "Pieczone banany",
-"korean": "플랜테인 튀김",
+"russian": "Жареные бананы",
 "german": "Gebackene Bananen",
 "japanese": "揚げバナナ",
-"russian": "Жареные бананы"
+"korean": "플랜테인 튀김"
 }
 },
 {
@@ -7860,18 +7992,18 @@
 "icon": "icon_burrito.png",
 "locaText": {
 "brazilian": "Tortilla",
-"portuguese": "Tortilla",
-"chinese": "玉米饼",
 "taiwanese": "玉米餅",
+"italian": "Tortillas",
+"portuguese": "Tortilla",
+"spanish": "Tortillas de maíz",
+"chinese": "玉米饼",
 "english": "Tortillas",
 "french": "Tortillas",
-"italian": "Tortillas",
-"spanish": "Tortillas de maíz",
 "polish": "Tortille",
-"korean": "토르티야",
+"russian": "Тортильи",
 "german": "Tortillas",
 "japanese": "トルティーヤ",
-"russian": "Тортильи"
+"korean": "토르티야"
 }
 },
 {
@@ -7883,18 +8015,18 @@
 "icon": "icon_salt.png",
 "locaText": {
 "brazilian": "Sugar",
-"portuguese": "Sugar",
-"chinese": "糖",
 "taiwanese": "糖",
+"italian": "Zucchero",
+"portuguese": "Sugar",
+"spanish": "Azúcar",
+"chinese": "糖",
 "english": "Sugar",
 "french": "Sucre",
-"italian": "Zucchero",
-"spanish": "Azúcar",
 "polish": "Cukier",
-"korean": "설탕",
+"russian": "Сахар",
 "german": "Zucker",
 "japanese": "砂糖",
-"russian": "Сахар"
+"korean": "설탕"
 }
 },
 {
@@ -7906,18 +8038,18 @@
 "icon": "icon_cotton_fur.png",
 "locaText": {
 "brazilian": "Cotton Fabric",
-"portuguese": "Cotton Fabric",
-"chinese": "棉织物",
 "taiwanese": "棉織物",
+"italian": "Tessuto di cotone",
+"portuguese": "Cotton Fabric",
+"spanish": "Tela de algodón",
+"chinese": "棉织物",
 "english": "Cotton Fabric",
 "french": "Fabrique de coton",
-"italian": "Tessuto di cotone",
-"spanish": "Tela de algodón",
 "polish": "Tkanina bawełniana",
-"korean": "면직물",
+"russian": "Ткань",
 "german": "Baumwollstoff",
 "japanese": "綿布",
-"russian": "Ткань"
+"korean": "면직물"
 }
 },
 {
@@ -7929,18 +8061,18 @@
 "icon": "icon_cigars.png",
 "locaText": {
 "brazilian": "Cigars",
-"portuguese": "Cigars",
-"chinese": "雪茄",
 "taiwanese": "雪茄",
+"italian": "Sigari",
+"portuguese": "Cigars",
+"spanish": "Puros",
+"chinese": "雪茄",
 "english": "Cigars",
 "french": "Cigares",
-"italian": "Sigari",
-"spanish": "Puros",
 "polish": "Cygara",
-"korean": "시가",
+"russian": "Сигары",
 "german": "Zigarren",
 "japanese": "葉巻",
-"russian": "Сигары"
+"korean": "시가"
 }
 },
 {
@@ -7951,17 +8083,17 @@
 ],
 "icon": "icon_reindeer_meat.png",
 "locaText": {
-"chinese": "驯鹿肉",
 "taiwanese": "馴鹿肉",
-"english": "Caribou Meat",
-"french": "Viande de caribou",
 "italian": "Carne di caribù",
 "spanish": "Carne de caribú",
+"chinese": "驯鹿肉",
+"english": "Caribou Meat",
+"french": "Viande de caribou",
 "polish": "Mięso karibu",
-"korean": "카리부 고기",
+"russian": "Мясо карибу",
 "german": "Rentierfleisch",
 "japanese": "カリブーの肉",
-"russian": "Мясо карибу"
+"korean": "카리부 고기"
 }
 },
 {
@@ -7972,17 +8104,17 @@
 ],
 "icon": "icon_goose_feathers.png",
 "locaText": {
-"chinese": "鹅羽毛",
 "taiwanese": "鵝羽毛",
-"english": "Goose Feathers",
-"french": "Plumes d'oie",
 "italian": "Piume d'oca",
 "spanish": "Plumas de ganso",
+"chinese": "鹅羽毛",
+"english": "Goose Feathers",
+"french": "Plumes d'oie",
 "polish": "Gęsie pióra",
-"korean": "거위 깃털",
+"russian": "Гусиные перья",
 "german": "Gänsefedern",
 "japanese": "ガチョウの羽",
-"russian": "Гусиные перья"
+"korean": "거위 깃털"
 }
 },
 {
@@ -7993,17 +8125,17 @@
 ],
 "icon": "icon_bear_fur.png",
 "locaText": {
-"chinese": "熊毛皮",
 "taiwanese": "熊毛皮",
-"english": "Bear Fur",
-"french": "Peau d'ours",
 "italian": "Pelle d'orso",
 "spanish": "Pelaje de oso",
+"chinese": "熊毛皮",
+"english": "Bear Fur",
+"french": "Peau d'ours",
 "polish": "Futro niedźwiedzia",
-"korean": "곰의 모피",
+"russian": "Медвежий мех",
 "german": "Bärenfell",
 "japanese": "熊の毛皮",
-"russian": "Медвежий мех"
+"korean": "곰의 모피"
 }
 },
 {
@@ -8014,17 +8146,17 @@
 ],
 "icon": "icon_husky.png",
 "locaText": {
-"chinese": "哈士奇",
 "taiwanese": "哈士奇",
-"english": "Huskies",
-"french": "Huskies",
 "italian": "Husky",
 "spanish": "Huskies",
+"chinese": "哈士奇",
+"english": "Huskies",
+"french": "Huskies",
 "polish": "Psy husky",
-"korean": "허스키",
+"russian": "Хаски",
 "german": "Huskys",
 "japanese": "ハスキー",
-"russian": "Хаски"
+"korean": "허스키"
 }
 },
 {
@@ -8035,17 +8167,17 @@
 ],
 "icon": "icon_whale_oil_2.png",
 "locaText": {
-"chinese": "鲸油",
 "taiwanese": "鯨油",
-"english": "Whale Oil",
-"french": "Huile de baleine",
 "italian": "Olio di balena",
 "spanish": "Aceite de ballena",
+"chinese": "鲸油",
+"english": "Whale Oil",
+"french": "Huile de baleine",
 "polish": "Tran wielorybi",
-"korean": "고래 기름",
+"russian": "Китовый жир",
 "german": "Walöl",
 "japanese": "鯨油",
-"russian": "Китовый жир"
+"korean": "고래 기름"
 }
 },
 {
@@ -8056,17 +8188,17 @@
 ],
 "icon": "icon_seal_skin.png",
 "locaText": {
-"chinese": "海豹皮",
 "taiwanese": "海豹皮",
-"english": "Seal Skin",
-"french": "Peau de phoque",
 "italian": "Pelli di foca",
 "spanish": "Piel de foca",
+"chinese": "海豹皮",
+"english": "Seal Skin",
+"french": "Peau de phoque",
 "polish": "Focza skóra",
-"korean": "바다표범 가죽",
+"russian": "Кожа тюленя",
 "german": "Robbenfelle",
 "japanese": "アザラシの皮",
-"russian": "Кожа тюленя"
+"korean": "바다표범 가죽"
 }
 },
 {
@@ -8077,17 +8209,17 @@
 ],
 "icon": "icon_pemmican.png",
 "locaText": {
-"chinese": "干肉饼",
 "taiwanese": "乾肉餅",
-"english": "Pemmican",
-"french": "Pemmican",
 "italian": "Pemmican",
 "spanish": "Pemmican",
+"chinese": "干肉饼",
+"english": "Pemmican",
+"french": "Pemmican",
 "polish": "Pemikan",
-"korean": "페미컨",
+"russian": "Пеммикан",
 "german": "Pemmikan",
 "japanese": "非常食",
-"russian": "Пеммикан"
+"korean": "페미컨"
 }
 },
 {
@@ -8098,17 +8230,17 @@
 ],
 "icon": "icon_oil_lamps.png",
 "locaText": {
-"chinese": "油灯",
 "taiwanese": "油燈",
-"english": "Oil Lamps",
-"french": "Lampes à huile",
 "italian": "Lampade a olio",
 "spanish": "Faroles de aceite",
+"chinese": "油灯",
+"english": "Oil Lamps",
+"french": "Lampes à huile",
 "polish": "Lampy naftowe",
-"korean": "기름 램프",
+"russian": "Масляные лампы",
 "german": "Öllampen",
 "japanese": "オイルランプ",
-"russian": "Масляные лампы"
+"korean": "기름 램프"
 }
 },
 {
@@ -8119,17 +8251,17 @@
 ],
 "icon": "icon_sleeping_bags.png",
 "locaText": {
-"chinese": "睡袋",
 "taiwanese": "睡袋",
-"english": "Sleeping Bags",
-"french": "Sacs de couchage",
 "italian": "Sacchi a pelo",
 "spanish": "Sacos de dormir",
+"chinese": "睡袋",
+"english": "Sleeping Bags",
+"french": "Sacs de couchage",
 "polish": "Śpiwory",
-"korean": "침낭",
+"russian": "Спальные мешки",
 "german": "Schlafsäcke",
 "japanese": "寝袋",
-"russian": "Спальные мешки"
+"korean": "침낭"
 }
 },
 {
@@ -8140,17 +8272,17 @@
 ],
 "icon": "icon_fur_parka.png",
 "locaText": {
-"chinese": "连帽大衣",
 "taiwanese": "連帽大衣",
-"english": "Parkas",
-"french": "Parkas",
 "italian": "Parka",
 "spanish": "Parkas",
+"chinese": "连帽大衣",
+"english": "Parkas",
+"french": "Parkas",
 "polish": "Parki",
-"korean": "파카",
+"russian": "Парки",
 "german": "Parkas",
 "japanese": "防寒着",
-"russian": "Парки"
+"korean": "파카"
 }
 },
 {
@@ -8161,17 +8293,17 @@
 ],
 "icon": "icon_sled_frame.png",
 "locaText": {
-"chinese": "雪橇",
 "taiwanese": "雪橇",
-"english": "Sleds",
-"french": "Traîneaux",
 "italian": "Slitte",
 "spanish": "Trineos",
+"chinese": "雪橇",
+"english": "Sleds",
+"french": "Traîneaux",
 "polish": "Sanie",
-"korean": "썰매",
+"russian": "Сани",
 "german": "Schlitten",
 "japanese": "そり",
-"russian": "Сани"
+"korean": "썰매"
 }
 },
 {
@@ -8182,17 +8314,17 @@
 ],
 "icon": "icon_sled.png",
 "locaText": {
-"chinese": "哈士奇雪橇",
 "taiwanese": "哈士奇雪橇",
-"english": "Husky Sleds",
-"french": "Traîneaux à huskies",
 "italian": "Slitte trainate da husky",
 "spanish": "Trineos de huskies",
+"chinese": "哈士奇雪橇",
+"english": "Husky Sleds",
+"french": "Traîneaux à huskies",
 "polish": "Psie zaprzęgi",
-"korean": "허스키 썰매",
+"russian": "Нарты",
 "german": "Hundeschlitten",
 "japanese": "犬ぞり",
-"russian": "Нарты"
+"korean": "허스키 썰매"
 }
 },
 {
@@ -8203,17 +8335,17 @@
 ],
 "icon": "icon_gas_red.png",
 "locaText": {
-"chinese": "天然气",
 "taiwanese": "天然氣",
-"english": "Gas",
-"french": "Gaz",
 "italian": "Gas",
 "spanish": "Gas",
+"chinese": "天然气",
+"english": "Gas",
+"french": "Gaz",
 "polish": "Gaz",
-"korean": "가스",
+"russian": "Газ",
 "german": "Gas",
 "japanese": "ガス",
-"russian": "Газ"
+"korean": "가스"
 }
 },
 {
@@ -8221,17 +8353,17 @@
 "guid": 115980,
 "icon": "icon_passage_junk.png",
 "locaText": {
-"chinese": "失踪远征队废弃物",
 "taiwanese": "失蹤遠征隊廢棄物",
-"english": "Lost Expedition Scrap",
-"french": "Ferraille de l'expédition perdue",
 "italian": "Rottami della spedizione scomparsa",
 "spanish": "Retal de la expedición perdida",
+"chinese": "失踪远征队废弃物",
+"english": "Lost Expedition Scrap",
+"french": "Ferraille de l'expédition perdue",
 "polish": "Szczątki zagubionej ekspedycji",
-"korean": "사라진 원정대의 고철",
+"russian": "Скрап",
 "german": "Schrott verlorener Expeditionen",
 "japanese": "行方不明の探検隊のスクラップ",
-"russian": "Скрап"
+"korean": "사라진 원정대의 고철"
 }
 }
 ],
@@ -8248,18 +8380,18 @@
 ],
 "locaText": {
 "brazilian": "Moderate Population",
-"portuguese": "Moderate Population",
-"chinese": "人口：旧世界",
 "taiwanese": "人口：舊世界",
+"italian": "Popolazione: Vecchio Mondo",
+"portuguese": "Moderate Population",
+"spanish": "Población: Viejo Mundo",
+"chinese": "人口：旧世界",
 "english": "Population: Old World",
 "french": "Population : Ancien Monde",
-"italian": "Popolazione: Vecchio Mondo",
-"spanish": "Población: Viejo Mundo",
 "polish": "Populacja: Stary Świat",
-"korean": "인구: 구대륙",
+"russian": "Население: Старый Свет",
 "german": "Bevölkerung: Alte Welt",
 "japanese": "人口: 旧世界",
-"russian": "Население: Старый Свет"
+"korean": "인구: 구대륙"
 }
 },
 {
@@ -8271,18 +8403,18 @@
 ],
 "locaText": {
 "brazilian": "Colony Population",
-"portuguese": "Colony Population",
-"chinese": "人口：新世界",
 "taiwanese": "人口：新世界",
+"italian": "Popolazione: Nuovo Mondo",
+"portuguese": "Colony Population",
+"spanish": "Población: Nuevo Mundo",
+"chinese": "人口：新世界",
 "english": "Population: New World",
 "french": "Population : Nouveau Monde",
-"italian": "Popolazione: Nuovo Mondo",
-"spanish": "Población: Nuevo Mundo",
 "polish": "Populacja: Nowy Świat",
-"korean": "인구: 신대륙",
+"russian": "Население: Новый Свет",
 "german": "Bevölkerung: Neue Welt",
 "japanese": "人口: 新世界",
-"russian": "Население: Новый Свет"
+"korean": "인구: 신대륙"
 }
 },
 {
@@ -8294,17 +8426,17 @@
 ],
 "icon": "icon_session_passage.png",
 "locaText": {
-"chinese": "人口：北极",
 "taiwanese": "人口：北極",
-"english": "Population: The Arctic",
-"french": "Population : l'Arctique",
 "italian": "Popolazione: l'Artico",
 "spanish": "Población: El Ártico",
+"chinese": "人口：北极",
+"english": "Population: The Arctic",
+"french": "Population : l'Arctique",
 "polish": "Populacja: Arktyka",
-"korean": "인구: 북극",
+"russian": "Население: Арктика",
 "german": "Bevölkerung: Die Arktis",
 "japanese": "人々: 北極圏",
-"russian": "Население: Арктика"
+"korean": "인구: 북극"
 }
 }
 ],
@@ -8315,18 +8447,18 @@
 "icon": "icon_resource_farmer_2.png",
 "locaText": {
 "brazilian": "Farmer Workforce",
-"portuguese": "Farmer Workforce",
-"chinese": "农夫劳动力",
 "taiwanese": "農夫勞動力",
+"italian": "Manodopera contadini",
+"portuguese": "Farmer Workforce",
+"spanish": "Mano de obra granjera",
+"chinese": "农夫劳动力",
 "english": "Farmer Workforce",
 "french": "Main-d'œuvre de fermiers",
-"italian": "Manodopera contadini",
-"spanish": "Mano de obra granjera",
 "polish": "Siła robocza - farmerzy",
-"korean": "농부",
-"german": "Bauern-Arbeitskaft",
+"russian": "Количество фермеров",
+"german": "Bauern-​Arbeitskaft",
 "japanese": "農家の労働力",
-"russian": "Количество фермеров"
+"korean": "농부"
 }
 },
 {
@@ -8335,18 +8467,18 @@
 "icon": "icon_resource_worker_2.png",
 "locaText": {
 "brazilian": "Worker Workforce",
-"portuguese": "Worker Workforce",
-"chinese": "工人劳动力",
 "taiwanese": "工人勞動力",
+"italian": "Manodopera lavoratori",
+"portuguese": "Worker Workforce",
+"spanish": "Mano de obra obrera",
+"chinese": "工人劳动力",
 "english": "Worker Workforce",
 "french": "Main-d'œuvre d'ouvriers",
-"italian": "Manodopera lavoratori",
-"spanish": "Mano de obra obrera",
 "polish": "Siła robocza - robotnicy",
-"korean": "노동자",
-"german": "Arbeiter-Arbeitskraft",
+"russian": "Количество рабочих",
+"german": "Arbeiter-​Arbeitskraft",
 "japanese": "労働者の労働力",
-"russian": "Количество рабочих"
+"korean": "노동자"
 }
 },
 {
@@ -8355,18 +8487,18 @@
 "icon": "icon_resource_merchants_2.png",
 "locaText": {
 "brazilian": "Artisan Workforce",
-"portuguese": "Artisan Workforce",
-"chinese": "工匠劳动力",
 "taiwanese": "工匠勞動力",
+"italian": "Manodopera artigiani",
+"portuguese": "Artisan Workforce",
+"spanish": "Mano de obra artesana",
+"chinese": "工匠劳动力",
 "english": "Artisan Workforce",
 "french": "Main-d'œuvre d'artisans",
-"italian": "Manodopera artigiani",
-"spanish": "Mano de obra artesana",
 "polish": "Siła robocza - rzemieślnicy",
-"korean": "직공",
-"german": "Handwerker-Arbeitskraft",
+"russian": "Количество ремесленников",
+"german": "Handwerker-​Arbeitskraft",
 "japanese": "職人の労働力",
-"russian": "Количество ремесленников"
+"korean": "직공"
 }
 },
 {
@@ -8375,18 +8507,18 @@
 "icon": "icon_resource_craftspeople.png",
 "locaText": {
 "brazilian": "Engineer Workforce",
-"portuguese": "Engineer Workforce",
-"chinese": "工程师劳动力",
 "taiwanese": "工程師勞動力",
+"italian": "Manodopera ingegneri",
+"portuguese": "Engineer Workforce",
+"spanish": "Mano de obra ingeniera",
+"chinese": "工程师劳动力",
 "english": "Engineer Workforce",
 "french": "Main-d'œuvre d'ingénieurs",
-"italian": "Manodopera ingegneri",
-"spanish": "Mano de obra ingeniera",
 "polish": "Siła robocza - inżynierowie",
-"korean": "기술자",
-"german": "Ingenieure-Arbeitskraft",
+"russian": "Количество инженеров",
+"german": "Ingenieure-​Arbeitskraft",
 "japanese": "技師の労働力",
-"russian": "Количество инженеров"
+"korean": "기술자"
 }
 },
 {
@@ -8395,18 +8527,18 @@
 "icon": "icon_resource_industrialists.png",
 "locaText": {
 "brazilian": "Investor Workforce",
-"portuguese": "Investor Workforce",
-"chinese": "投资人劳动力",
 "taiwanese": "投資人勞動力",
+"italian": "Manodopera investitori",
+"portuguese": "Investor Workforce",
+"spanish": "Mano de obra inversora",
+"chinese": "投资人劳动力",
 "english": "Investor Workforce",
 "french": "Main-d'œuvre d'investisseurs",
-"italian": "Manodopera investitori",
-"spanish": "Mano de obra inversora",
 "polish": "Siła robocza - inwestorzy",
-"korean": "투자가",
-"german": "Investoren-Arbeitskraft",
+"russian": "Количество инвесторов",
+"german": "Investoren-​Arbeitskraft",
 "japanese": "投資家の労働力",
-"russian": "Количество инвесторов"
+"korean": "투자가"
 }
 },
 {
@@ -8415,18 +8547,18 @@
 "icon": "icon_ressource_farmer_south_america.png",
 "locaText": {
 "brazilian": "Jornalero Workforce",
-"portuguese": "Jornalero Workforce",
-"chinese": "临时工劳动力",
 "taiwanese": "臨時工勞動力",
+"italian": "Manodopera jornaleros",
+"portuguese": "Jornalero Workforce",
+"spanish": "Mano de obra jornalera",
+"chinese": "临时工劳动力",
 "english": "Jornalero Workforce",
 "french": "Main-d'œuvre de jornaleros",
-"italian": "Manodopera jornaleros",
-"spanish": "Mano de obra jornalera",
 "polish": "Siła robocza - jornaleros",
-"korean": "식민지 노동자",
-"german": "Jornalero-Arbeitskraft",
+"russian": "Количество хорналеро",
+"german": "Jornalero-​Arbeitskraft",
 "japanese": "日雇い労働者の労働者",
-"russian": "Количество хорналеро"
+"korean": "식민지 노동자"
 }
 },
 {
@@ -8435,18 +8567,18 @@
 "icon": "icon_ressource_worker_south_america.png",
 "locaText": {
 "brazilian": "Obrero Workforce",
-"portuguese": "Obrero Workforce",
-"chinese": "劳工劳动力",
 "taiwanese": "勞工勞動力",
+"italian": "Manodopera obreros",
+"portuguese": "Obrero Workforce",
+"spanish": "Mano de obra obrera",
+"chinese": "劳工劳动力",
 "english": "Obrero Workforce",
 "french": "Main-d'œuvre d'obreras",
-"italian": "Manodopera obreros",
-"spanish": "Mano de obra obrera",
 "polish": "Siła robocza - obreros",
-"korean": "식민지 직공",
-"german": "Obrero-Arbeitskraft",
+"russian": "Количество обреро",
+"german": "Obrero-​Arbeitskraft",
 "japanese": "労働者の労働力",
-"russian": "Количество обреро"
+"korean": "식민지 직공"
 }
 },
 {
@@ -8454,17 +8586,17 @@
 "guid": 112653,
 "icon": "icon_ressource_explorer.png",
 "locaText": {
-"chinese": "探险家劳动力",
 "taiwanese": "探險家勞動力",
-"english": "Explorer Workforce",
-"french": "Main-d'œuvre (explorateurs)",
 "italian": "Manodopera di esploratori",
 "spanish": "Mano de obra de exploradores",
+"chinese": "探险家劳动力",
+"english": "Explorer Workforce",
+"french": "Main-d'œuvre (explorateurs)",
 "polish": "Siła robocza odkrywców",
-"korean": "탐험가 노동력",
-"german": "Entdecker-Arbeitskräfte",
+"russian": "Количество исследовательниц",
+"german": "Entdecker-​Arbeitskräfte",
 "japanese": "探検家の労働力",
-"russian": "Количество исследовательниц"
+"korean": "탐험가 노동력"
 }
 },
 {
@@ -8472,17 +8604,17 @@
 "guid": 112654,
 "icon": "icon_ressource_technican.png",
 "locaText": {
-"chinese": "技师劳动力",
 "taiwanese": "技師勞動力",
-"english": "Technician Workforce",
-"french": "Main-d'œuvre (techniciens)",
 "italian": "Manodopera di tecnici",
 "spanish": "Mano de obra de técnicos",
+"chinese": "技师劳动力",
+"english": "Technician Workforce",
+"french": "Main-d'œuvre (techniciens)",
 "polish": "Siła robocza techników",
-"korean": "기술자 노동력",
-"german": "Techniker-Arbeitskräfte",
+"russian": "Количество техников",
+"german": "Techniker-​Arbeitskräfte",
 "japanese": "技術家の労働力",
-"russian": "Количество техников"
+"korean": "기술자 노동력"
 }
 }
 ],
@@ -8694,7 +8826,8 @@
 1010242,
 1010239,
 1010211,
-112704
+112704,
+270042
 ]
 }
 ],
@@ -8714,18 +8847,18 @@
 "icon": "icon_normal_dressed_206.png",
 "locaText": {
 "brazilian": "Illustrious Gemologist",
-"portuguese": "Illustrious Gemologist",
-"chinese": "杰出的宝石学家",
 "taiwanese": "傑出的寶石學家",
+"italian": "Illustre gemmologo",
+"portuguese": "Illustrious Gemologist",
+"spanish": "Gemólogo ilustre",
+"chinese": "杰出的宝石学家",
 "english": "Illustrious Gemologist",
 "french": "Gemmologue illustre",
-"italian": "Illustre gemmologo",
-"spanish": "Gemólogo ilustre",
 "polish": "Znakomity gemmolog",
-"korean": "저명한 보석감정사",
+"russian": "Знаменитый геммолог",
 "german": "Illustrer Gemmologe",
 "japanese": "著名な宝石鑑定士",
-"russian": "Знаменитый геммолог"
+"korean": "저명한 보석감정사"
 }
 },
 {
@@ -8743,18 +8876,18 @@
 "icon": "icon_normal_dressed_201_c.png",
 "locaText": {
 "brazilian": "Goldsmith",
-"portuguese": "Goldsmith Gilbert",
-"chinese": "金匠吉尔伯特",
 "taiwanese": "金匠吉爾伯特",
+"italian": "Gilbert l'orafo",
+"portuguese": "Goldsmith Gilbert",
+"spanish": "Orfebre Gilbert",
+"chinese": "金匠吉尔伯特",
 "english": "Goldsmith Gilbert",
 "french": "Orfèvre Gilbert",
-"italian": "Gilbert l'orafo",
-"spanish": "Orfebre Gilbert",
 "polish": "Złotnik Gilbert",
-"korean": "금세공사 길버트",
+"russian": "Золотых дел мастер Гилберт",
 "german": "Goldschmied Gilbert",
 "japanese": "金細工師ギルバート",
-"russian": "Золотых дел мастер Гилберт"
+"korean": "금세공사 길버트"
 }
 },
 {
@@ -8772,18 +8905,18 @@
 "icon": "icon_baker_101.png",
 "locaText": {
 "brazilian": "Baker",
-"portuguese": "Baker",
-"chinese": "烘焙师",
 "taiwanese": "烘焙師",
+"italian": "Panettiere",
+"portuguese": "Baker",
+"spanish": "Panadero",
+"chinese": "烘焙师",
 "english": "Baker",
 "french": "Boulanger",
-"italian": "Panettiere",
-"spanish": "Panadero",
 "polish": "Piekarz",
-"korean": "제빵사",
+"russian": "Пекарь",
 "german": "Bäcker",
 "japanese": "パン屋",
-"russian": "Пекарь"
+"korean": "제빵사"
 }
 },
 {
@@ -8801,18 +8934,18 @@
 "icon": "icon_teacher_805.png",
 "locaText": {
 "brazilian": "Renowned Torcedor",
-"portuguese": "Torcedor Lucia",
-"chinese": "卷烟师露西娅",
 "taiwanese": "捲菸師露西婭",
+"italian": "Lucia la torcedor",
+"portuguese": "Torcedor Lucia",
+"spanish": "Torcedora Lucía",
+"chinese": "卷烟师露西娅",
 "english": "Torcedor Lucia",
 "french": "Lucia la torcedora",
-"italian": "Lucia la torcedor",
-"spanish": "Torcedora Lucía",
 "polish": "Torcedor Lucia",
-"korean": "시가제조가 루시아",
+"russian": "Торседор Люсия",
 "german": "Torcedor Lucia",
 "japanese": "葉巻職人ルチア",
-"russian": "Торседор Люсия"
+"korean": "시가제조가 루시아"
 }
 },
 {
@@ -8837,18 +8970,18 @@
 "icon": "icon_well_dressed_206.png",
 "locaText": {
 "brazilian": "Moritz von Rohr - The Eyeglass Lens Designer",
-"portuguese": "Moritz von Rohr - The Eyeglass Lens Designer",
-"chinese": "“专利眼镜”的葛尔哈德·福契斯",
 "taiwanese": "「專利眼鏡」的葛爾哈德．福契斯",
+"italian": "Gerhard Fuchs, del brevetto degli occhiali",
+"portuguese": "Moritz von Rohr - The Eyeglass Lens Designer",
+"spanish": "Gerhard Fuchs, patentador de las gafas",
+"chinese": "“专利眼镜”的葛尔哈德·福契斯",
 "english": "Gerhard Fuchs, of the Patent Eyeglass",
 "french": "Gerhard Fuchs, du Monarque au Monocle",
-"italian": "Gerhard Fuchs, del brevetto degli occhiali",
-"spanish": "Gerhard Fuchs, patentador de las gafas",
 "polish": "Gerhard Fuchs, od patentowanych okularów",
-"korean": "특허 안경 기술자, 게르하르트 푹스",
+"russian": "Герхард Фукс, создатель оригинальной линзы",
 "german": "Gerhard Fuchs, vom patentierten Augenglas",
 "japanese": "特許メガネのジェラルド・フックス",
-"russian": "Герхард Фукс, создатель оригинальной линзы"
+"korean": "특허 안경 기술자, 게르하르트 푹스"
 }
 },
 {
@@ -8866,18 +8999,18 @@
 "icon": "icon_worker_418.png",
 "locaText": {
 "brazilian": "Perfumier Prunella",
-"portuguese": "Perfumier Prunella",
-"chinese": "香氛师普涅拉",
 "taiwanese": "香氛師普涅拉",
+"italian": "Produttrice di profumi Prunella",
+"portuguese": "Perfumier Prunella",
+"spanish": "Perfumista Prunella",
+"chinese": "香氛师普涅拉",
 "english": "Perfumier Prunella",
 "french": "Prunella, parfumeuse",
-"italian": "Produttrice di profumi Prunella",
-"spanish": "Perfumista Prunella",
 "polish": "Perfumerzystka Prunella",
-"korean": "향수 제조가 프루넬라",
+"russian": "Парфюмер Прунелла",
 "german": "Parfümeurin Prunella",
 "japanese": "香水製造者のプルネラ",
-"russian": "Парфюмер Прунелла"
+"korean": "향수 제조가 프루넬라"
 }
 },
 {
@@ -8895,18 +9028,18 @@
 "icon": "icon_well_dressed_407.png",
 "locaText": {
 "brazilian": "Chronometrist Chiara",
-"portuguese": "Chronometrist Chiara",
-"chinese": "测时学家奇亚拉",
 "taiwanese": "測時學家奇亞拉",
+"italian": "Chiara la cronometrista",
+"portuguese": "Chronometrist Chiara",
+"spanish": "Cronometrista Chiara",
+"chinese": "测时学家奇亚拉",
 "english": "Chronometrist Chiara",
 "french": "Chiara, chronométriste",
-"italian": "Chiara la cronometrista",
-"spanish": "Cronometrista Chiara",
 "polish": "Chronometryczka Chiara ",
-"korean": "시간 측정학자 키아라",
+"russian": "Изготовительница хронометров Кьяра",
 "german": "Chronometrikerin Chiara",
 "japanese": "クロノメーター専門家のチアラ",
-"russian": "Изготовительница хронометров Кьяра"
+"korean": "시간 측정학자 키아라"
 }
 },
 {
@@ -8924,18 +9057,18 @@
 "icon": "icon_well_dressed_409.png",
 "locaText": {
 "brazilian": "Costume Designer",
-"portuguese": "Costume Designer",
-"chinese": "服装设计师",
 "taiwanese": "服裝設計師",
+"italian": "Designer di costumi",
+"portuguese": "Costume Designer",
+"spanish": "Diseñador de vestuario",
+"chinese": "服装设计师",
 "english": "Costume Designer",
 "french": "Fabricant de costumes",
-"italian": "Designer di costumi",
-"spanish": "Diseñador de vestuario",
 "polish": "Projektantka kreacji",
-"korean": "의복 디자이너",
+"russian": "Известный модельер",
 "german": "Kostümbildnerin",
 "japanese": "コスチュームデザイナー",
-"russian": "Известный модельер"
+"korean": "의복 디자이너"
 }
 },
 {
@@ -8973,18 +9106,18 @@
 ],
 "icon": "icon_boris_franke.png",
 "locaText": {
-"portuguese": "Master Craftsman Boris",
-"chinese": "“工艺名人”法兰克",
 "taiwanese": "「工藝名人」法蘭克",
+"italian": "Franke il maestro artigiano",
+"portuguese": "Master Craftsman Boris",
+"spanish": "Maestro artesano Franke",
+"chinese": "“工艺名人”法兰克",
 "english": "Master Craftsman Franke",
 "french": "Franke, maître artisan",
-"italian": "Franke il maestro artigiano",
-"spanish": "Maestro artesano Franke",
 "polish": "Mistrz rzemieślnik Franke",
-"korean": "기능장 프랑케",
+"russian": "Мастер-раскройщик Франке",
 "german": "Franke, der Modeguru",
 "japanese": "名匠フランク",
-"russian": "Мастер-раскройщик Франке"
+"korean": "기능장 프랑케"
 }
 },
 {
@@ -9002,18 +9135,18 @@
 "icon": "icon_entertainer_508.png",
 "locaText": {
 "brazilian": "Miliner",
-"portuguese": "Miliner",
-"chinese": "女帽工匠",
 "taiwanese": "女帽工匠",
+"italian": "Stilista",
+"portuguese": "Miliner",
+"spanish": "Hacedor de gorros",
+"chinese": "女帽工匠",
 "english": "Milliner",
 "french": "Styliste",
-"italian": "Stilista",
-"spanish": "Hacedor de gorros",
 "polish": "Wytwórca sombreros",
-"korean": "여성용 모자 제작자",
+"russian": "Галантерейщик",
 "german": "Hutmeister",
 "japanese": "婦人帽子職人",
-"russian": "Галантерейщик"
+"korean": "여성용 모자 제작자"
 }
 },
 {
@@ -9038,18 +9171,18 @@
 "icon": "icon_baker_202_b.png",
 "locaText": {
 "brazilian": "Quality Chocolatier",
-"portuguese": "Quality Chocolatier",
-"chinese": "优质巧克力师傅",
 "taiwanese": "優質巧克力師傅",
+"italian": "Cioccolatiere di qualità",
+"portuguese": "Quality Chocolatier",
+"spanish": "Chocolatero de calidad",
+"chinese": "优质巧克力师傅",
 "english": "Quality Chocolatier",
 "french": "Maître-chocolatier",
-"italian": "Cioccolatiere di qualità",
-"spanish": "Chocolatero de calidad",
 "polish": "Mistrz kuchni czekoladowej",
-"korean": "고급 초콜릿 제조가",
+"russian": "Профессиональный шоколатье",
 "german": "Qualitätschocolatier",
 "japanese": "高級チョコレート職人",
-"russian": "Профессиональный шоколатье"
+"korean": "고급 초콜릿 제조가"
 }
 },
 {
@@ -9074,18 +9207,18 @@
 "icon": "icon_baker_201.png",
 "locaText": {
 "brazilian": "Patissier",
-"portuguese": "Patissier",
-"chinese": "甜品大师",
 "taiwanese": "甜品大師",
+"italian": "Maestro pasticcere",
+"portuguese": "Patissier",
+"spanish": "Repostero maestro",
+"chinese": "甜品大师",
 "english": "Master Confectioner",
 "french": "Maître-confiseur",
-"italian": "Maestro pasticcere",
-"spanish": "Repostero maestro",
 "polish": "Mistrz cukiernictwa",
-"korean": "마스터 과자 제조가",
+"russian": "Мастер-кондитер",
 "german": "Meisterkonditor",
 "japanese": "名菓子職人",
-"russian": "Мастер-кондитер"
+"korean": "마스터 과자 제조가"
 }
 },
 {
@@ -9103,18 +9236,18 @@
 "icon": "icon_normal_dressed_202.png",
 "locaText": {
 "brazilian": "Johan the Inventor",
-"portuguese": "Johan the Inventor",
-"chinese": "“发明家”尤汉",
 "taiwanese": "「發明家」尤漢",
+"italian": "Johan l'inventore",
+"portuguese": "Johan the Inventor",
+"spanish": "Johan el inventor",
+"chinese": "“发明家”尤汉",
 "english": "Johan the Inventor",
 "french": "Johan l'inventeur",
-"italian": "Johan l'inventore",
-"spanish": "Johan el inventor",
 "polish": "Johan wynalazca",
-"korean": "발명가 요한",
+"russian": "Изобретатель Иоганн",
 "german": "Johan der Erfinder",
 "japanese": "発明家のヨハン",
-"russian": "Изобретатель Иоганн"
+"korean": "발명가 요한"
 }
 },
 {
@@ -9132,18 +9265,18 @@
 "icon": "icon_baker_202_b.png",
 "locaText": {
 "brazilian": "Tex Mex Cook",
-"portuguese": "Tex Mex Cook",
-"chinese": "莫雷酱大师",
 "taiwanese": "莫雷醬大師",
+"italian": "Maestro del mole",
+"portuguese": "Tex Mex Cook",
+"spanish": "Maestro de la sartén",
+"chinese": "莫雷酱大师",
 "english": "Mole Master",
 "french": "Saucier",
-"italian": "Maestro del mole",
-"spanish": "Maestro de la sartén",
 "polish": "Mistrz sosów",
-"korean": "몰 마스터",
-"german": "Mole-Meister",
+"russian": "Мастер по изготовлению гуакамоле",
+"german": "Mole-​Meister",
 "japanese": "モーレ・マスター",
-"russian": "Мастер по изготовлению гуакамоле"
+"korean": "몰 마스터"
 }
 },
 {
@@ -9168,18 +9301,18 @@
 "icon": "icon_entertainer_508.png",
 "locaText": {
 "brazilian": "Pablo Savor - The Tortilla King",
-"portuguese": "Pablo Savor - The Tortilla King",
-"chinese": "“玉米之王”特拉由洛提·萨佛",
 "taiwanese": "「玉米之王」特拉由洛提．薩佛",
+"italian": "Tlayolotl Savor, il re del mais",
+"portuguese": "Pablo Savor - The Tortilla King",
+"spanish": "Tlayolotl Savor, rey del maíz",
+"chinese": "“玉米之王”特拉由洛提·萨佛",
 "english": "Tlayolotl Savor, King of the Corn",
 "french": "Tlayolotl Savor, Roi du maïs",
-"italian": "Tlayolotl Savor, il re del mais",
-"spanish": "Tlayolotl Savor, rey del maíz",
 "polish": "Tlayolotl Savor, król kukurydzy",
-"korean": "옥수수의 왕, 틀라욜로틀 세이버",
+"russian": "Тлайолотл Пикантный, король кукурузы",
 "german": "Tlayolotl Savor, Maiskönig",
 "japanese": "トラヨルトル・サボール、コーンの王",
-"russian": "Тлайолотл Пикантный, король кукурузы"
+"korean": "옥수수의 왕, 틀라욜로틀 세이버"
 }
 },
 {
@@ -9204,18 +9337,18 @@
 "icon": "icon_baker_102.png",
 "locaText": {
 "brazilian": "Maxim \"In the End\" - The Grand Specialist of Delicatessen",
-"portuguese": "Maxim \"In the End\" - The Grand Specialist of Delicatessen",
-"chinese": "“极致高级熟食冷肉贩”麦克席梅·格雷夫斯",
 "taiwanese": "「極致高級熟食冷肉販」麥克席梅．格雷夫斯",
+"italian": "Maxime Graves, gastronomo sublime",
+"portuguese": "Maxim \"In the End\" - The Grand Specialist of Delicatessen",
+"spanish": "Maxime Graves, experto en carnes",
+"chinese": "“极致高级熟食冷肉贩”麦克席梅·格雷夫斯",
 "english": "Maxime Graves, Delicatesseur Extraordinaire",
 "french": "Maxime Graves, traiteur intraitable",
-"italian": "Maxime Graves, gastronomo sublime",
-"spanish": "Maxime Graves, experto en carnes",
 "polish": "Maxime Graves, Delicatesseur Extraordinaire",
-"korean": "탁월한 육가공품 제조가, 막심 그라베스",
+"russian": "Максим Грейвз, непревзойденный мастер приготовления деликатесов",
 "german": "Maxime Graves, Delicatesseur Extraordinaire",
 "japanese": "マキシム・グレーブス、驚異のデリカテッセン",
-"russian": "Максим Грейвз, непревзойденный мастер приготовления деликатесов"
+"korean": "탁월한 육가공품 제조가, 막심 그라베스"
 }
 },
 {
@@ -9240,18 +9373,18 @@
 "icon": "icon_baker_201.png",
 "locaText": {
 "brazilian": "Chef Michel",
-"portuguese": "Chef Michel",
-"chinese": "米歇尔大厨",
 "taiwanese": "米歇爾大廚",
+"italian": "Chef Michel",
+"portuguese": "Chef Michel",
+"spanish": "Jefe Michel",
+"chinese": "米歇尔大厨",
 "english": "Chef Michel",
 "french": "Chef Michel",
-"italian": "Chef Michel",
-"spanish": "Jefe Michel",
 "polish": "Kucharz Michel",
-"korean": "주방장 미셸",
+"russian": "Повар Мишель",
 "german": "Michel der Sternekoch",
 "japanese": "シェフ・ミシェル",
-"russian": "Повар Мишель"
+"korean": "주방장 미셸"
 }
 },
 {
@@ -9276,18 +9409,18 @@
 "icon": "icon_well_dressed_401.png",
 "locaText": {
 "brazilian": "Mrs Mayson - Discerning Household Manager",
-"portuguese": "Mrs Mayson - Discerning Household Manager",
-"chinese": "“绝佳管家”梅森太太",
 "taiwanese": "「絕佳管家」梅森太太",
+"italian": "Signora Mayson, la governante perfetta",
+"portuguese": "Mrs Mayson - Discerning Household Manager",
+"spanish": "Mrs. Mayson, ama de llaves suprema",
+"chinese": "“绝佳管家”梅森太太",
 "english": "Mrs. Mayson, The Very Good Housekeeper",
 "french": "Mme Mayson, l'excellente gouvernante",
-"italian": "Signora Mayson, la governante perfetta",
-"spanish": "Mrs. Mayson, ama de llaves suprema",
 "polish": "Pani Mayson, bardzo dobra gospodyni",
-"korean": "아주 뛰어난 가정부, 메이슨",
+"russian": "Госпожа Мейсон, лучшая домоправительница",
 "german": "Mrs. Mayson, Koryphäe der Hauswirtschaft",
 "japanese": "メイソン婦人、とても優秀な家政婦",
-"russian": "Госпожа Мейсон, лучшая домоправительница"
+"korean": "아주 뛰어난 가정부, 메이슨"
 }
 },
 {
@@ -9305,18 +9438,18 @@
 "icon": "icon_baker_401.png",
 "locaText": {
 "brazilian": "Recipe Maker",
-"portuguese": "Recipe Maker",
-"chinese": "食谱保管员",
 "taiwanese": "食譜保管員",
+"italian": "Collezionista di ricette",
+"portuguese": "Recipe Maker",
+"spanish": "Archivista de recetas",
+"chinese": "食谱保管员",
 "english": "Recipe Archivist",
 "french": "Archiviste culinaire",
-"italian": "Collezionista di ricette",
-"spanish": "Archivista de recetas",
 "polish": "Archiwistka przepisów",
-"korean": "조리법 보관인",
+"russian": "Хранительница рецептов",
 "german": "Rezeptarchivarin",
 "japanese": "レシピ考案家",
-"russian": "Хранительница рецептов"
+"korean": "조리법 보관인"
 }
 },
 {
@@ -9341,18 +9474,18 @@
 "icon": "icon_well_dressed_201.png",
 "locaText": {
 "brazilian": "Marcel Boulestin - The Celebrity Chef",
-"portuguese": "Marcel Boulestin - The Celebrity Chef",
-"chinese": "明星大厨马歇尔·佛卡斯",
 "taiwanese": "明星大廚馬歇爾．佛卡斯",
+"italian": "Marcel Forcas, lo chef delle celebrità",
+"portuguese": "Marcel Boulestin - The Celebrity Chef",
+"spanish": "Marcel Forcas, chef famoso",
+"chinese": "明星大厨马歇尔·佛卡斯",
 "english": "Marcel Forcas, Celebrity Chef",
 "french": "Marcel Forcas, chef des célébrités",
-"italian": "Marcel Forcas, lo chef delle celebrità",
-"spanish": "Marcel Forcas, chef famoso",
 "polish": "Marcel Forcas, gwiazda kuchni",
-"korean": "유명 주방장, 마르셀 포르카스",
+"russian": "Марсель Форкас, знаменитый шеф-повар",
 "german": "Marcel Forcas, Koch für Berühmtheiten",
 "japanese": "マルセル・フォルカス、セレブシェフ",
-"russian": "Марсель Форкас, знаменитый шеф-повар"
+"korean": "유명 주방장, 마르셀 포르카스"
 }
 },
 {
@@ -9377,18 +9510,18 @@
 "icon": "icon_well_dressed_406.png",
 "locaText": {
 "brazilian": "Industrial Designer",
-"portuguese": "Industrial Designer",
-"chinese": "蒸汽工程师苏珊娜",
 "taiwanese": "蒸汽工程師蘇珊娜",
+"italian": "Susannah, l'ingegnere del vapore",
+"portuguese": "Industrial Designer",
+"spanish": "Susannah, ingeniera de vapor",
+"chinese": "蒸汽工程师苏珊娜",
 "english": "Susannah the Steam Engineer",
 "french": "Susannah l'ingénieure vapeur",
-"italian": "Susannah, l'ingegnere del vapore",
-"spanish": "Susannah, ingeniera de vapor",
 "polish": "Susannah, inżynierka od maszyn parowych",
-"korean": "증기 기술자 수잔나",
+"russian": "Сюзанна, механик паровых машин",
 "german": "Susannah die Dampfingenieurin",
 "japanese": "蒸気エンジニアのスザンナ",
-"russian": "Сюзанна, механик паровых машин"
+"korean": "증기 기술자 수잔나"
 }
 },
 {
@@ -9419,18 +9552,18 @@
 "icon": "icon_normal_dressed_202.png",
 "locaText": {
 "brazilian": "Marios the Mechanical Engineer ",
-"portuguese": "Marios the Mechanical Engineer ",
-"chinese": "机械工程师达利欧",
 "taiwanese": "機械工程師達利歐",
+"italian": "Dario, l'ingegnere meccanico",
+"portuguese": "Marios the Mechanical Engineer ",
+"spanish": "Dario, ingeniero mecánico",
+"chinese": "机械工程师达利欧",
 "english": "Dario the Mechanical Engineer",
 "french": "Dario l'ingénieur mécanique",
-"italian": "Dario, l'ingegnere meccanico",
-"spanish": "Dario, ingeniero mecánico",
 "polish": "Dario, inżynier mechaniczny",
-"korean": "기계 기술자 다리오",
+"russian": "Дарио, инженер-механик",
 "german": "Dario der Maschinenbauer",
 "japanese": "機械エンジニアのダリオ",
-"russian": "Дарио, инженер-механик"
+"korean": "기계 기술자 다리오"
 }
 },
 {
@@ -9448,18 +9581,18 @@
 "icon": "icon_worker_204.png",
 "locaText": {
 "brazilian": "Glass Maker",
-"portuguese": "Glass Maker",
-"chinese": "玻璃工",
 "taiwanese": "玻璃工",
+"italian": "Artigiano del vetro",
+"portuguese": "Glass Maker",
+"spanish": "Cristalero",
+"chinese": "玻璃工",
 "english": "Glass Maker",
 "french": "Verrier",
-"italian": "Artigiano del vetro",
-"spanish": "Cristalero",
 "polish": "Wytwórca szkła",
-"korean": "유리 제작자",
+"russian": "Стекловар",
 "german": "Glasmacher",
 "japanese": "ガラス職人",
-"russian": "Стекловар"
+"korean": "유리 제작자"
 }
 },
 {
@@ -9477,18 +9610,18 @@
 "icon": "icon_worker_205.png",
 "locaText": {
 "brazilian": "Constructor",
-"portuguese": "Constructor",
-"chinese": "水泥工",
 "taiwanese": "水泥工",
+"italian": "Produttore di cemento",
+"portuguese": "Constructor",
+"spanish": "Cementero",
+"chinese": "水泥工",
 "english": "Cementer",
 "french": "Cimentier",
-"italian": "Produttore di cemento",
-"spanish": "Cementero",
 "polish": "Operator betoniarki",
-"korean": "시멘트 제조가",
+"russian": "Мастер цементных работ",
 "german": "Zementierer",
 "japanese": "セメント職人",
-"russian": "Мастер цементных работ"
+"korean": "시멘트 제조가"
 }
 },
 {
@@ -9505,17 +9638,17 @@
 ],
 "icon": "icon_lamp_maker.png",
 "locaText": {
-"chinese": "大块蜡烛制作师",
 "taiwanese": "大塊蠟燭製作師",
-"english": "Fat Chunk Candle Maker",
-"french": "Suifeur à bougies",
 "italian": "Creatore di candelabri tozzi",
 "spanish": "Fabricavelas de gran grosor",
+"chinese": "大块蜡烛制作师",
+"english": "Fat Chunk Candle Maker",
+"french": "Suifeur à bougies",
 "polish": "Maszynka do wyrobu masnych świec",
-"korean": "뚱땡이 양초 제조기",
+"russian": "Аппарат для изготовления свечей \"Крепыш\"",
 "german": "Kerzenform aus Kupfer",
 "japanese": "極太キャンドル職人",
-"russian": "Аппарат для изготовления свечей \"Крепыш\""
+"korean": "뚱땡이 양초 제조기"
 }
 },
 {
@@ -9532,17 +9665,17 @@
 ],
 "icon": "icon_electric_battery.png",
 "locaText": {
-"chinese": "放电电池 #2205",
 "taiwanese": "放電電池 #2205",
-"english": "Zappy Battery #2205",
-"french": "Batterie Zap 2205",
 "italian": "Batteria Zap #2205",
 "spanish": "Batería vivaz #2205",
+"chinese": "放电电池 #2205",
+"english": "Zappy Battery #2205",
+"french": "Batterie Zap 2205",
 "polish": "Bateria do zapalacza nr 2205",
-"korean": "강력 전지 #2205",
+"russian": "Зажигатель №2205",
 "german": "Knisternde Batterie Nr. 2205",
 "japanese": "全開バッテリー#2205",
-"russian": "Зажигатель №2205"
+"korean": "강력 전지 #2205"
 }
 }
 ],
@@ -9553,18 +9686,18 @@
 "icon": "icon_settlement_rights_1.png",
 "locaText": {
 "brazilian": "Temperate",
-"portuguese": "Temperate",
-"chinese": "旧世界",
 "taiwanese": "舊世界",
+"italian": "Il Vecchio Mondo",
+"portuguese": "Temperate",
+"spanish": "El Viejo Mundo",
+"chinese": "旧世界",
 "english": "The Old World",
 "french": "L'Ancien Monde",
-"italian": "Il Vecchio Mondo",
-"spanish": "El Viejo Mundo",
 "polish": "Stary Świat",
-"korean": "구대륙",
+"russian": "Старый Свет",
 "german": "Die Alte Welt",
 "japanese": "旧世界",
-"russian": "Старый Свет"
+"korean": "구대륙"
 }
 },
 {
@@ -9573,18 +9706,18 @@
 "icon": "icon_settlement_rights_1.png",
 "locaText": {
 "brazilian": "The New World",
-"portuguese": "The New World",
-"chinese": "新世界",
 "taiwanese": "新世界",
+"italian": "Il Nuovo Mondo",
+"portuguese": "The New World",
+"spanish": "Nuevo Mundo",
+"chinese": "新世界",
 "english": "The New World",
 "french": "Le Nouveau Monde",
-"italian": "Il Nuovo Mondo",
-"spanish": "Nuevo Mundo",
 "polish": "Nowy Świat",
-"korean": "신대륙",
+"russian": "Новый Свет",
 "german": "Die Neue Welt",
 "japanese": "新世界",
-"russian": "Новый Свет"
+"korean": "신대륙"
 }
 },
 {
@@ -9592,20 +9725,24 @@
 "guid": 160001,
 "icon": "icon_session_passage.png",
 "locaText": {
-"brazilian": "The Arctic",
-"portuguese": "The Arctic",
-"chinese": "北极",
-"taiwanese": "北極",
-"english": "The Arctic",
-"french": "L'Arctique",
-"italian": "L'Artico",
-"spanish": "El Ártico",
-"polish": "Arktyka",
-"korean": "북극",
-"german": "Die Arktis",
-"japanese": "北極圏",
-"russian": "Арктика"
+"brazilian": "Polar",
+"taiwanese": "極區",
+"italian": "Zona Polare",
+"portuguese": "Polar",
+"spanish": "Polar",
+"chinese": "极区",
+"english": "Polar",
+"french": "Région polaire",
+"polish": "Polarny",
+"russian": "Заполярье",
+"german": "Polarregion",
+"japanese": "極地",
+"korean": "극지"
 }
+},
+{
+"name": "Africa",
+"guid": 114327
 }
 ],
 "languages": [
@@ -9622,5 +9759,203 @@
 "russian",
 "spanish",
 "taiwanese"
+],
+"modules": [
+{
+"name": "Tractor Barn (Gasoline Good)",
+"guid": 270041,
+"tpmin": 2,
+"inputs": [
+{
+"Product": 270042,
+"Amount": 1,
+"StorageAmount": 10
+}
+],
+"region": 5000000,
+"productivityUpgrade": 200,
+"icon": "icon_om_tractor.png",
+"locaText": {
+"taiwanese": "Tractor Barn (Gasoline Good)",
+"italian": "Tractor Barn (Gasoline Good)",
+"spanish": "Tractor Barn (Gasoline Good)",
+"chinese": "Tractor Barn (Gasoline Good)",
+"english": "Tractor Barn (Gasoline Good)",
+"french": "Tractor Barn (Gasoline Good)",
+"polish": "Tractor Barn (Gasoline Good)",
+"russian": "Tractor Barn (Gasoline Good)",
+"german": "Tractor Barn (Gasoline Good)",
+"japanese": "Tractor Barn (Gasoline Good)",
+"korean": "Tractor Barn (Gasoline Good)"
+}
+},
+{
+"name": "Tractor Barn",
+"guid": 269839,
+"tpmin": 0.2,
+"inputs": [
+{
+"Product": 270042,
+"Amount": 1,
+"StorageAmount": 10
+}
+],
+"region": 5000000,
+"productivityUpgrade": 200,
+"icon": "icon_tractor.png",
+"locaText": {
+"taiwanese": "拖拉機車庫",
+"italian": "Fienile per trattori",
+"spanish": "Granero de tractores",
+"chinese": "拖拉摩托车库",
+"english": "Tractor Barn",
+"french": "Grange à tracteurs",
+"polish": "Stodoła z traktorami",
+"russian": "Гараж для тракторов",
+"german": "Traktorscheune",
+"japanese": "トラクター車庫",
+"korean": "트랙터 창고"
+}
+},
+{
+"name": "Tractor Barn",
+"guid": 269837,
+"tpmin": 0.2,
+"inputs": [
+{
+"Product": 270042,
+"Amount": 1,
+"StorageAmount": 10
+}
+],
+"region": 5000000,
+"productivityUpgrade": 200,
+"icon": "icon_tractor.png",
+"locaText": {
+"taiwanese": "拖拉機車庫",
+"italian": "Fienile per trattori",
+"spanish": "Granero de tractores",
+"chinese": "拖拉摩托车库",
+"english": "Tractor Barn",
+"french": "Grange à tracteurs",
+"polish": "Stodoła z traktorami",
+"russian": "Гараж для тракторов",
+"german": "Traktorscheune",
+"japanese": "トラクター車庫",
+"korean": "트랙터 창고"
+}
+},
+{
+"name": "Silo",
+"guid": 269957,
+"tpmin": 0.2,
+"inputs": [
+{
+"Product": 1010192,
+"Amount": 1,
+"StorageAmount": 5
+}
+],
+"region": 5000000,
+"productivityUpgrade": 100,
+"icon": "icon_silo.png",
+"locaText": {
+"taiwanese": "筒倉",
+"italian": "Silo",
+"spanish": "Silo",
+"chinese": "筒仓",
+"english": "Silo",
+"french": "Silo",
+"polish": "Silos",
+"russian": "Силосная башня",
+"german": "Silo",
+"japanese": "サイロ",
+"korean": "사일로"
+}
+},
+{
+"name": "Tractor Barn",
+"guid": 269849,
+"tpmin": 0.2,
+"inputs": [
+{
+"Product": 270042,
+"Amount": 1,
+"StorageAmount": 10
+}
+],
+"region": 5000001,
+"productivityUpgrade": 200,
+"icon": "icon_tractor.png",
+"locaText": {
+"taiwanese": "拖拉機車庫",
+"italian": "Fienile per trattori",
+"spanish": "Granero de tractores",
+"chinese": "拖拉摩托车库",
+"english": "Tractor Barn",
+"french": "Grange à tracteurs",
+"polish": "Stodoła z traktorami",
+"russian": "Гараж для тракторов",
+"german": "Traktorscheune",
+"japanese": "トラクター車庫",
+"korean": "트랙터 창고"
+}
+},
+{
+"name": "Tractor Barn",
+"guid": 269848,
+"tpmin": 0.2,
+"inputs": [
+{
+"Product": 270042,
+"Amount": 1,
+"StorageAmount": 10
+}
+],
+"region": 5000001,
+"productivityUpgrade": 200,
+"icon": "icon_tractor.png",
+"locaText": {
+"taiwanese": "拖拉機車庫",
+"italian": "Fienile per trattori",
+"spanish": "Granero de tractores",
+"chinese": "拖拉摩托车库",
+"english": "Tractor Barn",
+"french": "Grange à tracteurs",
+"polish": "Stodoła z traktorami",
+"russian": "Гараж для тракторов",
+"german": "Traktorscheune",
+"japanese": "トラクター車庫",
+"korean": "트랙터 창고"
+}
+},
+{
+"name": "Silo",
+"guid": 269958,
+"tpmin": 0.2,
+"inputs": [
+{
+"Product": 120034,
+"Amount": 1,
+"StorageAmount": 5
+}
+],
+"region": 5000001,
+"productivityUpgrade": 100,
+"icon": "icon_silo.png",
+"locaText": {
+"taiwanese": "筒倉",
+"italian": "Silo",
+"spanish": "Silo",
+"chinese": "筒仓",
+"english": "Silo",
+"french": "Silo",
+"polish": "Silos",
+"russian": "Силосная башня",
+"german": "Silo",
+"japanese": "サイロ",
+"korean": "사일로"
+}
+}
 ]
 }

@@ -47,7 +47,8 @@ public:
 		FINANCE = 3,
 		PRODUCTION = 1,
 		POPULATION = 4,
-		STORAGE = 2
+		STORAGE = 2,
+		ITEMS = 5
 	};
 
 

@@ -52,7 +52,7 @@ image_recognition::image_recognition(bool verbose)
 	language("english")
 {
 	boost::property_tree::ptree pt;
-	boost::property_tree::read_json("texts/params_2020-01-06_iconnames.json", pt);
+	boost::property_tree::read_json("texts/params.json", pt);
 
 	for(const auto& language : pt.get_child("languages"))
 	{
@@ -574,6 +574,11 @@ std::vector<unsigned int> image_recognition::get_guid_from_name(const cv::Mat& t
 	std::cout << building_string << "\t";
 #endif
 
+	return get_guid_from_name(building_string, dictionary);
+}
+
+std::vector<unsigned int> image_recognition::get_guid_from_name(const std::string& building_string, const std::map<unsigned int, std::string>& dictionary)
+{
 	std::vector<unsigned int> guids;
 	float best_match = 0.f;
 	for (const auto& entry : dictionary)
@@ -582,7 +587,7 @@ std::vector<unsigned int> image_recognition::get_guid_from_name(const cv::Mat& t
 		boost::split(split_string, entry.second, [](char c) {return c == ' '; });
 		std::string kw = boost::join(split_string, "");
 
-		float match = lcs_length(kw, building_string) / (float) std::max(kw.size(), building_string.size());
+		float match = lcs_length(kw, building_string) / (float)std::max(kw.size(), building_string.size());
 		if (match > 0.66f)
 		{
 			if (match == best_match)
@@ -720,7 +725,7 @@ cv::Mat image_recognition::crop_widescreen(const cv::Mat& img)
 void image_recognition::initialize_items()
 {
 	boost::property_tree::ptree pt;
-	boost::property_tree::read_json("texts/items_2020-03-08.json", pt);
+	boost::property_tree::read_json("texts/items.json", pt);
 
 	cv::Mat item_outline(load_image("icons/btn_itemsocket_outline.png"));
 
@@ -1373,7 +1378,7 @@ std::vector<cv::Rect2i> image_recognition::detect_boxes(const cv::Mat& im, unsig
 	return boxes;
 }
 
-std::vector<int> image_recognition::find_horizontal_lines(const cv::Mat& im)
+std::vector<int> image_recognition::find_horizontal_lines(const cv::Mat& im, float line_density)
 {
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 	cv::imwrite("debug_images/scroll_area.png", im);
@@ -1386,12 +1391,12 @@ std::vector<int> image_recognition::find_horizontal_lines(const cv::Mat& im)
 #endif
 
 	std::vector<cv::Vec4i> lines;
-	cv::HoughLinesP(edges, lines, 2, CV_PI / 2, im.cols/2.f, im.cols*0.75f, im.cols * 0.15f);
+	cv::HoughLinesP(edges, lines, 2, CV_PI / 2, im.cols/2.f, im.cols * line_density, im.cols * 0.1f);
 	
 	std::vector<int> hlines;
 	for (auto& line : lines)
 	{
-		if (std::abs(line[1] - line[3]) <= 3 &&
+		if (std::abs(line[1] - line[3]) <= 2 &&
 			std::abs(line[2] - line[0]) > 0.8f*im.cols)
 		{
 			hlines.push_back(line[1]);
@@ -1401,7 +1406,7 @@ std::vector<int> image_recognition::find_horizontal_lines(const cv::Mat& im)
 	return hlines;
 }
 
-void image_recognition::iterate_rows(const cv::Mat& im,
+void image_recognition::iterate_rows(const cv::Mat& im, float line_density,
 												 const std::function<void(const cv::Mat& row)> f)
 {
 	std::vector<int> lines(find_horizontal_lines(im));
@@ -1421,6 +1426,7 @@ void image_recognition::iterate_rows(const cv::Mat& im,
 		prev_hline = hline;
 	}
 
+	std::sort(heights.begin(), heights.end());
 	if (heights.empty())
 		return;
 

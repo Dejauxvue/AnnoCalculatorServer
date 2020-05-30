@@ -100,6 +100,8 @@ int main(int argc, char** argv) {
 
 		test_screenshot(recog, reader);
 
+		cv::Point2f rec = image_recognition::get_center(reader.get_execute_button());
+
 		cv::Rect2i window = recog.find_anno();
 		if (!window.area())
 			window = recog.get_desktop();

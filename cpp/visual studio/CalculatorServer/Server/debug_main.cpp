@@ -255,14 +255,14 @@ void unit_tests(class statistics& image_recog)
 int main() {
 	image_recognition recog(true);
 	statistics image_recog(recog);
-	unit_tests(image_recog);
+//	unit_tests(image_recog);
 
 //	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Documents/Anno 1800/screenshot/screenshot_2019-12-31-13-03-20.jpg");
 //	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Pictures/Uplay/Anno 1800/Anno 18002020-1-6-0-32-3.png");
 //	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Documents/Dokumente/Computer/Softwareentwicklung/AnnoCalculatorServer/calculator-recognition-issues/population_number_slash_issue/screenshot6.png");
 //	 	cv::Mat src = image_recognition::load_image("J:/Pictures/Uplay/Anno 1800/Anno 18002020-1-6-0-32-3.png");
 
-	cv::Mat src = image_recognition::load_image("test_screenshots/stat_pop_global_widescreen.png");
+	cv::Mat src = image_recognition::load_image("test_screenshots/stat_pop_island_6.png");
 
 	image_recog.update("english", src);
 
