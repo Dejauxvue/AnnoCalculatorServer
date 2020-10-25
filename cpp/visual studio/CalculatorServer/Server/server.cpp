@@ -138,13 +138,20 @@ void server::handle_get(http_request request)
 		stats.update(language, screenshot);
 
 		web::json::value json_message;
-		read_anno_population(json_message);
-		read_buildings_count(json_message);
-		read_productivity_statistics(json_message, optimal_productivity);
-		read_islands(json_message);
 
 		json_message[U("version")] = web::json::value(std::wstring(version::VERSION_TAG.begin(), version::VERSION_TAG.end()));
-		json_message[U("islandName")] = web::json::value(image_recognition::to_wstring(stats.get_selected_island()));
+		std::string island_name = stats.get_selected_island();
+
+		if (!island_name.empty())
+		{
+			json_message[U("islandName")] = web::json::value(image_recognition::to_wstring(island_name));
+
+			read_anno_population(json_message);
+			read_buildings_count(json_message);
+			read_productivity_statistics(json_message, optimal_productivity);
+			read_islands(json_message);
+		}
+		
 
 		web::http::http_response response(status_codes::OK);
 		response.headers().add(U("Access-Control-Allow-Origin"), U("*"));

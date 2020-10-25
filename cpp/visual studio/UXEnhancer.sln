@@ -15,8 +15,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RerollBotConsole", "Calcula
 		{861B42BB-34E5-4C79-A960-428136A7DB93} = {861B42BB-34E5-4C79-A960-428136A7DB93}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unit_tests", "CalculatorServer\unit_tests\unit_tests.vcxproj", "{1D87A228-C84D-409D-8A8F-45E61F0613A9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssetViewer", "AssetViewer\AssetViewer\AssetViewer.csproj", "{CC0D32CD-53FF-4C57-95B8-4E0E6DF56590}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UXEnhancer", "UXEnhancer\UXEnhancer.vcxproj", "{E4C4F927-2A33-437B-84DA-7C173E6FD8E3}"

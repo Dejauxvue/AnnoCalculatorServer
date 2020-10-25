@@ -1,5 +1,7 @@
 #include "reader_statistics.hpp"
 
+#include <iostream>
+
 namespace reader
 {
 statistics::statistics(image_recognition& recog)

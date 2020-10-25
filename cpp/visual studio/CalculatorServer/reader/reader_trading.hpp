@@ -5,8 +5,9 @@
 #include <string>
 #include <vector>
 
-#include "../../../vcpkg/installed/x64-windows/include/opencv2/core/types.hpp"
-#include "../../../vcpkg/installed/x64-windows/include/opencv2/core/mat.hpp"
+#include <opencv2/core/mat.hpp>
+#include <opencv2/core/types.hpp>
+
 
 namespace reader
 {
@@ -38,17 +39,20 @@ class trading_params
 	static const unsigned int count_rows;
 
 	static const cv::Rect2f pane_menu_offering;
+	static const cv::Rect2f pane_menu_offering_with_counter;
 	static const cv::Rect2f pane_menu_name;
 	static const cv::Rect2f pane_menu_reroll;
 	static const cv::Rect2f pane_menu_execute;
 	static const cv::Rect2f pane_menu_title;
 	static const cv::Rect2f pane_menu_ship_cargo;
 	static const cv::Rect2f pane_menu_ship_sockets;
+	static const cv::Rect2f pane_menu_available_items;
 
 	static const cv::Rect2f pane_tooltip_reroll_heading;
 	static const cv::Rect2f pane_tooltip_reroll_price;
 
 	static const cv::Point2f pixel_ship_full;
+	static const cv::Point2f pixel_background_sockets_color;
 };
 
 struct offering
@@ -58,7 +62,7 @@ struct offering
 	unsigned int price;
 	std::vector<std::shared_ptr<item>> item_candidates;
 
-	bool operator==(const offering& other) const = default;
+	bool operator==(const offering& other) const;
 };
 
 class trading_menu
@@ -71,6 +75,7 @@ public:
 
 	bool is_trading_menu_open() const;
 	bool has_reroll() const;
+	bool has_buy_limit() const;
 	/*
 	* Trading menue: Tests wheter the trade button can be clicked
 	* Preview: Tests whether the open trade menu button is available
@@ -90,7 +95,7 @@ public:
 	* @param{abort_if_not_loaded} If one of the items is not fully rendered (i.e. only the background shown), 
 	* the method returns an empty vector
 	*/
-	std::vector<offering> get_offerings(bool abort_if_not_loaded = false) const;
+	std::vector<offering> get_offerings(bool abort_if_not_loaded = false);
 	std::vector<offering> get_capped_items() const;
 
 	/*
@@ -123,16 +128,23 @@ public:
 	*/
 	unsigned int get_reroll_cost() const;
 
+	unsigned int get_buy_limit() const;
+
 private:
 	image_recognition& recog;
 	cv::Mat screenshot;
 	std::map<unsigned int, cv::Mat> ship_items;
+	std::map<unsigned int, std::vector<std::pair<int, cv::Mat>>> cached_prices;
 	cv::Mat storage_icon;
 	unsigned int window_width;
 
 	unsigned int open_trader;
+	unsigned int buy_limit;
 	bool menu_open;
-
+	bool buy_limited;
+	
+	int get_price(const cv::Mat& offering);
+	
 	/**
 * Checks for active, price reducing items and returns whether @param{selling_price}
 * and the reduced item price of @param{guid} match
@@ -141,6 +153,8 @@ private:
 
 	cv::Rect2i get_roi_abs_location(unsigned int index) const;
 	cv::Rect2f get_roi_rel_location(unsigned int index) const;
+
+	cv::Rect2i to_abs_location(const cv::Rect2f& box) const;
 };
 
 }

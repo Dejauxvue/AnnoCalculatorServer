@@ -4,6 +4,8 @@
 #include <set>
 
 #include <boost/date_time.hpp>
+#include <opencv2/imgcodecs.hpp>
+
 
 
 #include "reader_util.hpp"
@@ -35,7 +37,7 @@ std::string get_time_str()
 
 	std::stringstream stream;
 
-	stream << "[" 
+	stream << "["
 		<< time.time_of_day().hours()
 		<< ":" << time.time_of_day().minutes()
 		<< ":" << time.time_of_day().seconds()
@@ -47,19 +49,71 @@ std::string get_time_str()
 
 void test_screenshot(image_recognition& recog, trading_menu& reader)
 {
-	reader.update("english", recog.load_image("test_screenshots/trading_eli_widescreen_1.png"));
+	reader.update("german", recog.load_image("test_screenshots/trading_eli_9.png"));
+
+	std::cout << "can buy: " << reader.can_buy() << std::endl;
+
+
+	if (!reader.is_trading_menu_open() || reader.is_ship_full() || !reader.get_buy_limit())
+	{
+		try {
+			std::cout << "menu open: " << reader.is_trading_menu_open() << "; trader: " << recog.get_dictionary().traders.at(reader.get_open_trader()) << "; ship full: " << reader.is_ship_full() << "; available items: " << reader.get_buy_limit() << "; reroll button: " << reader.has_reroll() << std::endl;
+		}
+		catch (const std::exception&) {}
+		return;
+	}
+
+	if (reader.has_buy_limit())
+		std::cout << "buy limit: " << reader.get_buy_limit() << std::endl;
+
 	auto offerings = reader.get_offerings(true);
 
 	std::cout << std::endl;
 
 	log_offerings(recog, offerings);
-	
+
 
 	std::cout << std::endl << "Capped items:" << std::endl;
 
 	offerings = reader.get_capped_items();
 
 	log_offerings(recog, offerings);
+}
+
+void measure_time(image_recognition& recog, trading_menu& reader, mouse& mous)
+{
+	unsigned int counter = 0;
+	while (true)
+	{
+		reader.update("german", recog.take_screenshot());
+		unsigned int trader = reader.get_open_trader();
+
+		if (trader && reader.has_reroll() &&
+			!reader.is_ship_full())
+		{
+			reader.get_reroll_cost();
+
+			auto start = std::chrono::high_resolution_clock::now();
+			std::vector<offering> offerings = reader.get_offerings(counter <= 3);
+			auto end = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<double, std::milli> duration = end - start;
+			std::cout << duration.count() << " ms" << std::endl;
+					
+			if (!offerings.size())
+			{
+				std::this_thread::sleep_for(std::chrono::milliseconds(100));
+				continue;
+			}
+
+			counter = 0;
+
+			mous.click(image_recognition::get_center(reader.get_reroll_button()));
+			std::this_thread::sleep_for(std::chrono::milliseconds(250));
+			continue;
+		}
+
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
 }
 
 template <class _Rep, class _Period>
@@ -98,7 +152,7 @@ int main(int argc, char** argv) {
 		for (const auto& entry : recog.trader_to_offerings)
 			reroll_costs.emplace(entry.first, 0);
 
-		test_screenshot(recog, reader);
+		//test_screenshot(recog, reader);
 
 		cv::Point2f rec = image_recognition::get_center(reader.get_execute_button());
 
@@ -106,6 +160,8 @@ int main(int argc, char** argv) {
 		if (!window.area())
 			window = recog.get_desktop();
 		mouse mous(recog.get_desktop(), window);
+
+		measure_time(recog, reader, mous);
 
 		std::vector<offering> prev_offerings;
 
@@ -143,7 +199,7 @@ int main(int argc, char** argv) {
 
 				if (offerings != prev_offerings && offerings.size())
 				{
-					
+
 					if (verbose)
 						try {
 						std::cout << "Trader: " << recog.get_dictionary().traders.at(trader) << std::endl;
@@ -158,7 +214,7 @@ int main(int argc, char** argv) {
 					{
 						if (verbose)
 							std::cout << get_time_str() << "Check reroll costs (internal: " << reroll_costs[trader] << ")" << std::endl;
-							
+
 						mous.move(image_recognition::get_center(reader.get_reroll_button()));
 						std::this_thread::sleep_for(std::chrono::milliseconds(250));
 						continue;
@@ -293,15 +349,16 @@ int main(int argc, char** argv) {
 					}
 				}
 
-			} else if (verbose)
+			}
+			else if (verbose)
 				std::cout << get_time_str() << "Trader: " << trader << ", ship full: " << reader.is_ship_full() << ", has reroll button: " << reader.has_reroll() << std::endl;
-			
+
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 
 		return 0;
 	}
-	catch (const std::exception & e)
+	catch (const std::exception& e)
 	{
 		std::cout << e.what() << std::endl;
 		system("pause");

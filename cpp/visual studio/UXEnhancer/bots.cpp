@@ -1,6 +1,8 @@
 #include "bots.hpp"
 
 #include <boost/date_time.hpp>
+#include <opencv2/imgcodecs.hpp>
+
 
 #include "../CalculatorServer/reader/reader_util.hpp"
 
@@ -55,7 +57,7 @@ void bot::log_offerings(const std::vector<reader::offering>& offerings)
 			try {
 			std::cout << " " << recog.get_dictionary().items.at(item->guid) << " (" << item->guid << ")";
 		}
-		catch (const std::exception& e)
+		catch (const std::exception&)
 		{
 		}
 		std::cout << std::endl;
@@ -83,7 +85,7 @@ execution_result reroll_bot::execute_step(bool update_required)
 		config.wishlist.buy_from(trader) &&
 		!reader.is_ship_full())
 	{
-		unsigned int reroll_cost = reader.get_reroll_cost();
+		unsigned int reroll_cost = config.get_max_reroll_costs() ? reader.get_reroll_cost() : 0;
 		if (reroll_cost)
 			reroll_costs[trader] = reroll_cost;
 
@@ -97,7 +99,18 @@ execution_result reroll_bot::execute_step(bool update_required)
 				std::cout << "Trader: " << recog.get_dictionary().traders.at(trader) << std::endl;
 				log_offerings(offerings);
 			}
-			catch (const std::exception& e) {}
+			catch (const std::exception&) {}
+
+			if(reader.has_buy_limit() && !reader.get_buy_limit())
+			{
+				if (verbose)
+					try {
+					std::cout << "No Available Items " << std::endl;
+				}
+				catch (const std::exception&) {}
+
+				return execution_result(std::chrono::seconds(1), false);
+			}
 
 			counter = 0;
 
@@ -122,10 +135,22 @@ execution_result reroll_bot::execute_step(bool update_required)
 				{
 					if (config.wishlist.contains(item->guid))
 					{
-						purchase_candidates.push_front(&off);
-						//							std::cout << "Buying item " << off.index << " with price " << off.price << std::endl;
-						break;
+						if (purchase_candidates.size() < reader.get_buy_limit())
+						{
+							purchase_candidates.push_front(&off);
+							//							std::cout << "Buying item " << off.index << " with price " << off.price << std::endl;
+							break;
+						}
 					}
+				}
+
+				if(purchase_candidates.size() > reader.get_buy_limit())
+				{
+					if (verbose)
+						std::cout << "Item purchase limit of " << reader.get_buy_limit() << " exceeded, truncate purchase list" << std::endl;
+					
+					purchase_candidates.pop_back();
+					break;
 				}
 			}
 
@@ -187,6 +212,7 @@ execution_result reroll_bot::execute_step(bool update_required)
 					if (verbose)
 						std::cout << get_time_str() << "try executing trade (" << exceute_check_count << ")" << std::endl;
 
+					mous.move(reader::image_recognition::get_center(reader.get_reroll_button())); // close item pop-up that may cover the trade menu title
 				} while ((!reader.is_trading_menu_open() || !reader.can_buy()) && exceute_check_count++ < 4);
 
 				if (exceute_check_count == 5)

@@ -1,5 +1,12 @@
 #include "reader_trading.hpp"
 
+#include <iostream>
+
+#include <boost/algorithm/string.hpp>
+
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
+
 #include "reader_util.hpp"
 
 namespace reader
@@ -24,31 +31,39 @@ const cv::Scalar trading_params::frame_brown = cv::Scalar(89, 152, 195, 255);
 const cv::Scalar trading_params::red_icon = cv::Scalar(22, 42, 189, 255);
 
 const cv::Rect2f trading_params::size_offering_icon = cv::Rect2f(cv::Point2f(0.0185, 0.23), cv::Point2f(1., 1.));
-const cv::Rect2f trading_params::size_offering_price = cv::Rect2f(cv::Point2f(0.218, 0.), cv::Point2f(1., 0.225));
-const cv::Rect2f trading_params::size_offering = cv::Rect2f(0, 0, 0.0390625, 0.08796);
+const cv::Rect2f trading_params::size_offering_price = cv::Rect2f(cv::Point2f(0.218, 0.015), cv::Point2f(1., 0.19));
+const cv::Rect2f trading_params::size_offering = cv::Rect2f(0, 0, 0.035780, 0.080314);
 const cv::Rect2f trading_params::size_icon = cv::Rect2f(0, 0, 0.040625, 0.072222);
 
 const unsigned int trading_params::count_cols = 4;
-const unsigned int trading_params::count_rows = 2;
+const unsigned int trading_params::count_rows = 3;
 
-const cv::Rect2f trading_params::pane_menu_offering = cv::Rect2f(cv::Point2f(0.6238, 0.4217), cv::Point2f(0.7791, 0.7061));
-const cv::Rect2f trading_params::pane_menu_name = cv::Rect2f(cv::Point2f(0.6354, 0.3477), cv::Point2f(0.766, 0.3717));
-const cv::Rect2f trading_params::pane_menu_reroll = cv::Rect2f(cv::Point2f(0.6897, 0.7149), cv::Point2f(0.7183, 0.7658));
+const cv::Rect2f trading_params::pane_menu_offering = cv::Rect2f(cv::Point2f(0.62303, 0.42088), cv::Point2f(0.78273, 0.67813));
+const cv::Rect2f trading_params::pane_menu_offering_with_counter = cv::Rect2f(cv::Point2f(0.62303, 0.46742), cv::Point2f(0.78273, 0.72466));
+const cv::Rect2f trading_params::pane_menu_name = cv::Rect2f(cv::Point2f(0.65148, 0.34788), cv::Point2f(0.74859, 0.37243));
+const cv::Rect2f trading_params::pane_menu_reroll = cv::Rect2f(cv::Point2f(0.68899, 0.71265), cv::Point2f(0.71897, 0.76670));
 const cv::Rect2f trading_params::pane_menu_execute = cv::Rect2f(cv::Point2f(0.4397, 0.7793), cv::Point2f(0.5616, 0.8081));
-const cv::Rect2f trading_params::pane_menu_title = cv::Rect2f(cv::Point2f(0.4356, 0.1937), cv::Point2f(0.5704, 0.2335));
-const cv::Rect2f trading_params::pane_menu_ship_cargo = cv::Rect2f(cv::Point2f(0.2272, 0.4264), cv::Point2f(0.3715, 0.5977));
-const cv::Rect2f trading_params::pane_menu_ship_sockets = cv::Rect2f(cv::Point2f(0.2272, 0.6207), cv::Point2f(0.3715, 0.701));
+const cv::Rect2f trading_params::pane_menu_title = cv::Rect2f(cv::Point2f(0.45904, 0.19417), cv::Point2f(0.53951, 0.23381));
+const cv::Rect2f trading_params::pane_menu_ship_cargo = cv::Rect2f(cv::Point2f(0.22050, 0.43526), cv::Point2f(0.37741, 0.63224));
+const cv::Rect2f trading_params::pane_menu_ship_sockets = cv::Rect2f(cv::Point2f(0.22019, 0.51098), cv::Point2f(0.37766, 0.73094));
+const cv::Rect2f trading_params::pane_menu_available_items = cv::Rect2f(cv::Point2f(0.65217, 0.41544), cv::Point2f(0.75351, 0.43787));
 
 const cv::Rect2f trading_params::pane_tooltip_reroll_heading = cv::Rect2f(cv::Point2f(0.7238, 0.776), cv::Point2f(0.8352, 0.8044));
 const cv::Rect2f trading_params::pane_tooltip_reroll_price = cv::Rect2f(cv::Point2f(0.8, 0.8412), cv::Point2f(0.8434, 0.8607));
 
 const cv::Point2f trading_params::pixel_ship_full = cv::Point2f(0.2375, 0.4382);
+const cv::Point2f trading_params::pixel_background_sockets_color = cv::Point2f(0.32536, 0.415692);
 
 ////////////////////////////////////////
 //
 // Class: trading_menu
 //
 ////////////////////////////////////////
+
+bool offering::operator==(const offering& other) const
+{
+	return index == other.index && box == other.box && price == other.price && item_candidates == other.item_candidates;
+}
 
 trading_menu::trading_menu(image_recognition& recog)
 	:
@@ -95,6 +110,26 @@ void trading_menu::update(const std::string& language, const cv::Mat& img)
 
 		if (!trader_candidates.empty())
 			open_trader = trader_candidates.front();
+
+		cv::Mat img_buy_limit = recog.binarize(recog.get_pane(trading_params::pane_menu_available_items, screenshot), false);
+		if (recog.is_verbose()) {
+			cv::imwrite("debug_images/buy_limit.png", img_buy_limit);
+		}
+
+
+		std::vector<std::pair<std::string, cv::Rect>> words = recog.detect_words(img_buy_limit, tesseract::PSM_SINGLE_LINE);
+		std::string number_string;
+
+		std::string buy_limit_text = recog.join(words, true);
+		std::vector<std::string> split_string;
+		boost::split(split_string, buy_limit_text, [](char c) {return c == ':' || c >= '0' && c <= '9'; });
+
+		buy_limited = !recog.get_guid_from_name(split_string.front(), recog.make_dictionary({ phrase::AVAILABE_ITEMS })).empty();
+		if (buy_limited)
+			buy_limit = recog.number_from_string(buy_limit_text.substr(split_string.front().size()));
+		else
+			buy_limit = std::numeric_limits<unsigned int>::max();
+
 	}
 
 
@@ -113,6 +148,11 @@ bool trading_menu::has_reroll() const
 			trading_params::background_sand_bright);
 
 	return false;
+}
+
+bool trading_menu::has_buy_limit() const
+{
+	return buy_limited;
 }
 
 bool trading_menu::can_buy() const
@@ -161,11 +201,60 @@ bool trading_menu::can_buy(const offering& off) const
 
 bool trading_menu::is_ship_full() const
 {
-	cv::Vec4b pixel = screenshot.at<cv::Vec4b>(trading_params::pixel_ship_full.y * screenshot.rows,
-		trading_params::pixel_ship_full.x * screenshot.cols);
+	cv::Vec4b pixel = screenshot.at<cv::Vec4b>(static_cast<int>(trading_params::pixel_ship_full.y * screenshot.rows),
+		static_cast<int>(trading_params::pixel_ship_full.x * screenshot.cols));
 	return image_recognition::closer_to(pixel, trading_params::red_icon, trading_params::background_trading_menu);
 }
 
+
+int trading_menu::get_price(const cv::Mat& offering)
+{
+	cv::Mat price_img = recog.binarize(image_recognition::get_pane(trading_params::size_offering_price, offering), true, false);
+	unsigned int count_black = price_img.rows * price_img.cols - cv::countNonZero(price_img);
+
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/price.png", price_img);
+	}
+	
+	auto iter = cached_prices.find(count_black);
+	int price = 0;
+
+	if(iter != cached_prices.end())
+	{
+		for(const auto& rendered_price : iter->second)
+		{
+			const auto& cached_img = rendered_price.second;
+			if (cached_img.rows != price_img.rows || cached_img.cols != price_img.cols)
+				continue;
+
+			cv::Mat diff;
+			
+			cv::bitwise_xor(price_img, cached_img, diff);
+
+			if(!cv::countNonZero(diff))
+			{
+				price = rendered_price.first;
+				//std::cout << "price cache hit: " << rendered_price.first << std::endl;
+				break;
+			}
+		}
+	}
+
+	if (!price)
+	{
+		cv::Mat price_img_rgb;
+		cv::cvtColor(price_img, price_img_rgb, cv::COLOR_GRAY2RGBA);
+		price = recog.number_from_region(price_img_rgb);
+
+		if(iter == cached_prices.end())
+		{
+			iter = cached_prices.emplace(count_black, std::vector<std::pair<int, cv::Mat>>()).first;
+		} 
+		iter->second.emplace_back(price, price_img);
+	}
+
+	return price;
+}
 
 bool trading_menu::check_price(unsigned int guid, unsigned int selling_price, int price_modification_percent) const
 {
@@ -174,27 +263,38 @@ bool trading_menu::check_price(unsigned int guid, unsigned int selling_price, in
 	return std::floor(price - 0.5f) <= selling_price && selling_price <= std::ceil(price + 0.5f);
 }
 
-std::vector<offering> trading_menu::get_offerings(bool abort_if_not_loaded) const
+std::vector<offering> trading_menu::get_offerings(bool abort_if_not_loaded)
 {
 	if (!is_trading_menu_open())
 		return std::vector<offering>();
 
 	std::vector<offering> result;
 
-	int price_width = trading_params::size_offering_price.width;
-	int price_height = trading_params::size_offering_price.height;
+	cv::Rect2f offering_pane = get_window_rel_location(has_buy_limit() ? trading_params::pane_menu_offering_with_counter : trading_params::pane_menu_offering);
+	cv::Mat pane;
+	recog.get_pane(offering_pane, screenshot).copyTo(pane);
+
+	cv::Point2f button_offset = get_reroll_button().tl() - offering_pane.tl();
+	cv::Rect2i button_reroll(static_cast<int>(button_offset.x * screenshot.cols),
+		static_cast<int>(button_offset.y * screenshot.rows),
+		static_cast<int>(get_reroll_button().width * screenshot.cols),
+		static_cast<int>(get_reroll_button().height * screenshot.rows));
+
+
 
 	if (recog.is_verbose()) {
-		cv::imwrite("debug_images/offerings.png", recog.get_pane(trading_params::pane_menu_offering, screenshot));
+		cv::imwrite("debug_images/offerings.png", pane);
 	}
 
 	cv::Rect2i offering_size = get_roi_abs_location(0);
-	cv::Mat pane(recog.get_pane(trading_params::pane_menu_offering, screenshot));
-	std::vector<cv::Rect2i> boxes(recog.detect_boxes(pane, offering_size));
+
+	std::vector<cv::Rect2i> boxes(recog.detect_boxes(pane, offering_size, button_reroll));
 
 	std::sort(boxes.begin(), boxes.end(), [&offering_size](const cv::Rect2i& lhs, const cv::Rect2i& rhs) {
 		if (lhs.y + offering_size.height < rhs.y)
 			return true;
+		else if (rhs.y + offering_size.height < lhs.y)
+			return false;
 		else if (lhs.x + offering_size.width < rhs.x)
 			return true;
 		return false;
@@ -205,9 +305,7 @@ std::vector<offering> trading_menu::get_offerings(bool abort_if_not_loaded) cons
 
 	for (const cv::Rect2i& offering_loc : boxes)
 	{
-		cv::Mat price_img = recog.binarize(image_recognition::get_pane(trading_params::size_offering_price, pane(offering_loc)), true);
-
-		int price = recog.number_from_region(price_img);
+		int price = get_price(pane(offering_loc));
 		std::map<unsigned int, cv::Mat> icon_dictionary;
 
 
@@ -255,8 +353,7 @@ std::vector<offering> trading_menu::get_offerings(bool abort_if_not_loaded) cons
 		}
 
 		if (recog.is_verbose()) {
-			cv::imwrite("debug_images/offering.png", screenshot(offering_loc));
-			cv::imwrite("debug_images/price.png", price_img);
+			cv::imwrite("debug_images/offering.png", pane(offering_loc));
 		}
 
 
@@ -268,8 +365,8 @@ std::vector<offering> trading_menu::get_offerings(bool abort_if_not_loaded) cons
 				items.push_back(recog.items[guid]);
 
 			cv::Rect2i abs_box(
-				screenshot.cols * trading_params::pane_menu_offering.x + offering_loc.x,
-				screenshot.rows * trading_params::pane_menu_offering.y + offering_loc.y,
+				static_cast<int>(screenshot.cols * offering_pane.x + offering_loc.x),
+					static_cast<int>(screenshot.rows * offering_pane.y + offering_loc.y),
 				offering_loc.width,
 				offering_loc.height
 			);
@@ -297,25 +394,33 @@ std::vector<offering> trading_menu::get_capped_items() const
 	std::vector<offering> result;
 
 	if (recog.is_verbose()) {
-		cv::imwrite("debug_images/offerings.png", recog.get_pane(trading_params::pane_menu_ship_sockets, screenshot));
+		cv::imwrite("debug_images/item_sockets.png", recog.get_pane(trading_params::pane_menu_ship_sockets, screenshot));
 	}
 
-	cv::Rect2i icon_size(0, 0, trading_params::size_icon.width * screenshot.cols, trading_params::size_icon.height * screenshot.rows);
+	cv::Rect2i icon_size(0, 0, static_cast<int>(trading_params::size_icon.width * screenshot.cols), static_cast<int>(trading_params::size_icon.height * screenshot.rows));
 	cv::Mat pane(recog.get_pane(trading_params::pane_menu_ship_sockets, screenshot));
 	std::vector<cv::Rect2i> boxes(recog.detect_boxes(pane, icon_size));
 
+	if (boxes.empty())
+		return result;
+
 	std::sort(boxes.begin(), boxes.end(), [&icon_size](const cv::Rect2i& lhs, const cv::Rect2i& rhs) {
-		if (lhs.y + icon_size.height < rhs.y)
+		if (lhs.y > rhs.y + icon_size.height)
 			return true;
+		else if (rhs.y > lhs.y + icon_size.height)
+			return false;
 		else if (lhs.x + icon_size.width < rhs.x)
 			return true;
 		return false;
 		});
 
 	unsigned int index = 0;
+	int row = boxes.front().y;
 
 	for (const cv::Rect2i& item_loc : boxes)
 	{
+		if (item_loc.y + item_loc.height < row)
+			break;
 
 		std::vector<unsigned int> item_candidates = recog.get_guid_from_icon(
 			pane(item_loc),
@@ -324,7 +429,7 @@ std::vector<offering> trading_menu::get_capped_items() const
 		);
 
 		if (recog.is_verbose()) {
-			cv::imwrite("debug_images/item.png", screenshot(item_loc));
+			cv::imwrite("debug_images/item.png", pane(item_loc));
 		}
 
 
@@ -336,8 +441,8 @@ std::vector<offering> trading_menu::get_capped_items() const
 				items.push_back(recog.items[guid]);
 
 			cv::Rect2i abs_box(
-				screenshot.cols * trading_params::pane_menu_offering.x + item_loc.x,
-				screenshot.rows * trading_params::pane_menu_offering.y + item_loc.y,
+				static_cast<int>(screenshot.cols * trading_params::pane_menu_ship_sockets.x + item_loc.x),
+					static_cast<int>(screenshot.rows * trading_params::pane_menu_ship_sockets.y + item_loc.y),
 				item_loc.width,
 				item_loc.height
 			);
@@ -426,17 +531,28 @@ unsigned int trading_menu::get_reroll_cost() const
 	if (!is_trading_menu_open())
 		return 0;
 
-	cv::Mat tooltip_heading = recog.binarize(recog.get_pane(trading_params::pane_tooltip_reroll_heading, screenshot), true);
+	cv::Mat tooltip_heading = recog.binarize(recog.get_pane(get_window_rel_location(trading_params::pane_tooltip_reroll_heading), screenshot), true);
 	if (recog.get_guid_from_name(tooltip_heading, recog.make_dictionary({ phrase::REROLL_OFFERED_ITEMS })).empty())
 		return 0;
 
-	return recog.number_from_region(recog.binarize(recog.get_pane(trading_params::pane_tooltip_reroll_price, screenshot), true));
+	return recog.number_from_region(recog.binarize(recog.get_pane(get_window_rel_location(trading_params::pane_tooltip_reroll_price), screenshot), true));
+}
+
+unsigned int trading_menu::get_buy_limit() const
+{
+	if (!has_buy_limit())
+		return std::numeric_limits<unsigned int>::max();
+
+	return buy_limit;
 }
 
 cv::Rect2i trading_menu::get_roi_abs_location(unsigned int index) const
 {
-	cv::Rect2f box(get_roi_rel_location(index));
+	return to_abs_location(get_roi_rel_location(index));
+}
 
+cv::Rect2i trading_menu::to_abs_location(const cv::Rect2f& box) const
+{
 	int width = screenshot.cols;
 	int height = screenshot.rows;
 
@@ -448,7 +564,7 @@ cv::Rect2f trading_menu::get_roi_rel_location(unsigned int index) const
 	if (!is_trading_menu_open())
 		throw std::runtime_error("No menu open");
 
-	cv::Rect2f area = trading_params::pane_menu_offering;
+	cv::Rect2f area = has_buy_limit() ? trading_params::pane_menu_offering_with_counter : trading_params::pane_menu_offering;
 	float col_total_margin = area.width - trading_params::count_cols * trading_params::size_offering.width;
 	float col_margin = col_total_margin / (trading_params::count_cols - 1);
 

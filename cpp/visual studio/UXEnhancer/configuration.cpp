@@ -134,7 +134,7 @@ void item_wishlist::set_count(Collections::Generic::IEnumerable<AssetViewer::Dat
 					try {
 						set_count(Int32::Parse(subitem), item->Count);
 					}
-					catch (const std::exception& e)
+					catch (const std::exception&)
 					{
 					}
 				}
@@ -144,7 +144,7 @@ void item_wishlist::set_count(Collections::Generic::IEnumerable<AssetViewer::Dat
 				{
 				set_count(item->ID, item->Count);
 				}
-				catch (const std::exception& e)
+				catch (const std::exception&)
 				{
 				}
 			}
@@ -185,7 +185,7 @@ void item_wishlist::load(const boost::property_tree::ptree& tree)
 			if (count > MAX_COUNT)
 				count = MAX_COUNT;
 		}
-		catch (const std::exception & e)
+		catch (const std::exception &)
 		{
 			count = MAX_COUNT;
 		}
@@ -279,7 +279,7 @@ bool configuration::load()
 	try {
 		boost::property_tree::read_json(path, pt);
 	}
-	catch (const std::exception& e)
+	catch (const std::exception&)
 	{
 		// configuration file not avialable or invalid,
 		// load default config
@@ -295,7 +295,7 @@ bool configuration::load()
 			if (!recog.has_language(language))
 				throw std::invalid_argument(language);
 		}
-		catch (const std::exception& e)
+		catch (const std::exception&)
 		{
 			language = "english";
 		}
@@ -303,7 +303,7 @@ bool configuration::load()
 		try {
 			max_reroll_costs = st.get().get_child("maxRerollCosts").get_value<unsigned int>();
 		}
-		catch (const std::exception& e)
+		catch (const std::exception&)
 		{
 		}
 	}

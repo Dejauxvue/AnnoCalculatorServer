@@ -1,30 +1,31 @@
-#include "reader_util.hpp"
+﻿#include "reader_util.hpp"
 
-#define WIN32_LEAN_AND_MEAN  // Exclude rarely-used stuff from Windows headers
-#define NOMINMAX
 #include <windows.h>
 
 #include <algorithm>
-#include <regex>
-#include <list>
+#include <codecvt>
 #include <filesystem>
+#include <iostream>
+#include <list>
 #include <numeric>
+#include <psapi.h>
+#include <regex>
 #include <stdio.h>
 #include <tchar.h>
-#include <psapi.h>
 
+#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/cxx17/transform_reduce.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
-#include <opencv2/opencv.hpp>
-
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 
 #include <tesseract/genericvector.h>
 #include "reader_statistics_screen.hpp"
+
 
 namespace reader
 {
@@ -182,6 +183,7 @@ if(verbose){
 	{
 		std::set<phrase> phrases({
 			phrase::ALL_ISLANDS,
+			phrase::MULTIPLE_ISLANDS,
 			phrase::PRODUCTION,
 			phrase::STATISTICS,
 			phrase::THE_NEW_WORLD,
@@ -198,8 +200,11 @@ if(verbose){
 			phrase::KAHINA_HARBOUR,
 			phrase::NATE_HARBOUR,
 			phrase::INUIT_HARBOUR,
+			phrase::KETEMA_HARBOUR,
 			phrase::REROLL_OFFERED_ITEMS,
-			phrase::TRADE
+			phrase::TRADE,
+			phrase::NO_AVAILABLE_ITEMS,
+			phrase::AVAILABE_ITEMS
 			});
 
 		boost::property_tree::ptree output_json;
@@ -219,8 +224,14 @@ if(verbose){
 				if (phrases.find((phrase)guid) != phrases.end())
 				{
 					std::string loca_text = text_node.second.get_child("Text").get_value<std::string>();
-					entry.second.ui_texts[guid] = loca_text;
-					texts.put(std::to_string(guid), loca_text);
+
+					auto iter = loca_text.begin();
+					for (; iter != loca_text.end(); ++iter)
+						if (*iter == '(' || *iter == '[' || *iter == '（')
+							break;
+					
+					entry.second.ui_texts[guid] = std::string(loca_text.begin(), iter);
+					texts.put(std::to_string(guid), entry.second.ui_texts[guid]);
 				}
 			}
 
@@ -252,10 +263,10 @@ cv::Mat image_recognition::get_square_region(const cv::Mat& img, const cv::Rect2
 		return cv::Mat();
 
 	int dim = std::lround(std::max(rect.width * img.cols, rect.height * img.rows));
-	cv::Rect scaled(rect.x * img.cols,
-		rect.y * img.rows,
-		std::min(dim, (int)(img.cols - rect.x * img.cols)),
-		std::min(dim, (int)(img.rows - rect.y * img.rows)));
+	cv::Rect scaled(static_cast<int>(rect.x * img.cols),
+		static_cast<int>(rect.y * img.rows),
+		std::min(dim, static_cast<int>(img.cols - rect.x * img.cols)),
+		std::min(dim, static_cast<int>(img.rows - rect.y * img.rows)));
 	return img(scaled);
 }
 
@@ -264,7 +275,7 @@ cv::Mat image_recognition::get_cell(const cv::Mat& img, float crop_left, float w
 	if (!img.size)
 		return cv::Mat();
 
-	cv::Rect scaled(crop_left * img.cols, 0.5f * crop_vertical * img.rows, width * img.cols, (1 - crop_vertical) * img.rows);
+	cv::Rect scaled(static_cast<int>(crop_left * img.cols), static_cast<int>(0.5f * crop_vertical * img.rows), static_cast<int>(width * img.cols), static_cast<int>((1 - crop_vertical) * img.rows));
 	return img(scaled);
 }
 
@@ -274,8 +285,8 @@ cv::Mat image_recognition::get_pane(const cv::Rect2f& rect, const cv::Mat& img)
 		return img;
 	
 	cv::Point2f factor(img.cols - 1, img.rows - 1);
-	cv::Rect scaled(cv::Point(rect.tl().x * factor.x, rect.tl().y * factor.y),
-		cv::Point(rect.br().x * factor.x, rect.br().y * factor.y));
+	cv::Rect scaled(cv::Point(static_cast<int>(rect.tl().x * factor.x), static_cast<int>(rect.tl().y * factor.y)),
+		cv::Point(static_cast<int>(rect.br().x * factor.x), static_cast<int>(rect.br().y * factor.y)));
 	return img(scaled);
 }
 
@@ -291,7 +302,7 @@ bool image_recognition::is_button(const cv::Mat& image, const cv::Scalar& button
 	int matches = 0;
 	for (const cv::Point2f& p : { cv::Point2f{0.5f, margin}, cv::Point2f{1 - margin, 0.5f}, cv::Point2f{0.5f, 1 - margin}, cv::Point2f{margin, 0.5f} })
 	{
-		cv::Point2i pos(p.x * image.cols, p.y * image.rows);
+		cv::Point2i pos(static_cast<int>(p.x * image.cols), static_cast<int>(p.y * image.rows));
 		matches += closer_to(image.at<cv::Vec4b>(pos), button_color, background_color);
 	}
 
@@ -391,10 +402,10 @@ cv::Mat image_recognition::dye_icon(const cv::Mat& icon, cv::Scalar color)
 
 std::pair<cv::Rect, float> image_recognition::find_icon(const cv::Mat& source, const cv::Mat& icon, cv::Scalar background_color)
 {
-	float scaling = (source.cols * 0.027885)/icon.cols;
+	float scaling = (source.cols * 0.027885f)/icon.cols;
 	
 	cv::Mat template_resized;
-	cv::resize(blend_icon(icon, background_color), template_resized, cv::Size(scaling * icon.cols, scaling * icon.rows));
+	cv::resize(blend_icon(icon, background_color), template_resized, cv::Size(static_cast<int>(scaling * icon.cols), static_cast<int>(scaling * icon.rows)));
 
 
 
@@ -417,7 +428,7 @@ std::vector<unsigned int> image_recognition::get_guid_from_icon(const cv::Mat& i
 
 	cv::Mat diff;
 	cv::absdiff(icon, background_resized, diff);
-	float best_match = cv::sum(diff).ddot(cv::Scalar::ones()) / icon.rows / icon.cols;
+	float best_match = static_cast<float>(cv::sum(diff).ddot(cv::Scalar::ones()) / icon.rows / icon.cols);
 	std::vector<unsigned int> guids;
 
 
@@ -587,8 +598,12 @@ std::vector<unsigned int> image_recognition::get_guid_from_name(const std::strin
 		boost::split(split_string, entry.second, [](char c) {return c == ' '; });
 		std::string kw = boost::join(split_string, "");
 
-		float match = lcs_length(kw, building_string) / (float)std::max(kw.size(), building_string.size());
-		if (match > 0.66f)
+		float total_length = std::max(kw.size(), building_string.size());
+		int min_lcs_length = total_length - static_cast<int>(std::roundf(-0.677f + 1.51 * std::logf(total_length)));
+		int lcs_length = image_recognition::lcs_length(kw, building_string);
+		float match = lcs_length / total_length;
+		
+		if (lcs_length >= min_lcs_length)
 		{
 			if (match == best_match)
 			{
@@ -709,12 +724,24 @@ cv::Mat image_recognition::load_image(const std::string& path)
 
 cv::Mat image_recognition::crop_widescreen(const cv::Mat& img)
 {
-	if (img.rows && (img.cols / (float)img.rows) >= 2.33)
+	float width = img.cols;
+	float height = img.rows;
+	if (img.rows && std::abs(16.f/9.f - (width / height)) >= 1.f/32.f)
 	{
-		int width = img.rows * 16 / 9;
-		int crop = (img.cols - width) / 2;
-		cv::Rect roi(crop, 0, width, img.rows);
-		return img(roi);
+		if (9 * width > 16 * height)
+		{
+			int new_width = height * 16 / 9;
+			int crop = (width - new_width) / 2;
+			cv::Rect roi(crop, 0, new_width, height);
+			return img(roi);
+		}
+		else
+		{
+			int new_height = width * 9 / 16;
+			int crop = (height - new_height) / 2;
+			cv::Rect roi(0, crop, width, new_height);
+			return img(roi);
+		}
 	}
 	else
 	{
@@ -832,7 +859,7 @@ void image_recognition::initialize_items()
 				unsigned int item_guid = item.second.get_value<unsigned int>();
 				offerings.emplace(item_guid);
 			}
-			catch (const std::exception & e)
+			catch (const std::exception &)
 			{
 			}
 		}
@@ -847,7 +874,7 @@ void image_recognition::initialize_items()
 	}
 }
 
-cv::Mat image_recognition::binarize(const cv::Mat& input, bool invert)
+cv::Mat image_recognition::binarize(const cv::Mat& input, bool invert, bool multi_channel)
 {
 	if (input.empty())
 		return input;
@@ -863,7 +890,8 @@ cv::Mat image_recognition::binarize(const cv::Mat& input, bool invert)
 
 	cv::cvtColor(resized, thresholded, cv::COLOR_BGRA2GRAY);
 	cv::threshold(thresholded, thresholded, 128, 255, (invert ? cv::THRESH_BINARY_INV : cv::THRESH_BINARY)  | cv::THRESH_OTSU);
-	cv::cvtColor(thresholded, thresholded, cv::COLOR_GRAY2RGBA);
+	if(multi_channel)
+		cv::cvtColor(thresholded, thresholded, cv::COLOR_GRAY2RGBA);
 
 	return thresholded;
 }
@@ -1121,7 +1149,7 @@ cv::Rect2i image_recognition::find_anno()
 
 		return cv::Rect2i(windowsize.left, windowsize.top, windowsize.right - windowsize.left, windowsize.bottom - windowsize.top);
 	}
-	catch (const std::exception & e)
+	catch (const std::exception &)
 	{
 		return cv::Rect2i();
 	}
@@ -1176,12 +1204,16 @@ cv::Mat image_recognition::take_screenshot(cv::Rect2i rect)
 	DeleteObject(hbwindow);
 	DeleteDC(hwindowCompatibleDC);
 	ReleaseDC(nullptr, hwindowDC);
+	
+	if (verbose) {
+		if (!std::filesystem::is_directory("debug_images") || !std::filesystem::exists("debug_images")) { // Check if src folder exists
+			std::filesystem::create_directory("debug_images"); // create src folder
+		}
 
-if(verbose){
-	cv::imwrite("debug_images/screenshot-" + std::to_string(verbose_screenshot_counter) + ".png", src);
-	if (++verbose_screenshot_counter > 20)
-		verbose_screenshot_counter = 0;
-}
+		cv::imwrite("debug_images/screenshot-" + std::to_string(verbose_screenshot_counter) + ".png", src);
+		if (++verbose_screenshot_counter > 20)
+			verbose_screenshot_counter = 0;
+	}
 
 	return src;
 
@@ -1246,7 +1278,7 @@ const keyword_dictionary& image_recognition::get_dictionary() const
 {
 	auto iter = dictionaries.find(language);
 	if (iter == dictionaries.end())
-		return keyword_dictionary();
+		throw std::exception("language not found");
 	return iter->second;
 }
 
@@ -1284,17 +1316,18 @@ cv::Mat image_recognition::detect_edges(const cv::Mat& im)
 	return edges;
 }
 
-std::vector<cv::Rect2i> image_recognition::detect_boxes(const cv::Mat& im, const cv::Rect2i& box, float tolerance,
+std::vector<cv::Rect2i> image_recognition::detect_boxes(const cv::Mat& im, const cv::Rect2i& box, const cv::Rect2i& ignore_region, float tolerance,
 	double threshold1, double threshold2)
 {
-	return detect_boxes(im, box.width, box.height, tolerance, threshold1, threshold2);
+	return detect_boxes(im, box.width, box.height, ignore_region, tolerance, threshold1, threshold2);
 }
 
-std::vector<cv::Rect2i> image_recognition::detect_boxes(const cv::Mat& im, unsigned int width, unsigned int height, float tolerance,
+std::vector<cv::Rect2i> image_recognition::detect_boxes(const cv::Mat& im, unsigned int width, unsigned int height, const cv::Rect2i& ignore_region, float tolerance,
 	double threshold1, double threshold2)
 {
 	cv::Mat edge_image;
 	cv::Canny(im, edge_image, threshold1, threshold2, 3);
+	cv::rectangle(edge_image, ignore_region, cv::Scalar::all(0), cv::FILLED);
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 	cv::Mat colored_edge_image;
@@ -1342,8 +1375,8 @@ std::vector<cv::Rect2i> image_recognition::detect_boxes(const cv::Mat& im, unsig
 		// area may be positive or negative - in accordance with the
 		// contour orientation
 		if (//approx.size() == 4 &&
-			min_bb.width <= bb.width && max_bb.width &&
-			min_bb.height <= bb.height && max_bb.height /*&&
+			min_bb.width <= bb.width && bb.width <= max_bb.width &&
+			min_bb.height <= bb.height && bb.height <= max_bb.height /*&&
 			isContourConvex(approx)*/)
 		{
 			//double maxCosine = 0;

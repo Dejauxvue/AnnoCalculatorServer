@@ -59,8 +59,8 @@ void mouse::move(const cv::Point2f& point)
 
 cv::Point2i mouse::get_ndc_position(const cv::Point2f relative_window_position) const
 {
-	int ndc_x = (window.x + window.width * relative_window_position.x) / desktop.width * 65535;
-	int ndc_y = (window.y + window.height * relative_window_position.y) / desktop.height * 65535;
+	int ndc_x = static_cast<int>((window.x + window.width * relative_window_position.x) / desktop.width * 65535);
+	int ndc_y = static_cast<int>((window.y + window.height * relative_window_position.y) / desktop.height * 65535);
 	return cv::Point2i(ndc_x, ndc_y);
 }
 

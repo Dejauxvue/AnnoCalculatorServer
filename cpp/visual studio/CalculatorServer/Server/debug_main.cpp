@@ -7,6 +7,8 @@
 #pragma comment(lib, "WS2_32.lib")
 
 
+#include <iostream>
+
 #include "reader_statistics.hpp"
 
 using namespace reader;
@@ -83,24 +85,24 @@ void unit_tests(class statistics& image_recog)
 		BOOST_ASSERT(result.at(15000006) == 0);
 	}
 
-	{
-		image_recog.update("german", image_recognition::load_image("test_screenshots/stat_pop_global_1.png"));
-		auto result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000002) == 3360);
-		BOOST_ASSERT(result.at(15000003) == 6108);
-		BOOST_ASSERT(result.at(15000004) == 6800);
-		BOOST_ASSERT(result.at(15000005) == 3752);
-		BOOST_ASSERT(result.at(15000006) == 5008);
-		BOOST_ASSERT(result.at(112642) == 48);
+	//{
+	//	image_recog.update("german", image_recognition::load_image("test_screenshots/stat_pop_global_1.png"));
+	//	auto result = image_recog.get_population_amount();
+	//	BOOST_ASSERT(result.at(15000002) == 3360);
+	//	BOOST_ASSERT(result.at(15000003) == 6108);
+	//	BOOST_ASSERT(result.at(15000004) == 6800);
+	//	BOOST_ASSERT(result.at(15000005) == 3752);
+	//	BOOST_ASSERT(result.at(15000006) == 5008);
+	//	BOOST_ASSERT(result.at(112642) == 48);
 
-		result = image_recog.get_assets_existing_buildings();
-		BOOST_ASSERT(result.at(15000002) == 112);
-		BOOST_ASSERT(result.at(15000003) == 156);
-		BOOST_ASSERT(result.at(15000004) == 136);
-		BOOST_ASSERT(result.at(15000005) == 376);
-		BOOST_ASSERT(result.at(15000006) == 272);
-		BOOST_ASSERT(result.at(112642) == 12);
-	}
+	//	result = image_recog.get_assets_existing_buildings();
+	//	BOOST_ASSERT(result.at(15000002) == 112);
+	//	BOOST_ASSERT(result.at(15000003) == 156);
+	//	BOOST_ASSERT(result.at(15000004) == 136);
+	//	BOOST_ASSERT(result.at(15000005) == 376);
+	//	BOOST_ASSERT(result.at(15000006) == 272);
+	//	BOOST_ASSERT(result.at(112642) == 12);
+	//}
 
 	{
 		image_recog.update("german", image_recognition::load_image("test_screenshots/stat_pop_global_2.png"));
@@ -221,6 +223,29 @@ void unit_tests(class statistics& image_recog)
 		BOOST_ASSERT(result.at(112643) == 0);
 	}
 
+	{
+		image_recog.update("german", image_recognition::load_image("test_screenshots/stat_pop_global_3_16_10.jpg"));
+		auto result = image_recog.get_assets_existing_buildings();
+		BOOST_ASSERT(result.at(15000001) == 145);
+		BOOST_ASSERT(result.at(15000002) == 89);
+		BOOST_ASSERT(result.at(15000003) == 0);
+		BOOST_ASSERT(result.at(15000004) == 0);
+		BOOST_ASSERT(result.at(15000005) == 0);
+		BOOST_ASSERT(result.at(15000006) == 0);
+		BOOST_ASSERT(result.at(112642) == 0);
+		BOOST_ASSERT(result.at(112643) == 0);
+
+		result = image_recog.get_population_amount();
+		BOOST_ASSERT(result.at(15000001) == 1440);
+		BOOST_ASSERT(result.at(15000002) == 1754);
+		BOOST_ASSERT(result.at(15000003) == 0);
+		BOOST_ASSERT(result.at(15000004) == 0);
+		BOOST_ASSERT(result.at(15000005) == 0);
+		BOOST_ASSERT(result.at(15000006) == 0);
+		BOOST_ASSERT(result.at(112642) == 0);
+		BOOST_ASSERT(result.at(112643) == 0);
+	}
+
 
 	/*
 	{
@@ -252,19 +277,19 @@ void unit_tests(class statistics& image_recog)
 	std::cout << "all tests passed!" << std::endl;
 }
 
-int main() {
+int main(int argc, char** argv) {
 	image_recognition recog(true);
 	statistics image_recog(recog);
-//	unit_tests(image_recog);
+	//unit_tests(image_recog);
 
 //	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Documents/Anno 1800/screenshot/screenshot_2019-12-31-13-03-20.jpg");
 //	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Pictures/Uplay/Anno 1800/Anno 18002020-1-6-0-32-3.png");
 //	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Documents/Dokumente/Computer/Softwareentwicklung/AnnoCalculatorServer/calculator-recognition-issues/population_number_slash_issue/screenshot6.png");
 //	 	cv::Mat src = image_recognition::load_image("J:/Pictures/Uplay/Anno 1800/Anno 18002020-1-6-0-32-3.png");
 
-	cv::Mat src = image_recognition::load_image("test_screenshots/stat_pop_island_6.png");
+	cv::Mat src = image_recognition::load_image("test_screenshots/stat_prod_global_3_16_10.jpg");
 
-	image_recog.update("english", src);
+	image_recog.update("german", src);
 
 	//image_recog.update("german", image_recognition::load_image("C:/Users/Nico/Documents/Dokumente/Computer/Softwareentwicklung/AnnoCalculatorServer/calculator-recognition-issues/island_name_mua/screenshot.png"));
 

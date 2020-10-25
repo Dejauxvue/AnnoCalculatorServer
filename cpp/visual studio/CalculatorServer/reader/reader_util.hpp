@@ -1,14 +1,15 @@
 #pragma once
 
-#define _CRT_SECURE_NO_WARNINGS
-
-#include <codecvt>
+#include <functional>
+#include <list>
 #include <vector>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 
-#include <opencv2/opencv.hpp>
+#include <opencv2/core/mat.hpp>
+
 
 #include <tesseract/baseapi.h>
 
@@ -48,6 +49,7 @@ struct item
 enum class phrase
 {
 	ALL_ISLANDS = 22381,
+	MULTIPLE_ISLANDS = 23483,
 	PRODUCTION = 22365,
 	STATISTICS = 22438,
 	THE_NEW_WORLD = 180025,
@@ -64,8 +66,11 @@ enum class phrase
 	KAHINA_HARBOUR = 100686,
 	NATE_HARBOUR = 101117,
 	INUIT_HARBOUR = 116035,
+	KETEMA_HARBOUR = 119409,
 	REROLL_OFFERED_ITEMS = 3023,
-	TRADE = 2388
+	TRADE = 2388,
+	NO_AVAILABLE_ITEMS = 163018,
+	AVAILABE_ITEMS = 163036
 };
 
 enum class rarity
@@ -118,7 +123,7 @@ public:
 	* creates BGRA image with only black and white pixels
 	* thresholding is between two peeks of input image
 	*/
-	static cv::Mat binarize(const cv::Mat& input, bool invert = false);
+	static cv::Mat binarize(const cv::Mat& input, bool invert = false, bool multi_channel = true);
 
 	/**
 	* creates BGRA image with only black and white pixels
@@ -297,9 +302,9 @@ public:
 
 	static cv::Mat detect_edges(const cv::Mat& im);
 
-	static std::vector<cv::Rect2i> detect_boxes(const cv::Mat& im, const cv::Rect2i& box, float tolerance = 0.05f,
+	static std::vector<cv::Rect2i> detect_boxes(const cv::Mat& im, const cv::Rect2i& box, const cv::Rect2i& ignore_region = cv::Rect2i(), float tolerance = 0.05f,
 		double threshold1 = 100, double threshold2 = 190);
-	static std::vector<cv::Rect2i> detect_boxes(const cv::Mat& im, unsigned int width, unsigned int height, float tolerance = 0.05f,
+	static std::vector<cv::Rect2i> detect_boxes(const cv::Mat& im, unsigned int width, unsigned int height, const cv::Rect2i& ignore_region = cv::Rect2i(), float tolerance = 0.05f,
 		double threshold1 = 100, double threshold2 = 190);
 
 	/*

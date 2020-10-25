@@ -1,9 +1,13 @@
 #include "reader_statistics_screen.hpp"
 
+#include <iostream>
 #include <numeric>
 #include <regex>
 
 #include <boost/algorithm/string.hpp>
+
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 
 namespace reader
 {
@@ -58,17 +62,19 @@ statistics_screen::statistics_screen(image_recognition& recog)
 void statistics_screen::update(const std::string& language, const cv::Mat& img)
 {
 	selected_island = std::string();
+	multiple_islands_selected = false;
 	selected_session = 0;
 	center_pane_selection = 0;
 
 	recog.update(language);
 
 	// test if open
+	cv::Mat cropped_image = recog.crop_widescreen(img);
 
-	cv::Mat statistics_text_img = recog.binarize(recog.get_pane(statistics_screen_params::pane_title, img), true);
+	cv::Mat statistics_text_img = recog.binarize(recog.get_pane(statistics_screen_params::pane_title, cropped_image), true);
 	if (recog.is_verbose()) {
 		cv::imwrite("debug_images/statistics_text.png", statistics_text_img);
-		cv::imwrite("debug_images/statistics_screenshot.png", this->screenshot);
+		cv::imwrite("debug_images/statistics_screenshot.png", cropped_image);
 	}
 	if (recog.get_guid_from_name(statistics_text_img, recog.make_dictionary({ phrase::STATISTICS })).empty())
 	{
@@ -83,7 +89,7 @@ void statistics_screen::update(const std::string& language, const cv::Mat& img)
 		std::cout << std::endl;
 	}
 
-	recog.crop_widescreen(img).copyTo(this->screenshot);
+	cropped_image.copyTo(this->screenshot);
 
 	open_tab = compute_open_tab();
 	if (open_tab == tab::NONE)
@@ -126,7 +132,7 @@ statistics_screen::tab statistics_screen::compute_open_tab() const
 		if (is_tab_selected(pixel))
 		{
 			if (recog.is_verbose()) {
-				cv::imwrite("debug_images/tab.png", tabs(cv::Rect(i * tab_width - 0.2f * tab_width, v_center, 10, 10)));
+				cv::imwrite("debug_images/tab.png", tabs(cv::Rect(static_cast<int>(i * tab_width - 0.2f * tab_width), v_center, 10, 10)));
 			}
 			if (recog.is_verbose()) {
 				std::cout << "Open tab:\t" << i << std::endl;
@@ -200,7 +206,7 @@ void statistics_screen::update_islands()
 			try {
 				std::cout << " (" << recog.get_dictionary().ui_texts.at(session_guid) << ")";
 			}
-			catch (const std::exception& e) {}
+			catch (const std::exception&) {}
 			std::cout << std::endl;
 		}
 
@@ -216,7 +222,7 @@ bool statistics_screen::is_all_islands_selected() const
 	if (button.empty())
 		return false;
 
-	return is_selected(button.at<cv::Vec4b>(0.1f * button.rows, 0.5f * button.cols));
+	return is_selected(button.at<cv::Vec4b>(static_cast<int>(0.1f * button.rows), static_cast<int>(0.5f * button.cols)));
 }
 
 std::pair<std::string, unsigned int> statistics_screen::get_island_from_list(std::string name) const
@@ -318,7 +324,7 @@ std::map<unsigned int, int> statistics_screen::get_optimal_productivities()
 		std::cout << "Optimal productivities" << std::endl;
 	}
 
-	cv::Mat buildings_text = recog.binarize(im(cv::Rect(0.6522f * im.cols, 0.373f * im.rows, 0.093f * im.cols, 0.0245f * im.rows)));
+	cv::Mat buildings_text = recog.binarize(im(cv::Rect(static_cast<int>(0.6522f * im.cols), static_cast<int>(0.373f * im.rows), static_cast<int>(0.093f * im.cols), static_cast<int>(0.0245f * im.rows))));
 	if (recog.is_verbose()) {
 		cv::imwrite("debug_images/buildings_text.png", buildings_text);
 	}
@@ -340,7 +346,7 @@ std::map<unsigned int, int> statistics_screen::get_optimal_productivities()
 	}
 
 
-	cv::Mat factory_text = im(cv::Rect(0.6522f * im.cols, 0.373f * im.rows, 0.093f * im.cols, 0.0245f * im.rows));
+	cv::Mat factory_text = im(cv::Rect(static_cast<int>(0.6522f * im.cols), static_cast<int>(0.373f * im.rows), static_cast<int>(0.093f * im.cols), static_cast<int>(0.0245f * im.rows)));
 	if (recog.is_verbose()) {
 		cv::imwrite("debug_images/factory_text.png", factory_text);
 	}
@@ -356,7 +362,7 @@ std::map<unsigned int, int> statistics_screen::get_optimal_productivities()
 		std::cout << std::endl;
 	}
 
-	std::vector<float> productivities;
+	std::vector<int> productivities;
 	recog.iterate_rows(roi, 0.8f, [&](const cv::Mat& row)
 		{
 			int productivity = 0;
@@ -783,7 +789,7 @@ std::map<std::string, unsigned int> statistics_screen::get_islands() const
 
 std::string statistics_screen::get_selected_island()
 {
-	if (!selected_island.empty())
+	if (!selected_island.empty() || multiple_islands_selected)
 		return selected_island;
 
 	if (is_all_islands_selected())
@@ -808,6 +814,21 @@ std::string statistics_screen::get_selected_island()
 	}
 
 	auto words_and_boxes = recog.detect_words(roi, tesseract::PSM_SINGLE_LINE);
+
+
+	// check whether mutliple islands are selected
+	std::string joined_string = recog.join(words_and_boxes);
+	std::vector<std::string> split_string;
+	boost::split(split_string, joined_string, [](char c) {return c == '/' || c == '[' || c == '(' || c == '{'; });
+	if (!recog.get_guid_from_name(split_string.front(), recog.make_dictionary({ phrase::MULTIPLE_ISLANDS })).empty())
+	{
+		if (recog.is_verbose()) {
+			std::cout << recog.get_dictionary().ui_texts.at((unsigned int) phrase::MULTIPLE_ISLANDS) << std::endl;
+		}
+
+		multiple_islands_selected = true;
+		return selected_island;
+	}
 
 	int max_dist = 0;
 	int last_index = 0;

@@ -1,6 +1,12 @@
 #include "reader_hud_statistics.hpp"
 
+
+#include <iostream>
+#include <queue>
 #include <regex>
+
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 
 namespace reader
 {
@@ -118,32 +124,39 @@ std::map<unsigned int, int> hud_statistics::get_anno_population_from_ocr_result(
 
 			std::string number_string;
 			cv::Rect number_region;
+			
 			for (const auto& pop_value_word : ocr_result)
 			{
+				const auto& box = pop_value_word.second;
+				const auto& word = pop_value_word.first;
+				
 				if (*m.occurrence == pop_value_word)
 					continue;
-				if (std::abs(pop_value_word.second.tl().y - m.occurrence->second.tl().y) < 4
-					&& pop_value_word.second.tl().x > m.occurrence->second.tl().x
-					&& pop_value_word.first.find("0/") == std::string::npos) {
-					number_string += std::regex_replace(pop_value_word.first, std::regex("\\D"), "");
+				if (std::abs(box.tl().y + box.br().y - m.occurrence->second.tl().y - m.occurrence->second.br().y) < 8
+					&& box.tl().x > m.occurrence->second.tl().x
+					&& word.find("0/") == std::string::npos) {
+					number_string += std::regex_replace(word, std::regex("\\D"), "");
 
 					if (number_region.area()) // compute 
 					{
 						int max_x = number_region.x + number_region.width;
 						int max_y = number_region.y + number_region.height;
-						number_region.x = std::min(number_region.x, pop_value_word.second.x);
-						number_region.y = std::min(number_region.y, pop_value_word.second.y);
-						number_region.width = std::max(max_x, pop_value_word.second.x + pop_value_word.second.width) - number_region.x;
-						number_region.height = std::max(max_y, pop_value_word.second.y + pop_value_word.second.height) - number_region.y;
+						number_region.x = std::min(number_region.x, box.x);
+						number_region.y = std::min(number_region.y, box.y);
+						number_region.width = std::max(max_x, box.x + box.width) - number_region.x;
+						number_region.height = std::max(max_y, box.y + box.height) - number_region.y;
 					}
 					else
 					{
-						number_region = pop_value_word.second;
+						number_region = box;
 					}
 
 				}
 
 			}
+
+			if (!number_region.area())
+				continue;
 
 			if (recog.is_verbose()) {
 				cv::imwrite("debug_images/pop_number_region.png", img(number_region));
@@ -255,7 +268,7 @@ std::string hud_statistics::get_selected_island()
 	}
 	else
 	{
-		cv::Mat island_name_img = screenshot(cv::Rect(0.0036f * screenshot.cols, 0.6641f * screenshot.rows, 0.115f * screenshot.cols, 0.0245f * screenshot.rows));
+		cv::Mat island_name_img = screenshot(cv::Rect(static_cast<int>(0.0036f * screenshot.cols), static_cast<int>(0.6641f * screenshot.rows), static_cast<int>(0.115f * screenshot.cols), static_cast<int>(0.0245f * screenshot.rows)));
 		island_name_img = recog.binarize(island_name_img, true);
 
 		if (recog.is_verbose()) {

@@ -134,6 +134,8 @@ private:
 
 	// empty if not yet evaluated, use get_selected_island()
 	std::string selected_island;
+	bool multiple_islands_selected;
+
 	// use get_selected_session()
 	unsigned int selected_session;
 	unsigned int center_pane_selection;
