@@ -38,6 +38,14 @@ You can add a maximum reroll cost in the settings (e.g. set it to 1 million):
 }
 ```
 
+## Advices to further speed up rerolling
+1. Close other programs that consume CPU.
+2. Assign UXEnhancer.exe a task priority of "high".
+3. Move the game to the SSD drive.
+4. Lower graphics settings.
+
+In general, 2 rerolls per second are a really good value and 3 rerolls per second the absolute maximum.
+
 # Troubleshooting
 In case **vcruntime140_1.dll** is missing, download the vc_redist from [https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 
