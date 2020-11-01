@@ -50,20 +50,22 @@ struct comparePoints {
 image_recognition::image_recognition(bool verbose)
 	:
 	verbose(verbose),
-	language("english")
+	ocr(nullptr),
+	ocr_language("english")/*,
+	number_mode(false)*/
 {
 	boost::property_tree::ptree pt;
 	boost::property_tree::read_json("texts/params.json", pt);
 
-	for(const auto& language : pt.get_child("languages"))
+	for (const auto& language : pt.get_child("languages"))
 	{
 		std::string key(language.second.get_value<std::string>());
 		keyword_dictionary value;
 		dictionaries.emplace(key, value);
 	}
 
-	auto load_and_save_icon = [&](unsigned int guid, 
-		const boost::property_tree::ptree& asset, 
+	auto load_and_save_icon = [&](unsigned int guid,
+		const boost::property_tree::ptree& asset,
 		std::map<unsigned int, cv::Mat>& container)
 	{
 		if (asset.get_child_optional("icon").has_value())
@@ -73,9 +75,9 @@ image_recognition::image_recognition(bool verbose)
 				cv::Mat icon = load_image("icons/" + asset.get_child("icon").get_value<std::string>());
 				container.emplace(guid, icon);
 
-if(verbose){
-				cv::imwrite("debug_images/icon_template.png", icon);
-}
+				if (verbose) {
+					cv::imwrite("debug_images/icon_template.png", icon);
+				}
 			}
 			catch (const std::invalid_argument& e)
 			{
@@ -85,9 +87,9 @@ if(verbose){
 	};
 
 	// load sessions and regions
-if(verbose){
-	std::cout << "Load sessions and regions." << std::endl;
-}
+	if (verbose) {
+		std::cout << "Load sessions and regions." << std::endl;
+	}
 	session_icons.emplace(180023, binarize_icon(load_image("icons/icon_session_moderate_white.png")));
 	session_to_region.emplace(180023, 5000000);
 	session_icons.emplace(180045, binarize_icon(load_image("icons/icon_session_passage_white.png")));
@@ -96,6 +98,8 @@ if(verbose){
 	session_to_region.emplace(180025, 5000001);
 	session_icons.emplace(110934, binarize_icon(load_image("icons/icon_session_sunken_treasure_white.png")));
 	session_to_region.emplace(110934, 5000000);
+	session_icons.emplace(112132, binarize_icon(load_image("icons/icon_session_landoflions_white.png")));
+	session_to_region.emplace(112132, 114327);
 
 	// load factories
 	auto process_factories = [&](const boost::property_tree::ptree& root) {
@@ -117,9 +121,9 @@ if(verbose){
 		}
 	};
 
-if(verbose){
-	std::cout << "Load factories." << std::endl;
-}
+	if (verbose) {
+		std::cout << "Load factories." << std::endl;
+	}
 	process_factories(pt.get_child("factories"));
 	process_factories(pt.get_child("powerPlants"));
 
@@ -147,9 +151,9 @@ if(verbose){
 		load_and_save_icon(guid, product.second, product_icons);
 	}
 
-if(verbose){
-	std::cout << "Load population levels." << std::endl;
-}
+	if (verbose) {
+		std::cout << "Load population levels." << std::endl;
+	}
 	// load population levels
 	for (const auto& level : pt.get_child("populationLevels"))
 	{
@@ -162,9 +166,9 @@ if(verbose){
 		}
 	}
 
-if(verbose){
-	std::cout << "Load texts." << std::endl;
-}
+	if (verbose) {
+		std::cout << "Load texts." << std::endl;
+	}
 	pt.clear();
 	if (boost::filesystem::exists("texts/ui_texts.json"))
 	{
@@ -178,7 +182,7 @@ if(verbose){
 				dictionaries.at(language).ui_texts.emplace(guid, entry.second.get_value<std::string>());
 			}
 		}
-	} 
+	}
 	else
 	{
 		std::set<phrase> phrases({
@@ -190,6 +194,7 @@ if(verbose){
 			phrase::THE_OLD_WORLD,
 			phrase::CAPE_TRELAWNEY,
 			phrase::THE_ARCTIC,
+			phrase::ENBESA,
 			phrase::RESIDENTS,
 			phrase::BREAKDOWN,
 			phrase::ARCHIBALD_HARBOUR,
@@ -204,7 +209,8 @@ if(verbose){
 			phrase::REROLL_OFFERED_ITEMS,
 			phrase::TRADE,
 			phrase::NO_AVAILABLE_ITEMS,
-			phrase::AVAILABE_ITEMS
+			phrase::AVAILABE_ITEMS,
+			phrase::PURCHASABLE_ITEMS
 			});
 
 		boost::property_tree::ptree output_json;
@@ -229,7 +235,7 @@ if(verbose){
 					for (; iter != loca_text.end(); ++iter)
 						if (*iter == '(' || *iter == '[' || *iter == '（')
 							break;
-					
+
 					entry.second.ui_texts[guid] = std::string(loca_text.begin(), iter);
 					texts.put(std::to_string(guid), entry.second.ui_texts[guid]);
 				}
@@ -283,7 +289,7 @@ cv::Mat image_recognition::get_pane(const cv::Rect2f& rect, const cv::Mat& img)
 {
 	if (!img.size)
 		return img;
-	
+
 	cv::Point2f factor(img.cols - 1, img.rows - 1);
 	cv::Rect scaled(cv::Point(static_cast<int>(rect.tl().x * factor.x), static_cast<int>(rect.tl().y * factor.y)),
 		cv::Point(static_cast<int>(rect.br().x * factor.x), static_cast<int>(rect.br().y * factor.y)));
@@ -298,7 +304,7 @@ bool image_recognition::closer_to(const cv::Scalar& color, const cv::Scalar& ref
 bool image_recognition::is_button(const cv::Mat& image, const cv::Scalar& button_color, const cv::Scalar& background_color)
 {
 	const float margin = 0.125f;
-	
+
 	int matches = 0;
 	for (const cv::Point2f& p : { cv::Point2f{0.5f, margin}, cv::Point2f{1 - margin, 0.5f}, cv::Point2f{0.5f, 1 - margin}, cv::Point2f{margin, 0.5f} })
 	{
@@ -373,7 +379,7 @@ cv::Mat image_recognition::blend_icon(const cv::Mat& icon, const cv::Scalar& bac
 
 cv::Mat image_recognition::blend_icon(const cv::Mat& icon, const cv::Mat& background)
 {
-	cv::Mat zeros = cv::Mat(icon.rows, icon.cols, CV_8UC1,cv::Scalar(0));
+	cv::Mat zeros = cv::Mat(icon.rows, icon.cols, CV_8UC1, cv::Scalar(0));
 	cv::Mat background_resized;
 
 	cv::resize(background, background_resized, cv::Size(icon.cols, icon.rows));
@@ -383,7 +389,7 @@ cv::Mat image_recognition::blend_icon(const cv::Mat& icon, const cv::Mat& backgr
 	cv::Mat alpha;
 	cv::merge(std::vector<cv::Mat>({ icon_channels[3],icon_channels[3],icon_channels[3],zeros }), alpha);
 
-	return background_resized.mul(cv::Scalar(255, 255, 255, 255) - alpha, 1./255) + icon.mul(alpha, 1./255);
+	return background_resized.mul(cv::Scalar(255, 255, 255, 255) - alpha, 1. / 255) + icon.mul(alpha, 1. / 255);
 }
 
 cv::Mat image_recognition::dye_icon(const cv::Mat& icon, cv::Scalar color)
@@ -402,8 +408,8 @@ cv::Mat image_recognition::dye_icon(const cv::Mat& icon, cv::Scalar color)
 
 std::pair<cv::Rect, float> image_recognition::find_icon(const cv::Mat& source, const cv::Mat& icon, cv::Scalar background_color)
 {
-	float scaling = (source.cols * 0.027885f)/icon.cols;
-	
+	float scaling = (source.cols * 0.027885f) / icon.cols;
+
 	cv::Mat template_resized;
 	cv::resize(blend_icon(icon, background_color), template_resized, cv::Size(static_cast<int>(scaling * icon.cols), static_cast<int>(scaling * icon.rows)));
 
@@ -458,11 +464,11 @@ std::vector<unsigned int> image_recognition::get_guid_from_icon(const cv::Mat& i
 	if (best_match > 150)
 		return std::vector<unsigned int>();
 
-if(verbose){
-	for (unsigned int guid : guids)
-		std::cout << guid << ", ";
-	std::cout << "(" << best_match << ")\t";
-}
+	if (verbose) {
+		for (unsigned int guid : guids)
+			std::cout << guid << ", ";
+		std::cout << "(" << best_match << ")\t";
+	}
 	return guids;
 }
 
@@ -478,7 +484,7 @@ std::vector<unsigned int> image_recognition::get_guid_from_hu_moments(const cv::
 
 	for (auto& entry : dictionary)
 	{
-		
+
 		float match = compare_hu_moments(icon_moments, entry.second);
 		if (match == best_match)
 		{
@@ -495,11 +501,11 @@ std::vector<unsigned int> image_recognition::get_guid_from_hu_moments(const cv::
 	//if (best_match > 150)
 	//	return std::vector<unsigned int>();
 
-if(verbose){
-	for (unsigned int guid : guids)
-		std::cout << guid << ", ";
-	std::cout << "(" << best_match << ")\t";
-}
+	if (verbose) {
+		for (unsigned int guid : guids)
+			std::cout << guid << ", ";
+		std::cout << "(" << best_match << ")\t";
+	}
 	return guids;
 }
 
@@ -531,7 +537,7 @@ unsigned int image_recognition::get_session_guid(cv::Mat icon) const
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 		cv::imwrite("debug_images/icon_intersect.png", icon_processed);
 #endif
-		
+
 		float max_intersection = std::max(icon_white_count, cv::countNonZero(entry.second));
 		float match = cv::countNonZero(icon_processed) / max_intersection;
 
@@ -549,7 +555,7 @@ unsigned int image_recognition::get_session_guid(cv::Mat icon) const
 	std::cout << std::endl;
 #endif
 
-	if (best_match < 0.7f)
+	if (best_match < 0.66f)
 		return 0;
 
 	return guid;
@@ -602,7 +608,7 @@ std::vector<unsigned int> image_recognition::get_guid_from_name(const std::strin
 		int min_lcs_length = total_length - static_cast<int>(std::roundf(-0.677f + 1.51 * std::logf(total_length)));
 		int lcs_length = image_recognition::lcs_length(kw, building_string);
 		float match = lcs_length / total_length;
-		
+
 		if (lcs_length >= min_lcs_length)
 		{
 			if (match == best_match)
@@ -716,7 +722,7 @@ cv::Mat image_recognition::load_image(const std::string& path)
 	if (img.size().area() < 1) {
 		throw std::invalid_argument("failed to load " + path);
 	}
-	if(!img.empty())
+	if (!img.empty())
 		cv::cvtColor(img, img, cv::COLOR_BGR2BGRA);
 
 	return img;
@@ -726,7 +732,7 @@ cv::Mat image_recognition::crop_widescreen(const cv::Mat& img)
 {
 	float width = img.cols;
 	float height = img.rows;
-	if (img.rows && std::abs(16.f/9.f - (width / height)) >= 1.f/32.f)
+	if (img.rows && std::abs(16.f / 9.f - (width / height)) >= 1.f / 32.f)
 	{
 		if (9 * width > 16 * height)
 		{
@@ -756,7 +762,7 @@ void image_recognition::initialize_items()
 
 	cv::Mat item_outline(load_image("icons/btn_itemsocket_outline.png"));
 
-	auto create_background = [&](rarity rarity_guid, 
+	auto create_background = [&](rarity rarity_guid,
 		const std::string& rarity_name,
 		const cv::Scalar& color)
 	{
@@ -767,7 +773,7 @@ void image_recognition::initialize_items()
 		cv::Mat background3 = blend_icon(item_outline, background2);
 		//cv::imshow("icon", background2);
 		//cv::waitKey(200);
-		item_backgrounds.emplace((unsigned int) rarity_guid, background3);
+		item_backgrounds.emplace((unsigned int)rarity_guid, background3);
 	};
 
 	create_background(rarity::COMMON, "common", cv::Scalar(212, 232, 242, 255));
@@ -778,7 +784,7 @@ void image_recognition::initialize_items()
 	create_background(rarity::EPIC, "epic", cv::Scalar(213, 167, 196, 255));
 	create_background(rarity::LEGENDARY, "legendary", cv::Scalar(97, 204, 244, 255));
 
-	
+
 	std::map<std::string, cv::Mat> image_cache;
 	auto create_icon = [&](const std::string& path, unsigned int rarity)
 	{
@@ -793,7 +799,7 @@ void image_recognition::initialize_items()
 		try {
 			overlay = load_image("icons/" + path);
 		}
-		catch (std::exception & e)
+		catch (std::exception& e)
 		{
 			std::cout << e.what() << std::endl;
 			return cv::Mat();
@@ -834,7 +840,7 @@ void image_recognition::initialize_items()
 		//cv::imshow("icon", icon);
 		//cv::waitKey(1);
 
-	
+
 		//if (factory.second.get_child_optional("region").has_value())
 		//{
 		//	factory_to_region.emplace(guid, factory.second.get_child("region").get_value<unsigned int>());
@@ -859,7 +865,7 @@ void image_recognition::initialize_items()
 				unsigned int item_guid = item.second.get_value<unsigned int>();
 				offerings.emplace(item_guid);
 			}
-			catch (const std::exception &)
+			catch (const std::exception&)
 			{
 			}
 		}
@@ -882,15 +888,15 @@ cv::Mat image_recognition::binarize(const cv::Mat& input, bool invert, bool mult
 	cv::Mat resized, thresholded;
 	if (input.rows < 40)
 	{
-		float scale = 40 / input.rows;
+		float scale = 45.f / input.rows;
 		cv::resize(input, resized, cv::Size(), scale, scale, cv::INTER_CUBIC);
 	}
 	else
 		resized = input;
 
 	cv::cvtColor(resized, thresholded, cv::COLOR_BGRA2GRAY);
-	cv::threshold(thresholded, thresholded, 128, 255, (invert ? cv::THRESH_BINARY_INV : cv::THRESH_BINARY)  | cv::THRESH_OTSU);
-	if(multi_channel)
+	cv::threshold(thresholded, thresholded, 128, 255, (invert ? cv::THRESH_BINARY_INV : cv::THRESH_BINARY) | cv::THRESH_OTSU);
+	if (multi_channel)
 		cv::cvtColor(thresholded, thresholded, cv::COLOR_GRAY2RGBA);
 
 	return thresholded;
@@ -907,7 +913,7 @@ cv::Mat image_recognition::binarize_icon(const cv::Mat& input, cv::Size target_s
 	cv::Mat input_alpha_applied = blend_icon(input, cv::Scalar(0, 0, 0));
 	cv::cvtColor(input_alpha_applied, thresholded, cv::COLOR_BGRA2GRAY);
 	cv::threshold(thresholded, thresholded, 128, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
-	if (thresholded.at<unsigned char>(thresholded.rows - 1, thresholded.cols-1) > 128)
+	if (thresholded.at<unsigned char>(thresholded.rows - 1, thresholded.cols - 1) > 128)
 		thresholded = 255 - thresholded;
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
@@ -920,9 +926,9 @@ cv::Mat image_recognition::binarize_icon(const cv::Mat& input, cv::Size target_s
 	std::vector<cv::Vec4i> hierarchy;
 	cv::findContours(edge_image, contours, hierarchy, cv::RETR_CCOMP, cv::CHAIN_APPROX_NONE);
 	contours.erase(std::remove_if(
-			contours.begin(), 
-			contours.end(), 
-			[](const std::vector<cv::Point>& e) {return e.size() < 10; }),
+		contours.begin(),
+		contours.end(),
+		[](const std::vector<cv::Point>& e) {return e.size() < 10; }),
 		contours.end());
 
 	if (contours.empty())
@@ -1056,12 +1062,9 @@ cv::Rect image_recognition::get_aa_bb(const std::list<cv::Point>& input)
 
 void image_recognition::update(const std::string& language)
 {
-	if (has_language(language))
-		this->language = language;
-	else
-		this->language = "english";
+	auto my_language = has_language(language) ? language : "english";
 
-	update_ocr(this->language);
+	update_ocr(my_language/*, number_mode*/);
 
 
 }
@@ -1137,9 +1140,10 @@ cv::Rect2i image_recognition::find_anno()
 					}
 					return TRUE;
 					}, (LPARAM)&params);
-			}else{
-			std::cout << "Anno 1800 window not found" << std::endl;
-}
+			}
+			else {
+				std::cout << "Anno 1800 window not found" << std::endl;
+			}
 
 			return cv::Rect2i();
 		}
@@ -1149,7 +1153,7 @@ cv::Rect2i image_recognition::find_anno()
 
 		return cv::Rect2i(windowsize.left, windowsize.top, windowsize.right - windowsize.left, windowsize.bottom - windowsize.top);
 	}
-	catch (const std::exception &)
+	catch (const std::exception&)
 	{
 		return cv::Rect2i();
 	}
@@ -1162,7 +1166,7 @@ cv::Rect2i image_recognition::get_desktop()
 	const HWND hDesktop = GetDesktopWindow();
 	GetWindowRect(hDesktop, &windowsize);
 
-	return cv::Rect2i(0,0, windowsize.right, windowsize.bottom);
+	return cv::Rect2i(0, 0, windowsize.right, windowsize.bottom);
 }
 
 cv::Mat image_recognition::take_screenshot(cv::Rect2i rect)
@@ -1204,7 +1208,7 @@ cv::Mat image_recognition::take_screenshot(cv::Rect2i rect)
 	DeleteObject(hbwindow);
 	DeleteDC(hwindowCompatibleDC);
 	ReleaseDC(nullptr, hwindowDC);
-	
+
 	if (verbose) {
 		if (!std::filesystem::is_directory("debug_images") || !std::filesystem::exists("debug_images")) { // Check if src folder exists
 			std::filesystem::create_directory("debug_images"); // create src folder
@@ -1219,12 +1223,12 @@ cv::Mat image_recognition::take_screenshot(cv::Rect2i rect)
 
 }
 
-std::shared_ptr<tesseract::TessBaseAPI> image_recognition::ocr(nullptr);
-
-std::vector<std::pair<std::string, cv::Rect>> image_recognition::detect_words(const cv::Mat& in, const tesseract::PageSegMode mode)
+std::vector<std::pair<std::string, cv::Rect>> image_recognition::detect_words(const cv::Mat& in, const tesseract::PageSegMode mode, bool numbers_only)
 {
 	cv::Mat input = in;
 	std::vector<std::pair<std::string, cv::Rect>> ret;
+
+	update_ocr(ocr_language/*, numbers_only*/);
 
 	try {
 		const auto& cr = ocr;
@@ -1246,10 +1250,10 @@ std::vector<std::pair<std::string, cv::Rect>> image_recognition::detect_words(co
 				float conf = ri->Confidence(level);
 				int x1, y1, x2, y2;
 				ri->BoundingBox(level, &x1, &y1, &x2, &y2);
-//if(verbose){
-//				printf("word: '%s';\t\tconf: %.2f; BoundingBox: %d,%d,%d,%d;\n",
-//					word, conf, x1, y1, x2, y2);
-//}
+				//if(verbose){
+				//				printf("word: '%s';\t\tconf: %.2f; BoundingBox: %d,%d,%d,%d;\n",
+				//					word, conf, x1, y1, x2, y2);
+				//}
 				std::string word_s = word ? std::string(word) : std::string();
 				cv::Rect aa_bb(cv::Point(x1, y1), cv::Point(x2, y2));
 				ret.push_back(std::make_pair(word_s, aa_bb));
@@ -1276,7 +1280,7 @@ bool image_recognition::is_verbose() const
 
 const keyword_dictionary& image_recognition::get_dictionary() const
 {
-	auto iter = dictionaries.find(language);
+	auto iter = dictionaries.find(ocr_language);
 	if (iter == dictionaries.end())
 		throw std::exception("language not found");
 	return iter->second;
@@ -1344,7 +1348,7 @@ std::vector<cv::Rect2i> image_recognition::detect_boxes(const cv::Mat& im, unsig
 
 	cv::Rect2i min_bb(0, 0, width * (1.f - tolerance), height * (1.f - tolerance));
 	cv::Rect2i max_bb(0, 0, width * (1.f + tolerance), height * (1.f + tolerance));
-	
+
 	auto angle = [](cv::Point& pt1, cv::Point& pt2, cv::Point& pt0)
 	{
 		double dx1 = pt1.x - pt0.x;
@@ -1393,11 +1397,11 @@ std::vector<cv::Rect2i> image_recognition::detect_boxes(const cv::Mat& im, unsig
 			//// vertices to resultant sequence
 			//if (maxCosine < 0.3)
 			//{
-				box_indices.emplace(i);
-				boxes.push_back(bb);
+			box_indices.emplace(i);
+			boxes.push_back(bb);
 
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
-				cv::rectangle(colored_edge_image, bb, cv::Scalar(0, 0, 255,255));
+			cv::rectangle(colored_edge_image, bb, cv::Scalar(0, 0, 255, 255));
 #endif
 			//}
 		}
@@ -1424,13 +1428,13 @@ std::vector<int> image_recognition::find_horizontal_lines(const cv::Mat& im, flo
 #endif
 
 	std::vector<cv::Vec4i> lines;
-	cv::HoughLinesP(edges, lines, 2, CV_PI / 2, im.cols/2.f, im.cols * line_density, im.cols * 0.1f);
-	
+	cv::HoughLinesP(edges, lines, 2, CV_PI / 2, im.cols / 2.f, im.cols * line_density, im.cols * 0.1f);
+
 	std::vector<int> hlines;
 	for (auto& line : lines)
 	{
 		if (std::abs(line[1] - line[3]) <= 2 &&
-			std::abs(line[2] - line[0]) > 0.8f*im.cols)
+			std::abs(line[2] - line[0]) > 0.8f * im.cols)
 		{
 			hlines.push_back(line[1]);
 		}
@@ -1440,7 +1444,7 @@ std::vector<int> image_recognition::find_horizontal_lines(const cv::Mat& im, flo
 }
 
 void image_recognition::iterate_rows(const cv::Mat& im, float line_density,
-												 const std::function<void(const cv::Mat& row)> f)
+	const std::function<void(const cv::Mat& row)> f)
 {
 	std::vector<int> lines(find_horizontal_lines(im));
 
@@ -1464,7 +1468,7 @@ void image_recognition::iterate_rows(const cv::Mat& im, float line_density,
 		return;
 
 	prev_hline = 0;
- 	int mean_row_height = heights[heights.size() / 2];
+	int mean_row_height = heights[heights.size() / 2];
 	int row_height = 0;
 
 	for (auto hline = lines.begin(); hline != lines.end(); ++hline)
@@ -1505,26 +1509,30 @@ void image_recognition::iterate_rows(const cv::Mat& im, float line_density,
 
 
 
-int image_recognition::number_from_region(const cv::Mat& im) const
+int image_recognition::number_from_region(const cv::Mat& im)
 {
-	std::string number_string = join(detect_words(im, tesseract::PageSegMode::PSM_SINGLE_LINE));
+	std::string number_string = join(detect_words(im, tesseract::PageSegMode::PSM_SINGLE_LINE, true));
 
 #ifdef CONSOLE_DEBUG_OUTPUT
 	std::cout << number_string << "\t";
 #endif
 
-	return number_from_string(number_string);
+	int number = number_from_string(number_string);
+	if (verbose)
+		std::cout << " (" << number_string << ", " << number << ") ";
+
+	return number;
 }
 
 int image_recognition::number_from_string(const std::string& word)
 {
 	std::string number_string = word;
-	for (char& c : number_string)
+	for(const auto& entry : letter_to_digit)
 	{
-		auto iter = letter_to_digit.find(c);
-		if (iter != letter_to_digit.end())
-			c = iter->second;
+		std::regex expr(entry.first);
+		number_string = std::regex_replace(number_string, expr, entry.second);
 	}
+
 
 	number_string = std::regex_replace(number_string, std::regex("\\D"), "");
 
@@ -1591,7 +1599,7 @@ std::string image_recognition::join(const std::vector<std::pair<std::string, cv:
 	for (const auto& pair : words)
 	{
 		result += pair.first;
-		if(insert_spaces)
+		if (insert_spaces)
 			result += " ";
 	}
 
@@ -1601,23 +1609,31 @@ std::string image_recognition::join(const std::vector<std::pair<std::string, cv:
 	return result;
 }
 
-void image_recognition::update_ocr(const std::string& language)
+void image_recognition::update_ocr(const std::string& language/*, bool numbers_only*/)
 {
-if(verbose){
-	std::cout << "Update tesseract." << std::endl;
-}
+	if (ocr && !ocr_language.compare(language) /*&& numbers_only == number_mode*/)
+		return;
+
+	if (verbose) {
+		std::cout << "Update tesseract language " << language /*<< " number only " << numbers_only*/ << std::endl;
+	}
+
+
 
 	const char* lang = tesseract_languages.find(language)->second.c_str();
-//	if(ocr_)
-//		std::cout << lang << " -> " << ocr_->GetInitLanguagesAsString() << " (equal: " << strcmp(ocr_->GetInitLanguagesAsString(), lang) << ")" << std::endl;
-	if (!ocr || strcmp(ocr->GetInitLanguagesAsString(), lang)) {
-		ocr.reset(new tesseract::TessBaseAPI());
-		
-		GenericVector<STRING> keys;
-		GenericVector<STRING> values;
+	ocr.reset(new tesseract::TessBaseAPI());
 
-		keys.push_back("user_defined_dpi");
-		values.push_back("70");
+	GenericVector<STRING> keys;
+	GenericVector<STRING> values;
+
+	keys.push_back("user_defined_dpi");
+	values.push_back("70");
+
+	//if (numbers_only)
+	//{
+	//	keys.push_back("tessedit_char_whitelist");
+	//	values.push_back("0123456789,.;:()%/");
+	//}
 
 	/*	keys.push_back("textord_min_xheight"); values.push_back("8");
 		keys.push_back("stopper_smallword_size"); values.push_back("1");
@@ -1630,15 +1646,15 @@ if(verbose){
 		//keys.push_back("load_freq_dawg"); values.push_back("F");
 		//keys.push_back("user_words_suffix"); values.push_back((std::string(lang) + std::string(".user-words.txt")).c_str());
 		//keys.push_back("user_patterns_suffix"); values.push_back((std::string(lang) + std::string(".user-patterns.txt")).c_str());
-		
-		if (ocr->Init(NULL, lang ? lang : "eng", tesseract::OEM_DEFAULT, nullptr, 0, &keys, &values, false))
-		{
-			std::cout << "error initialising tesseract" << std::endl;
-		}
-		
-//		ocr_->SetVariable("CONFIGFILE", "bazaar");
 
+	if (ocr->Init(NULL, lang ? lang : "eng", tesseract::OEM_DEFAULT, nullptr, 0, &keys, &values, false))
+	{
+		std::cout << "error initialising tesseract" << std::endl;
 	}
+
+	//		ocr_->SetVariable("CONFIGFILE", "bazaar");
+	ocr_language = lang ? language : "english";
+	//number_mode = numbers_only;
 
 }
 
@@ -1655,12 +1671,13 @@ const std::map<std::string, std::string> image_recognition::tesseract_languages 
 	{"spanish", "spa"}
 };
 
-const std::map<char, char> image_recognition::letter_to_digit = {
-		{'O', '0'},
-		{'Q', '0'},
-		{'I', '1'},
-		{'Z', '2'},
-		{'B', '8'}
+const std::map<std::string, std::string> image_recognition::letter_to_digit = {
+		{"Â£", "5"},
+		{"O", "0"},
+		{"Q", "0"},
+		{"I", "1"},
+		{"Z", "2"},
+		{"B", "8"}
 };
 
 const std::string image_recognition::ALL_ISLANDS = std::string("All Islands");

@@ -56,6 +56,7 @@ enum class phrase
 	THE_OLD_WORLD = 180023,
 	CAPE_TRELAWNEY = 110934,
 	THE_ARCTIC = 180045,
+	ENBESA = 112132,
 	RESIDENTS = 22379,
 	BREAKDOWN = 22434,
 	ARCHIBALD_HARBOUR = 100680,
@@ -70,7 +71,8 @@ enum class phrase
 	REROLL_OFFERED_ITEMS = 3023,
 	TRADE = 2388,
 	NO_AVAILABLE_ITEMS = 163018,
-	AVAILABE_ITEMS = 163036
+	AVAILABE_ITEMS = 163036,
+	PURCHASABLE_ITEMS = 129656
 };
 
 enum class rarity
@@ -214,7 +216,7 @@ public:
 	* The contained text must be on a single line, black with white background and should contain
 	* as less noise as possible
 	*/
-	static std::vector<unsigned int> get_guid_from_name(const cv::Mat& text,
+	std::vector<unsigned int> get_guid_from_name(const cv::Mat& text,
 		const std::map<unsigned int, std::string>& dictionary);
 	static std::vector<unsigned int> get_guid_from_name(const std::string& text,
 		const std::map<unsigned int, std::string>& dictionary);
@@ -257,9 +259,10 @@ public:
 	*
 	* return a vector of pairs of detected words and their respective bounding box
 	*/
-	static std::vector<std::pair<std::string, cv::Rect>>  detect_words(
+	std::vector<std::pair<std::string, cv::Rect>>  detect_words(
 		const cv::Mat& in,
-		tesseract::PageSegMode mode = tesseract::PSM_SPARSE_TEXT);
+		tesseract::PageSegMode mode = tesseract::PSM_SPARSE_TEXT,
+		bool numbers_only = false);
 
 	/**
 	* Returns the length of the longest common subsequence of X and Y
@@ -272,8 +275,10 @@ public:
 	* access to the singleton TessBaseAPI instance
 	*/
 	//@{
-	void update_ocr(const std::string& language);
-	static std::shared_ptr<tesseract::TessBaseAPI> ocr;
+	void update_ocr(const std::string& language/*, bool numbers_only = false*/);
+	std::shared_ptr<tesseract::TessBaseAPI> ocr;
+	std::string ocr_language;
+	//bool number_mode;
 	//@}
 
 
@@ -326,7 +331,7 @@ public:
 	* Returns an integer contained in im.
 	* Returns MIN_INTEGER on failure
 	*/
-	int number_from_region(const cv::Mat& im) const;
+	int number_from_region(const cv::Mat& im);
 
 	/*
 	* Parses the integer contained in @param{word}
@@ -336,13 +341,11 @@ public:
 	*/
 	static int number_from_string(const std::string& word);
 
-	static const std::map<char, char> letter_to_digit;
+	static const std::map<std::string, std::string>  letter_to_digit;
 	static const std::string ALL_ISLANDS;
 
 	bool verbose;
 	int verbose_screenshot_counter = 0;
-
-	std::string language;
 
 	typedef std::vector<double> hu_moments;
 

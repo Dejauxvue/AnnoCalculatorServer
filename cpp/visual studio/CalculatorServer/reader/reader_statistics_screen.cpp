@@ -152,7 +152,8 @@ void statistics_screen::update_islands()
 		phrase::THE_OLD_WORLD,
 		phrase::THE_NEW_WORLD,
 		phrase::THE_ARCTIC,
-		phrase::CAPE_TRELAWNEY });
+		phrase::CAPE_TRELAWNEY,
+		phrase::ENBESA});
 
 	recog.iterate_rows(prev_islands, 0.75f, [&](const cv::Mat& row) {
 		if (recog.is_verbose()) {
@@ -865,11 +866,15 @@ std::string statistics_screen::get_selected_island()
 			phrase::THE_ARCTIC,
 			phrase::THE_OLD_WORLD,
 			phrase::THE_NEW_WORLD,
-			phrase::CAPE_TRELAWNEY
+			phrase::CAPE_TRELAWNEY,
+			phrase::ENBESA
 			}));
 
 		if (result.size())
+		{
 			selected_session = result[0];
+			island_to_session.emplace(selected_island, selected_session);
+		}
 	}
 
 

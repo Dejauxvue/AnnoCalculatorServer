@@ -34,6 +34,7 @@ class trading_params
 	static const cv::Rect2f size_offering_price;
 	static const cv::Rect2f size_offering_icon;
 	static const cv::Rect2f size_icon;
+	static const cv::Rect2f size_icon_small;
 
 	static const unsigned int count_cols;
 	static const unsigned int count_rows;

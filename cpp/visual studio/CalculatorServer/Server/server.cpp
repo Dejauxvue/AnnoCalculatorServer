@@ -97,66 +97,74 @@ void server::read_islands(web::json::value& result)
 void server::handle_get(http_request request)
 {
 	if (mutex_.try_lock()) {
-		const auto& query_params = request.absolute_uri().split_query(request.absolute_uri().query());
+		try {
+			const auto& query_params = request.absolute_uri().split_query(request.absolute_uri().query());
 
-		ucout << "request received: " << request.absolute_uri().query() << endl;
+			ucout << "request received: " << request.absolute_uri().query() << endl;
 
 
-		std::string language("english");
-		bool optimal_productivity = false;
-		if (!query_params.empty())
-		{
-			if (query_params.find(L"lang") != query_params.end())
+			std::string language("english");
+			bool optimal_productivity = false;
+			if (!query_params.empty())
 			{
-				std::string lang = image_recognition::to_string(query_params.find(L"lang")->second);
-				if (stats.has_language(lang))
-					language = lang;
+				if (query_params.find(L"lang") != query_params.end())
+				{
+					std::string lang = image_recognition::to_string(query_params.find(L"lang")->second);
+					if (stats.has_language(lang))
+						language = lang;
+				}
+
+				if (query_params.find(L"optimalProductivity") != query_params.end())
+				{
+					std::wstring string = query_params.find(L"optimalProductivity")->second;
+					optimal_productivity = string.compare(L"true") == 0 || string.compare(L"1") == 0;
+				}
+
 			}
-			
-			if (query_params.find(L"optimalProductivity") != query_params.end())
+
+
+
+			cv::Rect2i window(recog.find_anno());
+			if (!window.area())
 			{
-				std::wstring string = query_params.find(L"optimalProductivity")->second;
-				optimal_productivity = string.compare(L"true") == 0 || string.compare(L"1") == 0;
+				std::cout << "Couldn't take screenshot" << std::endl;
+				web::http::http_response response(status_codes::NoContent);
+				response.headers().add(U("Access-Control-Allow-Origin"), U("*"));
+				const auto t = request.reply(response);
+				mutex_.unlock();
+				return;
 			}
 
-		}
+			cv::Mat screenshot(recog.take_screenshot(window));
+			stats.update(language, screenshot);
+
+			web::json::value json_message;
+
+			json_message[U("version")] = web::json::value(std::wstring(version::VERSION_TAG.begin(), version::VERSION_TAG.end()));
+			std::string island_name = stats.get_selected_island();
+
+			if (!island_name.empty())
+			{
+				json_message[U("islandName")] = web::json::value(image_recognition::to_wstring(island_name));
+
+				read_anno_population(json_message);
+				read_buildings_count(json_message);
+				read_productivity_statistics(json_message, optimal_productivity);
+				read_islands(json_message);
+			}
 
 
-
-		cv::Rect2i window(recog.find_anno());
-		if (!window.area())
+			web::http::http_response response(status_codes::OK);
+			response.headers().add(U("Access-Control-Allow-Origin"), U("*"));
+			response.set_body(json_message);
+			const auto t = request.reply(response);
+		} catch(...)
 		{
-			std::cout << "Couldn't take screenshot" << std::endl;
-			web::http::http_response response(status_codes::NoContent);
+			web::http::http_response response(status_codes::InternalError);
 			response.headers().add(U("Access-Control-Allow-Origin"), U("*"));
 			const auto t = request.reply(response);
-			mutex_.unlock();
-			return;
 		}
 
-		cv::Mat screenshot(recog.take_screenshot(window));
-		stats.update(language, screenshot);
-
-		web::json::value json_message;
-
-		json_message[U("version")] = web::json::value(std::wstring(version::VERSION_TAG.begin(), version::VERSION_TAG.end()));
-		std::string island_name = stats.get_selected_island();
-
-		if (!island_name.empty())
-		{
-			json_message[U("islandName")] = web::json::value(image_recognition::to_wstring(island_name));
-
-			read_anno_population(json_message);
-			read_buildings_count(json_message);
-			read_productivity_statistics(json_message, optimal_productivity);
-			read_islands(json_message);
-		}
-		
-
-		web::http::http_response response(status_codes::OK);
-		response.headers().add(U("Access-Control-Allow-Origin"), U("*"));
-		response.set_body(json_message);
-		const auto t = request.reply(response);
 		mutex_.unlock();
 	}
 	else {

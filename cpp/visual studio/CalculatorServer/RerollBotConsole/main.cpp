@@ -47,7 +47,7 @@ std::string get_time_str()
 	return stream.str();
 }
 
-void test_screenshot(image_recognition& recog, trading_menu& reader)
+void test_screenshot(image_recognition& recog, trading_menu& reader, const std::string& path)
 {
 	reader.update("german", recog.load_image("test_screenshots/trading_eli_9.png"));
 
@@ -73,11 +73,16 @@ void test_screenshot(image_recognition& recog, trading_menu& reader)
 	log_offerings(recog, offerings);
 
 
-	std::cout << std::endl << "Capped items:" << std::endl;
+	std::cout << std::endl << "Equipped items:" << std::endl;
 
 	offerings = reader.get_capped_items();
 
 	log_offerings(recog, offerings);
+
+	int reroll_costs = reader.get_reroll_cost();
+
+	if (reroll_costs)
+		std::cout << "reroll costs: " << reroll_costs << std::endl;
 }
 
 void measure_time(image_recognition& recog, trading_menu& reader, mouse& mous)
@@ -98,7 +103,7 @@ void measure_time(image_recognition& recog, trading_menu& reader, mouse& mous)
 			auto end = std::chrono::high_resolution_clock::now();
 			std::chrono::duration<double, std::milli> duration = end - start;
 			std::cout << duration.count() << " ms" << std::endl;
-					
+
 			if (!offerings.size())
 			{
 				std::this_thread::sleep_for(std::chrono::milliseconds(100));

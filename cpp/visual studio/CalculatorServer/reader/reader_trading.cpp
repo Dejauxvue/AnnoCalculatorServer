@@ -33,7 +33,8 @@ const cv::Scalar trading_params::red_icon = cv::Scalar(22, 42, 189, 255);
 const cv::Rect2f trading_params::size_offering_icon = cv::Rect2f(cv::Point2f(0.0185, 0.23), cv::Point2f(1., 1.));
 const cv::Rect2f trading_params::size_offering_price = cv::Rect2f(cv::Point2f(0.218, 0.015), cv::Point2f(1., 0.19));
 const cv::Rect2f trading_params::size_offering = cv::Rect2f(0, 0, 0.035780, 0.080314);
-const cv::Rect2f trading_params::size_icon = cv::Rect2f(0, 0, 0.040625, 0.072222);
+const cv::Rect2f trading_params::size_icon = cv::Rect2f(0, 0, 0.040453, 0.071168);
+const cv::Rect2f trading_params::size_icon_small = cv::Rect2f(0, 0, 0.031853, 0.056719);
 
 const unsigned int trading_params::count_cols = 4;
 const unsigned int trading_params::count_rows = 3;
@@ -124,7 +125,7 @@ void trading_menu::update(const std::string& language, const cv::Mat& img)
 		std::vector<std::string> split_string;
 		boost::split(split_string, buy_limit_text, [](char c) {return c == ':' || c >= '0' && c <= '9'; });
 
-		buy_limited = !recog.get_guid_from_name(split_string.front(), recog.make_dictionary({ phrase::AVAILABE_ITEMS })).empty();
+		buy_limited = !recog.get_guid_from_name(split_string.front(), recog.make_dictionary({ phrase::AVAILABE_ITEMS, phrase::PURCHASABLE_ITEMS })).empty();
 		if (buy_limited)
 			buy_limit = recog.number_from_string(buy_limit_text.substr(split_string.front().size()));
 		else
@@ -265,7 +266,7 @@ bool trading_menu::check_price(unsigned int guid, unsigned int selling_price, in
 
 std::vector<offering> trading_menu::get_offerings(bool abort_if_not_loaded)
 {
-	if (!is_trading_menu_open())
+	if (!is_trading_menu_open() || !open_trader)
 		return std::vector<offering>();
 
 	std::vector<offering> result;
@@ -388,12 +389,13 @@ std::vector<offering> trading_menu::get_offerings(bool abort_if_not_loaded)
 
 std::vector<offering> trading_menu::get_capped_items() const
 {
-	if (!is_trading_menu_open())
-		return std::vector<offering>();
-
 	std::vector<offering> result;
+	
+	if (!is_trading_menu_open())
+		return result;
 
 	if (recog.is_verbose()) {
+		std::cout << "equipped items: ";
 		cv::imwrite("debug_images/item_sockets.png", recog.get_pane(trading_params::pane_menu_ship_sockets, screenshot));
 	}
 
@@ -401,8 +403,14 @@ std::vector<offering> trading_menu::get_capped_items() const
 	cv::Mat pane(recog.get_pane(trading_params::pane_menu_ship_sockets, screenshot));
 	std::vector<cv::Rect2i> boxes(recog.detect_boxes(pane, icon_size));
 
-	if (boxes.empty())
-		return result;
+	if (boxes.size() <= 1)
+	{
+		cv::Rect2i icon_size_small(0, 0, static_cast<int>(trading_params::size_icon_small.width * screenshot.cols), static_cast<int>(trading_params::size_icon_small.height * screenshot.rows));
+		boxes = recog.detect_boxes(pane, icon_size_small);
+
+		if (boxes.empty())
+			return result;
+	}
 
 	std::sort(boxes.begin(), boxes.end(), [&icon_size](const cv::Rect2i& lhs, const cv::Rect2i& rhs) {
 		if (lhs.y > rhs.y + icon_size.height)
@@ -457,7 +465,7 @@ std::vector<offering> trading_menu::get_capped_items() const
 
 	}
 
-
+	std::cout << std::endl;
 
 	return result;
 }
