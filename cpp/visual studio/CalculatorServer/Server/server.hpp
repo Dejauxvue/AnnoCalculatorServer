@@ -17,7 +17,7 @@ class server
 {
 public:
 	server(bool verbose);
-	server(bool verbose, utility::string_t url);
+	server(bool verbose, std::wstring window_regex, utility::string_t url);
 
 	pplx::task<void> open() { return m_listener.open(); }
 	pplx::task<void> close() { return m_listener.close(); }

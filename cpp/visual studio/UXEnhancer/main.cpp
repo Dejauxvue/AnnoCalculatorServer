@@ -51,14 +51,30 @@ void run_bots(bool* termination_flag, std::vector<std::shared_ptr<bot>>& bots)
 int main(int argc, char* argv[])
 {
 	bool verbose = false;
-	if (argc > 1 && std::strcmp(argv[1], "-v") == 0)
-		verbose = true;
+	std::string window_regex;
+
+	int i = 1;
+	while (i < argc)
+	{
+		if (std::strcmp(argv[i], "-v") == 0)
+		{
+			verbose = true;
+			i++;
+		}
+		else if (std::strcmp(argv[i], "-w") == 0)
+		{
+			window_regex = argv[i + 1];
+			i += 2;
+		}
+		else
+			i++;
+	}
 
 	std::cout << "Initializing ... ";
 
 	reader::version::check_and_log();
 
-	reader::image_recognition recog(verbose);
+	reader::image_recognition recog(verbose, window_regex);
 	reader::trading_menu trade(recog);
 
 	configuration config(recog, "UXEnhancerConfig.json");

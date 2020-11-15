@@ -19,8 +19,8 @@ server::server(bool verbose)
 {
 }
 
-server::server(bool verbose, utility::string_t url) :
-	recog(verbose),
+server::server(bool verbose, std::wstring window_regex, utility::string_t url) :
+	recog(verbose, image_recognition::to_string(window_regex)),
 	stats(recog),
 	m_listener(url)
 {

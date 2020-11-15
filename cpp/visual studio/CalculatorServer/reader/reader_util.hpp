@@ -90,7 +90,7 @@ class image_recognition
 {
 
 public:
-	image_recognition(bool verbose);
+	image_recognition(bool verbose, std::string window_regex = "");
 
 	static std::string to_string(const std::wstring&);
 	static std::wstring to_wstring(const std::string&);
@@ -348,6 +348,8 @@ public:
 	int verbose_screenshot_counter = 0;
 
 	typedef std::vector<double> hu_moments;
+
+	std::string window_regex;
 
 	std::map<std::string, keyword_dictionary> dictionaries;
 	std::map<unsigned int, cv::Mat> product_icons;

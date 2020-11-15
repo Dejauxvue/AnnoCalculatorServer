@@ -47,8 +47,9 @@ struct comparePoints {
 ////////////////////////////////////////
 
 
-image_recognition::image_recognition(bool verbose)
+image_recognition::image_recognition(bool verbose, std::string window_regex)
 	:
+	window_regex(window_regex.empty() ? "(Anno 1800)|(Anno 7)|(Anno 1800.* GeForce NOW)" : std::move(window_regex)),
 	verbose(verbose),
 	ocr(nullptr),
 	ocr_language("english")/*,
@@ -1072,7 +1073,7 @@ void image_recognition::update(const std::string& language)
 cv::Rect2i image_recognition::find_anno()
 {
 	try {
-		std::string window_name_regex_string("(Anno 1800)|(Anno 7)");
+		std::string window_name_regex_string(window_regex);
 		std::regex window_name_regex(window_name_regex_string.data());
 
 		HWND hwnd = NULL;

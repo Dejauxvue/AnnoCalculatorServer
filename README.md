@@ -60,7 +60,7 @@ In case nothing happens, make sure:
 - (Statistics Extractor) in the center of the statistics menu the selected entry is fully visible
 
 - (UXEnhancer) Some items have identical prices and icons. In such cases wrong items might be bought or several counters decremented although only one item was bought.
-
+- If the game window is not found (e.g. you stream it from a cloud gaming platform), then you can specify the title of the window manually. Enter ".\UXEnhancer.exe -w " (repectively ".\Server.exe -w ") followed by the title of the window in quotation marks. The string you specify is interpreted as a regular expression. This means that '.' is a wildcard and "()[]*\" are reserved characters.
 
 **If you encounter any bug, feel free to contact me (e.g. open an issue) and if possible perform the following steps**
 - Open the program in the console with verbose option:
