@@ -77,7 +77,7 @@ void server::read_productivity_statistics(web::json::value& result, bool optimal
 void server::read_islands(web::json::value& result)
 {
 
-	auto islands = stats.get_islands();
+	auto islands = stats.get_current_islands();
 	std::vector<web::json::value> list;
 
 	for (const auto& i : islands) {

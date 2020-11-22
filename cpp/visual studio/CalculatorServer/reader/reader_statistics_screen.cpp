@@ -65,6 +65,7 @@ void statistics_screen::update(const std::string& language, const cv::Mat& img)
 	multiple_islands_selected = false;
 	selected_session = 0;
 	center_pane_selection = 0;
+	current_island_to_session.clear();
 
 	recog.update(language);
 
@@ -153,7 +154,7 @@ void statistics_screen::update_islands()
 		phrase::THE_NEW_WORLD,
 		phrase::THE_ARCTIC,
 		phrase::CAPE_TRELAWNEY,
-		phrase::ENBESA});
+		phrase::ENBESA });
 
 	recog.iterate_rows(prev_islands, 0.75f, [&](const cv::Mat& row) {
 		if (recog.is_verbose()) {
@@ -190,8 +191,12 @@ void statistics_screen::update_islands()
 		if (island_name.empty())
 			return;
 
-		if (get_island_from_list(island_name).second)
+		auto iter = island_to_session.find(island_name);
+		if (iter != island_to_session.end())
+		{
+			current_island_to_session.emplace(*iter);
 			return;
+		}
 
 		cv::Mat session_icon = recog.get_cell(row, 0.025f, 0.14f);
 		if (recog.is_verbose()) {
@@ -199,8 +204,10 @@ void statistics_screen::update_islands()
 		}
 		session_guid = recog.get_session_guid(session_icon);
 
-		if (session_guid)
+		if (session_guid) {
 			island_to_session.emplace(island_name, session_guid);
+			current_island_to_session.emplace(island_name, session_guid);
+		}
 
 		if (recog.is_verbose()) {
 			std::cout << "Island added:\t" << island_name;
@@ -711,17 +718,22 @@ std::map<unsigned int, int> statistics_screen::get_population_amount() const
 				boost::split(split_string, joined_string, [](char c) {return c == '/' || c == '[' || c == '(' || c == '{'; });
 
 
-				if (split_string.size() == 2 && std::regex_match(split_string.front(), std::regex("(\\d|\\s|[,.;:'])+")))
+				if (split_string.size() == 2 && std::regex_match(split_string.front(), std::regex("(\\d|\\s|[,.;:'M])+")))
 					number_string = split_string.front();
 				else if ((texts.size() == 2 || texts.size() == 3 && texts[1].first.size() == 1) &&
-					std::regex_match(texts.front().first, std::regex("(\\d|\\s|[,.;:'])+")))
+					std::regex_match(texts.front().first, std::regex("(\\d|\\s|[,.;:'M])+")))
 					number_string = texts.front().first;
 
 				if (!number_string.empty())
 					break;
 			}
 
-
+			if(number_string.back() == 'M')
+			{
+				number_string.pop_back();
+				number_string += "0000";
+			}
+		
 			int population = recog.number_from_string(number_string);
 
 			if (population >= 0)
@@ -788,6 +800,11 @@ std::map<std::string, unsigned int> statistics_screen::get_islands() const
 	return island_to_session;
 }
 
+std::map<std::string, unsigned int> statistics_screen::get_current_islands() const
+{
+	return current_island_to_session;
+}
+
 std::string statistics_screen::get_selected_island()
 {
 	if (!selected_island.empty() || multiple_islands_selected)
@@ -824,7 +841,7 @@ std::string statistics_screen::get_selected_island()
 	if (!recog.get_guid_from_name(split_string.front(), recog.make_dictionary({ phrase::MULTIPLE_ISLANDS })).empty())
 	{
 		if (recog.is_verbose()) {
-			std::cout << recog.get_dictionary().ui_texts.at((unsigned int) phrase::MULTIPLE_ISLANDS) << std::endl;
+			std::cout << recog.get_dictionary().ui_texts.at((unsigned int)phrase::MULTIPLE_ISLANDS) << std::endl;
 		}
 
 		multiple_islands_selected = true;
@@ -837,7 +854,7 @@ std::string statistics_screen::get_selected_island()
 	// detect split between island and session
 	for (int i = 0; i < words_and_boxes.size() - 1; i++) {
 		int dist = words_and_boxes[i + 1].second.x -
-		(words_and_boxes[i].second.x + words_and_boxes[i].second.width);
+			(words_and_boxes[i].second.x + words_and_boxes[i].second.width);
 		if (dist > max_dist)
 		{
 			max_dist = dist;
@@ -847,37 +864,32 @@ std::string statistics_screen::get_selected_island()
 
 	std::string island;
 	std::string session;
-	for(int i = 0; i < words_and_boxes.size(); i++)
+	for (int i = 0; i < words_and_boxes.size(); i++)
 	{
-		if(i <= last_index)
-		  island += words_and_boxes[i].first + " ";
+		if (i <= last_index)
+			island += words_and_boxes[i].first + " ";
 		else
-			session += words_and_boxes[i].first + " ";
+			session += words_and_boxes[i].first;
 	}
 	island.pop_back();
-	session.pop_back();
 
-	auto island_session = get_island_from_list(island);
-	selected_island = island_session.first;
-	selected_session = island_session.second;
-	if (!selected_session)
+	selected_island = island;
+
+
+	auto session_result = recog.get_guid_from_name(session, recog.make_dictionary({
+		phrase::THE_ARCTIC,
+		phrase::THE_OLD_WORLD,
+		phrase::THE_NEW_WORLD,
+		phrase::CAPE_TRELAWNEY,
+		phrase::ENBESA
+		}));
+
+	if (session_result.size())
 	{
-		auto result = recog.get_guid_from_name(session, recog.make_dictionary({
-			phrase::THE_ARCTIC,
-			phrase::THE_OLD_WORLD,
-			phrase::THE_NEW_WORLD,
-			phrase::CAPE_TRELAWNEY,
-			phrase::ENBESA
-			}));
-
-		if (result.size())
-		{
-			selected_session = result[0];
-			island_to_session.emplace(selected_island, selected_session);
-		}
+		selected_session = session_result[0];
+		island_to_session.emplace(selected_island, selected_session);
+		current_island_to_session.emplace(selected_island, selected_session);
 	}
-
-
 
 	if (recog.is_verbose()) {
 		std::cout << result << std::endl;

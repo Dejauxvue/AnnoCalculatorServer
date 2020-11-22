@@ -38,7 +38,8 @@ public:
 	std::map < unsigned int, int> get_optimal_productivities();
 
 	std::string get_selected_island();
-	std::map<std::string, unsigned int> get_islands();
+	std::map<std::string, unsigned int> get_islands() const;
+	std::map<std::string, unsigned int> get_current_islands() const;
 	const keyword_dictionary& get_dictionary();
 	bool has_language(const std::string& language);
 

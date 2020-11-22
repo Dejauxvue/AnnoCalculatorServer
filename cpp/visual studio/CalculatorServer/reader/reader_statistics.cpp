@@ -50,18 +50,23 @@ std::string statistics::get_selected_island()
 	}
 	else // statistics screen not open
 	{
-		std::string name = hud.get_selected_island();
+		/*std::string name = hud.get_selected_island();
 		auto island = stats_screen.get_island_from_list(name);
-		return island.first;
-
+		return island.first;*/
+		return hud.get_selected_island();
 	}
 
 	return std::string();
 }
 
-std::map<std::string, unsigned int> statistics::get_islands()
+std::map<std::string, unsigned int> statistics::get_islands() const
 {
 	return stats_screen.get_islands();
+}
+
+std::map<std::string, unsigned int> statistics::get_current_islands() const
+{
+	return stats_screen.get_current_islands();
 }
 
 const keyword_dictionary& statistics::get_dictionary()

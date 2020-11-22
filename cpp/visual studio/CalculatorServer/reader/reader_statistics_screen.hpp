@@ -95,6 +95,7 @@ public:
 * Returns island name and associated session
 */
 	std::map<std::string, unsigned int> get_islands() const;
+	std::map<std::string, unsigned int> get_current_islands() const;
 
 	bool is_open() const;
 
@@ -131,6 +132,7 @@ private:
 	cv::Mat screenshot;
 
 	std::map<std::string, unsigned int> island_to_session;
+	std::map<std::string, unsigned int> current_island_to_session;
 
 	// empty if not yet evaluated, use get_selected_island()
 	std::string selected_island;
