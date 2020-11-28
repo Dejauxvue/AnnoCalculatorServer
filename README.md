@@ -1,7 +1,7 @@
 # Usage
 
 ## Statistics Extractor
-[![Tutorial](https://img.youtube.com/vi/fxzYSh-92Ng/0.jpg)](https://www.youtube.com/watch?v=fxzYSh-92Ng)
+[![Tutorial](https://raw.githubusercontent.com/NiHoel/Anno1800Calculator/master/CalculatorExtractionScreenshot.png)](https://youtu.be/k4WmgEIkp4s)
 
 - [one-time setup] download, install (and reboot your computer afterwards): [vc_redist](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 - run the Server.exe from the [zip archive](https://github.com/NiHoel/Anno1800UXEnhancer/releases/latest/) which should open a command window and might require administrator rights
@@ -9,7 +9,7 @@
 - run Anno 1800
 - open the statistic menu (population to update number of houses, finance to update number of factories, production to update productivity)
 - alternatively, one can update the population from the overlay of the HUD (not recommended)
-- [Tutorial](https://www.youtube.com/watch?v=fxzYSh-92Ng)
+- [Tutorial](https://youtu.be/k4WmgEIkp4s)
 
 
 ## Rerollbot
