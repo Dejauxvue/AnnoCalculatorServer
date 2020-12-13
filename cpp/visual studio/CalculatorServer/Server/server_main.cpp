@@ -42,7 +42,12 @@ void on_initialize(bool verbose, std::wstring window_regex, const string_t& addr
 
 	auto addr = uri.to_uri().to_string();
 	g_http = std::make_unique<server>(verbose, window_regex, addr);
-	g_http->open().wait();
+	try {
+		g_http->open().wait();
+	} catch(...)
+	{
+		throw std::exception("Couldn't listen to the address. Please make sure that no other server instance is running.");
+	}
 
 	ucout << utility::string_t(U("Listening for requests at: ")) << addr << std::endl;
 }

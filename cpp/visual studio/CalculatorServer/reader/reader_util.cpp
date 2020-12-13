@@ -1248,7 +1248,7 @@ std::vector<std::pair<std::string, cv::Rect>> image_recognition::detect_words(co
 			ret.reserve(10);
 			do {
 				const char* word = ri->GetUTF8Text(level);
-				float conf = ri->Confidence(level);
+
 				int x1, y1, x2, y2;
 				ri->BoundingBox(level, &x1, &y1, &x2, &y2);
 				//if(verbose){
@@ -1484,8 +1484,8 @@ void image_recognition::iterate_rows(const cv::Mat& im, float line_density,
 		auto next_hline = hline;
 		while (height <= 0.9 * mean_row_height && next_hline != lines.end())
 		{
-			++next_hline;
 			height = *next_hline - prev_hline;
+			++next_hline;
 		}
 
 		if (height > 0.9 * mean_row_height && height < 1.1 * mean_row_height)
