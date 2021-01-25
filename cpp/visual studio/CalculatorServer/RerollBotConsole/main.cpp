@@ -49,7 +49,7 @@ std::string get_time_str()
 
 void test_screenshot(image_recognition& recog, trading_menu& reader, const std::string& path)
 {
-	reader.update("german", recog.load_image("test_screenshots/trading_eli_9.png"));
+	reader.update("english", recog.load_image(path));
 
 	std::cout << "can buy: " << reader.can_buy() << std::endl;
 
@@ -140,8 +140,24 @@ bool wait_and_try(std::chrono::duration<_Rep, _Period> duration,
 int main(int argc, char** argv) {
 	try {
 		bool verbose = false;
-		if (argc > 1 && std::strcmp(argv[1], "-v") == 0)
-			verbose = true;
+		int i = 1;
+
+		std::string screenshot_path;
+		while (i < argc)
+		{
+			if (std::strcmp(argv[i], "-v") == 0)
+			{
+				verbose = true;
+				i++;
+			}
+			else if (std::strcmp(argv[i], "-s") == 0)
+			{
+				screenshot_path = argv[i + 1];
+				i += 2;
+			}
+			else
+				i++;
+		}
 
 
 
@@ -157,7 +173,8 @@ int main(int argc, char** argv) {
 		for (const auto& entry : recog.trader_to_offerings)
 			reroll_costs.emplace(entry.first, 0);
 
-		//test_screenshot(recog, reader);
+		if(!screenshot_path.empty())
+			test_screenshot(recog, reader,screenshot_path);
 
 		cv::Point2f rec = image_recognition::get_center(reader.get_execute_button());
 

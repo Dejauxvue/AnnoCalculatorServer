@@ -287,9 +287,9 @@ int main(int argc, char** argv) {
 //	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Documents/Dokumente/Computer/Softwareentwicklung/AnnoCalculatorServer/calculator-recognition-issues/population_number_slash_issue/screenshot6.png");
 //	 	cv::Mat src = image_recognition::load_image("J:/Pictures/Uplay/Anno 1800/Anno 18002020-1-6-0-32-3.png");
 
-	cv::Mat src = image_recognition::load_image("test_screenshots/stat_prod_global_3_16_10.jpg");
+	cv::Mat src = argc >= 2 ? image_recognition::load_image(argv[1]) : image_recognition::load_image("test_screenshots/stat_prod_global_3_16_10.jpg");
 
-	image_recog.update("german", src);
+	image_recog.update("english", src);
 
 	//image_recog.update("german", image_recognition::load_image("C:/Users/Nico/Documents/Dokumente/Computer/Softwareentwicklung/AnnoCalculatorServer/calculator-recognition-issues/island_name_mua/screenshot.png"));
 
