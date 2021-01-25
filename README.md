@@ -46,6 +46,18 @@ You can add a maximum reroll cost in the settings (e.g. set it to 1 million):
 
 In general, 2 rerolls per second are a really good value and 3 rerolls per second the absolute maximum.
 
+## Run the calculator remotely
+The server needs to be run on the same computer as Anno. But the calculator can be run on a mobile device (laptop, smartphone, ...)
+One has to ensure that server and client can communicate:
+
+  1. The desktop computer must be reachable from the mobile device (e.g. be in the same network, inter device communication is enabled by the router and the mobile device can ping the desktop computer)
+  2. The port 8000 must be open for incoming traffic (and responses). Check windows defender and / or the antivirus software
+  3. Search for this.url = 'http://localhost:8000/AnnoServer/Population' in AnnoCalculator.js and replace localhost by the IP address of the desktop computer
+  4. Open a terminal in administrator mode, navigate to the folder containing the server and enter: ".\Server.exe -h " followed by the ip address of the **desktop** computer (do not add http or anything else)
+  
+Connectivity can be checked by entering the url displayed in the terminal into the browser of the mobile device. Then a log "request received" should appear in the terminal.
+
+
 # Troubleshooting
 In case **vcruntime140_1.dll** is missing, download the vc_redist from [https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 

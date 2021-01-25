@@ -44,7 +44,12 @@ void on_initialize(bool verbose, std::wstring window_regex, const string_t& addr
 	g_http = std::make_unique<server>(verbose, window_regex, addr);
 	try {
 		g_http->open().wait();
-	} catch(...)
+	}
+	catch(const std::exception& e)
+	{
+		throw;
+	}
+	catch(...)
 	{
 		throw std::exception("Couldn't listen to the address. Please make sure that no other server instance is running.");
 	}
@@ -57,11 +62,30 @@ void on_shutdown()
 	g_http->close().wait();
 }
 
+//std::string get_host_ip()
+//{
+//	io_service ios;
+//	tcp::resolver resolver(ios);
+//	tcp::resolver::query query(host_name(), "");
+//	
+//	auto hostInetInfo = resolver.resolve(query);
+//	tcp::resolver::iterator end;
+//	while (hostInetInfo != end) {
+//		tcp::endpoint ep = *hostInetInfo++;
+//		sockaddr sa = *ep.data();
+//		if (sa.sa_family == family) {
+//			return ep.address().to_string();
+//		}
+//	}
+//	return nullptr;
+//}
+
 int wmain(int argc, wchar_t* argv[])
 {
 	string_t port = U("8000");
 	bool verbose = false;
 	std::wstring window_regex;
+	std::wstring hostname;
 
 	int i = 1;
 	while (i < argc)
@@ -78,12 +102,21 @@ int wmain(int argc, wchar_t* argv[])
 		} else if(std::wcscmp(argv[i], U("-p")) == 0)
 		{
 			port = argv[i + 1];
+			i += 2;
+		}
+		else if (std::wcscmp(argv[i], U("-h")) == 0)
+		{
+			hostname = argv[i + 1];
+			i += 2;
 		}
 		else
 			i++;
 	}
 
-	utility::string_t address = U("http://localhost:");
+	if (hostname.empty())
+		hostname = U("localhost");
+	
+	utility::string_t address = U("http://") + hostname + U(":");
 	address.append(port);
 
 	try {
@@ -95,7 +128,7 @@ int wmain(int argc, wchar_t* argv[])
 
 		on_shutdown();
 	}
-	catch (std::exception e)
+	catch (const std::exception& e)
 	{
 		std::cout << e.what() << std::endl;
 	}
