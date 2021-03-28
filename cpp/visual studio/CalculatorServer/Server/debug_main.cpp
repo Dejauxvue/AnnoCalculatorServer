@@ -7,6 +7,7 @@
 #pragma comment(lib, "WS2_32.lib")
 
 
+#include <chrono>
 #include <iostream>
 
 #include "reader_statistics.hpp"
@@ -28,6 +29,7 @@ void print(const std::map<unsigned int, T>& map,
 
 void unit_tests(class statistics& image_recog)
 {
+	auto start = std::chrono::high_resolution_clock::now();
 	{
 		image_recog.update("german", image_recognition::load_image("test_screenshots/Anno 1800 Res 2560x1080.png"));
 		const auto result = image_recog.get_population_amount();
@@ -104,24 +106,24 @@ void unit_tests(class statistics& image_recog)
 	//	BOOST_ASSERT(result.at(112642) == 12);
 	//}
 
-	{
-		image_recog.update("german", image_recognition::load_image("test_screenshots/stat_pop_global_2.png"));
-		auto result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000000) == 5372);
-		BOOST_ASSERT(result.at(15000001) == 7664);
-		BOOST_ASSERT(result.at(15000002) == 3356);
-		BOOST_ASSERT(result.at(15000003) == 6108);
-		BOOST_ASSERT(result.at(15000004) == 6800);
-		BOOST_ASSERT(result.at(15000005) == 3752);
+	//{
+	//	image_recog.update("german", image_recognition::load_image("test_screenshots/stat_pop_global_2.png"));
+	//	auto result = image_recog.get_population_amount();
+	//	BOOST_ASSERT(result.at(15000000) == 5372);
+	//	BOOST_ASSERT(result.at(15000001) == 7664);
+	//	BOOST_ASSERT(result.at(15000002) == 3356);
+	//	BOOST_ASSERT(result.at(15000003) == 6108);
+	//	BOOST_ASSERT(result.at(15000004) == 6800);
+	//	BOOST_ASSERT(result.at(15000005) == 3752);
 
-		result = image_recog.get_assets_existing_buildings();
-		BOOST_ASSERT(result.at(15000000) == 541);
-		BOOST_ASSERT(result.at(15000001) == 392);
-		BOOST_ASSERT(result.at(15000002) == 112);
-		BOOST_ASSERT(result.at(15000003) == 156);
-		BOOST_ASSERT(result.at(15000004) == 136);
-		BOOST_ASSERT(result.at(15000005) == 376);
-	}
+	//	result = image_recog.get_assets_existing_buildings();
+	//	BOOST_ASSERT(result.at(15000000) == 541);
+	//	BOOST_ASSERT(result.at(15000001) == 392);
+	//	BOOST_ASSERT(result.at(15000002) == 112);
+	//	BOOST_ASSERT(result.at(15000003) == 156);
+	//	BOOST_ASSERT(result.at(15000004) == 136);
+	//	BOOST_ASSERT(result.at(15000005) == 376);
+	//}
 
 	{
 		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_island_1.png"));
@@ -226,22 +228,22 @@ void unit_tests(class statistics& image_recog)
 	{
 		image_recog.update("german", image_recognition::load_image("test_screenshots/stat_pop_global_3_16_10.jpg"));
 		auto result = image_recog.get_assets_existing_buildings();
-		BOOST_ASSERT(result.at(15000001) == 145);
-		BOOST_ASSERT(result.at(15000002) == 89);
+		BOOST_ASSERT(result.at(15000000) == 145);
+		BOOST_ASSERT(result.at(15000001) == 89);
+		BOOST_ASSERT(result.at(15000002) == 0);
 		BOOST_ASSERT(result.at(15000003) == 0);
 		BOOST_ASSERT(result.at(15000004) == 0);
 		BOOST_ASSERT(result.at(15000005) == 0);
-		BOOST_ASSERT(result.at(15000006) == 0);
 		BOOST_ASSERT(result.at(112642) == 0);
 		BOOST_ASSERT(result.at(112643) == 0);
 
 		result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000001) == 1440);
-		BOOST_ASSERT(result.at(15000002) == 1754);
+		BOOST_ASSERT(result.at(15000000) == 1440);
+		BOOST_ASSERT(result.at(15000001) == 1754);
+		BOOST_ASSERT(result.at(15000002) == 0);
 		BOOST_ASSERT(result.at(15000003) == 0);
 		BOOST_ASSERT(result.at(15000004) == 0);
 		BOOST_ASSERT(result.at(15000005) == 0);
-		BOOST_ASSERT(result.at(15000006) == 0);
 		BOOST_ASSERT(result.at(112642) == 0);
 		BOOST_ASSERT(result.at(112643) == 0);
 	}
@@ -275,6 +277,10 @@ void unit_tests(class statistics& image_recog)
 	*/
 
 	std::cout << "all tests passed!" << std::endl;
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> duration = end - start;
+	std::cout << duration.count() << " ms" << std::endl;
 }
 
 int main(int argc, char** argv) {
