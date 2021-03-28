@@ -57,6 +57,7 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 {
 	boost::property_tree::ptree pt;
 	boost::property_tree::read_json("texts/params.json", pt);
+	std::map<unsigned int, unsigned int> factory_to_product;
 
 	for (const auto& language : pt.get_child("languages"))
 	{
@@ -69,11 +70,25 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 		const boost::property_tree::ptree& asset,
 		std::map<unsigned int, cv::Mat>& container)
 	{
-		if (asset.get_child_optional("icon").has_value())
+		std::string name;
+		if (asset.find("icon") != asset.not_found())
+			name = asset.get_child("icon").get_value<std::string>();
+		else if(asset.find("iconPath") != asset.not_found())
+		{
+			std::vector<std::string> split_string;
+			boost::split(split_string, asset.get_child("iconPath").get_value<std::string>(), [](char c) {return c == '/'; });
+			name = split_string.back();
+		}
+		else if(factory_to_product.find(guid) != factory_to_product.end())
+		{
+			container.emplace(guid, product_icons.find(factory_to_product.at(guid))->second);
+		}
+		
+		if (!name.empty())
 		{
 			try
 			{
-				cv::Mat icon = load_image("icons/" + asset.get_child("icon").get_value<std::string>());
+				cv::Mat icon = load_image("icons/" + name);
 				container.emplace(guid, icon);
 
 				if (verbose) {
@@ -102,6 +117,31 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 	session_icons.emplace(112132, binarize_icon(load_image("icons/icon_session_landoflions_white.png")));
 	session_to_region.emplace(112132, 114327);
 
+	// load products
+	for (const auto& product : pt.get_child("products"))
+	{
+		unsigned int guid = product.second.get_child("guid").get_value<unsigned int>();
+		if (!product.second.get_child_optional("producers").has_value())
+			continue;
+
+		// store factories and regions
+		std::vector<unsigned int> factories;
+		for (const auto& factory_entry : product.second.get_child("producers"))
+		{
+			unsigned int factory_id = factory_entry.second.get_value<unsigned int>();
+			factories.push_back(factory_id);
+			factory_to_product.insert_or_assign(factory_id, guid);
+		}
+		product_to_factories.emplace(guid, std::move(factories));
+
+		for (const auto& language : product.second.get_child("locaText"))
+		{
+			dictionaries.at(language.first).products.emplace(guid, language.second.get_value<std::string>());
+		}
+
+		load_and_save_icon(guid, product.second, product_icons);
+	}
+	
 	// load factories
 	auto process_factories = [&](const boost::property_tree::ptree& root) {
 		for (const auto& factory : root)
@@ -127,30 +167,9 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 	}
 	process_factories(pt.get_child("factories"));
 	process_factories(pt.get_child("powerPlants"));
+	process_factories(pt.get_child("publicRecipeBuildings"));
 
-	// load products
-	for (const auto& product : pt.get_child("products"))
-	{
-		unsigned int guid = product.second.get_child("guid").get_value<unsigned int>();
-		if (!product.second.get_child_optional("producers").has_value())
-			continue;
-
-		// store factories and regions
-		std::vector<unsigned int> factories;
-		for (const auto& factory_entry : product.second.get_child("producers"))
-		{
-			unsigned int factory_id = factory_entry.second.get_value<unsigned int>();
-			factories.push_back(factory_id);
-		}
-		product_to_factories.emplace(guid, std::move(factories));
-
-		for (const auto& language : product.second.get_child("locaText"))
-		{
-			dictionaries.at(language.first).products.emplace(guid, language.second.get_value<std::string>());
-		}
-
-		load_and_save_icon(guid, product.second, product_icons);
-	}
+	
 
 	if (verbose) {
 		std::cout << "Load population levels." << std::endl;

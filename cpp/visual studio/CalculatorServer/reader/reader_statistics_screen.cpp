@@ -36,7 +36,7 @@ const cv::Rect2f statistics_screen_params::pane_header_center = cv::Rect2f(cv::P
 const cv::Rect2f statistics_screen_params::pane_header_right = cv::Rect2f(cv::Point2f(0.6276f, 0.2238f), cv::Point2f(0.7946f, 0.2581f));
 
 const cv::Rect2f statistics_screen_params::position_factory_icon = cv::Rect2f(0.0219f, 0.135f, 0.0838f, 0.7448f);
-const cv::Rect2f statistics_screen_params::position_small_factory_icon = cv::Rect2f(0.013f, 0.05f, 0.09f, 0.7f);
+const cv::Rect2f statistics_screen_params::position_small_factory_icon = cv::Rect2f(cv::Point2f(0.072590f, 0.062498f), cv::Point2f(0.14436f, 0.97523f));
 const cv::Rect2f statistics_screen_params::position_population_icon = cv::Rect2f(0.f, 0.05f, 0.f, 0.9f);
 
 
@@ -626,6 +626,23 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 					if (guids.size() != 1 && get_selected_session() && !is_all_islands_selected())
 						recog.filter_factories(guids, get_selected_session());
 
+					if (guids.size() != 1) {
+						cv::Mat product_icon = recog.get_square_region(row, statistics_screen_params::position_small_factory_icon);
+						if (recog.is_verbose()) {
+							cv::imwrite("debug_images/factory_icon.png", product_icon);
+						}
+						cv::Scalar background_color = statistics_screen_params::background_brown_light;
+						std::map<unsigned int, cv::Mat> icon_candidates;
+						for (unsigned int guid : guids)
+						{
+							auto iter = recog.factory_icons.find(guid);
+							if (iter != recog.factory_icons.end())
+								icon_candidates.insert(*iter);
+						}
+
+						guids = recog.get_guid_from_icon(product_icon, icon_candidates, background_color);
+					}
+					
 					if (guids.size() == 1)
 						result.emplace(guids.front(), count);
 					else
