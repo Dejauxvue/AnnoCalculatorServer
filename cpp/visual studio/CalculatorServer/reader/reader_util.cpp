@@ -166,7 +166,9 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 		std::cout << "Load factories." << std::endl;
 	}
 	process_factories(pt.get_child("factories"));
-	process_factories(pt.get_child("powerPlants"));
+	if(pt.get_child_optional("powerPlants").has_value())
+		process_factories(pt.get_child("powerPlants"));
+	if (pt.get_child_optional("publicRecipeBuildings").has_value())
 	process_factories(pt.get_child("publicRecipeBuildings"));
 
 	
