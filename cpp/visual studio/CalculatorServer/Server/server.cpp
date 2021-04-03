@@ -28,51 +28,37 @@ server::server(bool verbose, std::wstring window_regex, utility::string_t url) :
 }
 
 
-void server::read_anno_population(web::json::value& result)
+void server::repack_statistics(web::json::value& result, bool optimal_productivity)
 {
+	auto values = stats.get_all();
 
-	auto population = stats.get_population_amount();
-
-	for (const auto& p : population) {
+	for (const auto& asset : values) {
 		web::json::value entry;
-		if (result.has_field(std::to_wstring(p.first)))
-			entry = result.at(std::to_wstring(p.first));
 
-		entry[std::wstring(L"amount")] = web::json::value(p.second);
-		result[std::to_wstring(p.first)] = entry;
+		for (const auto& prop : asset.second)
+		{
+			if (prop.first != statistics_screen::KEY_PRODUCTIVITY || !optimal_productivity)
+				entry[recog.to_wstring(prop.first)] = web::json::value(prop.second);
+		}
+
+		result[std::to_wstring(asset.first)] = entry;
+	}
+
+	if (optimal_productivity)
+	{
+		auto pair = stats.get_optimal_productivity();
+
+		if (pair.first)
+			if (result.has_field(std::to_wstring(pair.first)))
+				result.at(std::to_wstring(pair.first))[recog.to_wstring(statistics_screen::KEY_PRODUCTIVITY)] = pair.second;
+			else {
+				web::json::value entry;
+				entry[std::wstring(recog.to_wstring(statistics_screen::KEY_PRODUCTIVITY))] = web::json::value(pair.second);
+				result[std::to_wstring(pair.first)] = entry;
+			}
 	}
 }
 
-void server::read_buildings_count(web::json::value& result)
-{
-
-
-	auto values = stats.get_assets_existing_buildings();
-
-	for (const auto& p : values) {
-		web::json::value entry;
-		if (result.has_field(std::to_wstring(p.first)))
-			entry = result.at(std::to_wstring(p.first));
-
-		entry[std::wstring(L"existingBuildings")] = web::json::value(p.second);
-		result[std::to_wstring(p.first)] = entry;
-	}
-
-}
-
-void server::read_productivity_statistics(web::json::value& result, bool optimal_productivity)
-{
-	auto values = optimal_productivity ? stats.get_optimal_productivities() : stats.get_average_productivities();
-
-	for (const auto& p : values) {
-		web::json::value entry;
-		if (result.has_field(std::to_wstring(p.first)))
-			entry = result.at(std::to_wstring(p.first));
-
-		entry[std::wstring(L"percentBoost")] = web::json::value(p.second);
-		result[std::to_wstring(p.first)] = entry;
-	}
-}
 
 void server::read_islands(web::json::value& result)
 {
@@ -147,9 +133,7 @@ void server::handle_get(http_request request)
 			{
 				json_message[U("islandName")] = web::json::value(image_recognition::to_wstring(island_name));
 
-				read_anno_population(json_message);
-				read_buildings_count(json_message);
-				read_productivity_statistics(json_message, optimal_productivity);
+				repack_statistics(json_message, optimal_productivity);
 				read_islands(json_message);
 			}
 
@@ -158,7 +142,8 @@ void server::handle_get(http_request request)
 			response.headers().add(U("Access-Control-Allow-Origin"), U("*"));
 			response.set_body(json_message);
 			const auto t = request.reply(response);
-		} catch(...)
+		}
+		catch (...)
 		{
 			web::http::http_response response(status_codes::InternalError);
 			response.headers().add(U("Access-Control-Allow-Origin"), U("*"));

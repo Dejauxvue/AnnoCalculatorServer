@@ -27,254 +27,224 @@ void print(const std::map<unsigned int, T>& map,
 	}
 }
 
-void unit_tests(class statistics& image_recog)
+void unit_tests(image_recognition& recog, statistics& image_recog)
 {
 	auto start = std::chrono::high_resolution_clock::now();
+
+
+	auto test_image = [&](const std::string& language, const std::string& path, std::map<unsigned int, statistics_screen::properties> expected)
 	{
-		image_recog.update("german", image_recognition::load_image("test_screenshots/Anno 1800 Res 2560x1080.png"));
-		const auto result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000000) == 4510);
-		BOOST_ASSERT(result.at(15000001) == 6140);
-		BOOST_ASSERT(result.at(15000002) == 960);
-		BOOST_ASSERT(result.at(15000003) == 0);
-		BOOST_ASSERT(result.at(15000004) == 0);
-		BOOST_ASSERT(result.at(15000005) == 0);
-		BOOST_ASSERT(result.at(15000006) == 0);
+		auto get_name = [&](unsigned int guid)
+		{
+			const auto& dict = recog.dictionaries.at(language);
+			auto iter = dict.population_levels.find(guid);
+
+			if (iter != dict.population_levels.end())
+			{
+				return iter->second;
+			}
+
+			iter = dict.factories.find(guid);
+
+			if (iter != dict.factories.end())
+			{
+				return iter->second;
+			}
+
+			iter = dict.products.find(guid);
+
+			if (iter != dict.products.end())
+			{
+				return iter->second;
+
+			}
+
+			return std::to_string(guid);
+		};
+
+		image_recog.update(language, image_recognition::load_image(path));
+		const auto result = image_recog.get_all();
+
+		for (const auto& asset : result)
+		{
+			auto expected_iter = expected.find(asset.first);
+			if (expected_iter == expected.end())
+				if (asset.second.find(statistics_screen::KEY_AMOUNT) != asset.second.end() && asset.second.at(statistics_screen::KEY_AMOUNT) == 0)
+					continue;
+				else {
+					std::cout << path << " [FP] " << get_name(asset.first);
+
+					for (const auto& entry : asset.second)
+						std::cout << "\t" << entry.first << ": " << entry.second;
+
+					std::cout << std::endl;
+				}
+			else
+			{
+				for (const auto& entry_expected : expected_iter->second) {
+					const auto& iter_actual = asset.second.find(entry_expected.first);
+
+					if (iter_actual == asset.second.end())
+						std::cout << path << " [MISS] " << get_name(asset.first) << "." << entry_expected.first << " expected " << entry_expected.second << std::endl;
+					else if (iter_actual->second != entry_expected.second)
+						std::cout << path << " [DIFF] " << get_name(asset.first) << "." << entry_expected.first << " expected " << entry_expected.second << " got " << iter_actual->second << std::endl;
+				}
+				expected.erase(expected_iter);
+			}
+		}
+
+		for (const auto& asset : expected)
+		{
+			std::cout << path << " [FN] " << get_name(asset.first);
+
+			for (const auto& entry : asset.second)
+				std::cout << "\t" << entry.first << ": " << entry.second;
+
+			std::cout << std::endl;
+		}
+	};
+	using properties = statistics_screen::properties;
+	{
+		test_image("german", "test_screenshots/Anno 1800 Res 2560x1080.png",
+			std::map<unsigned int, properties>({
+			{15000000, properties({{statistics_screen::KEY_AMOUNT, 4510}}) },
+				{ 15000001, properties({{statistics_screen::KEY_AMOUNT, 6140}}) },
+				{ 15000002, properties({{statistics_screen::KEY_AMOUNT, 960}}) },
+				{ 15000003, properties({{statistics_screen::KEY_AMOUNT, 0}}) },
+				{ 15000004, properties({{statistics_screen::KEY_AMOUNT, 0}}) },
+				{ 15000005, properties({{statistics_screen::KEY_AMOUNT, 0}}) },
+				{ 15000006, properties({{statistics_screen::KEY_AMOUNT, 0}}) }
+				}));
 	}
 	{
-		image_recog.update("english", image_recognition::load_image("test_screenshots/pop_global_bright_1920.png"));
-		const auto result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000000) == 1345);
-		BOOST_ASSERT(result.at(15000001) == 4236);
-		BOOST_ASSERT(result.at(15000002) == 4073);
-		BOOST_ASSERT(result.at(15000003) == 11214);
-		BOOST_ASSERT(result.at(15000004) == 174699);
-		BOOST_ASSERT(result.at(15000005) == 2922);
-		BOOST_ASSERT(result.at(15000006) == 8615);
+		test_image("english", "test_screenshots/pop_global_bright_1920.png",
+			std::map<unsigned int, properties>({
+			{15000000, properties({{statistics_screen::KEY_AMOUNT, 1345}})},
+			{15000001, properties({{statistics_screen::KEY_AMOUNT, 4236}})},
+			{15000002, properties({{statistics_screen::KEY_AMOUNT, 4073}})},
+			{15000003, properties({{statistics_screen::KEY_AMOUNT, 11214}})},
+			{15000004, properties({{statistics_screen::KEY_AMOUNT, 174699}})},
+			{15000005, properties({{statistics_screen::KEY_AMOUNT, 2922}})},
+			{15000006, properties({{statistics_screen::KEY_AMOUNT, 8615}})}
+				}));
 	}
 	{
-		image_recog.update("english", image_recognition::load_image("test_screenshots/pop_global_dark_1680.png"));
-		const auto result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000000) == 1345);
-		BOOST_ASSERT(result.at(15000001) == 4236);
-		BOOST_ASSERT(result.at(15000002) == 4073);
-		BOOST_ASSERT(result.at(15000003) == 11275);
-		BOOST_ASSERT(result.at(15000004) == 174815);
-		BOOST_ASSERT(result.at(15000005) == 2922);
-		BOOST_ASSERT(result.at(15000006) == 8615);
+		test_image("english", "test_screenshots/pop_global_dark_1680.png",
+			std::map<unsigned int, properties>({
+			{15000000, properties({{statistics_screen::KEY_AMOUNT, 1345}})},
+			{15000001, properties({{statistics_screen::KEY_AMOUNT, 4236}})},
+			{15000002, properties({{statistics_screen::KEY_AMOUNT, 4073}})},
+			{15000003, properties({{statistics_screen::KEY_AMOUNT, 11275}})},
+			{15000004, properties({{statistics_screen::KEY_AMOUNT, 174815}})},
+			{15000005, properties({{statistics_screen::KEY_AMOUNT, 2922}})},
+			{15000006, properties({{statistics_screen::KEY_AMOUNT, 8615}})}
+				}));
 	}
 	{
-		image_recog.update("english", image_recognition::load_image("test_screenshots/pop_global_dark_1920.png"));
-		const auto result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000000) == 1307);
-		BOOST_ASSERT(result.at(15000001) == 4166);
-		BOOST_ASSERT(result.at(15000002) == 4040);
-		BOOST_ASSERT(result.at(15000003) == 10775);
-		BOOST_ASSERT(result.at(15000004) == 167805);
-		BOOST_ASSERT(result.at(15000005) == 2856);
-		BOOST_ASSERT(result.at(15000006) == 8477);
-	}
-
-	{
-		image_recog.update("english", image_recognition::load_image("test_screenshots/pop_island_artisans_1920.png"));
-		const auto result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000000) == 1460);
-		BOOST_ASSERT(result.at(15000001) == 2476);
-		BOOST_ASSERT(result.at(15000002) == 24);
-		BOOST_ASSERT(result.at(15000003) == 0);
-		BOOST_ASSERT(result.at(15000004) == 0);
-		BOOST_ASSERT(result.at(15000005) == 0);
-		BOOST_ASSERT(result.at(15000006) == 0);
-	}
-
-	//{
-	//	image_recog.update("german", image_recognition::load_image("test_screenshots/stat_pop_global_1.png"));
-	//	auto result = image_recog.get_population_amount();
-	//	BOOST_ASSERT(result.at(15000002) == 3360);
-	//	BOOST_ASSERT(result.at(15000003) == 6108);
-	//	BOOST_ASSERT(result.at(15000004) == 6800);
-	//	BOOST_ASSERT(result.at(15000005) == 3752);
-	//	BOOST_ASSERT(result.at(15000006) == 5008);
-	//	BOOST_ASSERT(result.at(112642) == 48);
-
-	//	result = image_recog.get_assets_existing_buildings();
-	//	BOOST_ASSERT(result.at(15000002) == 112);
-	//	BOOST_ASSERT(result.at(15000003) == 156);
-	//	BOOST_ASSERT(result.at(15000004) == 136);
-	//	BOOST_ASSERT(result.at(15000005) == 376);
-	//	BOOST_ASSERT(result.at(15000006) == 272);
-	//	BOOST_ASSERT(result.at(112642) == 12);
-	//}
-
-	//{
-	//	image_recog.update("german", image_recognition::load_image("test_screenshots/stat_pop_global_2.png"));
-	//	auto result = image_recog.get_population_amount();
-	//	BOOST_ASSERT(result.at(15000000) == 5372);
-	//	BOOST_ASSERT(result.at(15000001) == 7664);
-	//	BOOST_ASSERT(result.at(15000002) == 3356);
-	//	BOOST_ASSERT(result.at(15000003) == 6108);
-	//	BOOST_ASSERT(result.at(15000004) == 6800);
-	//	BOOST_ASSERT(result.at(15000005) == 3752);
-
-	//	result = image_recog.get_assets_existing_buildings();
-	//	BOOST_ASSERT(result.at(15000000) == 541);
-	//	BOOST_ASSERT(result.at(15000001) == 392);
-	//	BOOST_ASSERT(result.at(15000002) == 112);
-	//	BOOST_ASSERT(result.at(15000003) == 156);
-	//	BOOST_ASSERT(result.at(15000004) == 136);
-	//	BOOST_ASSERT(result.at(15000005) == 376);
-	//}
-
-	{
-		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_island_1.png"));
-		auto result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000005) == 790);
-		BOOST_ASSERT(result.at(15000006) == 518);
-
-		result = image_recog.get_assets_existing_buildings();
-		BOOST_ASSERT(result.at(15000005) == 79);
-		BOOST_ASSERT(result.at(15000006) == 37);
-	}
-
-	{
-		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_island_2.png"));
-		auto result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000000) == 2097);
-		BOOST_ASSERT(result.at(15000001) == 2480);
-		BOOST_ASSERT(result.at(15000002) == 2100);
-		BOOST_ASSERT(result.at(15000003) == 3040);
-		BOOST_ASSERT(result.at(15000004) == 42);
-
-		result = image_recog.get_assets_existing_buildings();
-		BOOST_ASSERT(result.at(15000000) == 210);
-		BOOST_ASSERT(result.at(15000001) == 124);
-		BOOST_ASSERT(result.at(15000002) == 70);
-		BOOST_ASSERT(result.at(15000003) == 76);
-		BOOST_ASSERT(result.at(15000004) == 1);
-	}
-
-	{
-		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_island_3.png"));
-		auto result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000000) == 1460);
-		BOOST_ASSERT(result.at(15000001) == 2480);
-		BOOST_ASSERT(result.at(15000002) == 24);
-		BOOST_ASSERT(result.at(15000003) == 3040);
-		BOOST_ASSERT(result.at(15000004) == 42);
-
-		result = image_recog.get_assets_existing_buildings();
-		BOOST_ASSERT(result.at(15000000) == 146);
-		BOOST_ASSERT(result.at(15000001) == 124);
-		BOOST_ASSERT(result.at(15000002) == 1);
-		BOOST_ASSERT(result.at(15000003) == 76);
-		BOOST_ASSERT(result.at(15000004) == 1);
+		test_image("english", "test_screenshots/pop_global_dark_1920.png",
+			std::map<unsigned int, properties>({
+			{15000000, properties({{statistics_screen::KEY_AMOUNT, 1307}})},
+			{15000001, properties({{statistics_screen::KEY_AMOUNT, 4166}})},
+			{15000002, properties({{statistics_screen::KEY_AMOUNT, 4040}})},
+			{15000003, properties({{statistics_screen::KEY_AMOUNT, 10775}})},
+			{15000004, properties({{statistics_screen::KEY_AMOUNT, 167805}})},
+			{15000005, properties({{statistics_screen::KEY_AMOUNT, 2856}})},
+			{15000006, properties({{statistics_screen::KEY_AMOUNT, 8477}})} }));
 	}
 
 	{
-		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_island_4.png"));
-		auto result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000000) == 1450);
-		BOOST_ASSERT(result.at(15000001) == 2474);
-		BOOST_ASSERT(result.at(15000002) == 47);
-
-
-		result = image_recog.get_assets_existing_buildings();
-		BOOST_ASSERT(result.at(15000000) == 145);
-		BOOST_ASSERT(result.at(15000001) == 124);
-		BOOST_ASSERT(result.at(15000002) == 2);
+		test_image("english", "test_screenshots/pop_island_artisans_1920.png",
+			std::map<unsigned int, properties>({
+			{15000000, properties({{statistics_screen::KEY_AMOUNT, 1460}})},
+			{15000001, properties({{statistics_screen::KEY_AMOUNT, 2476}})},
+			{15000002, properties({{statistics_screen::KEY_AMOUNT, 24}})},
+			{15000003, properties({{statistics_screen::KEY_AMOUNT, 0}})},
+			{15000004, properties({{statistics_screen::KEY_AMOUNT, 0}})},
+			{15000005, properties({{statistics_screen::KEY_AMOUNT, 0}})},
+			{15000006, properties({{statistics_screen::KEY_AMOUNT, 0}})} }));
 	}
 
 	{
-		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_island_5.png"));
-		auto result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000000) == 1430);
-		BOOST_ASSERT(result.at(15000001) == 2443);
-		BOOST_ASSERT(result.at(15000002) == 114);
-		BOOST_ASSERT(result.at(15000003) == 3040);
-		BOOST_ASSERT(result.at(15000004) == 42);
+		test_image("english", "test_screenshots/stat_pop_island_1.png",
+			std::map<unsigned int, properties>({
+			{15000005, properties({{statistics_screen::KEY_AMOUNT, 790},{statistics_screen::KEY_EXISTING_BUILDINGS, 79}})},
+			{15000006, properties({{statistics_screen::KEY_AMOUNT, 518},{statistics_screen::KEY_EXISTING_BUILDINGS, 37}})} }));
 
-		result = image_recog.get_assets_existing_buildings();
-		BOOST_ASSERT(result.at(15000000) == 143);
-		BOOST_ASSERT(result.at(15000001) == 123);
-		BOOST_ASSERT(result.at(15000002) == 5);
-		BOOST_ASSERT(result.at(15000003) == 76);
-		BOOST_ASSERT(result.at(15000004) == 1);
+	}
+
+	{
+		test_image("english", "test_screenshots/stat_pop_island_2.png",
+			std::map<unsigned int, properties>({
+			{15000000, properties({{statistics_screen::KEY_AMOUNT, 2097},{statistics_screen::KEY_EXISTING_BUILDINGS, 210}})},
+			{15000001, properties({{statistics_screen::KEY_AMOUNT, 2480},{statistics_screen::KEY_EXISTING_BUILDINGS, 124}})},
+			{15000002, properties({{statistics_screen::KEY_AMOUNT, 2100},{statistics_screen::KEY_EXISTING_BUILDINGS, 70}})},
+			{15000003, properties({{statistics_screen::KEY_AMOUNT, 3040},{statistics_screen::KEY_EXISTING_BUILDINGS, 76}})},
+			{15000004, properties({{statistics_screen::KEY_AMOUNT, 42},{statistics_screen::KEY_EXISTING_BUILDINGS, 1}})} }));
+
+	}
+
+	{
+		test_image("english", "test_screenshots/stat_pop_island_3.png",
+			std::map<unsigned int, properties>({
+			{15000000, properties({{statistics_screen::KEY_AMOUNT, 1460},{statistics_screen::KEY_EXISTING_BUILDINGS, 146}})},
+			{15000001, properties({{statistics_screen::KEY_AMOUNT, 2480},{statistics_screen::KEY_EXISTING_BUILDINGS, 124}})},
+			{15000002, properties({{statistics_screen::KEY_AMOUNT, 24},{statistics_screen::KEY_EXISTING_BUILDINGS, 1}})},
+			{15000003, properties({{statistics_screen::KEY_AMOUNT, 3040},{statistics_screen::KEY_EXISTING_BUILDINGS, 76}})},
+			{15000004, properties({{statistics_screen::KEY_AMOUNT, 42},{statistics_screen::KEY_EXISTING_BUILDINGS, 1}})} }));
+
+	}
+
+	{
+		test_image("english", "test_screenshots/stat_pop_island_4.png",
+			std::map<unsigned int, properties>({
+			{15000000, properties({{statistics_screen::KEY_AMOUNT, 1450},{statistics_screen::KEY_EXISTING_BUILDINGS, 145}})},
+			{15000001, properties({{statistics_screen::KEY_AMOUNT, 2474},{statistics_screen::KEY_EXISTING_BUILDINGS, 124}})},
+			{15000002, properties({{statistics_screen::KEY_AMOUNT, 47},{statistics_screen::KEY_EXISTING_BUILDINGS, 2}})} }));
+
+	}
+
+	{
+		test_image("english", "test_screenshots/stat_pop_island_5.png",
+			std::map<unsigned int, properties>({
+			{15000000, properties({{statistics_screen::KEY_AMOUNT, 1430},{statistics_screen::KEY_EXISTING_BUILDINGS, 143}})},
+			{15000001, properties({{statistics_screen::KEY_AMOUNT, 2443},{statistics_screen::KEY_EXISTING_BUILDINGS, 123}})},
+			{15000002, properties({{statistics_screen::KEY_AMOUNT, 114},{statistics_screen::KEY_EXISTING_BUILDINGS, 5}})},
+			{15000003, properties({{statistics_screen::KEY_AMOUNT, 3040},{statistics_screen::KEY_EXISTING_BUILDINGS, 76}})},
+			{15000004, properties({{statistics_screen::KEY_AMOUNT, 42},{statistics_screen::KEY_EXISTING_BUILDINGS, 1}})} }));
+
+
 	}
 
 
 	{
-		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_global_widescreen.png"));
-		auto result = image_recog.get_assets_existing_buildings();
-		BOOST_ASSERT(result.at(15000001) == 335);
-		BOOST_ASSERT(result.at(15000002) == 200);
-		BOOST_ASSERT(result.at(15000003) == 32);
-		BOOST_ASSERT(result.at(15000004) == 0);
-		BOOST_ASSERT(result.at(15000005) == 86);
-		BOOST_ASSERT(result.at(15000006) == 59);
-		BOOST_ASSERT(result.at(112642) == 0);
-		BOOST_ASSERT(result.at(112643) == 0);
+		test_image("english", "test_screenshots/stat_pop_global_widescreen.png",
+			std::map<unsigned int, properties>({
+			{15000001, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 335},{statistics_screen::KEY_AMOUNT, 6514}})},
+			{15000002, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 200},{statistics_screen::KEY_AMOUNT, 5337}})},
+			{15000003, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 32},{statistics_screen::KEY_AMOUNT, 1069}})},
+			{15000004, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 0},{statistics_screen::KEY_AMOUNT, 0}})},
+			{15000005, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 86},{statistics_screen::KEY_AMOUNT, 568}})},
+			{15000006, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 59},{statistics_screen::KEY_AMOUNT, 1003}})},
+			{112642, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 0},{statistics_screen::KEY_AMOUNT, 0}})},
+			{112643, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 0},{statistics_screen::KEY_AMOUNT, 0}})} }));
 
-		result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000001) == 6514);
-		BOOST_ASSERT(result.at(15000002) == 5337);
-		BOOST_ASSERT(result.at(15000003) == 1069);
-		BOOST_ASSERT(result.at(15000004) == 0);
-		BOOST_ASSERT(result.at(15000005) == 568);
-		BOOST_ASSERT(result.at(15000006) == 1003);
-		BOOST_ASSERT(result.at(112642) == 0);
-		BOOST_ASSERT(result.at(112643) == 0);
 	}
 
 	{
-		image_recog.update("german", image_recognition::load_image("test_screenshots/stat_pop_global_3_16_10.jpg"));
-		auto result = image_recog.get_assets_existing_buildings();
-		BOOST_ASSERT(result.at(15000000) == 145);
-		BOOST_ASSERT(result.at(15000001) == 89);
-		BOOST_ASSERT(result.at(15000002) == 0);
-		BOOST_ASSERT(result.at(15000003) == 0);
-		BOOST_ASSERT(result.at(15000004) == 0);
-		BOOST_ASSERT(result.at(15000005) == 0);
-		BOOST_ASSERT(result.at(112642) == 0);
-		BOOST_ASSERT(result.at(112643) == 0);
+		test_image("german", "test_screenshots/stat_pop_global_3_16_10.jpg",
+			std::map<unsigned int, properties>({
+			{15000000, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 145},{statistics_screen::KEY_AMOUNT, 1440}})},
+			{15000001, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 89},{statistics_screen::KEY_AMOUNT, 1754}})},
+			{15000002, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 0},{statistics_screen::KEY_AMOUNT, 0}})},
+			{15000003, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 0},{statistics_screen::KEY_AMOUNT, 0}})},
+			{15000004, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 0},{statistics_screen::KEY_AMOUNT, 0}})},
+			{15000005, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 0},{statistics_screen::KEY_AMOUNT, 0}})},
+			{112642, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 0},{statistics_screen::KEY_AMOUNT, 0}})},
+			{112643, properties({{statistics_screen::KEY_EXISTING_BUILDINGS, 0},{statistics_screen::KEY_AMOUNT, 0}})} }));
 
-		result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000000) == 1440);
-		BOOST_ASSERT(result.at(15000001) == 1754);
-		BOOST_ASSERT(result.at(15000002) == 0);
-		BOOST_ASSERT(result.at(15000003) == 0);
-		BOOST_ASSERT(result.at(15000004) == 0);
-		BOOST_ASSERT(result.at(15000005) == 0);
-		BOOST_ASSERT(result.at(112642) == 0);
-		BOOST_ASSERT(result.at(112643) == 0);
+
 	}
 
-
-	/*
-	{
-		image_recog.update("english", image_recognition::load_image("test_screenshots/stat_pop_island_3.png"));
-		auto result = image_recog.get_population_amount();
-		BOOST_ASSERT(result.at(15000000) == 1460);
-		BOOST_ASSERT(result.at(15000001) == 2480);
-		BOOST_ASSERT(result.at(15000002) == 24);
-		BOOST_ASSERT(result.at(15000003) == 3040);
-		BOOST_ASSERT(result.at(15000004) == 42);
-		BOOST_ASSERT(result.at(15000005) == 3752);
-		BOOST_ASSERT(result.at(15000006) == 3752);
-		BOOST_ASSERT(result.at(112642) == 48);
-		BOOST_ASSERT(result.at(112643) == 48);
-
-		result = image_recog.get_assets_existing_buildings();
-		BOOST_ASSERT(result.at(15000000) == 146);
-		BOOST_ASSERT(result.at(15000001) == 124);
-		BOOST_ASSERT(result.at(15000002) == 1);
-		BOOST_ASSERT(result.at(15000003) == 76);
-		BOOST_ASSERT(result.at(15000004) == 1);
-		BOOST_ASSERT(result.at(15000005) == 376);
-		BOOST_ASSERT(result.at(15000006) == 3752);
-		BOOST_ASSERT(result.at(112642) == 48);
-		BOOST_ASSERT(result.at(112643) == 48);
-	}
-	*/
 
 	std::cout << "all tests passed!" << std::endl;
 
@@ -286,7 +256,7 @@ void unit_tests(class statistics& image_recog)
 int main(int argc, char** argv) {
 	image_recognition recog(true);
 	statistics image_recog(recog);
-	//unit_tests(image_recog);
+	//unit_tests(recog, image_recog);
 
 //	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Documents/Anno 1800/screenshot/screenshot_2019-12-31-13-03-20.jpg");
 //	cv::Mat src = image_recognition::load_image("C:/Users/Nico/Pictures/Uplay/Anno 1800/Anno 18002020-1-6-0-32-3.png");
@@ -312,24 +282,21 @@ int main(int argc, char** argv) {
 	catch (const std::exception& e) {}
 	std::cout << std::endl;
 
-	std::cout << "Population amount" << std::endl;
-	print(image_recog.get_population_amount(), image_recog.get_dictionary().population_levels);
-	std::cout << std::endl;
+	const auto& dict = recog.dictionaries.at("english");
+	for (const auto& asset : image_recog.get_all())
+	{
+		try { std::cout << dict.population_levels.at(asset.first); }
+		catch (...) {}
+		try { std::cout << dict.factories.at(asset.first); }
+		catch (...) {}
 
+		std::cout << ": { ";
 
-	std::cout << "Average Productivity" << std::endl;
-	print(image_recog.get_average_productivities(), image_recog.get_dictionary().factories);
-	std::cout << std::endl;
+		for (const auto& entry : asset.second)
+			std::cout << entry.first << ": " << entry.second << ", ";
 
-	//std::cout << "Optimal Productivity" << std::endl;
-	//print(image_recog.get_optimal_productivities(), image_recog.get_dictionary().factories);
-	//std::cout << std::endl;
-
-	std::cout << "Existing factories" << std::endl;
-	print(image_recog.get_assets_existing_buildings(), image_recog.get_dictionary().factories);
-	std::cout << std::endl;
-
-
-
+		std::cout << "}" << std::endl;
+	}
+	
 	return 0;
 }

@@ -125,7 +125,7 @@ public:
 	* creates BGRA image with only black and white pixels
 	* thresholding is between two peeks of input image
 	*/
-	static cv::Mat binarize(const cv::Mat& input, bool invert = false, bool multi_channel = true);
+	static cv::Mat binarize(const cv::Mat& input, bool invert = false, bool multi_channel = true, int threshold = -1);
 
 	/**
 	* creates BGRA image with only black and white pixels
@@ -340,6 +340,11 @@ public:
 	* Returns MIN_INTEGER on failure
 	*/
 	static int number_from_string(const std::string& word);
+
+	/**
+	 * Reads two numbers separated by a slash
+	 */
+	std::pair<int, int> read_number_slash_number(const cv::Mat& im);
 
 	static const std::map<std::string, std::string>  letter_to_digit;
 	static const std::string ALL_ISLANDS;

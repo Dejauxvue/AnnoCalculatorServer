@@ -38,6 +38,7 @@ const cv::Rect2f statistics_screen_params::pane_header_right = cv::Rect2f(cv::Po
 const cv::Rect2f statistics_screen_params::position_factory_icon = cv::Rect2f(0.0219f, 0.135f, 0.0838f, 0.7448f);
 const cv::Rect2f statistics_screen_params::position_small_factory_icon = cv::Rect2f(cv::Point2f(0.072590f, 0.062498f), cv::Point2f(0.14436f, 0.97523f));
 const cv::Rect2f statistics_screen_params::position_population_icon = cv::Rect2f(0.f, 0.05f, 0.f, 0.9f);
+const cv::Rect2f statistics_screen_params::position_factory_output = cv::Rect2f(cv::Point2f(0.31963f, 0.58402f), cv::Point2f(0.49729f, 0.83325f));
 
 
 ////////////////////////////////////////
@@ -45,6 +46,11 @@ const cv::Rect2f statistics_screen_params::position_population_icon = cv::Rect2f
 // Class: statistics_screen
 //
 ////////////////////////////////////////
+
+const std::string statistics_screen::KEY_AMOUNT = "amount";
+const std::string statistics_screen::KEY_EXISTING_BUILDINGS = "existingBuildings";
+const std::string statistics_screen::KEY_LIMIT = "limit";
+const std::string statistics_screen::KEY_PRODUCTIVITY = "percentBoost";
 
 
 statistics_screen::statistics_screen(image_recognition& recog)
@@ -55,8 +61,6 @@ statistics_screen::statistics_screen(image_recognition& recog)
 	selected_session(0)
 {
 }
-
-
 
 
 void statistics_screen::update(const std::string& language, const cv::Mat& img)
@@ -320,13 +324,12 @@ bool statistics_screen::is_tab_selected(const cv::Vec4b& point)
 
 
 
-std::map<unsigned int, int> statistics_screen::get_optimal_productivities()
+std::pair<unsigned int, int> statistics_screen::get_optimal_productivity()
 {
 	const cv::Mat& im = screenshot;
 
-	std::map<unsigned int, int> result;
 	if (get_open_tab() != statistics_screen::tab::PRODUCTION)
-		return result;
+		return std::make_pair(0, 0);
 
 	if (recog.is_verbose()) {
 		std::cout << "Optimal productivities" << std::endl;
@@ -342,12 +345,12 @@ std::map<unsigned int, int> statistics_screen::get_optimal_productivities()
 	}
 
 	if (buildings_count < 0)
-		return result;
+		return std::make_pair(0, 0);
 
 	cv::Mat roi = get_right_pane();
 
 	if (roi.empty())
-		return result;
+		return std::make_pair(0, 0);
 
 	if (recog.is_verbose()) {
 		cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
@@ -360,7 +363,7 @@ std::map<unsigned int, int> statistics_screen::get_optimal_productivities()
 	}
 	std::vector<unsigned int> guids = recog.get_guid_from_name(factory_text, recog.get_dictionary().factories);
 	if (guids.size() != 1)
-		return result;
+		return std::make_pair(0, 0);
 
 	if (recog.is_verbose()) {
 		try {
@@ -399,7 +402,7 @@ std::map<unsigned int, int> statistics_screen::get_optimal_productivities()
 		});
 
 	if (productivities.empty())
-		return result;
+		return std::make_pair(0, 0);
 
 	int sum = std::accumulate(productivities.begin(), productivities.end(), 0);
 
@@ -413,18 +416,16 @@ std::map<unsigned int, int> statistics_screen::get_optimal_productivities()
 		sum += (buildings_count - productivities.size()) * productivities[productivities.size() / 2];
 	}
 
-	result.emplace(guids.front(), sum / buildings_count);
-
-	return result;
+	return std::make_pair(guids.front(), sum / buildings_count);
 }
 
 
 
-std::map<unsigned int, int> statistics_screen::get_average_productivities()
+std::map<unsigned int, statistics_screen::properties> statistics_screen::get_factory_properties()
 {
 	const cv::Mat& im = screenshot;
 
-	std::map<unsigned int, int> result;
+	std::map<unsigned int, properties> result;
 	if (get_open_tab() != statistics_screen::tab::PRODUCTION)
 		return result;
 
@@ -443,6 +444,8 @@ std::map<unsigned int, int> statistics_screen::get_average_productivities()
 
 	recog.iterate_rows(roi, 0.9f, [&](const cv::Mat& row)
 		{
+			properties props;
+		
 			if (recog.is_verbose()) {
 				cv::imwrite("debug_images/row.png", row);
 			}
@@ -475,10 +478,26 @@ std::map<unsigned int, int> statistics_screen::get_average_productivities()
 				prod /= 100;
 
 			if (prod >= 0)
+				props.emplace(KEY_PRODUCTIVITY, prod);
+		
+			cv::Mat text_img = recog.binarize(recog.get_pane(statistics_screen_params::position_factory_output, row), true, true, 200);
+			if (recog.is_verbose()) {
+				cv::imwrite("debug_images/factory_output_text.png", text_img);
+			}
+
+			auto pair = recog.read_number_slash_number(text_img);
+
+			if (pair.first >= 0)
+				props.emplace(KEY_AMOUNT, pair.first);
+
+			if (pair.second >= 0 && pair.second >= pair.first)
+				props.emplace(KEY_LIMIT, pair.second);
+		
+			if (prod >= 0)
 			{
 				for (unsigned int p_guid : p_guids)
 					for (unsigned int f_guid : recog.product_to_factories[p_guid])
-						result.emplace(f_guid, prod);
+						result.emplace(f_guid, props);
 			}
 
 
@@ -490,18 +509,6 @@ std::map<unsigned int, int> statistics_screen::get_average_productivities()
 
 
 	return result;
-}
-
-std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings()
-{
-	switch (get_open_tab())
-	{
-	case statistics_screen::tab::FINANCE:
-		return get_assets_existing_buildings_from_finance_screen();
-	case statistics_screen::tab::POPULATION:
-		return get_population_existing_buildings();
-	}
-	return std::map<unsigned int, int>();
 }
 
 std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_from_finance_screen()
@@ -642,7 +649,7 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 
 						guids = recog.get_guid_from_icon(product_icon, icon_candidates, background_color);
 					}
-					
+
 					if (guids.size() == 1)
 						result.emplace(guids.front(), count);
 					else
@@ -683,11 +690,11 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 	return result;
 }
 
-std::map<unsigned int, int> statistics_screen::get_population_amount() const
+std::map<unsigned int, statistics_screen::properties> statistics_screen::get_population_properties() const
 {
 	const cv::Mat& im = screenshot;
 
-	std::map<unsigned int, int> result;
+	std::map<unsigned int, properties> result;
 
 	if (get_open_tab() != statistics_screen::tab::POPULATION)
 		return result;
@@ -703,6 +710,8 @@ std::map<unsigned int, int> statistics_screen::get_population_amount() const
 
 	recog.iterate_rows(roi, 0.75f, [&](const cv::Mat& row)
 		{
+			properties props;
+
 			cv::Mat population_name = recog.binarize(recog.get_cell(row, 0.076f, 0.2f));
 			if (recog.is_verbose()) {
 				cv::imwrite("debug_images/population_name.png", population_name);
@@ -711,104 +720,59 @@ std::map<unsigned int, int> statistics_screen::get_population_amount() const
 			if (guids.size() != 1)
 				return;
 
+			// read amount and limit
 			cv::Mat text_img = recog.binarize(recog.get_cell(row, 0.5f, 0.27f, 0.4f));
 			if (recog.is_verbose()) {
 				cv::imwrite("debug_images/pop_amount_text.png", text_img);
 			}
 
-			std::string number_string;
 
-			for (const auto& mode : { tesseract::PSM_SINGLE_LINE, tesseract::PSM_SINGLE_WORD, tesseract::PSM_RAW_LINE })
-			{
-				std::vector<std::pair<std::string, cv::Rect>> texts = recog.detect_words(text_img, mode);
-				std::string joined_string = recog.join(texts);
-
-
-				if (recog.is_verbose()) {
-					try {
-						std::cout << recog.get_dictionary().population_levels.at(guids.front()) << "\t" << joined_string << std::endl;
-					}
-					catch (...) {}
-				}
-
-				std::vector<std::string> split_string;
-				boost::split(split_string, joined_string, [](char c) {return c == '/' || c == '[' || c == '(' || c == '{'; });
-
-
-				if (split_string.size() == 2 && std::regex_match(split_string.front(), std::regex("(\\d|\\s|[,.;:'M])+")))
-					number_string = split_string.front();
-				else if ((texts.size() == 2 || texts.size() == 3 && texts[1].first.size() == 1) &&
-					std::regex_match(texts.front().first, std::regex("(\\d|\\s|[,.;:'M])+")))
-					number_string = texts.front().first;
-
-				if (!number_string.empty())
-					break;
-			}
-
-			if(number_string.back() == 'M')
-			{
-				number_string.pop_back();
-				number_string += "0000";
-			}
-		
-			int population = recog.number_from_string(number_string);
-
-			if (population >= 0)
-				result.emplace(guids.front(), population);
-
-		});
-
-	for (const auto& entry : recog.get_dictionary().population_levels)
-	{
-		if (result.find(entry.first) == result.end())
-			result[entry.first] = 0;
-	}
-	return result;
-}
-
-
-std::map<unsigned int, int> statistics_screen::get_population_existing_buildings() const
-{
-	std::map<unsigned int, int> result;
-
-	if (get_open_tab() != statistics_screen::tab::POPULATION)
-		return result;
-
-	cv::Mat roi = get_center_pane();
-
-	if (roi.empty())
-		return result;
-
-	if (recog.is_verbose()) {
-		cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
-	}
-
-	recog.iterate_rows(roi, 0.75f, [&](const cv::Mat& row)
-		{
-			cv::Mat population_name = recog.binarize(recog.get_cell(row, 0.076f, 0.2f));
 			if (recog.is_verbose()) {
-				cv::imwrite("debug_images/population_name.png", population_name);
+				try {
+					std::cout << recog.get_dictionary().population_levels.at(guids.front()) << "\t";
+				}
+				catch (...) {}
 			}
-			std::vector<unsigned int> guids = recog.get_guid_from_name(population_name, recog.get_dictionary().population_levels);
-			if (guids.size() != 1)
-				return;
 
-			cv::Mat text_img = recog.binarize(recog.get_cell(row, 0.3f, 0.15f, 0.4f));
+			auto pair = recog.read_number_slash_number(text_img);
+
+
+			if (pair.first >= 0)
+				props.emplace(KEY_AMOUNT, pair.first);
+
+			if (pair.second >= 0 && pair.second >= pair.first)
+				props.emplace(KEY_LIMIT, pair.second);
+
+			// read existing buildings
+			text_img = recog.binarize(recog.get_cell(row, 0.3f, 0.15f, 0.4f));
 			if (recog.is_verbose()) {
 				cv::imwrite("debug_images/pop_houses_text.png", text_img);
 			}
 			int houses = recog.number_from_region(text_img);
 
 			if (houses >= 0)
-				result.emplace(guids.front(), houses);
+				props.emplace(KEY_EXISTING_BUILDINGS, houses);
 
+			if (recog.is_verbose()) {
+				std::cout << std::endl;
+			}
+
+			if (!props.empty())
+				result.emplace(guids.front(), props);
 		});
 
-	for (const auto& entry : recog.get_dictionary().population_levels)
-	{
-		if (result.find(entry.first) == result.end())
-			result[entry.first] = 0;
-	}
+	if (result.size() < 6)
+		for (const auto& entry : recog.get_dictionary().population_levels)
+		{
+			if (result.find(entry.first) == result.end())
+				result.emplace(entry.first,
+					std::map<std::string, int>({
+					{KEY_AMOUNT, 0},
+					{KEY_EXISTING_BUILDINGS, 0},
+					{KEY_LIMIT, 0}
+						}));
+		}
+	
 	return result;
 }
 

@@ -25,7 +25,7 @@ public:
 private:
 	void read_anno_population(web::json::value& result);
 	void read_buildings_count(web::json::value& result);
-	void read_productivity_statistics(web::json::value& result, bool optimalProductivity);
+	void repack_statistics(web::json::value& result, bool optimalProductivity);
 	void read_islands(web::json::value& result);
 
 	void handle_get(http_request message);

@@ -18,6 +18,8 @@ public:
 	static const cv::Rect2f position_factory_icon;
 	static const cv::Rect2f position_small_factory_icon;
 	static const cv::Rect2f position_population_icon;
+	static const cv::Rect2f position_factory_output;
+	
 
 	/* pane rectangles relative to [0,1]² image */
 	static const cv::Rect2f pane_tabs;
@@ -32,6 +34,7 @@ public:
 	static const cv::Rect2f pane_header_center;
 	static const cv::Rect2f pane_header_right;
 };
+
 
 /*
 * Stores resolution independent properties of the statistics menu
@@ -51,6 +54,12 @@ public:
 		ITEMS = 5
 	};
 
+	using properties = std::map<std::string, int>;
+
+	static const std::string KEY_AMOUNT;
+	static const std::string KEY_EXISTING_BUILDINGS;
+	static const std::string KEY_LIMIT;
+	static const std::string KEY_PRODUCTIVITY;
 
 
 	statistics_screen(image_recognition& recog);
@@ -62,22 +71,20 @@ public:
 	/*
 	* Accessor functions to read data
 	**/
-	std::map < unsigned int, int> get_population_amount() const;
+	std::map < unsigned int, properties> get_population_properties() const;
 
 	/*
 	* Returns percentile productivity for factories.
 	* Returns an empty map in case no information is found.
 	*/
-	std::map < unsigned int, int> get_average_productivities();
-	std::map < unsigned int, int> get_optimal_productivities();
+	std::map < unsigned int, properties> get_factory_properties();
+	std::pair < unsigned int, int> get_optimal_productivity();
 
 	/*
 	* Returns count of existing buildings (houses/factories).
 	* Returns an empty map in case no information is found.
 	*/
-	std::map < unsigned int, int> get_assets_existing_buildings();
 	std::map < unsigned int, int> get_assets_existing_buildings_from_finance_screen();
-	std::map<unsigned int, int> get_population_existing_buildings() const;
 
 	std::map<unsigned int, int> get_population_workforce() const;
 

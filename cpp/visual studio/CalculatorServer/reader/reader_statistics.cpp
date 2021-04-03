@@ -4,6 +4,7 @@
 
 namespace reader
 {
+	
 statistics::statistics(image_recognition& recog)
 	:
 	recog(recog),
@@ -18,22 +19,47 @@ void statistics::update(const std::string& language, const cv::Mat& img)
 	hud.update(language, img);
 }
 
-std::map<unsigned int, int> statistics::get_population_amount()
+
+
+std::map<unsigned int, statistics_screen::properties> statistics::get_all()
 {
+	using properties = statistics_screen::properties;
+	
+	std::map<unsigned int, properties> result;
+	
 	if (stats_screen.is_open())
-		return stats_screen.get_population_amount();
+		switch(stats_screen.get_open_tab())
+		{
+		case statistics_screen::tab::PRODUCTION:
+			result = stats_screen.get_factory_properties();
+			break;
+
+		case statistics_screen::tab::FINANCE:
+			for (const auto& entry : stats_screen.get_assets_existing_buildings_from_finance_screen())
+				result.emplace(entry.first, properties({
+				{statistics_screen::KEY_EXISTING_BUILDINGS, entry.second}
+					}));
+			break;
+			
+		case statistics_screen::tab::POPULATION:
+			result = stats_screen.get_population_properties();
+			
+		case statistics_screen::tab::STORAGE:
+		case statistics_screen::tab::ITEMS:
+			break;
+		}
 	else
-		return hud.get_population_amount();
+		for (const auto& entry : hud.get_population_amount())
+			result.emplace(entry.first, properties({
+			{statistics_screen::KEY_AMOUNT, entry.second}
+				}));
+
+	return result;
 }
 
-std::map<unsigned int, int> statistics::get_average_productivities()
+std::pair<unsigned int, int> statistics::get_optimal_productivity()
 {
-	return stats_screen.get_average_productivities();
-}
-
-std::map<unsigned int, int> statistics::get_optimal_productivities()
-{
-	return stats_screen.get_optimal_productivities();
+	return stats_screen.get_optimal_productivity();
 }
 
 std::string statistics::get_selected_island()
@@ -77,11 +103,6 @@ const keyword_dictionary& statistics::get_dictionary()
 bool statistics::has_language(const std::string& language)
 {
 	return recog.has_language(language);
-}
-
-std::map<unsigned int, int> statistics::get_assets_existing_buildings()
-{
-	return stats_screen.get_assets_existing_buildings();
 }
 
 }

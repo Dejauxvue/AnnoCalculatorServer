@@ -900,7 +900,7 @@ void image_recognition::initialize_items()
 	}
 }
 
-cv::Mat image_recognition::binarize(const cv::Mat& input, bool invert, bool multi_channel)
+cv::Mat image_recognition::binarize(const cv::Mat& input, bool invert, bool multi_channel, int threshold)
 {
 	if (input.empty())
 		return input;
@@ -914,8 +914,15 @@ cv::Mat image_recognition::binarize(const cv::Mat& input, bool invert, bool mult
 	else
 		resized = input;
 
+	int flag = invert ? cv::THRESH_BINARY_INV : cv::THRESH_BINARY;
+	if(threshold < 0)
+	{
+		threshold = 128;
+		flag = flag | cv::THRESH_OTSU;
+	}
+	
 	cv::cvtColor(resized, thresholded, cv::COLOR_BGRA2GRAY);
-	cv::threshold(thresholded, thresholded, 128, 255, (invert ? cv::THRESH_BINARY_INV : cv::THRESH_BINARY) | cv::THRESH_OTSU);
+	cv::threshold(thresholded, thresholded, threshold, 255, flag);
 	if (multi_channel)
 		cv::cvtColor(thresholded, thresholded, cv::COLOR_GRAY2RGBA);
 
@@ -1563,6 +1570,51 @@ int image_recognition::number_from_string(const std::string& word)
 #endif
 	}
 	return std::numeric_limits<int>::lowest();
+}
+
+std::pair<int, int> image_recognition::read_number_slash_number(const cv::Mat& im)
+{
+	std::vector<std::string> number_strings;
+
+	for (const auto& mode : { tesseract::PSM_SINGLE_LINE, tesseract::PSM_SINGLE_WORD, tesseract::PSM_RAW_LINE })
+	{
+		std::vector<std::pair<std::string, cv::Rect>> texts = detect_words(im, mode);
+		std::string joined_string = join(texts);
+
+		if (verbose)
+				std::cout << "\t" << joined_string;
+
+		std::vector<std::string> split_string;
+		boost::split(split_string, joined_string, [](char c) {return c == '/' || c == '[' || c == '(' || c == '{'; });
+
+
+		if (split_string.size() == 2 && std::regex_match(split_string.front(), std::regex("(\\d|\\s|[,.;:'M])+")))
+			number_strings = split_string;
+		else if ((texts.size() == 2 || texts.size() == 3 && texts[1].first.size() == 1) &&
+			std::regex_match(texts.front().first, std::regex("(\\d|\\s|[,.;:'M])+")))
+		{
+			number_strings.push_back(texts.front().first);
+			if (texts.size() == 3)
+				number_strings.push_back(texts[2].first);
+			else
+				number_strings.push_back(texts[1].first);
+		}
+
+		if (!number_strings.empty())
+			break;
+	}
+
+	if (number_strings.empty())
+		return std::make_pair(std::numeric_limits<int>::lowest(), std::numeric_limits<int>::lowest());
+
+	for(auto& number_string : number_strings)
+	if (number_string.back() == 'M')
+	{
+		number_string.pop_back();
+		number_string += "0000";
+	}
+
+	return std::make_pair(number_from_string(number_strings[0]), number_from_string(number_strings[1]));
 }
 
 
