@@ -73,17 +73,17 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 		std::string name;
 		if (asset.find("icon") != asset.not_found())
 			name = asset.get_child("icon").get_value<std::string>();
-		else if(asset.find("iconPath") != asset.not_found())
+		else if (asset.find("iconPath") != asset.not_found())
 		{
 			std::vector<std::string> split_string;
 			boost::split(split_string, asset.get_child("iconPath").get_value<std::string>(), [](char c) {return c == '/'; });
 			name = split_string.back();
 		}
-		else if(factory_to_product.find(guid) != factory_to_product.end())
+		else if (factory_to_product.find(guid) != factory_to_product.end())
 		{
 			container.emplace(guid, product_icons.find(factory_to_product.at(guid))->second);
 		}
-		
+
 		if (!name.empty())
 		{
 			try
@@ -141,7 +141,7 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 
 		load_and_save_icon(guid, product.second, product_icons);
 	}
-	
+
 	// load factories
 	auto process_factories = [&](const boost::property_tree::ptree& root) {
 		for (const auto& factory : root)
@@ -166,12 +166,12 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 		std::cout << "Load factories." << std::endl;
 	}
 	process_factories(pt.get_child("factories"));
-	if(pt.get_child_optional("powerPlants").has_value())
+	if (pt.get_child_optional("powerPlants").has_value())
 		process_factories(pt.get_child("powerPlants"));
 	if (pt.get_child_optional("publicRecipeBuildings").has_value())
-	process_factories(pt.get_child("publicRecipeBuildings"));
+		process_factories(pt.get_child("publicRecipeBuildings"));
 
-	
+
 
 	if (verbose) {
 		std::cout << "Load population levels." << std::endl;
@@ -474,14 +474,14 @@ std::vector<unsigned int> image_recognition::get_guid_from_icon(const cv::Mat& i
 			cv::imwrite("debug_images/icon_template.png", template_resized);
 #endif
 			guids.push_back(entry.first);
-		}
+	}
 		else if (match < best_match)
 		{
 			guids.clear();
 			guids.push_back(entry.first);
 			best_match = match;
 		}
-	}
+}
 
 	if (best_match > 150)
 		return std::vector<unsigned int>();
@@ -581,7 +581,7 @@ unsigned int image_recognition::get_session_guid(cv::Mat icon) const
 		return 0;
 
 	return guid;
-}
+	}
 
 
 
@@ -614,7 +614,7 @@ std::vector<unsigned int> image_recognition::get_guid_from_name(const cv::Mat& t
 #endif
 
 	return get_guid_from_name(building_string, dictionary);
-}
+	}
 
 std::vector<unsigned int> image_recognition::get_guid_from_name(const std::string& building_string, const std::map<unsigned int, std::string>& dictionary)
 {
@@ -917,12 +917,12 @@ cv::Mat image_recognition::binarize(const cv::Mat& input, bool invert, bool mult
 		resized = input;
 
 	int flag = invert ? cv::THRESH_BINARY_INV : cv::THRESH_BINARY;
-	if(threshold < 0)
+	if (threshold < 0)
 	{
 		threshold = 128;
 		flag = flag | cv::THRESH_OTSU;
 	}
-	
+
 	cv::cvtColor(resized, thresholded, cv::COLOR_BGRA2GRAY);
 	cv::threshold(thresholded, thresholded, threshold, 255, flag);
 	if (multi_channel)
@@ -1060,7 +1060,7 @@ cv::Mat image_recognition::gamma_invariant_hue_finlayson(const cv::Mat& bgr_in)
 	std::cout << "done with gamma" << std::endl;
 #endif
 	return ret[0];
-}
+	}
 
 void image_recognition::write_image_per_channel(const std::string& path, const cv::Mat& img)
 {
@@ -1442,7 +1442,7 @@ std::vector<cv::Rect2i> image_recognition::detect_boxes(const cv::Mat& im, unsig
 
 
 	return boxes;
-}
+	}
 
 std::vector<int> image_recognition::find_horizontal_lines(const cv::Mat& im, float line_density)
 {
@@ -1556,7 +1556,7 @@ int image_recognition::number_from_region(const cv::Mat& im)
 int image_recognition::number_from_string(const std::string& word)
 {
 	std::string number_string = word;
-	for(const auto& entry : letter_to_digit)
+	for (const auto& entry : letter_to_digit)
 	{
 		std::regex expr(entry.first);
 		number_string = std::regex_replace(number_string, expr, entry.second);
@@ -1570,7 +1570,7 @@ int image_recognition::number_from_string(const std::string& word)
 #ifdef CONSOLE_DEBUG_OUTPUT
 		std::cout << "could not match number string: " << number_string << std::endl;
 #endif
-	}
+}
 	return std::numeric_limits<int>::lowest();
 }
 
@@ -1584,7 +1584,7 @@ std::pair<int, int> image_recognition::read_number_slash_number(const cv::Mat& i
 		std::string joined_string = join(texts);
 
 		if (verbose)
-				std::cout << "\t" << joined_string;
+			std::cout << "\t" << joined_string;
 
 		std::vector<std::string> split_string;
 		boost::split(split_string, joined_string, [](char c) {return c == '/' || c == '[' || c == '(' || c == '{'; });
@@ -1609,12 +1609,12 @@ std::pair<int, int> image_recognition::read_number_slash_number(const cv::Mat& i
 	if (number_strings.empty())
 		return std::make_pair(std::numeric_limits<int>::lowest(), std::numeric_limits<int>::lowest());
 
-	for(auto& number_string : number_strings)
-	if (number_string.back() == 'M')
-	{
-		number_string.pop_back();
-		number_string += "0000";
-	}
+	for (auto& number_string : number_strings)
+		if (number_string.back() == 'M')
+		{
+			number_string.pop_back();
+			number_string += "0000";
+		}
 
 	return std::make_pair(number_from_string(number_strings[0]), number_from_string(number_strings[1]));
 }
