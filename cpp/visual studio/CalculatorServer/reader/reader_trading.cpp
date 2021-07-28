@@ -279,15 +279,12 @@ std::vector<offering> trading_menu::get_offerings(bool abort_if_not_loaded)
 	cv::Rect2f offering_pane = has_buy_limit() ? trading_params::pane_menu_offering_with_counter : trading_params::pane_menu_offering;
 	cv::Mat pane;
 	recog.get_pane(offering_pane, screenshot).copyTo(pane);
-	offering_pane = get_window_rel_location(offering_pane);
 
-	cv::Point2f button_offset = get_reroll_button().tl() - offering_pane.tl();
+	cv::Point2f button_offset = reader::trading_params::pane_menu_reroll.tl() - offering_pane.tl();
 	cv::Rect2i button_reroll(static_cast<int>(button_offset.x * screenshot.cols),
 		static_cast<int>(button_offset.y * screenshot.rows),
-		static_cast<int>(get_reroll_button().width * screenshot.cols),
-		static_cast<int>(get_reroll_button().height * screenshot.rows));
-
-
+		static_cast<int>(reader::trading_params::pane_menu_reroll.width * screenshot.cols),
+		static_cast<int>(reader::trading_params::pane_menu_reroll.height * screenshot.rows));
 
 	if (recog.is_verbose()) {
 		cv::imwrite("debug_images/offerings.png", pane);
