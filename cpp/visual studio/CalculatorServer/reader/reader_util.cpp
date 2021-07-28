@@ -176,6 +176,9 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 	if (verbose) {
 		std::cout << "Load population levels." << std::endl;
 	}
+
+	std::set<unsigned int> skyscrapers;
+
 	// load population levels
 	for (const auto& level : pt.get_child("populationLevels"))
 	{
@@ -185,6 +188,31 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 		{
 
 			dictionaries.at(language.first).population_levels.emplace(guid, language.second.get_value<std::string>());
+		}
+
+		if (level.second.get_child_optional("skyscraperLevels").has_value()) {
+			for (const auto& skyscraper : level.second.get_child("skyscraperLevels")) {
+				skyscrapers.emplace(skyscraper.second.get_value<unsigned int>());
+			}
+		}
+	}
+
+
+	if (verbose) {
+		std::cout << "Load skyscrapers." << std::endl;
+	}
+
+	// load skyscrapers
+	for (const auto& building : pt.get_child("residenceBuildings"))
+	{
+		unsigned int guid = building.second.get_child("guid").get_value<unsigned int>();
+		if (skyscrapers.find(guid) == skyscrapers.end())
+			continue;
+
+		for (const auto& language : building.second.get_child("locaText"))
+		{
+
+			dictionaries.at(language.first).skyscrapers.emplace(guid, language.second.get_value<std::string>());
 		}
 	}
 
@@ -218,6 +246,7 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 			phrase::THE_ARCTIC,
 			phrase::ENBESA,
 			phrase::RESIDENTS,
+			phrase::SKYSCRAPERS,
 			phrase::BREAKDOWN,
 			phrase::ARCHIBALD_HARBOUR,
 			phrase::ANNE_HARBOUR,

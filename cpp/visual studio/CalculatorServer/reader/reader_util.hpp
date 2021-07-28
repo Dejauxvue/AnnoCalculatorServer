@@ -22,6 +22,7 @@ namespace reader
 struct keyword_dictionary
 {
 	std::map<unsigned int, std::string> population_levels;
+	std::map<unsigned int, std::string> skyscrapers;
 	std::map<unsigned int, std::string> factories;
 	std::map<unsigned int, std::string> items;
 	std::map<unsigned int, std::string> products;
@@ -58,6 +59,7 @@ enum class phrase
 	THE_ARCTIC = 180045,
 	ENBESA = 112132,
 	RESIDENTS = 22379,
+	SKYSCRAPERS = 423,
 	BREAKDOWN = 22434,
 	ARCHIBALD_HARBOUR = 100680,
 	ANNE_HARBOUR = 100681,

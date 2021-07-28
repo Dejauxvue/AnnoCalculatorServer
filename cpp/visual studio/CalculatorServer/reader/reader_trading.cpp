@@ -87,6 +87,11 @@ void trading_menu::update(const std::string& language, const cv::Mat& img)
 		return;
 
 	recog.crop_widescreen(img).copyTo(this->screenshot);
+
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/screenshot_cropped.png", this->screenshot);
+	}
+
 	window_width = img.cols;
 	recog.update(language);
 
@@ -271,9 +276,10 @@ std::vector<offering> trading_menu::get_offerings(bool abort_if_not_loaded)
 
 	std::vector<offering> result;
 
-	cv::Rect2f offering_pane = get_window_rel_location(has_buy_limit() ? trading_params::pane_menu_offering_with_counter : trading_params::pane_menu_offering);
+	cv::Rect2f offering_pane = has_buy_limit() ? trading_params::pane_menu_offering_with_counter : trading_params::pane_menu_offering;
 	cv::Mat pane;
 	recog.get_pane(offering_pane, screenshot).copyTo(pane);
+	offering_pane = get_window_rel_location(offering_pane);
 
 	cv::Point2f button_offset = get_reroll_button().tl() - offering_pane.tl();
 	cv::Rect2i button_reroll(static_cast<int>(button_offset.x * screenshot.cols),
@@ -539,11 +545,19 @@ unsigned int trading_menu::get_reroll_cost() const
 	if (!is_trading_menu_open())
 		return 0;
 
-	cv::Mat tooltip_heading = recog.binarize(recog.get_pane(get_window_rel_location(trading_params::pane_tooltip_reroll_heading), screenshot), true);
+	cv::Mat tooltip_heading = recog.binarize(recog.get_pane(trading_params::pane_tooltip_reroll_heading, screenshot), true);
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/tooltip_heading.png", tooltip_heading);
+	}
+	
 	if (recog.get_guid_from_name(tooltip_heading, recog.make_dictionary({ phrase::REROLL_OFFERED_ITEMS })).empty())
 		return 0;
 
-	return recog.number_from_region(recog.binarize(recog.get_pane(get_window_rel_location(trading_params::pane_tooltip_reroll_price), screenshot), true));
+	cv::Mat reroll_costs = recog.binarize(recog.get_pane(trading_params::pane_tooltip_reroll_price, screenshot), true);
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/reroll_costs.png", reroll_costs);
+	}
+	return recog.number_from_region(reroll_costs);
 }
 
 unsigned int trading_menu::get_buy_limit() const
