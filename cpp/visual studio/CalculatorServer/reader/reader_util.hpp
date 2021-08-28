@@ -28,6 +28,8 @@ struct keyword_dictionary
 	std::map<unsigned int, std::string> products;
 	std::map<unsigned int, std::string> ui_texts;
 	std::map<unsigned int, std::string> traders;
+	std::map<unsigned int, std::string> food_and_drink_venues;
+	std::map<unsigned int, std::string> malls;
 };
 
 class image_recognition;
@@ -74,7 +76,9 @@ enum class phrase
 	TRADE = 2388,
 	NO_AVAILABLE_ITEMS = 163018,
 	AVAILABE_ITEMS = 163036,
-	PURCHASABLE_ITEMS = 129656
+	PURCHASABLE_ITEMS = 129656,
+	FOOD_AND_DRINK_VENUES = 137740,
+	MALLS = 137720
 };
 
 enum class rarity

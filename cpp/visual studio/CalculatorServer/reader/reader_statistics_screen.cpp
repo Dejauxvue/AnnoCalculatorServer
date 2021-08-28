@@ -527,7 +527,7 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 		cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
 	}
 
-	std::map<unsigned int, std::string> category_dict = recog.make_dictionary({ phrase::RESIDENTS, phrase::PRODUCTION, phrase::SKYSCRAPERS });
+	std::map<unsigned int, std::string> category_dict = recog.make_dictionary({ phrase::RESIDENTS, phrase::PRODUCTION, phrase::SKYSCRAPERS, phrase::FOOD_AND_DRINK_VENUES, phrase::MALLS });
 
 	cv::Mat text = recog.binarize(get_right_header());
 
@@ -558,6 +558,12 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 		break;
 	case phrase::SKYSCRAPERS:
 		dictionary = &recog.get_dictionary().skyscrapers;
+		break;
+	case phrase::FOOD_AND_DRINK_VENUES:
+		dictionary = &recog.get_dictionary().food_and_drink_venues;
+		break;
+	case phrase::MALLS:
+		dictionary = &recog.get_dictionary().malls;
 		break;
 	}
 

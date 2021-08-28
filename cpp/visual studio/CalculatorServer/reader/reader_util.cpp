@@ -220,6 +220,24 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 		}
 	}
 
+	// load malls and food and drink venues
+	for (const auto& building : pt.get_child("publicRecipeBuildings"))
+	{
+		unsigned int guid = building.second.get_child("guid").get_value<unsigned int>();
+
+		for (const auto& language : building.second.get_child("locaText"))
+		{
+			if (building.second.get_child("type").get_value<std::string>().compare("mall")) {
+				// eatery
+				dictionaries.at(language.first).food_and_drink_venues.emplace(guid, language.second.get_value<std::string>());
+			}
+			else {
+				// mall
+				dictionaries.at(language.first).malls.emplace(guid, language.second.get_value<std::string>());
+			}
+		}
+	}
+
 	if (verbose) {
 		std::cout << "Load texts." << std::endl;
 	}
@@ -265,7 +283,9 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 			phrase::TRADE,
 			phrase::NO_AVAILABLE_ITEMS,
 			phrase::AVAILABE_ITEMS,
-			phrase::PURCHASABLE_ITEMS
+			phrase::PURCHASABLE_ITEMS,
+			phrase::FOOD_AND_DRINK_VENUES,
+			phrase::MALLS
 			});
 
 		boost::property_tree::ptree output_json;
