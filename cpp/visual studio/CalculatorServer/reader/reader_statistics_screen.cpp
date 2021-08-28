@@ -527,7 +527,7 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 		cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
 	}
 
-	std::map<unsigned int, std::string> category_dict = recog.make_dictionary({ phrase::RESIDENTS, phrase::PRODUCTION });
+	std::map<unsigned int, std::string> category_dict = recog.make_dictionary({ phrase::RESIDENTS, phrase::PRODUCTION, phrase::SKYSCRAPERS });
 
 	cv::Mat text = recog.binarize(get_right_header());
 
@@ -555,6 +555,9 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 		break;
 	case phrase::PRODUCTION:
 		dictionary = &recog.get_dictionary().factories;
+		break;
+	case phrase::SKYSCRAPERS:
+		dictionary = &recog.get_dictionary().skyscrapers;
 		break;
 	}
 
@@ -591,7 +594,7 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 					catch (...) {}
 				}
 
-				cv::Mat count_text = recog.binarize(recog.get_cell(row, 0.15f, 0.5f));
+				cv::Mat count_text = recog.binarize(recog.get_cell(row, 0.15f, 0.6f));
 
 				if (recog.is_verbose()) {
 					cv::imwrite("debug_images/count_text.png", count_text);

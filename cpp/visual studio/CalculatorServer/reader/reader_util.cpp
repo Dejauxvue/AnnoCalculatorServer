@@ -195,6 +195,10 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 				skyscrapers.emplace(skyscraper.second.get_value<unsigned int>());
 			}
 		}
+
+		if (level.second.get_child_optional("skylineTower").has_value()) {
+			skyscrapers.emplace(level.second.get_child("skylineTower").get_value<unsigned int>());
+		}
 	}
 
 

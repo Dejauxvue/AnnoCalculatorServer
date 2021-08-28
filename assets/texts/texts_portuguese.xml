@@ -23050,7 +23050,7 @@
     </Text>
     <Text>
       <GUID>16511</GUID>
-      <Text>Press [InputManager ShortcutTooltip([RefGuid])] to build</Text>
+      <Text>Press [ShortcutManager ShortcutTooltip([RefGuid])] to build</Text>
     </Text>
     <Text>
       <GUID>154003</GUID>
