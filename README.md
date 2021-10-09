@@ -18,25 +18,11 @@
 - [one-time setup] download, install (and reboot your computer afterwards): [vc_redist](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 - Run UXEnhancer.exe
 - Edit the counters to specify how many times you want to buy that item (9999 is the maximum count and equivalent to infinity).
+- (Optional) Set a cost limit. Rerolls are only performed if the costs are below this limit. A limit of 0 means no limit.
 - Open the trade menu of a trader that sells one of the items you want. The bot will start buying / rerolling automatically
 - Hit 'Esc' to pause the bot and close the window
 - [Tutorial](https://youtu.be/yOkjKXnUFAw)
-- Thanks to [Veraatversus](https://github.com/Veraatversus) for adopting the AssetViewer
-
-## Editing UXEnhancerConfig.json
-Make sure the program is not running.
-
-You can add a maximum reroll cost in the settings (e.g. set it to 1 million):
-
-```
-{
-    "settings": {
-    	"maxRerollCosts": "1000000",
-        "language": "english"
-    },
-    ...
-}
-```
+- Thanks to [Veraatversus](https://github.com/Veraatversus) for adapting the AssetViewer
 
 ## Advices to further speed up rerolling
 1. Close other programs that consume CPU.

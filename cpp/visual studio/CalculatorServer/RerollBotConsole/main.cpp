@@ -49,7 +49,7 @@ std::string get_time_str()
 
 void test_screenshot(image_recognition& recog, trading_menu& reader, const std::string& path)
 {
-	reader.update("english", recog.load_image(path));
+	reader.update("german", recog.load_image(path));
 
 	std::cout << "can buy: " << reader.can_buy() << std::endl;
 

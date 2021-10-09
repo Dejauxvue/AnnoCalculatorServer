@@ -35,6 +35,8 @@ private:
 
 	void onLanguageChanged();
 
+	void onRerollCostsChanged(int rerollCosts);
+
 	void onItemCountChanged(unsigned int guid, unsigned int count);
 };
 

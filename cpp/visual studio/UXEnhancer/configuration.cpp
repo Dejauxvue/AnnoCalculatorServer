@@ -61,11 +61,11 @@ void item_wishlist::set_count(unsigned int guid, unsigned int count)
 		msclr::lock l(m_lock);
 
 		auto recog_iter = recog.items.find(guid);
-		if (recog_iter == recog.items.end())
-			return;
-
-
-		if (count && contains(guid))
+		if (count && recog_iter == recog.items.end()) {
+			count = 0;
+			doNotify = true;
+		} 
+		else if (count && contains(guid))
 		{
 			if (items[guid] != count)
 			{
@@ -127,27 +127,14 @@ void item_wishlist::set_count(Collections::Generic::IEnumerable<AssetViewer::Dat
 
 	for each (AssetViewer::Data::TemplateAsset ^ item in list)
 	{
-		if (item->SetParts && item->SetParts->Count > 0)
-			{
-				for each (String ^ subitem in item->SetParts)
-				{
-					try {
-						set_count(Int32::Parse(subitem), item->Count);
-					}
-					catch (const std::exception&)
-					{
-					}
-				}
-			} else
-			{
-				try
-				{
-				set_count(item->ID, item->Count);
-				}
-				catch (const std::exception&)
-				{
-				}
-			}
+		try
+		{
+			set_count(item->ID, item->CountMode->Count);
+		}
+		catch (const std::exception&)
+		{
+		}
+
 	}
 
 	busy = false;
@@ -239,7 +226,8 @@ configuration::configuration(reader::image_recognition& recog, const std::string
 	wishlist(recog),
 	path(path),
 	recog(recog),
-	language("english")
+	language("english"),
+	max_reroll_costs(0)
 {
 	loaded_successful = load();
 	wishlist.register_callback([this](unsigned int guid, unsigned int count) {
@@ -251,6 +239,18 @@ configuration::configuration(reader::image_recognition& recog, const std::string
 unsigned int configuration::get_max_reroll_costs() const
 {
 	return max_reroll_costs;
+}
+
+void configuration::set_max_reroll_costs(int costs)
+{
+	if (costs < 0)
+		costs = 0;
+	
+	if (max_reroll_costs != costs)
+	{
+		max_reroll_costs = costs;
+		save();
+	}
 }
 
 bool configuration::was_loaded_successfull() const

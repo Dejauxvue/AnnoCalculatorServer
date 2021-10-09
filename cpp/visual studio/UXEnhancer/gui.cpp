@@ -81,7 +81,7 @@ void Gui::join()
 	thread->Join();
 }
 
-
+#include <iostream>
 void Gui::run()
 {
 	app = gcnew App();
@@ -95,16 +95,18 @@ void Gui::run()
 
 	for (const auto& entry : config->wishlist)
 		for each (AssetViewer::Data::TemplateAsset ^ item in AssetProvider::GetItemsById(entry.first))
-			item->Count = entry.second;
+			item->CountMode->Count = entry.second;
+
+	AssetProvider::MaxRerollCosts = config->get_max_reroll_costs();
 
 	AssetProvider::OnLanguage_Changed += gcnew System::Action(this, &Gui::onLanguageChanged);
 	AssetProvider::OnAssetCountChanged::add(gcnew System::Action<System::Collections::Generic::IEnumerable<AssetViewer::Data::TemplateAsset^>^>(this, &Gui::onAssetCountChanged));
+	AssetProvider::OnRerollCostsChanged::add(gcnew System::Action<int>(this, &Gui::onRerollCostsChanged));
 	registerItemCountChangedCallback(*config, gcnew ItemCountChanged(this, &Gui::onItemCountChanged));
 
 	app->Run();
 
 };
-
 
 void Gui::onAssetCountChanged(Collections::Generic::IEnumerable<AssetViewer::Data::TemplateAsset^>^ list)
 {
@@ -120,12 +122,16 @@ void Gui::onLanguageChanged()
 	config->set_language(language);
 }
 
+void Gui::onRerollCostsChanged(int rerollCosts)
+{
+	config->set_max_reroll_costs(rerollCosts);
+}
 
 void Gui::onItemCountChanged(unsigned int guid, unsigned int count)
 {
 	for each (AssetViewer::Data::TemplateAsset ^ item in AssetProvider::GetItemsById(guid))
 	{
-		item->Count = count;
+		item->CountMode->Count = count;
 	}
 }
 

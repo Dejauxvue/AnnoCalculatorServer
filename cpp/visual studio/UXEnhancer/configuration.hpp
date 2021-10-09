@@ -73,6 +73,7 @@ public:
 
 	std::string get_language() const;
 	unsigned int get_max_reroll_costs() const;
+	void set_max_reroll_costs(int costs);
 
 	bool was_loaded_successfull() const;
 
