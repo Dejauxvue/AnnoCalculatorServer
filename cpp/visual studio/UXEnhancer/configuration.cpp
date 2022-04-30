@@ -1,6 +1,7 @@
 #include "configuration.hpp"
 
 #include <msclr\lock.h>
+using namespace System;
 
 #include "../CalculatorServer/reader/reader_util.hpp"
 
@@ -129,7 +130,9 @@ void item_wishlist::set_count(Collections::Generic::IEnumerable<AssetViewer::Dat
 	{
 		try
 		{
-			set_count(item->ID, item->CountMode->Count);
+			int id = Convert::ToInt32(item->ID);
+			if(item->ID == gcnew String(std::to_wstring(id).data()))
+				set_count(id, item->CountMode->Count);
 		}
 		catch (const std::exception&)
 		{

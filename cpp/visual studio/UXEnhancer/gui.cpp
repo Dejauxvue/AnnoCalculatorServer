@@ -94,7 +94,7 @@ void Gui::run()
 		onLanguageChanged();
 
 	for (const auto& entry : config->wishlist)
-		for each (AssetViewer::Data::TemplateAsset ^ item in AssetProvider::GetItemsById(entry.first))
+		for each (AssetViewer::Data::TemplateAsset ^ item in AssetProvider::GetItemsById(gcnew System::String(std::to_wstring(entry.first).data())))
 			item->CountMode->Count = entry.second;
 
 	AssetProvider::MaxRerollCosts = config->get_max_reroll_costs();
@@ -129,7 +129,7 @@ void Gui::onRerollCostsChanged(int rerollCosts)
 
 void Gui::onItemCountChanged(unsigned int guid, unsigned int count)
 {
-	for each (AssetViewer::Data::TemplateAsset ^ item in AssetProvider::GetItemsById(guid))
+	for each (AssetViewer::Data::TemplateAsset ^ item in AssetProvider::GetItemsById(gcnew System::String(std::to_wstring(guid).data())))
 	{
 		item->CountMode->Count = count;
 	}
