@@ -52,6 +52,8 @@ In case nothing happens, make sure:
 - the values to be read are not covered by something else (overlay, external program, etc.; basically things you would see when running a screen capturing program)
 - The window mode of the game is set to 'windowed full screen'
 - Disable XBOX DVR 
+- Set the gamma value of the game (graphics settings) to its default (center position of the slider)
+- Disable Windows HD Colour (skip this point if you do not know what this is)
 - (Statistics Extractor) the correct island is selected in the statistics screen
 - (Statistics Extractor) the island has a long (> 8 letters) name composed from standard letters (A-Za-z) and with other islands as few characters in common as possible
   - NEGATIVE example: "Múa-1" and "Múa-2": Too short, non standard letter ú and both names only differ in one letter
