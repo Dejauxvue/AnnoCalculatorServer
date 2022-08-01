@@ -1310,7 +1310,7 @@ std::vector<std::pair<std::string, cv::Rect>> image_recognition::detect_words(co
 	cv::Mat input = in;
 	std::vector<std::pair<std::string, cv::Rect>> ret;
 
-	update_ocr(ocr_language/*, numbers_only*/);
+	update_ocr(ocr_language, numbers_only);
 
 	try {
 		const auto& cr = ocr;
@@ -1736,18 +1736,18 @@ std::string image_recognition::join(const std::vector<std::pair<std::string, cv:
 	return result;
 }
 
-void image_recognition::update_ocr(const std::string& language/*, bool numbers_only*/)
+void image_recognition::update_ocr(const std::string& language, bool numbers_only)
 {
-	if (ocr && !ocr_language.compare(language) /*&& numbers_only == number_mode*/)
+	if (ocr && !ocr_language.compare(language) && numbers_only == number_mode)
 		return;
 
 	if (verbose) {
-		std::cout << "Update tesseract language " << language /*<< " number only " << numbers_only*/ << std::endl;
+		std::cout << "Update tesseract language " << language << " number only " << numbers_only << std::endl;
 	}
 
 
 
-	const char* lang = tesseract_languages.find(language)->second.c_str();
+	const char* lang = numbers_only ? "eng" : tesseract_languages.find(language)->second.c_str();
 	ocr.reset(new tesseract::TessBaseAPI());
 
 	GenericVector<STRING> keys;
@@ -1756,11 +1756,11 @@ void image_recognition::update_ocr(const std::string& language/*, bool numbers_o
 	keys.push_back("user_defined_dpi");
 	values.push_back("70");
 
-	//if (numbers_only)
-	//{
-	//	keys.push_back("tessedit_char_whitelist");
-	//	values.push_back("0123456789,.;:()%/");
-	//}
+	if (numbers_only)
+	{
+		keys.push_back("tessedit_char_whitelist");
+		values.push_back("0123456789,.;:()%/");
+	}
 
 	/*	keys.push_back("textord_min_xheight"); values.push_back("8");
 		keys.push_back("stopper_smallword_size"); values.push_back("1");
@@ -1781,7 +1781,7 @@ void image_recognition::update_ocr(const std::string& language/*, bool numbers_o
 
 	//		ocr_->SetVariable("CONFIGFILE", "bazaar");
 	ocr_language = lang ? language : "english";
-	//number_mode = numbers_only;
+	number_mode = numbers_only;
 
 }
 

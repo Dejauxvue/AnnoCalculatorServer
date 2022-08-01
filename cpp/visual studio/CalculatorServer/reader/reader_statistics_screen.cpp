@@ -608,10 +608,10 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 
 				std::vector<std::pair<std::string, cv::Rect>> words = recog.detect_words(count_text, tesseract::PSM_SINGLE_LINE);
 				std::string number_string;
-				bool found_opening_bracket = false;
+				int opening_bracket_x = 0;
 				for (const auto& word : words)
 				{
-					if (found_opening_bracket)
+					if ( opening_bracket_x == 0)
 						number_string += word.first;
 					else
 					{
@@ -619,13 +619,25 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 						boost::split(split_string, word.first, [](char c) {return c == '('; });
 						if (split_string.size() > 1)
 						{
-							found_opening_bracket = true;
+							opening_bracket_x = word.second.x + word.second.width * ((float) split_string[0].size()) / word.first.size();
 							number_string += split_string.back();
 						}
 					}
 				}
 
 				number_string = std::regex_replace(number_string, std::regex("\\D"), "");
+
+				if (number_string.empty()) {
+					cv::Rect2i number_box(cv::Point2i(std::max(0, opening_bracket_x - 5), 0),
+						cv::Point2i(std::min(count_text.cols - 1, words.back().second.br().x + 5), count_text.rows - 1));
+
+					if (recog.is_verbose()) {
+						cv::imwrite("debug_images/number_text.png", count_text(number_box));
+					}
+					number_string = recog.join(recog.detect_words(count_text(number_box), tesseract::PSM_SINGLE_LINE, true));
+					number_string = std::regex_replace(number_string, std::regex("\\D"), "");
+				}
+
 				if (recog.is_verbose()) {
 					std::cout << number_string;
 				}

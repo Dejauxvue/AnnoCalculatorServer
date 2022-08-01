@@ -281,10 +281,10 @@ public:
 	* access to the singleton TessBaseAPI instance
 	*/
 	//@{
-	void update_ocr(const std::string& language/*, bool numbers_only = false*/);
+	void update_ocr(const std::string& language, bool numbers_only = false);
 	std::shared_ptr<tesseract::TessBaseAPI> ocr;
 	std::string ocr_language;
-	//bool number_mode;
+	bool number_mode = false;
 	//@}
 
 
