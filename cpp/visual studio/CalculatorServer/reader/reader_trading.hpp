@@ -39,6 +39,9 @@ class trading_params
 	static const unsigned int count_cols;
 	static const unsigned int count_rows;
 
+	static const float off_x;
+	static const float off_y;
+
 	static const cv::Rect2f pane_menu_offering;
 	static const cv::Rect2f pane_menu_offering_with_counter;
 	static const cv::Rect2f pane_menu_name;
