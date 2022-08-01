@@ -961,9 +961,9 @@ cv::Mat image_recognition::binarize(const cv::Mat& input, bool invert, bool mult
 		return input;
 
 	cv::Mat resized, thresholded;
-	if (input.rows < 40)
+	if (input.rows < 55)
 	{
-		float scale = 45.f / input.rows;
+		float scale = 60.f / input.rows;
 		cv::resize(input, resized, cv::Size(), scale, scale, cv::INTER_CUBIC);
 	}
 	else

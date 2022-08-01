@@ -32,7 +32,7 @@ const cv::Rect2f statistics_screen_params::pane_finance_right = cv::Rect2f(cv::P
 const cv::Rect2f statistics_screen_params::pane_production_center = cv::Rect2f(cv::Point2f(0.24802f, 0.3639f), cv::Point2f(0.583f, 0.9568f));
 const cv::Rect2f statistics_screen_params::pane_production_right = cv::Rect2f(cv::Point2f(0.629f, 0.3613f), cv::Point2f(0.9619f, 0.9577f));
 const cv::Rect2f statistics_screen_params::pane_population_center = cv::Rect2f(cv::Point2f(0.247f, 0.3571f), cv::Point2f(0.5802f, 0.7006f));
-const cv::Rect2f statistics_screen_params::pane_header_center = cv::Rect2f(cv::Point2f(0.24485f, 0.21962f), cv::Point2f(0.4786f, 0.2581f));
+const cv::Rect2f statistics_screen_params::pane_header_center = cv::Rect2f(cv::Point2f(0.24485f, 0.21762f), cv::Point2f(0.4786f, 0.2581f));
 const cv::Rect2f statistics_screen_params::pane_header_right = cv::Rect2f(cv::Point2f(0.6276f, 0.2238f), cv::Point2f(0.7946f, 0.2581f));
 
 const cv::Rect2f statistics_screen_params::position_factory_icon = cv::Rect2f(0.0219f, 0.135f, 0.0838f, 0.7448f);
