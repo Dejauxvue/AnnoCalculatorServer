@@ -23,7 +23,7 @@
     <ProjectGuid>{E4C4F927-2A33-437B-84DA-7C173E6FD8E3}</ProjectGuid>
     <Keyword>NetCoreCProj</Keyword>
     <RootNamespace>UXEnhancer</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.20348.0</WindowsTargetPlatformVersion>
     <TargetFramework>4.6</TargetFramework>
     <TargetFrameworkVersion>4.6</TargetFrameworkVersion>
   </PropertyGroup>
