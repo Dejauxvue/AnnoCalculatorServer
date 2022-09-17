@@ -18,6 +18,7 @@ namespace reader
 //
 ////////////////////////////////////////
 
+const cv::Scalar trading_params::background_marine_blue_highlighted = cv::Scalar(159, 127, 159, 255);
 const cv::Scalar trading_params::background_marine_blue = cv::Scalar(98, 69, 84, 255);
 const cv::Scalar trading_params::background_sand_bright = cv::Scalar(162, 211, 233, 255);
 const cv::Scalar trading_params::background_sand_dark = cv::Scalar(135, 183, 211, 255);
@@ -39,13 +40,13 @@ const cv::Rect2f trading_params::size_icon_small = cv::Rect2f(0, 0, 0.031853, 0.
 const unsigned int trading_params::count_cols = 4;
 const unsigned int trading_params::count_rows = 3;
 
-const float trading_params::off_x = 0.08569;
-const float trading_params::off_y = 0.05502;
+const float trading_params::off_x = 0;
+const float trading_params::off_y = -0.01408;
 
 const cv::Rect2f trading_params::pane_menu_offering = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.62303, trading_params::off_y + 0.42088), cv::Point2f(trading_params::off_x + 0.78273, trading_params::off_y + 0.67813));
 const cv::Rect2f trading_params::pane_menu_offering_with_counter = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.62303, trading_params::off_y + 0.46742), cv::Point2f(trading_params::off_x + 0.78273, trading_params::off_y + 0.72466));
 const cv::Rect2f trading_params::pane_menu_name = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.65148, trading_params::off_y + 0.34788), cv::Point2f(trading_params::off_x + 0.74859, trading_params::off_y + 0.37243));
-const cv::Rect2f trading_params::pane_menu_reroll = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.68899, trading_params::off_y + 0.71265), cv::Point2f(trading_params::off_x + 0.71897, trading_params::off_y + 0.76670));
+const cv::Rect2f trading_params::pane_menu_reroll = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.68725, trading_params::off_y + 0.71116), cv::Point2f(trading_params::off_x + 0.71723, trading_params::off_y + 0.7652));
 const cv::Rect2f trading_params::pane_menu_execute = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.4397, trading_params::off_y + 0.7793), cv::Point2f(trading_params::off_x + 0.5616, trading_params::off_y + 0.8081));
 const cv::Rect2f trading_params::pane_menu_title = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.45904, trading_params::off_y + 0.19417), cv::Point2f(trading_params::off_x + 0.53951, trading_params::off_y + 0.23381));
 const cv::Rect2f trading_params::pane_menu_ship_cargo = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.22050, trading_params::off_y + 0.43526), cv::Point2f(trading_params::off_x + 0.37741, trading_params::off_y + 0.63224));
@@ -153,7 +154,7 @@ bool trading_menu::has_reroll() const
 {
 	if (is_trading_menu_open())
 		return recog.is_button(recog.get_pane(trading_params::pane_menu_reroll, screenshot),
-			trading_params::background_marine_blue,
+			trading_params::background_marine_blue_highlighted,
 			trading_params::background_sand_bright);
 
 	return false;

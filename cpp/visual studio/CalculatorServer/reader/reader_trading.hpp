@@ -18,6 +18,7 @@ class trading_params
 {
 	friend class trading_menu;
 
+	static const cv::Scalar background_marine_blue_highlighted;
 	static const cv::Scalar background_marine_blue;
 	static const cv::Scalar background_sand_dark;
 	static const cv::Scalar background_sand_bright;
