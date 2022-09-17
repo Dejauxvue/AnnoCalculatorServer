@@ -25,10 +25,10 @@ const cv::Scalar statistics_screen_params::expansion_arrow = cv::Scalar(78, 98, 
 
 const cv::Rect2f statistics_screen_params::pane_tabs = cv::Rect2f(cv::Point2f(0.2352f, 0.147f), cv::Point2f(0.7648f, 0.1839f));
 const cv::Rect2f statistics_screen_params::pane_title = cv::Rect2f(cv::Point2f(0.3839f, 0), cv::Point2f(0.6176f, 0.0722f));
-const cv::Rect2f statistics_screen_params::pane_all_islands = cv::Rect2f(cv::Point2f(0.0234f, 0.2658f), cv::Point2f(0.19f, 0.315f));
-const cv::Rect2f statistics_screen_params::pane_islands = cv::Rect2f(cv::Point2f(0.0215f, 0.3326f), cv::Point2f(0.1917f, 0.9586f));
+const cv::Rect2f statistics_screen_params::pane_all_islands = cv::Rect2f(cv::Point2f(0.02345f, 0.22693f), cv::Point2f(0.19027f, 0.27639f));
+const cv::Rect2f statistics_screen_params::pane_islands = cv::Rect2f(cv::Point2f(0.022989f, 0.32334f), cv::Point2f(0.19162f, 0.91949f));
 const cv::Rect2f statistics_screen_params::pane_finance_center = cv::Rect2f(cv::Point2f(0.2471f, 0.3084f), cv::Point2f(0.5805f, 0.9576f));
-const cv::Rect2f statistics_screen_params::pane_finance_right = cv::Rect2f(cv::Point2f(0.6261f, 0.3603f), cv::Point2f(0.9635f, 0.9587f));
+const cv::Rect2f statistics_screen_params::pane_finance_right = cv::Rect2f(cv::Point2f(0.63026f, 0.35740f), cv::Point2f(0.96692f, 0.95751f));
 const cv::Rect2f statistics_screen_params::pane_production_center = cv::Rect2f(cv::Point2f(0.24802f, 0.3639f), cv::Point2f(0.583f, 0.9568f));
 const cv::Rect2f statistics_screen_params::pane_production_right = cv::Rect2f(cv::Point2f(0.629f, 0.3613f), cv::Point2f(0.9619f, 0.9577f));
 const cv::Rect2f statistics_screen_params::pane_population_center = cv::Rect2f(cv::Point2f(0.247f, 0.3571f), cv::Point2f(0.5802f, 0.7006f));
