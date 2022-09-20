@@ -11,7 +11,7 @@ using namespace web::http::client;          // HTTP client features
 using namespace concurrency::streams;       // Asynchronous streams
 
 /* IMPORTANT!!: this should be updated to the current release tag*/
-const std::string version::VERSION_TAG = std::string("v8.0");
+const std::string version::VERSION_TAG = std::string("v9.0");
 
 void version::check_and_log()
 {
