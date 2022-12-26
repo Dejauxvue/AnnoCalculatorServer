@@ -38,7 +38,7 @@ const cv::Rect2f statistics_screen_params::pane_header_right = cv::Rect2f(cv::Po
 const cv::Rect2f statistics_screen_params::position_factory_icon = cv::Rect2f(0.0219f, 0.135f, 0.0838f, 0.7448f);
 const cv::Rect2f statistics_screen_params::position_small_factory_icon = cv::Rect2f(cv::Point2f(0.072590f, 0.062498f), cv::Point2f(0.14436f, 0.97523f));
 const cv::Rect2f statistics_screen_params::position_population_icon = cv::Rect2f(0.f, 0.05f, 0.f, 0.9f);
-const cv::Rect2f statistics_screen_params::position_factory_output = cv::Rect2f(cv::Point2f(0.31963f, 0.58402f), cv::Point2f(0.49729f, 0.83325f));
+const cv::Rect2f statistics_screen_params::position_factory_output = cv::Rect2f(cv::Point2f(0.31963f, 0.58402f), cv::Point2f(0.49729f, 0.86f));
 
 
 ////////////////////////////////////////
@@ -527,7 +527,7 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 		cv::imwrite("debug_images/statistics_window_scroll_area.png", roi);
 	}
 
-	std::map<unsigned int, std::string> category_dict = recog.make_dictionary({ phrase::RESIDENTS, phrase::PRODUCTION, phrase::SKYSCRAPERS, phrase::FOOD_AND_DRINK_VENUES, phrase::MALLS });
+	std::map<unsigned int, std::string> category_dict = recog.make_dictionary({ phrase::RESIDENTS, phrase::CITY_INSTITUTIONS, phrase::PRODUCTION, phrase::SKYSCRAPERS, phrase::FOOD_AND_DRINK_VENUES, phrase::MALLS });
 
 	cv::Mat text = recog.binarize(get_right_header());
 
@@ -554,6 +554,7 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 		dictionary = &recog.get_dictionary().population_levels;
 		break;
 	case phrase::PRODUCTION:
+	case phrase::CITY_INSTITUTIONS:
 		dictionary = &recog.get_dictionary().factories;
 		break;
 	case phrase::SKYSCRAPERS:

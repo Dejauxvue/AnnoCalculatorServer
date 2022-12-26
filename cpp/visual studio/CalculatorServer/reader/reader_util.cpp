@@ -170,9 +170,10 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 		process_factories(pt.get_child("powerPlants"));
 	if (pt.get_child_optional("publicRecipeBuildings").has_value())
 		process_factories(pt.get_child("publicRecipeBuildings"));
+	if (pt.get_child_optional("publicServices").has_value())
+		process_factories(pt.get_child("publicServices"));
 
-
-
+	
 	if (verbose) {
 		std::cout << "Load population levels." << std::endl;
 	}
@@ -261,6 +262,7 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 			phrase::ALL_ISLANDS,
 			phrase::MULTIPLE_ISLANDS,
 			phrase::PRODUCTION,
+			phrase::CITY_INSTITUTIONS,
 			phrase::STATISTICS,
 			phrase::THE_NEW_WORLD,
 			phrase::THE_OLD_WORLD,
