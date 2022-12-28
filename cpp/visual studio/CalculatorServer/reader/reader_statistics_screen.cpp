@@ -33,7 +33,9 @@ const cv::Rect2f statistics_screen_params::pane_production_center = cv::Rect2f(c
 const cv::Rect2f statistics_screen_params::pane_production_right = cv::Rect2f(cv::Point2f(0.629f, 0.3613f), cv::Point2f(0.9619f, 0.9577f));
 const cv::Rect2f statistics_screen_params::pane_population_center = cv::Rect2f(cv::Point2f(0.247f, 0.3571f), cv::Point2f(0.5802f, 0.7006f));
 const cv::Rect2f statistics_screen_params::pane_header_center = cv::Rect2f(cv::Point2f(0.24485f, 0.21762f), cv::Point2f(0.4786f, 0.2581f));
-const cv::Rect2f statistics_screen_params::pane_header_right = cv::Rect2f(cv::Point2f(0.6276f, 0.2238f), cv::Point2f(0.7946f, 0.2581f));
+const cv::Rect2f statistics_screen_params::pane_header_right = cv::Rect2f(cv::Point2f(0.62618f, 0.21963f), cv::Point2f(0.7946f, 0.2581f));
+const cv::Rect2f statistics_screen_params::pane_production_right_factory_text = cv::Rect2f(cv::Point2f(0.65470f, 0.37136f), cv::Point2f(0.78470f, 0.39586f));
+const cv::Rect2f statistics_screen_params::pane_production_right_factory_icon = cv::Rect2f(cv::Point2f(0.62925f, 0.36358f), cv::Point2f(0.65340f, 0.40512f));
 
 const cv::Rect2f statistics_screen_params::position_factory_icon = cv::Rect2f(0.0219f, 0.135f, 0.0838f, 0.7448f);
 const cv::Rect2f statistics_screen_params::position_small_factory_icon = cv::Rect2f(cv::Point2f(0.072590f, 0.062498f), cv::Point2f(0.14436f, 0.97523f));
@@ -507,6 +509,26 @@ std::map<unsigned int, statistics_screen::properties> statistics_screen::get_fac
 
 		});
 
+	// get pasture count from right pane
+	cv::Mat text_img = recog.binarize(recog.get_pane(statistics_screen_params::pane_production_right_factory_text, screenshot));
+	if (recog.is_verbose()) {
+		cv::imwrite("debug_images/factory_breakdown_text.png", text_img);
+	}
+	auto [guids, count] = recog.get_guid_and_count_from_name(text_img, recog.get_dictionary().pastures);
+
+	if (!guids.empty() && count > 0)
+	{
+		if(guids.size() >= 2)
+			guids = recog.filter_factories(guids, recog.get_square_region(screenshot, statistics_screen_params::pane_production_right_factory_icon));
+
+		for (auto guid : guids) {
+			auto iter = result.find(guid);
+			if (iter != result.end())
+				iter->second.emplace(KEY_EXISTING_BUILDINGS, count);
+			else
+				result.emplace(guid, properties{ {KEY_EXISTING_BUILDINGS, count} });
+		}
+	}
 
 	return result;
 }
@@ -587,68 +609,9 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 			{
 				prev_guids.clear();
 
-				cv::Mat text = recog.binarize(recog.get_cell(row, 0.15f, 0.5f));
+				cv::Mat text = recog.binarize(recog.get_cell(row, 0.15f, 0.6f));
 
-				std::vector<unsigned int> guids = recog.get_guid_from_name(text, *dictionary);
-
-
-				if (recog.is_verbose()) {
-					try {
-						for (unsigned int guid : guids)
-							std::cout << dictionary->at(guid) << ", ";
-						std::cout << "\t";
-					}
-					catch (...) {}
-				}
-
-				cv::Mat count_text = recog.binarize(recog.get_cell(row, 0.15f, 0.6f));
-
-				if (recog.is_verbose()) {
-					cv::imwrite("debug_images/count_text.png", count_text);
-				}
-
-				std::vector<std::pair<std::string, cv::Rect>> words = recog.detect_words(count_text, tesseract::PSM_SINGLE_LINE);
-				std::string number_string;
-				int opening_bracket_x = 0;
-				for (const auto& word : words)
-				{
-					if ( opening_bracket_x == 0)
-						number_string += word.first;
-					else
-					{
-						std::vector<std::string> split_string;
-						boost::split(split_string, word.first, [](char c) {return c == '('; });
-						if (split_string.size() > 1)
-						{
-							opening_bracket_x = word.second.x + word.second.width * ((float) split_string[0].size()) / word.first.size();
-							number_string += split_string.back();
-						}
-					}
-				}
-
-				number_string = std::regex_replace(number_string, std::regex("\\D"), "");
-
-				if (number_string.empty()) {
-					cv::Rect2i number_box(cv::Point2i(std::max(0, opening_bracket_x - 5), 0),
-						cv::Point2i(std::min(count_text.cols - 1, words.back().second.br().x + 5), count_text.rows - 1));
-
-					if (recog.is_verbose()) {
-						cv::imwrite("debug_images/number_text.png", count_text(number_box));
-					}
-					number_string = recog.join(recog.detect_words(count_text(number_box), tesseract::PSM_SINGLE_LINE, true));
-					number_string = std::regex_replace(number_string, std::regex("\\D"), "");
-				}
-
-				if (recog.is_verbose()) {
-					std::cout << number_string;
-				}
-				int count = std::numeric_limits<int>::lowest();
-				try { count = std::stoi(number_string); }
-				catch (...) {
-					if (recog.is_verbose()) {
-						std::cout << " (could not recognize number)";
-					}
-				}
+				auto [guids, count] = recog.get_guid_and_count_from_name(text, *dictionary);
 
 				if (count >= 0)
 				{
@@ -656,20 +619,12 @@ std::map<unsigned int, int> statistics_screen::get_assets_existing_buildings_fro
 						recog.filter_factories(guids, get_selected_session());
 
 					if (guids.size() != 1) {
-						cv::Mat product_icon = recog.get_square_region(row, statistics_screen_params::position_small_factory_icon);
+						cv::Mat factory_icon = recog.get_square_region(row, statistics_screen_params::position_small_factory_icon);
 						if (recog.is_verbose()) {
-							cv::imwrite("debug_images/factory_icon.png", product_icon);
+							cv::imwrite("debug_images/factory_icon.png", factory_icon);
 						}
-						cv::Scalar background_color = statistics_screen_params::background_brown_light;
-						std::map<unsigned int, cv::Mat> icon_candidates;
-						for (unsigned int guid : guids)
-						{
-							auto iter = recog.factory_icons.find(guid);
-							if (iter != recog.factory_icons.end())
-								icon_candidates.insert(*iter);
-						}
-
-						guids = recog.get_guid_from_icon(product_icon, icon_candidates, background_color);
+						
+						guids = recog.filter_factories(guids, factory_icon);
 					}
 
 					if (guids.size() == 1)
@@ -743,7 +698,7 @@ std::map<unsigned int, statistics_screen::properties> statistics_screen::get_pop
 				return;
 
 			// read amount and limit
-			cv::Mat text_img = recog.binarize(recog.get_cell(row, 0.5f, 0.27f, 0.4f));
+			/*cv::Mat text_img = recog.binarize(recog.get_cell(row, 0.5f, 0.27f, 0.4f));
 			if (recog.is_verbose()) {
 				cv::imwrite("debug_images/pop_amount_text.png", text_img);
 			}
@@ -763,10 +718,10 @@ std::map<unsigned int, statistics_screen::properties> statistics_screen::get_pop
 				props.emplace(KEY_AMOUNT, pair.first);
 
 			if (pair.second >= 0 && pair.second >= pair.first)
-				props.emplace(KEY_LIMIT, pair.second);
+				props.emplace(KEY_LIMIT, pair.second);*/
 
 			// read existing buildings
-			text_img = recog.binarize(recog.get_cell(row, 0.3f, 0.15f, 0.4f));
+			auto text_img = recog.binarize(recog.get_cell(row, 0.3f, 0.15f, 0.4f));
 			if (recog.is_verbose()) {
 				cv::imwrite("debug_images/pop_houses_text.png", text_img);
 			}
@@ -789,9 +744,9 @@ std::map<unsigned int, statistics_screen::properties> statistics_screen::get_pop
 			if (result.find(entry.first) == result.end())
 				result.emplace(entry.first,
 					std::map<std::string, int>({
-					{KEY_AMOUNT, 0},
-					{KEY_EXISTING_BUILDINGS, 0},
-					{KEY_LIMIT, 0}
+					//{KEY_AMOUNT, 0},
+					//{KEY_LIMIT, 0},
+					{KEY_EXISTING_BUILDINGS, 0}
 						}));
 		}
 	
@@ -813,7 +768,7 @@ std::string statistics_screen::get_selected_island()
 	if (!selected_island.empty() || multiple_islands_selected)
 		return selected_island;
 
-	if (is_all_islands_selected())
+	if (is_all_islands_selected() && island_to_session.size() >= 2)
 	{
 		if (recog.is_verbose()) {
 			std::cout << recog.ALL_ISLANDS << std::endl;
@@ -823,12 +778,10 @@ std::string statistics_screen::get_selected_island()
 		return selected_island;
 	}
 
-	std::string result;
-
 	cv::Mat roi = recog.binarize(get_center_header());
 
 	if (roi.empty())
-		return result;
+		return "";
 
 	if (recog.is_verbose()) {
 		cv::imwrite("debug_images/header.png", roi);
@@ -839,9 +792,9 @@ std::string statistics_screen::get_selected_island()
 
 	// check whether mutliple islands are selected
 	std::string joined_string = recog.join(words_and_boxes);
-	std::vector<std::string> split_string;
-	boost::split(split_string, joined_string, [](char c) {return c == '/' || c == '[' || c == '(' || c == '{'; });
-	if (!recog.get_guid_from_name(split_string.front(), recog.make_dictionary({ phrase::MULTIPLE_ISLANDS })).empty())
+
+	auto name_front = recog.split_bracket(recog.join(words_and_boxes)).first;
+	if (!recog.get_guid_from_name(name_front, recog.make_dictionary({ phrase::MULTIPLE_ISLANDS })).empty())
 	{
 		if (recog.is_verbose()) {
 			std::cout << recog.get_dictionary().ui_texts.at((unsigned int)phrase::MULTIPLE_ISLANDS) << std::endl;
@@ -895,7 +848,7 @@ std::string statistics_screen::get_selected_island()
 	}
 
 	if (recog.is_verbose()) {
-		std::cout << result << std::endl;
+		std::cout << selected_island << std::endl;
 	}
 	return selected_island;
 }

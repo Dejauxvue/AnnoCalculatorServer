@@ -56,7 +56,7 @@ class trading_params
 	static const cv::Rect2f pane_tooltip_reroll_heading;
 	static const cv::Rect2f pane_tooltip_reroll_price;
 
-	static const cv::Point2f pixel_ship_full;
+	static const std::vector<cv::Point2f> pixels_ship_full;
 	static const cv::Point2f pixel_background_sockets_color;
 };
 
@@ -113,7 +113,7 @@ public:
 	* Returns the modification of trading prices introduced
 	* by capped itemes
 	*/
-	int get_price_modification() const;
+	int get_price_modification();
 
 	/**
 	* Given an index from an @ref{offering} it returns 
@@ -140,6 +140,7 @@ private:
 	cv::Mat screenshot;
 	std::map<unsigned int, cv::Mat> ship_items;
 	std::map<unsigned int, std::vector<std::pair<int, cv::Mat>>> cached_prices;
+	std::map<size_t, int> cached_price_modifications;
 	cv::Mat storage_icon;
 	unsigned int window_width;
 

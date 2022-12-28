@@ -3,5 +3,5 @@
 	url = https://github.com/microsoft/vcpkg.git
 [submodule "cpp/visual studio/AssetViewer"]
 	path = cpp/visual studio/AssetViewer
-	url = https://github.com/NiHoel/AssetViewer.git
-	branch = Sprint01
+	url = https://github.com/Miraak7000/AssetViewer.git
+	branch = master

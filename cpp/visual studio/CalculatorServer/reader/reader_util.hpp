@@ -24,6 +24,7 @@ struct keyword_dictionary
 	std::map<unsigned int, std::string> population_levels;
 	std::map<unsigned int, std::string> skyscrapers;
 	std::map<unsigned int, std::string> factories;
+	std::map<unsigned int, std::string> pastures;
 	std::map<unsigned int, std::string> items;
 	std::map<unsigned int, std::string> products;
 	std::map<unsigned int, std::string> ui_texts;
@@ -101,6 +102,8 @@ public:
 
 	static std::string to_string(const std::wstring&);
 	static std::wstring to_wstring(const std::string&);
+
+	static size_t hash(const cv::Mat& img);
 
 
 	/* extract region from image, coordinates from [0,1]² */
@@ -228,6 +231,12 @@ public:
 	static std::vector<unsigned int> get_guid_from_name(const std::string& text,
 		const std::map<unsigned int, std::string>& dictionary);
 
+	/**
+	* Performes the same detection as get_guid_from_name but assumes that the name is followed by a number in brackets
+	*/
+	std::pair<std::vector<unsigned int>, int> get_guid_and_count_from_name(const cv::Mat& text,
+		const std::map<unsigned int, std::string>& dictionary);
+
 	template <typename T>
 	static cv::Point_<T> get_center(const cv::Rect_<T> box)
 	{
@@ -238,6 +247,7 @@ public:
 	* Removes all GUIDs from factories if that factory cannot be build in the specified session
 	*/
 	void filter_factories(std::vector<unsigned int>& factories, unsigned int session) const;
+	[[nodiscard]] std::vector<unsigned int> filter_factories(const std::vector<unsigned int>& factories, cv::Mat factory_icon) const;
 
 	/*
 	* Compares hu moments.
@@ -276,7 +286,11 @@ public:
 	*/
 	static int lcs_length(std::string X, std::string Y);
 
-	std::string join(const std::vector<std::pair<std::string, cv::Rect>>& words, bool insert_sapces = false) const;
+	static std::string join(const std::vector<std::pair<std::string, cv::Rect>>& words, bool insert_sapces = false);
+	/**
+	* Splits string at first opening bracket
+	*/
+	std::pair<std::string, std::string> split_bracket(const std::string& text);
 
 	/**
 	* access to the singleton TessBaseAPI instance

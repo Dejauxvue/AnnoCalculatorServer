@@ -16,7 +16,7 @@ statistics::statistics(image_recognition& recog)
 void statistics::update(const std::string& language, const cv::Mat& img)
 {
 	stats_screen.update(language, img);
-	hud.update(language, img);
+	//hud.update(language, img);
 }
 
 
@@ -48,11 +48,11 @@ std::map<unsigned int, statistics_screen::properties> statistics::get_all()
 		case statistics_screen::tab::ITEMS:
 			break;
 		}
-	else
-		for (const auto& entry : hud.get_population_amount())
-			result.emplace(entry.first, properties({
-			{statistics_screen::KEY_AMOUNT, entry.second}
-				}));
+	//else
+	//	for (const auto& entry : hud.get_population_amount())
+	//		result.emplace(entry.first, properties({
+	//		{statistics_screen::KEY_AMOUNT, entry.second}
+	//			}));
 
 	return result;
 }
@@ -74,13 +74,13 @@ std::string statistics::get_selected_island()
 		return stats_screen.get_selected_island();
 
 	}
-	else // statistics screen not open
-	{
-		/*std::string name = hud.get_selected_island();
-		auto island = stats_screen.get_island_from_list(name);
-		return island.first;*/
-		return hud.get_selected_island();
-	}
+	//else // statistics screen not open
+	//{
+	//	/*std::string name = hud.get_selected_island();
+	//	auto island = stats_screen.get_island_from_list(name);
+	//	return island.first;*/
+	//	return hud.get_selected_island();
+	//}
 
 	return std::string();
 }

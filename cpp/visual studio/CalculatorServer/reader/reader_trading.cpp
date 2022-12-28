@@ -41,22 +41,23 @@ const unsigned int trading_params::count_cols = 4;
 const unsigned int trading_params::count_rows = 3;
 
 const float trading_params::off_x = 0;
-const float trading_params::off_y = -0.01408;
+const float trading_params::off_y = 0;
 
 const cv::Rect2f trading_params::pane_menu_offering = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.62303, trading_params::off_y + 0.42088), cv::Point2f(trading_params::off_x + 0.78273, trading_params::off_y + 0.67813));
-const cv::Rect2f trading_params::pane_menu_offering_with_counter = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.62303, trading_params::off_y + 0.46742), cv::Point2f(trading_params::off_x + 0.78273, trading_params::off_y + 0.72466));
-const cv::Rect2f trading_params::pane_menu_name = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.65148, trading_params::off_y + 0.34788), cv::Point2f(trading_params::off_x + 0.74859, trading_params::off_y + 0.37243));
-const cv::Rect2f trading_params::pane_menu_reroll = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.68725, trading_params::off_y + 0.71116), cv::Point2f(trading_params::off_x + 0.71723, trading_params::off_y + 0.7652));
-const cv::Rect2f trading_params::pane_menu_execute = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.4397, trading_params::off_y + 0.7793), cv::Point2f(trading_params::off_x + 0.5616, trading_params::off_y + 0.8081));
-const cv::Rect2f trading_params::pane_menu_title = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.45904, trading_params::off_y + 0.19417), cv::Point2f(trading_params::off_x + 0.53951, trading_params::off_y + 0.23381));
+const cv::Rect2f trading_params::pane_menu_offering_with_counter = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.62303, trading_params::off_y + 0.46742), cv::Point2f(trading_params::off_x + 0.78181, trading_params::off_y + 0.72466));
+const cv::Rect2f trading_params::pane_menu_name = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.64018, trading_params::off_y + 0.33630), cv::Point2f(trading_params::off_x + 0.75973, trading_params::off_y + 0.36261));
+const cv::Rect2f trading_params::pane_menu_reroll = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.68871, trading_params::off_y + 0.70479), cv::Point2f(trading_params::off_x + 0.71735, trading_params::off_y + 0.75452));
+const cv::Rect2f trading_params::pane_menu_execute = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.43937, trading_params::off_y + 0.76836), cv::Point2f(trading_params::off_x + 0.56126, trading_params::off_y + 0.79713));
+const cv::Rect2f trading_params::pane_menu_title = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.45754, trading_params::off_y + 0.18393), cv::Point2f(trading_params::off_x + 0.528, trading_params::off_y + 0.22357));
 const cv::Rect2f trading_params::pane_menu_ship_cargo = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.22050, trading_params::off_y + 0.43526), cv::Point2f(trading_params::off_x + 0.37741, trading_params::off_y + 0.63224));
-const cv::Rect2f trading_params::pane_menu_ship_sockets = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.22019, trading_params::off_y + 0.51098), cv::Point2f(trading_params::off_x + 0.37766, trading_params::off_y + 0.73094));
-const cv::Rect2f trading_params::pane_menu_available_items = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.65217, trading_params::off_y + 0.41544), cv::Point2f(trading_params::off_x + 0.75351, trading_params::off_y + 0.43787));
+const cv::Rect2f trading_params::pane_menu_ship_sockets = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.22019, trading_params::off_y + 0.51098), cv::Point2f(trading_params::off_x + 0.37766, trading_params::off_y + 0.71486));
+const cv::Rect2f trading_params::pane_menu_available_items = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.65177, trading_params::off_y + 0.40448), cv::Point2f(trading_params::off_x + 0.75311, trading_params::off_y + 0.42691));
 
-const cv::Rect2f trading_params::pane_tooltip_reroll_heading = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.7238, trading_params::off_y + 0.776), cv::Point2f(trading_params::off_x + 0.8352, trading_params::off_y + 0.8044));
-const cv::Rect2f trading_params::pane_tooltip_reroll_price = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.8, trading_params::off_y + 0.8412), cv::Point2f(trading_params::off_x + 0.8434, trading_params::off_y + 0.8607));
+const cv::Rect2f trading_params::pane_tooltip_reroll_heading = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.72351, trading_params::off_y + 0.76533), cv::Point2f(trading_params::off_x + 0.83483, trading_params::off_y + 0.79372));
+const cv::Rect2f trading_params::pane_tooltip_reroll_price = cv::Rect2f(cv::Point2f(trading_params::off_x + 0.79202, trading_params::off_y + 0.82894), cv::Point2f(trading_params::off_x + 0.84363, trading_params::off_y + 0.85168));
 
-const cv::Point2f trading_params::pixel_ship_full = cv::Point2f(trading_params::off_x + 0.2375, trading_params::off_y + 0.4382);
+const std::vector<cv::Point2f> trading_params::pixels_ship_full = { cv::Point2f(trading_params::off_x + 0.23616, trading_params::off_y + 0.43122),
+													 cv::Point2f(trading_params::off_x + 0.23227, trading_params::off_y + 0.43148) };
 const cv::Point2f trading_params::pixel_background_sockets_color = cv::Point2f(trading_params::off_x + 0.32536, trading_params::off_y + 0.415692);
 
 ////////////////////////////////////////
@@ -211,9 +212,14 @@ bool trading_menu::can_buy(const offering& off) const
 
 bool trading_menu::is_ship_full() const
 {
-	cv::Vec4b pixel = screenshot.at<cv::Vec4b>(static_cast<int>(trading_params::pixel_ship_full.y * screenshot.rows),
-		static_cast<int>(trading_params::pixel_ship_full.x * screenshot.cols));
-	return image_recognition::closer_to(pixel, trading_params::red_icon, trading_params::background_trading_menu);
+	for (const auto& pixel_ship_full : trading_params::pixels_ship_full) {
+		cv::Vec4b pixel = screenshot.at<cv::Vec4b>(static_cast<int>(pixel_ship_full.y * screenshot.rows),
+			static_cast<int>(pixel_ship_full.x * screenshot.cols));
+		if (image_recognition::closer_to(pixel, trading_params::red_icon, trading_params::background_trading_menu))
+			return true;
+	}
+
+	return false;
 }
 
 
@@ -487,13 +493,24 @@ cv::Rect2f trading_menu::get_reroll_button() const
 	return get_window_rel_location(reader::trading_params::pane_menu_reroll);
 }
 
-int trading_menu::get_price_modification() const
+int trading_menu::get_price_modification()
 {
+	const auto pane_hash = recog.hash(recog.get_pane(trading_params::pane_menu_ship_sockets, screenshot));
+	auto iter = cached_price_modifications.find(pane_hash);
+	if (iter != cached_price_modifications.end()) {
+		if (recog.is_verbose())
+			std::cout << "Cached price modifier: " << iter->second << std::endl;
+
+		return iter->second;
+	}
+
 	int result = 0;
 	for (const auto& item : get_capped_items())
 	{
 		result += item.item_candidates.front()->trade_price_modifier;
 	}
+
+	cached_price_modifications.emplace(pane_hash, result);
 
 	return result;
 }

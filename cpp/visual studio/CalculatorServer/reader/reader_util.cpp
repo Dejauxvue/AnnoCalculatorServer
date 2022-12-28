@@ -16,6 +16,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/cxx17/transform_reduce.hpp>
+#include <boost/functional/hash/hash.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
@@ -158,6 +159,9 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 			{
 
 				dictionaries.at(language.first).factories.emplace(guid, language.second.get_value<std::string>());
+
+				if(guid == 8027 || guid == 8002 || guid == 8026)
+					dictionaries.at(language.first).pastures.emplace(guid, language.second.get_value<std::string>());
 			}
 		}
 	};
@@ -308,12 +312,7 @@ image_recognition::image_recognition(bool verbose, std::string window_regex)
 				{
 					std::string loca_text = text_node.second.get_child("Text").get_value<std::string>();
 
-					auto iter = loca_text.begin();
-					for (; iter != loca_text.end(); ++iter)
-						if (*iter == '(' || *iter == '[' || *iter == '（')
-							break;
-
-					entry.second.ui_texts[guid] = std::string(loca_text.begin(), iter);
+					entry.second.ui_texts[guid] = split_bracket(loca_text).first;
 					texts.put(std::to_string(guid), entry.second.ui_texts[guid]);
 				}
 			}
@@ -338,6 +337,23 @@ std::wstring image_recognition::to_wstring(const std::string& str)
 {
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
 	return conv.from_bytes(str);
+}
+
+size_t image_recognition::hash(const cv::Mat& img)
+{
+
+	std::vector<uchar> vec;
+	vec.reserve(3 * img.rows * img.cols);
+	
+	for (int row = 0; row < img.rows; row++)
+		for (int col = 0; col < img.cols; col++) {
+			const auto& pixel = img.at<cv::Vec4b>(row, col);
+			vec.push_back(pixel[0]);
+			vec.push_back(pixel[1]);
+			vec.push_back(pixel[2]);
+		}
+	
+	return boost::hash<std::vector<uchar>>{}(vec);
 }
 
 cv::Mat image_recognition::get_square_region(const cv::Mat& img, const cv::Rect2f& rect)
@@ -640,29 +656,15 @@ unsigned int image_recognition::get_session_guid(cv::Mat icon) const
 
 
 
-std::vector<unsigned int> image_recognition::get_guid_from_name(const cv::Mat& text_img,
+std::vector<unsigned int> image_recognition::
+get_guid_from_name(const cv::Mat& text_img,
 	const std::map<unsigned int, std::string>& dictionary)
 {
 #ifdef SHOW_CV_DEBUG_IMAGE_VIEW
 	cv::imwrite("debug_images/text_img.png", text_img);
 #endif
-	std::vector<std::pair<std::string, cv::Rect>> words = detect_words(text_img, tesseract::PageSegMode::PSM_SINGLE_LINE);
-	std::string building_string;
-	for (const auto& word : words)
-	{
-		//stop concatenation before opening bracket
-		std::vector<std::string> split_string;
-		boost::split(split_string, word.first, [](char c) {return c == '('; });
-		if (split_string.size() > 1)
-		{
-			building_string += split_string.front();
-			break;
-		}
-		else
-		{
-			building_string += word.first;
-		}
-	}
+	std::string building_string = split_bracket(join(detect_words(text_img, tesseract::PageSegMode::PSM_SINGLE_LINE))).first;
+
 
 #ifdef CONSOLE_DEBUG_OUTPUT
 	std::cout << building_string << "\t";
@@ -703,6 +705,67 @@ std::vector<unsigned int> image_recognition::get_guid_from_name(const std::strin
 	return guids;
 }
 
+std::pair<std::vector<unsigned int>, int> image_recognition::get_guid_and_count_from_name(const cv::Mat& text_img, const std::map<unsigned int, std::string>& dictionary)
+{
+#ifdef SHOW_CV_DEBUG_IMAGE_VIEW
+	cv::imwrite("debug_images/text_img.png", text_img);
+#endif
+
+	std::vector<std::pair<std::string, cv::Rect>> words = detect_words(text_img, tesseract::PSM_SINGLE_LINE);
+
+	auto [building_text, number_string] = split_bracket(join(words));
+	auto guids = get_guid_from_name(building_text, dictionary);
+
+	if (is_verbose()) {
+		try {
+			for (unsigned int guid : guids)
+				std::cout << dictionary.at(guid) << ", ";
+			std::cout << "\t";
+		}
+		catch (...) {}
+	}
+
+	number_string = std::regex_replace(number_string, std::regex("\\D"), "");
+	int count = std::numeric_limits<int>::lowest();
+
+	if (number_string.empty()) {
+		int opening_bracket_x = 0;
+		for (const auto& word : words)
+		{
+			std::vector<std::string> split_string;
+			boost::split(split_string, word.first, [](char c) {return c == '('; });
+			if (split_string.size() > 1)
+			{
+				opening_bracket_x = word.second.x + word.second.width * ((float)split_string[0].size()) / word.first.size();
+				number_string += split_string.back();
+				break;
+			}
+		}
+
+		cv::Rect2i number_box(cv::Point2i(std::max(0, opening_bracket_x - 5), 0),
+			cv::Point2i(std::min(text_img.cols - 1, words.back().second.br().x + 5), text_img.rows - 1));
+
+		if (is_verbose()) {
+			cv::imwrite("debug_images/number_text.png", text_img(number_box));
+		}
+		count = number_from_region(text_img(number_box));
+	}
+	else {
+		if (is_verbose()) {
+			std::cout << number_string;
+		}
+
+		try { count = std::stoi(number_string); }
+		catch (...) {
+			if (is_verbose()) {
+				std::cout << " (could not recognize number)";
+			}
+		}
+	}
+
+	return { guids, count };
+}
+
 
 
 void image_recognition::filter_factories(std::vector<unsigned int>& factories, unsigned int session) const
@@ -719,6 +782,22 @@ void image_recognition::filter_factories(std::vector<unsigned int>& factories, u
 			iter = factories.erase(iter);
 	}
 }
+
+std::vector<unsigned int> image_recognition::filter_factories(const std::vector<unsigned int>& factories, cv::Mat factory_icon) const
+{
+	cv::Scalar background_color = statistics_screen_params::background_brown_light;
+	std::map<unsigned int, cv::Mat> icon_candidates;
+	for (unsigned int guid : factories)
+	{
+		auto iter = factory_icons.find(guid);
+		if (iter != factory_icons.end())
+			icon_candidates.insert(*iter);
+	}
+
+	return get_guid_from_icon(factory_icon, icon_candidates, background_color);
+}
+
+
 
 double image_recognition::compare_hu_moments(const std::vector<double>& ma, const std::vector<double>& mb)
 {
@@ -1721,7 +1800,7 @@ int image_recognition::lcs_length(std::string X, std::string Y)
 	return lookup[m][n];
 }
 
-std::string image_recognition::join(const std::vector<std::pair<std::string, cv::Rect>>& words, bool insert_spaces) const
+std::string image_recognition::join(const std::vector<std::pair<std::string, cv::Rect>>& words, bool insert_spaces)
 {
 	std::string result;
 
@@ -1736,6 +1815,21 @@ std::string image_recognition::join(const std::vector<std::pair<std::string, cv:
 		result.pop_back();
 
 	return result;
+}
+
+std::pair<std::string, std::string> image_recognition::split_bracket(const std::string& text)
+{
+	std::vector<std::string> split_string;
+
+	int count = 0;
+	for (char c : text) {
+		if (c == '[' || c == '(' || c == '{' || c == '（')
+			return { text.substr(0, count), text.substr(count + 1) };
+
+		count++;
+	}
+
+	return { text, "" };
 }
 
 void image_recognition::update_ocr(const std::string& language, bool numbers_only)
@@ -1790,6 +1884,7 @@ void image_recognition::update_ocr(const std::string& language, bool numbers_onl
 const std::map<std::string, std::string> image_recognition::tesseract_languages = {
 	{"english", "eng"},
 	{"chinese", "chi_sim"},
+	{"taiwanese", "chi_tra"},
 	{"polish", "pol"},
 	{"russian", "rus"},
 	{"french", "fra"},

@@ -29,6 +29,7 @@
 2. Assign UXEnhancer.exe a task priority of "high".
 3. Move the game to the SSD drive.
 4. Lower graphics settings.
+5. Set reroll cost (max.) to 0 (unbounded)
 
 In general, 2 rerolls per second are a really good value and 3 rerolls per second the absolute maximum.
 

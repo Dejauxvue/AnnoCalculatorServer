@@ -199,8 +199,13 @@ boost::property_tree::ptree item_wishlist::serialize() const
 
 		boost::property_tree::ptree pt_item;
 
-		pt_val.put_value(recog.get_dictionary().items.find(guid)->second);
-		pt_item.push_back(std::make_pair("name", pt_val));
+		const auto& item_names = recog.get_dictionary().items;
+		auto iter = item_names.find(guid);
+		if (iter != item_names.end()) {
+			pt_val.put_value(iter->second);
+			pt_item.push_back(std::make_pair("name", pt_val));
+		}
+
 		pt_val.put_value(guid);
 		pt_item.push_back(std::make_pair("guid", pt_val));
 

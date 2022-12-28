@@ -33,6 +33,8 @@ public:
 	static const cv::Rect2f pane_population_center;
 	static const cv::Rect2f pane_header_center;
 	static const cv::Rect2f pane_header_right;
+	static const cv::Rect2f pane_production_right_factory_text;
+	static const cv::Rect2f pane_production_right_factory_icon;
 };
 
 
