@@ -711,7 +711,7 @@ std::pair<std::vector<unsigned int>, int> image_recognition::get_guid_and_count_
 	cv::imwrite("debug_images/text_img.png", text_img);
 #endif
 
-	std::vector<std::pair<std::string, cv::Rect>> words = detect_words(text_img, tesseract::PSM_SINGLE_LINE);
+	text_boxes words = detect_words(text_img, tesseract::PSM_SINGLE_LINE);
 
 	auto [building_text, number_string] = split_bracket(join(words));
 	auto guids = get_guid_from_name(building_text, dictionary);
@@ -1386,10 +1386,17 @@ cv::Mat image_recognition::take_screenshot(cv::Rect2i rect)
 
 }
 
-std::vector<std::pair<std::string, cv::Rect>> image_recognition::detect_words(const cv::Mat& in, const tesseract::PageSegMode mode, bool numbers_only)
+text_boxes image_recognition::detect_words(const cv::Mat& in, const tesseract::PageSegMode mode, bool numbers_only)
 {
 	cv::Mat input = in;
-	std::vector<std::pair<std::string, cv::Rect>> ret;
+	text_boxes ret;
+
+	size_t params_hash = boost::hash<std::tuple<uchar, std::string, bool>>{}(std::make_tuple(mode, ocr_language, numbers_only));
+	auto hash_key = std::make_pair(params_hash, hash(in));
+
+	auto iter = cached_text_boxes.find(hash_key);
+	if (iter != cached_text_boxes.end())
+		return iter->second;
 
 	update_ocr(ocr_language, numbers_only);
 
@@ -1425,6 +1432,9 @@ std::vector<std::pair<std::string, cv::Rect>> image_recognition::detect_words(co
 		}
 	}
 	catch (...) {}
+
+	if(ret.size() >= 1 && !ret.front().first.empty())
+		cached_text_boxes.emplace(hash_key, ret);
 
 	return ret;
 }
@@ -1714,7 +1724,7 @@ std::pair<int, int> image_recognition::read_number_slash_number(const cv::Mat& i
 
 	for (const auto& mode : { tesseract::PSM_SINGLE_LINE, tesseract::PSM_SINGLE_WORD, tesseract::PSM_RAW_LINE })
 	{
-		std::vector<std::pair<std::string, cv::Rect>> texts = detect_words(im, mode);
+		text_boxes texts = detect_words(im, mode);
 		std::string joined_string = join(texts);
 
 		if (verbose)
@@ -1800,7 +1810,7 @@ int image_recognition::lcs_length(std::string X, std::string Y)
 	return lookup[m][n];
 }
 
-std::string image_recognition::join(const std::vector<std::pair<std::string, cv::Rect>>& words, bool insert_spaces)
+std::string image_recognition::join(const text_boxes& words, bool insert_spaces)
 {
 	std::string result;
 

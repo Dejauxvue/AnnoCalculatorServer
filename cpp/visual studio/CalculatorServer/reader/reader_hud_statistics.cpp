@@ -72,7 +72,7 @@ cv::Rect hud_statistics::find_population_icon()
 	return population_icon_position;
 }
 
-std::map<unsigned int, int> hud_statistics::get_anno_population_from_ocr_result(const std::vector<std::pair<std::string, cv::Rect>>& ocr_result, const cv::Mat& img) const
+std::map<unsigned int, int> hud_statistics::get_anno_population_from_ocr_result(const text_boxes& ocr_result, const cv::Mat& img) const
 {
 	const std::map<unsigned int, std::string>& dictionary = recog.get_dictionary().population_levels;
 
@@ -234,7 +234,7 @@ std::map<unsigned int, int> hud_statistics::get_population_amount()
 		cv::imwrite("debug_images/pop_popup.png", cropped_image);
 	} //SHOW_CV_DEBUG_IMAGE_VIEW
 
-	std::vector<std::pair<std::string, cv::Rect>> ocr_result;
+	text_boxes ocr_result;
 	try {
 		ocr_result = recog.detect_words(cropped_image);
 	}

@@ -24,7 +24,7 @@ public:
 * returna map with entries for all detected population types referred by their english name
 */
 	std::map<unsigned int, int> get_anno_population_from_ocr_result(
-		const std::vector<std::pair<std::string, cv::Rect>>& ocr_result, const cv::Mat& img) const;
+		const text_boxes& ocr_result, const cv::Mat& img) const;
 
 	/**
 *

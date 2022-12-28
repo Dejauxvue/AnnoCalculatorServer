@@ -19,6 +19,8 @@
 namespace reader
 {
 
+using text_boxes = std::vector<std::pair<std::string, cv::Rect>>;
+
 struct keyword_dictionary
 {
 	std::map<unsigned int, std::string> population_levels;
@@ -276,7 +278,7 @@ public:
 	*
 	* return a vector of pairs of detected words and their respective bounding box
 	*/
-	std::vector<std::pair<std::string, cv::Rect>>  detect_words(
+	text_boxes  detect_words(
 		const cv::Mat& in,
 		tesseract::PageSegMode mode = tesseract::PSM_SPARSE_TEXT,
 		bool numbers_only = false);
@@ -286,7 +288,7 @@ public:
 	*/
 	static int lcs_length(std::string X, std::string Y);
 
-	static std::string join(const std::vector<std::pair<std::string, cv::Rect>>& words, bool insert_sapces = false);
+	static std::string join(const text_boxes& words, bool insert_sapces = false);
 	/**
 	* Splits string at first opening bracket
 	*/
@@ -392,6 +394,9 @@ public:
 	std::map<unsigned int, cv::Mat> item_backgrounds;
 
 	static const std::map<std::string, std::string> tesseract_languages;
+
+	// key: image, hash of ocr parameters
+	std::map<std::pair<size_t, size_t>, text_boxes> cached_text_boxes;
 };
 
 }

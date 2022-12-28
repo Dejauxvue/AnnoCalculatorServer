@@ -128,7 +128,7 @@ void trading_menu::update(const std::string& language, const cv::Mat& img)
 		}
 
 
-		std::vector<std::pair<std::string, cv::Rect>> words = recog.detect_words(img_buy_limit, tesseract::PSM_SINGLE_LINE);
+		text_boxes words = recog.detect_words(img_buy_limit, tesseract::PSM_SINGLE_LINE);
 		std::string number_string;
 
 		std::string buy_limit_text = recog.join(words, true);
