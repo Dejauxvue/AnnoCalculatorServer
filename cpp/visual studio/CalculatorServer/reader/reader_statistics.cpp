@@ -8,8 +8,8 @@ namespace reader
 statistics::statistics(image_recognition& recog)
 	:
 	recog(recog),
-	stats_screen(recog),
-	hud(recog)
+	stats_screen(recog)
+	//hud(recog)
 {
 }
 

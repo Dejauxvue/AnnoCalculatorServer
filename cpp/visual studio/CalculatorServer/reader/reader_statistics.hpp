@@ -43,7 +43,7 @@ public:
 private:
 	image_recognition& recog;
 	statistics_screen stats_screen;
-	hud_statistics hud;
+	//hud_statistics hud;
 
 };
 }
