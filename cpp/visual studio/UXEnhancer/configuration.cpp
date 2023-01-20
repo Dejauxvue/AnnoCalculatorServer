@@ -137,7 +137,9 @@ void item_wishlist::set_count(Collections::Generic::IEnumerable<AssetViewer::Dat
 		catch (const std::exception&)
 		{
 		}
-
+		catch (System::FormatException^)
+		{			
+		}
 	}
 
 	busy = false;
